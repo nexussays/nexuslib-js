@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Core.js Unit Tests</title>
+<link href="../../main.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+#test_nav
+{
+	font-size: inherit;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+#test_nav li
+{
+	display: inline;
+	padding: 0 1em 0 0;
+}
+#tests
+{
+    border: none;
+}
+#selected .link
+{
+	color: #000;
+	cursor: default;
+	text-decoration: none;
+}
+</style>
+<script src="../core.js" type="text/javascript"></script>
+<script src="../debug.js" type="text/javascript"></script>
+<script src="../nnet.js" type="text/javascript"></script>
+<script src="../webtest.js" type="text/javascript"></script>
+<script type="text/javascript">
+var frame;
+window.load.tests = function()
+{
+    CreateMenu("nav", Sections.Javascript.Menu);
+    
+    frame = get.id("tests");
+    
+    get("#test_nav li").forEach(function(x)
+    {
+        x.onclick = changeFrame;
+        //x.onclick = function(){window.location.replace(this.title + ".htm");};
+        x.innerHTML = "<span class=\"link\">" + x.innerHTML.trim() + "</span>";
+        if(window.location.hash.replace("#","") == x.title)
+        {
+            x.onclick();
+        }
+    });
+    
+    fixHeight();
+}
+function changeFrame()
+{
+    var current = get.id("selected");
+    if(current)
+    {
+        current.id = null;
+        current.removeAttribute("id");
+    }
+    this.id = "selected";
+    
+    frame.src = this.title + ".htm";
+    window.location.hash = this.title;
+}
+function fixHeight()
+{
+    //get document (works in IE and FF)
+    var doc = frame.contentWindow.document;
+    frame.height = doc.body.offsetHeight+50;
+    //set width only if it is bigger than the current width
+    if(doc.body.offsetWidth > document.body.offsetWidth)
+    {
+        frame.width = doc.body.offsetWidth+50;
+    }
+    
+    if(frame.addEventListener)
+    {
+        frame.addEventListener("load", fixHeight, false);
+    }
+    else if(frame.attachEvent)
+    {
+        frame.detachEvent("onload", fixHeight);
+        frame.attachEvent("onload", fixHeight);
+    }
+    else
+    {
+        frame.onload = null;
+        frame.onload = fixHeight;
+    }
+}
+</script>
+</head>
+<body>
+<div id="nav"></div>
+<h1>Core.js Unit Tests</h1>
+<ul id="test_nav">
+    <li title="dom_selectors">get() tests</li>
+    <li title="element_methods">Element Methods</li>
+    <li title="">2</li>
+    <li title="">3</li>
+</ul>
+<iframe id="tests" frameborder="0" src="" width="100%"></iframe>
+</body>
+</html>

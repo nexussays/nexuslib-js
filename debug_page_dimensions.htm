@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Window and Page Dimensions</title>
+<link href="./favicon.ico" rel="Shortcut Icon" />
+<link href="./styles/main.css" rel="stylesheet" type="text/css" />
+<script src="./core.js" type="text/javascript"></script>
+<script src="./debug.js" type="text/javascript"></script>
+<style type="text/css">
+#output
+{
+	font-family: Consolas, Monospace;
+}
+body
+{
+	/*
+	margin: 10px;
+	padding: 10px;
+	background-color: #36c;
+	border: 5px solid #000;
+	*/
+}
+</style>
+<script type="text/javascript">
+window.load.debug = function()
+{
+    Debug.outputSource = get.id("#output");
+}
+//call twice because it writes to the page therefore changing its dimensions
+window.load.size = function(){size();size();};
+function size()
+{
+    var dimensions = [
+        "Browser.strictMode", "Browser.quirksMode",
+        "window.innerHeight", "window.innerWidth",
+        "",
+        "document.documentElement.offsetHeight", "document.documentElement.offsetWidth",
+        "document.documentElement.clientHeight", "document.documentElement.clientWidth",
+        "document.documentElement.scrollHeight", "document.documentElement.scrollWidth",
+        "",
+        "document.body.offsetHeight", "document.body.offsetWidth",
+        "document.body.clientHeight", "document.body.clientWidth",
+        "document.body.scrollHeight", "document.body.scrollWidth",
+        "",
+        "document.documentElement.scrollTop", "document.documentElement.scrollLeft",
+        "document.body.scrollTop", "document.body.scrollLeft",
+        "window.pageYOffset", "window.pageXOffset",
+        "",
+        "Debug.Simple(getSize())"
+    ];
+    var results = [];
+    for(var x = 0; x < dimensions.length; ++x)
+    {
+        try
+        {
+            results[x] = dimensions[x] + ": " + eval(dimensions[x]);
+        }
+        catch(e)
+        {
+            results[x] = dimensions[x] + ": " + e;
+        }
+    }
+    Debug.write(results.join("<br />"), true);
+}
+document.onkeydown = function(evt)
+{
+    var e = NNet.Event(evt);
+    if(e.key.value == "G")
+    {
+        size();
+        e.stop();
+    }
+    else if(e.key.value == "P" || e.key.value == "V")
+    {
+        var g = get.id("page");
+        if(e.key.value == "P")
+        {
+            g.style.width = getSize().contentWidth + "px";
+            g.style.height = getSize().contentHeight + "px";
+        }
+        else
+        {
+            g.style.width = getSize().viewportWidth + "px";
+            g.style.height = getSize().viewportHeight + "px";
+        }
+        
+        g.innerHTML = g.style.height + " | " + g.style.width + "<br />" +
+            "Content: " + getSize().contentHeight + " | " + getSize().contentWidth + "<br />" + 
+            "Viewport: " + getSize().viewportHeight + " | " + getSize().viewportWidth;
+
+        g.style.display = g.style.display == "block" ? "none" : "block";
+        
+        e.stop();
+    }
+}
+</script>
+</head>
+<body>
+<div id="page" style="display:none;background-color:#f0f;position:absolute;top:0;left:0;"></div>
+<h1>Window and Page Dimensions</h1>
+<p>This is a more complex debugging page, when evaluation code is not working you can hard code things here for a better test.</p>
+<table border="1" id="testTable">
+	<colgroup>
+		<col id="col_1" />
+		<col id="col_2" />
+		<col id="col_3" />
+		<col id="col_4" />
+	</colgroup>
+	<thead>
+		<tr>
+			<th id="th_1">1<sup>st</sup> col.</th>
+			<th id="th_2">2<sup>nd</sup> col.</th>
+			<th id="th_3">3<sup>rd</sup> col.</th>
+			<th id="th_4">4<sup>th</sup> col.</th>
+		</tr>
+	</thead>
+	<tfoot>
+		<tr>
+			<td>footer row</td>
+			<td>tfoot</td>
+			<td>a</td>
+			<td>b</td>
+		</tr>
+	</tfoot>
+	<tbody>
+		<tr>
+			<td>1<sup>st</sup> row</td>
+			<td>tbody</td>
+			<td>abcd</td>
+			<td>abcd</td>
+		</tr>
+		<tr>
+			<td>2<sup>nd</sup> row</td>
+			<td>tbody</td>
+			<td>abcd</td>
+			<td>abcd and some longer text</td>
+		</tr>
+		<tr>
+			<td>3<sup>rd</sup> row</td>
+			<td>tbody</td>
+			<td>abc<br />height</td>
+			<td>abc</td>
+		</tr>
+		<tr>
+			<td>4<sup>th</sup> row</td>
+			<td>tbody</td>
+			<td>ab</td>
+			<td>ab</td>
+		</tr>
+	</tbody>
+</table>
+<span class="link" id="testTableReset">reset table</span>
+<div id="extra">
+	<ul id="extra_ul" class="class_3 class 3">
+		<li>foo</li>
+		<li>bar</li>
+		<li>foo</li>
+		<li>bar</li>
+		<li>foo</li>
+		<li>bar</li>
+		<li class="class"><span id="extra_span">foobar</span></li>
+		<li class="class2">boofar</li>
+	</ul>
+</div>
+<hr />
+<div id="output"></div>
+<hr />
+</body>
+</html>

@@ -1,0 +1,561 @@
+﻿/********************************
+PRIMARY ELEMENTS AND CLASS VARIANTS
+********************************/
+body
+{
+	font-size: small;
+	color: #000;
+	background: #fff url("bkgd.png") repeat-x fixed top;
+	margin: .5em;
+	padding: 0;
+}
+body, table, p, ul, ol, dl
+{
+	font-family: "Lucida Sans Unicode", "Lucida Grande", "Trebuchet MS", Verdana, Sans-Serif;
+}
+/********
+HEADINGS
+********/
+h1, h2, h3, h4, h5, h6
+{
+	color: #666;
+}
+h1
+{
+	font-family: /*"MetaMedium-Roman", */"Candara", "Verdana";
+	font-weight: normal;
+	/*I can't decide on a color*/
+	color: #999;
+	color: #3669a4;
+	margin: .1em 0 .5em 0;
+	font-size: 2.4em;
+}
+h1, h2, h3
+{
+	border-bottom: 1px solid #aaa;
+}
+h2
+{
+	color: #444;
+	font-size: 1.5em;
+}
+h3
+{
+	font-size: 1.3em;
+}
+h3.tabbed
+{
+	margin-left: 1em;
+}
+h4
+{
+	font-size: 1.1em;
+	margin: 0;
+	font-variant: small-caps;
+}
+h1.bar,
+h2.bar,
+h3.bar,
+h4.bar,
+h5.bar,
+h6.bar
+{
+	border: none;
+	border-left: solid .25em #ccc;
+	padding-left: .3em;
+}
+h1.fromleft,
+h2.fromleft,
+h3.fromleft,
+h4.fromleft,
+h5.fromleft,
+h6.fromleft
+{
+	border-bottom: 1px solid #ccc;
+	padding: 0;
+	margin-right: 90%;
+	padding-left: 10%;
+	white-space: nowrap;
+}
+/********
+ANCHORS AND LINKS
+********/
+a, a:link, span.link
+{
+	color: #4169E1;
+	text-decoration: underline;
+	cursor: pointer;
+}
+a:hover, span.link:hover
+{
+	/*I can't decide on a color*/
+	color: #6495ed;
+	color: #7da7fe;
+}
+a:active, span.link:active
+{
+	text-decoration: none;
+}
+/********
+FORM ELEMENTS
+********/
+fieldset
+{
+	border: 1px dotted #000;
+	margin: .2em .1em;
+	padding: .4em .6em .6em;
+}
+input[type="radio"],
+input[type="checkbox"]
+{
+	margin: .1em .2em .2em .2em;
+	vertical-align: middle;
+}
+input[type="checkbox"]
+{
+	margin-top: 0;
+}
+select optgroup
+{
+   font-style: normal;
+}
+button
+{
+	padding: .05em .1em;
+}
+button img
+{
+	margin: 0 0 -.2em -.1em;
+}
+
+/********
+LIST ELEMENTS
+********/
+/****a list with no margin or padding****/
+ul.flat,
+dl.flat,
+dl.flat dd,
+/* .inline is a generic class
+(defined later) which inlines
+any element */
+ul.inline,
+ol.inline
+{
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+/****a comma delimited list****/
+ul.comma
+{
+	display: inline;
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+ul.comma > li
+{
+	display: inline;
+}
+ul.comma > li:after
+{
+	content: ", ";
+}
+ul.comma > li:last-child:after
+{
+	content: "";
+}
+/********
+OTHER ELEMENTS
+********/
+p, ul, ol, dl
+{
+	line-height: 1.4em;
+}
+p
+{
+	padding: 0;
+	margin: .6em 0;
+}
+p:last-child
+{
+	margin: .6em 0 0 0;
+}
+h1 + p,
+h2 + p,
+h3 + p,
+h4 + p,
+h5 + p,
+h6 + p
+{
+	margin: 0 0 .6em 0;
+}
+pre, code
+{
+	background-color: #eee;
+	font-family: Consolas, monospace;
+}
+pre
+{
+	margin: .2em 0 .5em 0;
+	font-size: small;
+}
+var
+{
+	font-style: normal;
+	font-weight: normal;
+	font-family: Consolas, monospace;
+}
+var.keyword
+{
+	color: #0033ff;
+}
+dt
+{
+	font-weight: bold;
+}
+hr
+{
+	border: 1px solid #999;
+	border-style: solid none;
+	height: 3px;
+	margin: .7em 0;
+}
+kbd, var
+{
+	font-weight: bold;
+}
+kbd::before
+{
+	content: "[";
+}
+kbd::after
+{
+	content: "]";
+}
+kbd.optional,
+span.optional
+{
+	background-color:#ddd;
+}
+
+
+/********************************
+SPECIALTY CLASSES
+********************************/
+/****information displayed in a subdued fashion****/
+span.note,
+ol.notes,
+ul.notes
+{
+	color: #777;
+	font-style: normal;
+	font-size: 85%;
+	margin: 0;
+	padding: 0;
+}
+ul.notes
+{
+	list-style-type: none;
+}
+ul.notes > li
+{
+	display: inline;
+	white-space: nowrap;
+}
+ul.notes li
+{
+	_display: inline;
+	_white-space: nowrap;
+}
+ul.notes li li
+{
+	_display: block;
+}
+ul.notes > li:after
+{
+	content: "; ";
+}
+ul.notes > li:last-child:after
+{
+	content: "";
+}
+/********
+INLINE DISPLAY
+********/
+.inline
+{
+	display: inline;
+}
+ul.inline > li,
+ol.inline > li
+{
+	display: inline;
+	padding: 0 .5em 0 0;
+}
+ul.inline li,
+ol.inline li
+{
+	_display: inline;
+	_padding: 0 .5em 0 0;
+}
+ul.inline li li,
+ol.inline li li
+{
+	_display: block;
+}
+h1.inline + p,
+h2.inline + p,
+h3.inline + p,
+h4.inline + p,
+h5.inline + p,
+h6.inline + p
+{
+	display: inline;
+}
+/********
+INFO, ERRORS, WARNINGS, ETC
+********/
+.invalid
+{
+    background-color: #ee6363 !important;
+    border-color: #900;
+}
+span.information,
+div.information
+{
+	color: #060;
+	background-color: #E2f9E3;
+	border: 1px solid #9c9;
+	border-style: solid none;
+	padding: 2px;
+	margin: 2px 0;
+}
+.error,
+.warning,
+#badcss_warning,
+#nojavascript_error
+{
+	font-weight: bold;
+	padding: .2em;
+	margin: .3em;
+	text-align: center;
+}
+.error *,
+.warning *,
+#badcss_warning *,
+#nojavascript_error *
+{
+	margin: 0;
+}
+.error, .error *, .error a,
+#nojavascript_error
+{
+	background-color: #a00;
+	color: #fff;
+}
+.warning, .warning *, .warning a
+{
+	background-color: #ed0;
+	color: #000;
+}
+/****special warning for bad browsers (ie - IE)****/
+#badcss_warning
+{
+	background-color: #ee6363;
+	/*background-color: #ed0;*/
+	color: #000;
+}
+body > #badcss_warning
+{
+	display: none;
+}
+/****for displaying the message at the top of the screen before any content****/
+.pagetop, #badcss_warning, #nojavascript_error
+{
+	margin: -.5em -.5em .5em;
+	border-bottom: 2px solid #333;
+}
+/********
+GENERIC
+********/
+.clear
+{
+	clear: both;
+}
+.testingbox
+{
+	background-color: #ded;
+	display: inline;
+	vertical-align: middle;
+	border: 0;
+	cursor: crosshair;
+}
+
+
+/********************************
+PAGE SECTIONS
+********************************/
+
+/********
+NAVIGATION BAR
+********/
+div#nav
+{
+	background-color: #f0f0f5;
+	border-bottom: 1px solid #ddd;
+	margin: -.5em -.5em .5em -.5em;
+	padding: 0;
+	position: relative;
+}
+div#nav a,
+div#nav span.dropdown,
+div#nav span.text
+{
+	font-size: 85%;
+	text-decoration: none;
+}
+div#nav span.text
+{
+	opacity: 0.6;
+	_filter: alpha(opacity=60);
+}
+div#nav a,
+div#nav span.dropdown
+{
+	cursor: pointer;
+}
+div#nav li.selected
+{
+	font-size: 85%;
+	background-color: #7c7;
+}
+div#nav > ul
+{
+	height: 16px;
+}
+div#nav ul
+{
+	line-height: 16px;
+	margin: 0 .5em;
+	padding: 0;
+	list-style-type: none;
+}
+div#nav ul li
+{
+    float: left;
+    margin: 0 .5em 0 0;
+    padding: 0 .3em;
+    position: relative;
+}
+div#nav ul li ul
+{
+	display: none;
+    margin: 0 0 0 1em;
+    position: absolute;
+    z-index: 5;
+    left: -13px;
+    top: 16px;
+    background-color: #f0f0f5;
+    border: 1px solid #ccc;
+    border-color: #000 #999 #999 #ddd;
+    border-top-style: none;
+}
+div#nav ul li ul li
+{
+    float: none;
+    margin: .2em 0;
+}
+div#nav ul li.hover
+{
+	background-color: #ada;
+}
+div#nav ul li.hover ul
+{
+	display: block;
+}
+/********
+OUTPUT SECTION
+********/
+div#output
+{
+    border: 1px solid #999;
+    min-height: 1em;
+    padding: .2em .4em;
+}
+div#output > p:first-child,
+div#output > p:last-child
+{
+	margin: 0;
+}
+div#output textarea
+{
+	width: 99%;
+	height: auto;
+}
+
+/********************************
+DEBUG SECTION
+********************************/
+div.NNet_JSCore_DEBUG *
+{
+	font-family: Consolas, Courier New, Monospace;
+}
+div.NNet_JSCore_DEBUG > p
+{
+	white-space: pre;
+	overflow: auto;
+	border: 2px solid #aaa;
+	padding: .2em .3em;
+	font-weight: bold;
+	max-height: 20em;
+}
+div.NNet_JSCore_DEBUG ul.tests
+{
+	padding: 0;
+	margin: 0;
+	list-style-type: none;
+}
+div.NNet_JSCore_DEBUG ul.tests p:after
+{
+	content: ": ";
+}
+div.NNet_JSCore_DEBUG ul.tests p,
+div.NNet_JSCore_DEBUG ul.tests div
+{
+	display: inline;
+}
+div.NNet_JSCore_DEBUG dl.members dt,
+div.NNet_JSCore_DEBUG ul.tests p
+{
+	font-weight: bold;
+	margin-top: 1em;
+}
+div.NNet_JSCore_DEBUG dl.members dt
+{
+	background-color: #ececec;
+	color: #6495ed;
+	color: #4169E1;
+	color: #46c;
+	border-bottom: solid 1px #e0e0e0;
+	padding: .1em;
+}
+div.NNet_JSCore_DEBUG dl.members dd
+{
+	margin: 0;
+	padding: .1em;
+	white-space: pre;
+	background-color: #f9f9f9;
+	color: #333;
+	border-bottom: solid 1px #f0f0f0;
+	border-right: solid 1px #f0f0f0;
+}
+div.NNet_JSCore_DEBUG span.type
+{
+	color: #999;
+}
+hr.NNet_JSCore_DEBUG
+{
+	border-top-width: 2px;
+	height: 4px;
+}

@@ -1,0 +1,158 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>CSS font-size, font-family test</title>
+<link rel="stylesheet" href="../styles/main.css" />
+<script type="text/javascript" src="../core.js"></script>
+<script type="text/javascript" src="./scripts/Utility_functions.js"></script>
+<script type="text/javascript" src="./scripts/CSS_Font_Test_Page.js"></script>
+<style type="text/css">
+/*this is so that the informative color bar that denotes that the font covers the whole text area doesn't offest the text in the layout (i.e. this ensures that these pixels are allocated)*/
+#text_maincontent
+{
+   margin-left:10px;
+   /*this is not for the offset thingy, so keep this if the offest usage is removed*/
+   padding-left:10px;
+   color:#000;
+}
+span.information
+{
+	font-size: 11px;
+}
+form fieldset ul.inline li
+{
+   padding: 0 .5em 0 0;
+   margin: 0 .5em 0 0;
+   border-right: 2px solid #999;
+}
+form fieldset ul li:last-child
+{
+	border: none;
+}
+#text_maincontent *
+{
+	font-family: inherit !important;
+	color: #222 !important;
+	border: none !important;
+	opacity: 1.0 !important;
+}
+#text_maincontent h1
+{
+	margin: 0 0 .3em 0;
+	font-weight: bold;
+	font-size: 200%;
+}
+#text_maincontent h2,
+#text_maincontent p
+{
+	margin: .3em 0;
+}
+</style>
+</head>
+<body>
+<div class="error pagetop" id="javascript_error">
+    <p>Javascript must be enabled for this page to function properly.</p>
+    <p>Javascript has either been disabled or is not properly supported in your browser.</p>
+    <script type="text/javascript">DisplayBlockLevel('javascript_error',false);</script>
+</div>
+<div id="badcss_warning">
+    <p>Your browser will have trouble viewing this page. Perhaps you could <a href="http://www.mozilla.org/firefox">update</a>?</p>
+</div>
+<div id="nav">
+    <ul>
+        <li>
+            <a href="CSS_Font_Recommended.htm">Recommended Font Sizes</a>
+        </li>
+    </ul>
+</div>
+<h1>CSS font-size &amp; font-family Test</h1>
+<form action="#" id="page_settings">
+<fieldset id="font_maincontent">
+    <legend>Font</legend>
+    <select id="font_maincontent_select_ft">
+        <optgroup label="Sans-Serif">
+            <option value="Verdana">Verdana</option>
+            <!--<option value="Tahoma">Tahoma</option>-->
+            <!--<option value="Arial">Arial</option>-->
+            <!--<option value="Helvetica">Helvetica</option>-->
+            <option value="Lucida Sans Unicode">Lucida Sans Unicode</option>
+            <option value="Lucida Grande">Lucida Grande</option>
+            <option value="Trebuchet MS">Trebuchet MS</option>
+            <option value="Corbel">Corbel</option>
+            <option value="Calibri">Calibri</option>
+            <option value="Candara">Candara</option>
+        </optgroup>
+        <optgroup label="Serif">
+            <option value="Garamond">Garamond</option>
+            <option value="Constantina">Constantina</option>
+            <option value="Cambria">Cambria</option>
+        </optgroup>
+        <optgroup label="Monospace">
+            <option value="Courier New" selected="selected">Courier New</option>
+            <option value="Consolas">Consolas</option>
+        </optgroup>
+    </select>
+    <span class="information" id="font_select_note" style="visibility: hidden;">If the selected font is not available on your system, the text will render in your browser's default font.</span>
+</fieldset>
+<fieldset id="size_maincontent">
+    <legend>Main Content Font Size</legend>
+    <ul class="inline">
+        <li>
+            <label>keyword:<input type="radio" id="size_maincontent_type_kw" name="size_maincontent_type" checked="checked" /></label>
+            <select id="size_maincontent_value_kw">
+                <optgroup label="Exact">
+                    <option value="xx-small">xx-small</option>
+                    <option value="x-small">x-small</option>
+                    <option value="small">small</option>
+                    <option value="medium" selected="selected">medium</option>
+                    <option value="large">large</option>
+                    <option value="x-large">x-large</option>
+                    <option value="xx-large">xx-large</option>
+                </optgroup>
+                <optgroup label="Modifier">
+                    <option value="smaller">smaller</option>
+                    <option value="larger">larger</option>
+                </optgroup>
+            </select>
+        </li>
+        <li>
+            <label>pixels:<input type="radio" id="size_maincontent_type_px" name="size_maincontent_type" /></label>
+            <label><input type="text" maxlength="2" size="2" value="12" id="size_maincontent_value_px" />px</label>
+        </li>
+        <li>
+            <label>points:<input type="radio" id="size_maincontent_type_pt" name="size_maincontent_type" /></label>
+            <label><input type="text" maxlength="2" size="2" value="10" id="size_maincontent_value_pt" />pt</label>
+        </li>
+        <li>
+            <label>ems:<input type="radio" id="size_maincontent_type_em" name="size_maincontent_type" /></label>
+            <label><input type="text" maxlength="4" size="2" value="1.0" id="size_maincontent_value_em" />em</label>
+        </li>
+        <li>
+            <label>percent:<input type="radio" id="size_maincontent_type_pc" name="size_maincontent_type" /></label>
+            <label><input type="text" maxlength="3" size="2" value="100" id="size_maincontent_value_pc" />%</label>
+        </li>
+    </ul>
+</fieldset>
+<fieldset id="size_subcontent">
+    <legend>Sub Content Font Size</legend>
+    <ul class="inline">
+        <li>COPIED FROM MAIN CONTENT LIST VIA JAVASCRIPT ONLOAD</li>
+    </ul>
+</fieldset>
+</form>
+<div>
+<span class="link" id="showcoloring">Show Informative Coloring</span>
+</div>
+<hr />
+<div id="text_maincontent">
+    <h1>Lorem ipsum</h1>
+    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam est risus, imperdiet at, venenatis ac, commodo vitae, $56.98 (&euro;48.60). Sed dapibus velit. Nullam metus tellus, rutrum eget, facilisis sit amet, pulvinar quis. Maecenas malesuada, massa sit amet pulvinar sagittis, magna dolor vehicula massa, vel tincidunt est nisl sed justo. Ut a est (201) 856-7493. Quisque bibendum, elit suscipit luctus pellentesque, velit eros egestas dui, 68%, vel dapibus ante risus in massa. Cras lacus. Sed lobortis arcu a ante. Sed convallis&trade;. Vestibulum vitae massa viverra enim adipiscing lobortis.</p>
+    <div id="text_subcontent">
+        <h2>Lorem ipsum dolor sit amet, consectetuer adipiscing.</h2>
+        <p>Donec vel neque vel quam ultrices lobortis. Vestibulum&reg; nonummy arcu ut ante. Quisque pede. Integer dignissim blandit nisl. Morbi eu lacus sed ante pretium molestie. Aliquam vel augue. Ut eleifend commodo felis. Nunc eu velit, "Sed tristique tellus in nibh." Donec elementum. Vestibulum convallis, pede sit amet laoreet nonummy, est enim euismod ligula, eu nonummy augue urna ac erat. Phasellus consequat neque at metus. Curabitur vulputate diam ut tellus. Nulla facilisi.</p>
+    </div>
+    <p>Integer posuere. Cras &amp; consectetuer ante sit amet nibh. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed in elit. Vestibulum&mdash;ante ipsum primis in faucibus orci luctus et ultrices&mdash;posuere cubilia Curae; Pellentesque velit. Curabitur posuere fermentum pede. Aenean volutpat sem et dolor. Proin egestas sodales mauris. Vivamus eget justo in elit aliquet facilisis.</p>
+    <p>Copulisin &copy; 2005 Pellentesque Vestibulum. Ante Realla Resente.</p>
+</div>
+</body>
+</html>
