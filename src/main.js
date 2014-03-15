@@ -3,7 +3,21 @@
 // Use to package everything together with r.js
 //
 
-define(['./core', './extras', './form', './html', './http'], function() {
+require.config(
+{
+   baseUrl: ".",
+   paths: { }
+});
+
+define(
+[
+   'core',
+   'extras',
+   'form',
+   'html',
+   'http'
+], function()
+{
 
 });
 
