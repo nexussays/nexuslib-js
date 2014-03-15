@@ -1,9 +1,11 @@
-/**********************
-ELEMENT METHODS
-**********************/
-//functions are guaranteed to have a valid HTML element as the "this" variable
+define(["nnet/element"], function(){
+
+//
+// Extend HTML elements with additional functionality
+//
 var Element = new (function()
 {
+   // functions are guaranteed to have a valid HTML element as the "this" variable
    this.__internal =
    {
       getAncestor: function(tagName)
@@ -200,78 +202,4 @@ var Element = new (function()
    delete apply;
 })();
 
-/**********************
-ELEMENT CREATION METHODS
-**********************/
-var HTML = new (function()
-{
-   var self = this;
-
-   //create a method in the HTML object that will create an element of the same name as the function
-   this.defineTag = function(tag)
-   {
-      self[tag.toLowerCase()] = function()
-      {
-         return create.apply(tag, arguments);
-      }
-   };
-
-   var create = function()
-   {
-      var element, prop;
-
-      //special case for text nodes
-      if(this == "text")
-      {
-         element = document.createTextNode(Array.prototype.join.call(arguments, "") || "");
-      }
-      else
-      {
-         //create element and apply element methods to it if they aren't already there
-         element = document.createElement(this);
-         Element.__applyElementPrototypes(element);
-         
-         //append nodes
-         if(arguments.length > 0)
-         {
-            element.append.apply(element, arguments);
-         }
-      }
-
-      return element;
-   };
-
-   //init
-   (["text", "a", "abbr", "acronym", "address", "blockquote", "br", "button", "caption",
-      "cite", "code", "col", "colgroup", "dd", "del", "dfn", "div", "dl", "dt", "em",
-      "fieldset", "form", "h1", "h2", "h3", "h4", "h5", "h6", "hr", "iframe", "img", "input",
-      "ins", "kbd", "label", "legend", "li", "object", "ol", "optgroup", "option", "p",
-      "param", "pre", "q", "samp", "script", "select", "span", "strong", "sub", "sup",
-      "table", "tbody", "td", "textarea", "tfoot", "th", "thead", "title", "tr", "tt",
-      "ul", "var"]).forEach(self.defineTag);
-});
-
-
-/**********************
-SETUP & DOCUMENT PRELOAD
-**********************/
-//apply the methods to the element prototype if the browser supports it, and negate the __applyElementPrototypes function
-if(Browser.supportsElementPrototype)
-{
-   Element.__applyElementPrototypes(HTMLElement.prototype, true);
-   Element.__applyElementPrototypes = function() { };
-}
-else
-{
-   //TODO: determine if I need to add an onunload function to destroy all this so there are no memory leaks (mostly in IE)
-   document.preload.applyElementPrototype = function()
-   {
-      //call the wrapping version of get on all elements
-      getw();
-      //now make sure the getw function can't re-apply everything
-      getw = function()
-      {
-         return get.apply(this, arguments);
-      };
-   };
-}
+}); // define

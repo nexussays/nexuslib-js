@@ -12,10 +12,19 @@ require.config(
 define(
 [
    'core',
-   'extras',
-   'form',
-   'html',
-   'http'
+   'nnet/array',
+   'nnet/browser',
+   'nnet/color',
+   'nnet/cookie',
+   'nnet/element',
+   'nnet/error',
+   'nnet/event',
+   'nnet/form',
+   'nnet/get',
+   'nnet/html',
+   'nnet/http',
+   'nnet/sort',
+   'nnet/string'
 ], function()
 {
 

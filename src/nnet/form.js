@@ -1,6 +1,8 @@
-/**********************
-FORM
-**********************/
+define(["nnet/get"], function(get){
+
+//
+// 
+//
 var Form =
 {
    "getDefaultValue": function(elem)
@@ -57,8 +59,8 @@ var Form =
       return false;
    }
 };
-//Form.SelectableCollection = 
-function RadioCollection(name)
+
+Form.RadioCollection = function(name)
 {
    var self = this;
    
@@ -93,8 +95,9 @@ function RadioCollection(name)
       }
    }
    init();
-}
-RadioCollection.prototype =
+};
+
+Form.RadioCollection.prototype =
 {
    uncheckAll : function()
    {
@@ -145,3 +148,6 @@ RadioCollection.prototype =
    }
 };
 
+return Form;
+
+}); // define

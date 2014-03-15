@@ -1,6 +1,8 @@
-/**********************
-HTTP REQUEST
-**********************/
+define(['nnet/error'], function(NNetError){
+
+//
+// HTTP REQUEST
+//
 function HttpRequest(url, params)
 {
    this.request = null;
@@ -142,3 +144,7 @@ HttpRequest.prototype =
       }
    }
 };
+
+return HttpRequest;
+
+}); // define
