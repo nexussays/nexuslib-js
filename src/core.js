@@ -1,22 +1,7 @@
-//This needs to be removed after development (<3 Firebug)
-//*
-if (!("console" in window))
-{
-   var names = ["log", "debug", "info", "warn", "error", "assert", "dir", "dirxml",
-   "group", "groupEnd", "time", "timeEnd", "count", "trace", "profile", "profileEnd"];
-
-   window.console = {};
-   for (var i = 0; i < names.length; ++i)
-   {
-      window.console[names[i]] = function() {};
-   }
-}
-//*/
-
 /**********************
 BROWSER
 **********************/
-var NNet = {version : "0.9.0"};
+var NNet = {version : "0.10.0"};
 var Browser =
 {
    isIE: /*@cc_on!@*/false,
@@ -346,205 +331,6 @@ var Filter = new (function()
    };
 })();
 
-
-/**********************
-ELEMENT METHODS
-**********************/
-//functions are guaranteed to have a valid HTML element as the "this" variable
-var Element = new (function() {
-   this.__internal =
-   {
-      getAncestor: function(tagName)
-      {
-         var tag = tagName.toLowerCase(), iter = this, result = null;
-         while (iter.parentNode)
-         {
-            //if the element is the one we are looking for, return the entire element
-            if (iter.parentNode.nodeName.toLowerCase() == tag)
-            {
-               result = iter.parentNode;
-               break;
-            }
-            iter = iter.parentNode;
-         }
-         return result;
-      },
-      getOuterHTML: function(escapeHtml)
-      {
-         var div = document.createElement("div");
-         div.appendChild(this.cloneNode(true));
-         div = div.innerHTML;
-         return escapeHtml ? div.escapeHTML() : div;
-      },
-      ////////////////MODIFY CSS CLASSES
-      addCssClass: function(name, noExistenceCheck)
-      {
-         if (noExistenceCheck === true || (!Element.__internal.hasCssClass.call(this, name)))
-         {
-            this.className += " " + name;
-         }
-         return true;
-      },
-      removeCssClass: function(name)
-      {
-         //replace the name with an empty string
-         if(this.className)
-         {
-            this.className = this.className.replace(new RegExp("(^|\\s)" + name + "(\\s|$)", "i"), "$1$2");
-            if(this.className == "")
-            {
-               this.removeAttribute("class");
-            }
-         }
-         return true;
-      },
-      toggleCssClass: function(name)
-      {
-         Element.__internal.hasCssClass.call(this, name) ? Element.__internal.removeCssClass.call(this, name) : Element.__internal.addCssClass.call(this, name, true);
-      },
-      hasCssClass: function(name)
-      {
-         //return (new RegExp("(?:^|\\s)" + name + "(?:\\s|$)", "i").test(this.className));
-         return (this.className && this.className.contains(name, " ", true));
-      },
-      append: function()
-      {
-         for (var x = 0, ln = arguments.length; x < ln; ++x)
-         {
-            try
-            {
-               var el = arguments[x];
-               switch (objtype(el))
-               {
-                  case "string":
-                     this.innerHTML += el;
-                     break;
-                  case "array":
-                     this.append.apply(this, el);
-                     break;
-                  case "node":
-                     this.appendChild(el);
-                     break;
-                  case "object":
-                     for (prop in el)
-                     {
-                        //account for event handlers
-                        if(/^on/.test(prop))
-                        {
-                           this.addEvent(prop.substring(2), el[prop]);
-                        }
-                        else
-                        {
-                           this.setAttribute(prop, el[prop]);
-                        }
-                        //TODO: handle style attribute
-                     }
-                     break;
-                  default:
-                     throw new NNetError("Element.append() ERROR: Cannot append \"" + el +
-                        "\" of unknown type \"" + objtype(el) + "\"");
-                     break;
-               }
-            }
-            catch (e)
-            {
-               console.error("__append", e);
-            }
-         }
-         return this;
-      },
-      addEvent: function(type, func)
-      {
-         this.events = this.events || {};
-         var events = (this.events[type] = this.events[type] || {});
-         var self = this;
-         events[func] = function()
-         {
-            func.call(self, NNet.Event(arguments[0]));
-         };
-         if (objtype(this.addEventListener) == "function")
-         {
-            this.addEventListener(type, events[func], false);
-         }
-         else
-         {
-            this.attachEvent("on" + type, events[func]);
-         }
-      },
-      removeEvent: function(type, func)
-      {
-         this.events = this.events || {};
-         var events = (this.events[type] = this.events[type] || {});
-         if (objtype(this.removeEventListener) == "function")
-         {
-            this.removeEventListener(type, events[func], false);
-         }
-         else
-         {
-            this.detachEvent("on" + type, events[func]);
-         }
-      } /*,
-      dispatchEvent: function(type)
-      {
-
-      }*/
-   };
-
-   this.Special = {};
-
-   this.__applyElementPrototypes = function(element, override)
-   {
-      //if the browser *does* support element prototyping, this function is changed below
-      if (override || (element && element.nodeType == 1))
-      {
-         element.get = function() { return get.apply(this, arguments); };
-         Object.keys(Element.__internal).forEach(function(x)
-         {
-            element[x] = function()
-            {
-               return Element.__internal[x].apply(this, arguments);
-            }
-         });
-      }
-   };
-
-   this.__wrapper = function()
-   {
-      var el = get(Array.prototype.shift.call(arguments)), result;
-      //we do not allow element arrays to be passed
-      if ("nodeType" in el)
-      {
-         result = Element.__internal[this].apply(el, arguments);
-      }
-      else
-      {
-         throw new TypeError("\"" + el + "\" (typeof \"" + objtype(el) + "\") is not, or does not resolve to, a valid HTML Element");
-         result = null;
-      }
-      return result;
-   };
-})();
-
-//wrap all the internal Element functions and expose them
-(function()
-{
-   function apply(func)
-   {
-      Element[func] = function()
-      {
-         return Element.__wrapper.apply(func, arguments);
-      };
-   }
-
-   for(var name in Element.__internal)
-   {
-      apply(name);
-   }
-
-   delete name;
-   delete apply;
-})();
-
 /**********************
 OBJECT
 **********************/
@@ -600,7 +386,7 @@ function objtype(obj)
 }
 function nodetype(el)
 {
-   if(el != null && objtype(el) == "node")
+   if(el != null && objtype(el) === "node")
    {
       //IE does not define window.Node, so use magic numbers instead
       switch(el.nodeType)
@@ -662,13 +448,13 @@ function evalJSON(value)
 }
 function toJSON(value)
 {
-   function recurse(x, array)
+   function recurse(x, isArray)
    {
       var ret = "", property, val, type, result;
       for(property in x)
       {
          val = x[property], type = objtype(val);
-         if(type != "function" && array !== true)
+         if(type != "function" && isArray !== true)
          {
             ret += "\""+ property + "\":";
          }
@@ -709,6 +495,127 @@ function toJSON(value)
 
 
 /**********************
+EVENT
+**********************/
+NNet.Event = function(evt)
+{
+   var e = evt || window.event;
+   //don't redo everything on redundant calls
+   if(e && e.__extended !== true)
+   {
+      e.__extended = true;
+
+      var button = e.button,
+         w3cType = (typeof e.which !== "undefined"),
+         isKeypress = (e.type == "keypress"),
+         isKeyUpOrDown = (e.type == "keyup" || e.type == "keydown"),
+         isMouseover = (e.type == "mouseover"),
+         isMouseout = (e.type == "mouseout"),
+         keycode = e.charCode || e.keyCode || null,
+         ucase = (keycode >= 65 && keycode <= 90),
+         lcase = (keycode >= 97 && keycode <= 122);
+
+      // Mozilla uses the "which" property for button clicks in addition to the "button" property,
+      // and they follow the W3C spec for the numbering scheme; so we use the existence
+      // of the "which" property to determine if we are running Firefox and therefore
+      // using the W3C model vs the Microsoft model
+      e.mouse =
+      {
+         //W3C.button: 0; Microsoft.button: 1; Gecko.which: 1
+         left: ((w3cType && button === 0) || (!w3cType && (button & 1) === 1)),
+         //W3C.button: 2; Microsoft.button: 2; Gecko.which: 3
+         right: ((w3cType && button === 2) || (!w3cType && (button & 2) === 2)),
+         //W3C.button: 1; Microsoft.button: 4; Gecko.which: 2
+         middle: ((w3cType && button === 1) || (!w3cType && (button & 4) === 4))
+      };
+
+      //Space: 32 | Enter: 13 | Tab: 9 | Backspace: 8 | Shift: 16 | Control: 17 | Alt: 18 | Esc: 27 | Delete: 46
+      //up arrow: 38 | down arrow: 40 | left arrow: 37 | right arrow: 39
+      //For more information, see: <http://unixpapa.com/js/key.html>
+      e.key =
+      {
+         code: keycode,
+         value: (isKeypress || (isKeyUpOrDown && (keycode >= 48 && keycode <= 90))) ?
+            String.fromCharCode(keycode) :
+            ((isKeyUpOrDown && (keycode - 96 >= 0 && keycode - 96 <= 9)) ?
+               String.fromCharCode(keycode - 48) : null),
+         shift: (e.shiftKey || keycode == 16),
+         ctrl: (e.ctrlKey || keycode == 17),
+         alt: (e.altKey || keycode == 18),
+         //If the key pressed is not an alpha character, then we cannot determine if caps lock is on so instead we set it to null.
+         //If the key is uppercase without shift or lowercase with shift, then caps lock is on.
+         capsLock: (!isKeypress || (!ucase && !lcase) ? null : ((ucase && !e.shiftKey) || (lcase && e.shiftKey) ? true : false))
+      };
+
+      //The element the event originated from
+      if(typeof e.target == "undefined")
+      {
+         e.target = e.srcElement;
+      }
+      //the related target, ie if a mouseover it is the element the mouse came from and if a mouseout
+      //it is the element the mouse has gone to
+      if(typeof e.relatedTarget == "undefined")
+      {
+         e.relatedTarget = (isMouseover ? e.fromElement : ( isMouseout ? e.toElement : null ));
+      }
+
+      //pageX/Y are the values relative to the document itself
+      //clientX/Y are the values relative to the viewport (browser window)
+      //screenX/Y are the values relative to the entire screen (eg, if the browser window is positioned so 0,0 is at
+      //the middle of a 1024x768 screen then screenX/Y will be 512/384)
+      if(typeof e.pageX == "undefined" && typeof e.clientX !== "undefined")
+      {
+         //console.log(e.clientY, document.body.scrollTop, document.documentElement.scrollTop);
+         //document.body for quirksmode, document.documentElement for strict mode
+         e.pageX = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+         e.pageY = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+      }
+
+      if(!("preventDefault" in e))
+      {
+         e.preventDefault = function()
+         {
+            this.returnValue = false;
+         };
+      }
+
+      if(!("stopPropagation" in e))
+      {
+         e.stopPropagation = function()
+         {
+            this.cancelBubble = true;
+         };
+      }
+
+      e.stop = function()
+      {
+         this.preventDefault();
+         this.stopPropagation();
+      };
+
+      //Keep this in? or remove it from relase code?
+      e.stopPropogation = function()
+      {
+         throw new SyntaxError("SPELLING MISTAKE: 'stopPropogation' should be 'stopPropagation' (note: 'a' vs 'o')");
+      };
+   }
+   return e;
+};
+NNet.Event.keys = 
+{
+   "BACKSPACE" : 8,
+   "TAB" : 9,
+   "ENTER" : 13,
+   "SHIFT" : 16,
+   "CTRL" : 17,
+   "ALT" : 18,
+   "ESC" : 27,
+   "SPACE" : 32,
+   "DELETE" : 46
+};
+
+
+/**********************
 EXCEPTION HANDLING & ERRORS
 **********************/
 function NNetError(message)
@@ -737,7 +644,7 @@ MUMERIC & MATH
 **********************/
 //generates a random integer between the high and low values, inclusive
 //if no value is provided for the respective argument, the defaults of 0 (low) and 1 (high) are used
-Math.randomInt = function(high, low)
+Math.randomInt = function(low, high)
 {
    var L = parseInt(low, 10) || 0, H = parseInt(high, 10) || 1;
    return Math.floor( (Math.random() * (H - L + 1)) + L );
@@ -844,7 +751,7 @@ ARRAY & COLLECTION
 **********************/
 //map the results of a function to each respective index of an array
 //format is: arrayVariable.map(function(valueAtIndex, index, entireArray){/*CODE*/});
-Array.prototype.map = /*Array.prototype.map ||*/function(func, scope)
+Array.prototype.map = Array.prototype.map || function(func, scope)
 {
    //ExceptionHelper.isFunction(func);
    var x = 0, ln = this.length, self = scope || this, arr = [];
@@ -871,7 +778,7 @@ Array.prototype.map$ = function(func, scope)
 };
 //execute a function over each item in an array
 //format is: arrayVariable.forEach(function(valueAtIndex, index, entireArray){/*CODE*/});
-Array.prototype.forEach = /*Array.prototype.forEach ||*/ function(func, scope)
+Array.prototype.forEach = Array.prototype.forEach || function(func, scope)
 {
    //ExceptionHelper.isFunction(func);
    var x = 0, ln = this.length, self = scope || this;
@@ -901,7 +808,7 @@ Array.prototype.filter = function(func, scope)
    }
 };
 //returns the index of the given object or -1 if not found
-Array.prototype.indexOf = /*Array.prototype.indexOf ||*/function(item /*, from*/)
+Array.prototype.indexOf = Array.prototype.indexOf ||function(item /*, from*/)
 {
    var ln = this.length, from = (+arguments[1]) || 0;
    from = (from < 0) ? Math.ceil(from) + len : Math.floor(from);
@@ -916,18 +823,16 @@ Array.prototype.indexOf = /*Array.prototype.indexOf ||*/function(item /*, from*/
    return -1;
 };
 //returns a new array with the same values but in a random order
-Array.prototype.randomize = function()
+Array.prototype.shuffle = function()
 {
-   var i = this.length;
-   if(i > 0)
+   var i = this.length, j, temp;
+   while(i)
    {
-      while(--i)
-      {
-         var j = Math.randomInt(i);
-         var temp = this[i];
-         this[i] = this[j];
-         this[j] = temp;
-      }
+      --i;
+      j = Math.floor(Math.random() * (i + 1));
+      temp = this[i];
+      this[i] = this[j];
+      this[j] = temp;
    }
    return this;
 };
@@ -947,9 +852,9 @@ Array.prototype.flatten = function()
    }
    return arr;
 };
-//not in a global range() function because Javascript has no "yield" so we actually
-//have to generate the entire array and I think having a range() function would introduce
-//confusion about the implementation whereby you would assume it does use yield
+// not in a global range() function because Javascript has no "yield" or other means
+// to defer execution, so we actually have to generate the entire range. I think
+// a window.range() function would introduce confusion about the implementation.
 Array.makeRange = function(from, to, step)
 {
    step = step || 1;
@@ -964,178 +869,15 @@ Array.makeRange = function(from, to, step)
 //convert an Array-like object to an Array
 Array.toArray = function(collection)
 {
+   if(collection instanceof Array)
+   {
+      return collection;
+   }
    for(var x = 0, ln = collection.length, arr = []; x < ln; ++x)
    {
       arr[x] = collection[x];
    }
    return arr;
-};
-
-
-/**********************
-DOM METHODS / ELEMENT CREATION METHODS
-**********************/
-var DOM = new (function()
-{
-   var self = this;
-
-   //create a method in the DOM object that will create an element of the same name as the function
-   this.defineTag = function(tag)
-   {
-      self[tag.toLowerCase()] = function()
-      {
-         return create.apply(tag, arguments);
-      }
-   };
-
-   var create = function()
-   {
-      var element, prop;
-
-      //special case for text nodes
-      if(this == "text")
-      {
-         element = document.createTextNode(Array.prototype.join.call(arguments, "") || "");
-      }
-      else
-      {
-         //create element and apply element methods to it if they aren't already there
-         element = document.createElement(this);
-         Element.__applyElementPrototypes(element);
-         
-         //append nodes
-         if(arguments.length > 0)
-         {
-            element.append.apply(element, arguments);
-         }
-      }
-
-      return element;
-   };
-
-   //init
-   (["text", "a", "abbr", "acronym", "address", "blockquote", "br", "button", "caption",
-      "cite", "code", "col", "colgroup", "dd", "del", "dfn", "div", "dl", "dt", "em",
-      "fieldset", "form", "h1", "h2", "h3", "h4", "h5", "h6", "hr", "iframe", "img", "input",
-      "ins", "kbd", "label", "legend", "li", "object", "ol", "optgroup", "option", "p",
-      "param", "pre", "q", "samp", "script", "select", "span", "strong", "sub", "sup",
-      "table", "tbody", "td", "textarea", "tfoot", "th", "thead", "title", "tr", "tt",
-      "ul", "var"]).forEach(self.defineTag);
-});
-
-
-/**********************
-EVENT
-**********************/
-NNet.Event = function(evt)
-{
-   var e = evt || window.event;
-   //don't redo everything on redundant calls
-   if(e && e.__extended !== true)
-   {
-      e.__extended = true;
-
-      var button = e.button,
-         w3cType = (typeof e.which !== "undefined"),
-         isKeypress = (e.type == "keypress"),
-         isKeyUpOrDown = (e.type == "keyup" || e.type == "keydown"),
-         isMouseover = (e.type == "mouseover"),
-         isMouseout = (e.type == "mouseout"),
-         keycode = e.charCode || e.keyCode || null,
-         ucase = (keycode >= 65 && keycode <= 90),
-         lcase = (keycode >= 97 && keycode <= 122);
-
-      //Mozilla uses the "which" property for button clicks in addition to the "button" property, and they follow the W3C spec for the numbering scheme; so we use the existence of the "which" property to determine if we are running Firefox and therefore using the W3C model vs the Microsoft model
-      e.mouse =
-      {
-         //W3C.button: 0; Microsoft.button: 1; Gecko.which: 1
-         left: ((w3cType && button === 0) || (!w3cType && (button & 1) === 1)),
-         //W3C.button: 2; Microsoft.button: 2; Gecko.which: 3
-         right: ((w3cType && button === 2) || (!w3cType && (button & 2) === 2)),
-         //W3C.button: 1; Microsoft.button: 4; Gecko.which: 2
-         middle: ((w3cType && button === 1) || (!w3cType && (button & 4) === 4))
-      };
-
-      //Space: 32 | Enter: 13 | Tab: 9 | Backspace: 8 | Shift: 16 | Control: 17 | Alt: 18 | Esc: 27 | Delete: 46
-      //up arrow: 38 | down arrow: 40 | left arrow: 37 | right arrow: 39
-      //For more information, see: <http://unixpapa.com/js/key.html>
-      e.key =
-      {
-         code: keycode,
-         value: (isKeypress || (isKeyUpOrDown && (keycode >= 48 && keycode <= 90))) ? String.fromCharCode(keycode) : ((isKeyUpOrDown && (keycode - 96 >= 0 && keycode - 96 <= 9)) ? String.fromCharCode(keycode - 48) : null),
-         shift: (e.shiftKey || keycode == 16),
-         ctrl: (e.ctrlKey || keycode == 17),
-         alt: (e.altKey || keycode == 18),
-         //If the key pressed is not an alpha character, then we cannot determine if caps lock is on so instead we set it to null.
-         //If the key is uppercase without shift or lowercase with shift, then caps lock is on.
-         capsLock: (!isKeypress || (!ucase && !lcase) ? null : ((ucase && !e.shiftKey) || (lcase && e.shiftKey) ? true : false))
-      };
-
-      //The element the event originated from
-      if(typeof e.target == "undefined")
-      {
-         e.target = e.srcElement;
-      }
-      //the related target, ie if a mouseover it is the element the mouse came from and if a mouseout
-      //it is the element the mouse has gone to
-      if(typeof e.relatedTarget == "undefined")
-      {
-         e.relatedTarget = (isMouseover ? e.fromElement : ( isMouseout ? e.toElement : null ));
-      }
-
-      //pageX/Y are the values relative to the document itself
-      //clientX/Y are the values relative to the viewport
-      //screenX/Y are the values relative to the entire screen (eg, if the browser window is positioned so 0,0 is at
-      //the middle of a 1024x768 screen then screenX/Y will be 512/384)
-      if(typeof e.pageX == "undefined" && typeof e.clientX !== "undefined")
-      {
-         //console.log(e.clientY, document.body.scrollTop, document.documentElement.scrollTop);
-         //document.body for quirksmode, document.documentElement for strict mode
-         e.pageX = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
-         e.pageY = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
-      }
-
-      if(!("preventDefault" in e))
-      {
-         e.preventDefault = function()
-         {
-            this.returnValue = false;
-         };
-      }
-
-      if(!("stopPropagation" in e))
-      {
-         e.stopPropagation = function()
-         {
-            this.cancelBubble = true;
-         };
-      }
-
-      e.stop = function()
-      {
-         this.preventDefault();
-         this.stopPropagation();
-      };
-
-      //Keep this in? or remove it from relase code?
-      e.stopPropogation = function()
-      {
-         throw new SyntaxError("SPELLING MISTAKE: 'stopPropogation' should be 'stopPropagation' (note: 'a' vs 'o')");
-      };
-   }
-   return e;
-};
-NNet.Event.keys = 
-{
-   "BACKSPACE" : 8,
-   "TAB" : 9,
-   "ENTER" : 13,
-   "SHIFT" : 16,
-   "CTRL" : 17,
-   "ALT" : 18,
-   "ESC" : 27,
-   "SPACE" : 32,
-   "DELETE" : 46
 };
 
 
@@ -1319,153 +1061,6 @@ else
    window.load.onDOMLoaded = document.onload;
 }
 
-
-/**********************
-HTTP REQUEST
-**********************/
-function HttpRequest(url, params)
-{
-   this.request = null;
-   this.params = params || {};
-   this.body = null;
-   this.headers = {};
-   this.url = url || "";
-   
-   this.response = {
-      text : null,
-      xml : null,
-      time : 0,
-      status : 0
-   };
-   
-   this.onComplete = function(){};
-   
-   //create object
-   if(typeof window.XMLHttpRequest != "undefined")
-   {
-      this.request = new XMLHttpRequest();
-   }
-   //use one of IE's methods
-   else if(typeof window.ActiveXObject != "undefined")
-   {
-      //this.request = new ActiveXObject("Msxml2.XMLHTTP");
-      this.request = new ActiveXObject("Microsoft.XMLHTTP");
-   }
-   else
-   {
-      throw new NNetError("HttpRequest is not supported in this browser");
-   }
-}
-HttpRequest.prototype = 
-{
-   sendGet : function(async)
-   {
-      return this.send("GET", async);
-   },
-   sendPost : function(async)
-   {
-      return this.send("POST", async);
-   },
-   sendPut : function(async)
-   {
-      return this.send("PUT", async);
-   },
-   sendDelete : function(async)
-   {
-      return this.send("DELETE", async);
-   },
-   sendHead : function(async)
-   {
-      return this.send("HEAD", async);
-   },
-   send : function(httpmethod, asynchronous)
-   {
-      var self = this, async = (asynchronous === false ? false : true), method = httpmethod.toUpperCase();
-      var querystring = [], x, time;
-      
-      //if we are sending an entity body, ignore the query string
-      if(this.body == null)
-      {
-         for(x in this.params)
-         {
-            querystring.push(encodeURIComponent(x) + "=" + encodeURIComponent(this.params[x]));
-         }
-         querystring = querystring.join("&");
-      }
-
-      switch(method)
-      {
-         case "GET":
-            this.url += (querystring.length > 0 ? "?" + querystring : "");
-            querystring = null;
-            break;
-         case "POST":
-         case "PUT":
-         case "DELETE":
-            if(querystring.length > 0)
-            {
-               this.headers["Content-Type"] = "application/x-www-form-urlencoded";
-            }
-            else
-            {
-               //TODO: Need to determine how we're getting content-type here
-               this.headers["Content-Type"] = "application/xml";
-               querystring = null;
-            }
-            break;
-         case "HEAD":
-            throw new NNetError("HttpRequest.sendHead() is not yet implemented");
-            break;
-         default:
-            throw new NNetError("Improper value \""+method+"\" passed to HttpRequest.send() method. Valid values are \"GET, POST, PUT, DELETE, HEAD\"");
-      }
-      
-      this.request.open(method, this.url, async);
-      this.request.onreadystatechange = function(){self.stateChange();};
-      
-      this.headers["Connection"] = "close";
-      //Cache-Control: no-cache
-      //Pragma: no-cache
-      
-      for(header in this.headers)
-      {
-         this.request.setRequestHeader(encodeURIComponent(header), encodeURIComponent(this.headers[header]));
-      }
-      
-      this.response.time = new Date();
-      this.request.send(this.body || querystring);
-            
-      return true;
-   },
-   stateChange : function()
-   {
-      switch(this.request.readyState)
-      {
-         case 0:
-            break;
-         case 1:
-            break;
-         case 2:
-            //try{this.response.status = this.request.status;}catch(e){}
-            break;
-         case 3:
-            //this.response = {"text":this.request.responseText,"xml":this.request.responseXML};
-            break;
-         case 4:
-            this.response.status = this.request.status;
-            this.response.time = (new Date() - this.response.time);
-            this.response.text = this.request.responseText || null;
-            this.response.xml = this.request.responseXML || null;
-            Debug.Object(this.request, true);
-            this.onComplete(this.response);
-            break;
-         default:
-            throw new NNetError("INVALID readyState \"" + this.request.readyState + "\" in HTTPRequest");
-      }
-   }
-};
-
-
 /**********************
 COOKIES
 **********************/
@@ -1548,154 +1143,6 @@ var Cookie = new (function()
       Cookie.writeString(name, "", -1);
    };
 })();
-
-/**********************
-FORM
-**********************/
-var Form =
-{
-   "getDefaultValue": function(elem)
-   {
-      var el = get(elem);
-      if(el && "nodeName" in el)
-      {
-         var type = el.nodeName.toLowerCase();
-         if(type == "input" || type == "textarea")
-         {
-            return el.defaultValue;
-         }
-         else if(type == "select")
-         {
-            var defaults = [];
-            for(var x = 0; x < el.options.length; ++x)
-            {
-               var option = el.options[x];
-               if(option.defaultSelected)
-               {
-                  defaults.push(option.value);
-               }
-            }
-            return defaults.join(",");
-         }
-      }
-      return null;
-   },
-   "fieldChanged": function(elem)
-   {
-      var el = get(elem);
-      if(el && "nodeName" in el)
-      {
-         var type = el.nodeName.toLowerCase();
-         if(type == "input" || type == "textarea")
-         {
-            if(el.defaultValue != el.value)
-            {
-               return true;
-            }
-         }
-         else if(type == "select")
-         {
-            for(var x = 0; x < el.options.length; ++x)
-            {
-               var option = el.options[x];
-               if(option.defaultSelected != option.selected)
-               {
-                  return true;
-               }
-            }
-         }
-      }
-      return false;
-   }
-};
-//Form.SelectableCollection = 
-function RadioCollection(name)
-{
-   var self = this;
-   
-   this.value = null;
-   this.items = [];
-   this.length = 0;
-   this.selectedIndex = null;
-   this.__set = function(val, index)
-   {
-      self.value = (typeof val !== "undefined") ? val : null;
-      self.selectedIndex = (typeof index !== "undefined") ? index : null;
-   };
-
-   function init()
-   {
-      var i = get.byName(name);
-      if(i)
-      {
-         for(var x = 0; x < i.length; ++x)
-         {
-            if(i[x].type == "radio")
-            {
-               self.items.push(i[x]);
-               if(i[x].checked)
-               {
-                  //index is not set to x since x is all items with this name and we are only counting about radios
-                  self.__set(i[x].value, self.items.length - 1);
-               }               
-            }
-         }
-         self.length = self.items.length;
-      }
-   }
-   init();
-}
-RadioCollection.prototype =
-{
-   uncheckAll : function()
-   {
-      /*for(var x = 0; x < self.items.length; ++x)
-      {
-         self.items[x].checked = false;
-      }*/
-      //should be able to just uncheck the currently selected item since the browser should not allow more than
-      //one item to be checked. The loop can be re-implemented if this turns out to not work as expected
-      if(this.selectedIndex != null)
-      {
-         this.items[this.selectedIndex].checked = false;
-      }
-      this.__set();
-   },
-   checkValue : function(value, executeOnclickFunc)
-   {
-      for(var x = 0; x < this.items.length; ++x)
-      {
-         var item = this.items[x];
-         if(item.value == value)
-         {
-            item.checked = true;
-            this.__set(value, x);
-            if(executeOnclickFunc === true && typeof item.onclick == "function")
-            {
-               item.onclick();
-            }
-            //only one valid selection in a radio collection, so return
-            return;
-         }
-      }
-   },
-   refresh : function()
-   {
-      for(var x = 0; x < this.items.length; ++x)
-      {
-         var item = this.items[x];
-         if(item.checked)
-         {
-            //if the item is checked set the values accordingly
-            this.__set(item.value, x);
-            //there can be only one valid selection in a radio collection, so return
-            return;
-         }
-      }
-      this.__set();
-   }
-};
-
 
 /**********************
 COLOR
@@ -1783,7 +1230,7 @@ var SortBy =
    //this doesn't appear to work very well
    random: function(a, b)
    {
-      return Math.randomInt(1, -1);
+      return Math.randomInt(-1, 1);
    },
    alphanum: function(a, b)
    {
@@ -1845,7 +1292,7 @@ ADD SCRIPT
 **********************/
 NNet.addScript = function(url, head)
 {
-   get.byTag(head===true?"head":"body")[0].appendChild(DOM.script({
+   get.byTag(head===true?"head":"body")[0].appendChild(HTML.script({
       "type": "text/javascript",
       "language": "Javascript",
       "src": url
@@ -1881,26 +1328,6 @@ function using(scriptName)
 /**********************
 SETUP & DOCUMENT PRELOAD
 **********************/
-//apply the methods to the element prototype if the browser supports it, and negate the __applyElementPrototypes function
-if (Browser.supportsElementPrototype)
-{
-   Element.__applyElementPrototypes(HTMLElement.prototype, true);
-   Element.__applyElementPrototypes = function() { };
-}
-else
-{
-   //TODO: determine if I need to add an onunload function to destroy all this so there are no memory leaks (mostly in IE)
-   document.preload.applyElementPrototype = function()
-   {
-      //call the wrapping version of get on all elements
-      getw();
-      //now make sure the getw function can't re-apply everything
-      getw = function()
-      {
-         return get.apply(this, arguments);
-      };
-   };
-}
 document.preload.opacitySupport = function()
 {
    Browser.supportsElementOpacity = ("opacity" in document.body.style);

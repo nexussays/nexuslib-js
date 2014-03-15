@@ -1,8 +1,8 @@
-﻿///<reference path="./core.js" />
-/**********************
-DEBUG
-**********************/
-var Debug = new (function()
+///<reference path="./core.js" />
+
+define(['./nnet.js'], function(){
+
+return new (function()
 {
    var self = this;
    //shows the members of the object that is debugged
@@ -411,4 +411,6 @@ var Benchmark = new (function()
 
         return { "execution": exec, "result": result, "ms": ms, "iterations": count, "msEach": ms / count };
     };
+});
+
 });
