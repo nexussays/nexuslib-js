@@ -5,7 +5,8 @@
 <title>Javascript Editor</title>
 <link href="./favicon.ico" rel="Shortcut Icon" />
 <link href="./styles/main.css" rel="stylesheet" type="text/css" />
-<script src="../bin/nnet.js" type="text/javascript"></script>
+<script src="../bin/nnet-with-require.js" type="text/javascript"></script>
+<script src="../bin/debug.js" type="text/javascript"></script>
 <script src="webtest.js" type="text/javascript"></script>
 <style type="text/css">
 textarea
@@ -49,6 +50,13 @@ img.hidden
 }
 </style>
 <script type="text/javascript">
+require([
+   "nnet/get",
+   "nnet/cookie",
+   "nnet/element",
+   "nnet/debug/debug"
+], function(get, Cookie, Element, Debug){
+
 var execute_text, showmembers, showoutput, catchtabs, output_executiondetails;
 var waitingImage;
 document.load.debug = function()
@@ -215,7 +223,7 @@ function out()
    //"convert" the items to strings so that null and undefined are actually written
    Debug.write(Array.prototype.map.call(arguments, function(x){return x += "";}).join("<br />"), false);
 }
-</script>
+});</script>
 </head>
 <body>
 <div id="nojavascript_error">

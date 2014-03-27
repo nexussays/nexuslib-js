@@ -1,5 +1,6 @@
-﻿
-var CreateMenu = function(id, buildFrom)
+﻿require(["nnet/get", "nnet/browser", "nnet/html"], function(get, Browser, HTML){
+
+window.CreateMenu = function(id, buildFrom)
 {
    if(buildFrom != null)
    {
@@ -50,7 +51,7 @@ CreateMenu.show = function()
    this.toggleCssClass("hover");
 };
 
-Sections = 
+window.Sections = 
 {
    Javascript : 
    {
@@ -70,3 +71,5 @@ Sections =
       ]
    }
 };
+
+}); // require
