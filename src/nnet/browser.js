@@ -3,8 +3,7 @@ define([], function(){
 //
 // 
 //
-var Browser =
-{
+return {
    isIE: /*@cc_on!@*/false,
    version: Math.floor(/*@if(@_jscript_version)(@_jscript_version - 5)@else@*/0/*@end@*/ * 10),
    strictMode: (document.compatMode == "CSS1Compat"),
@@ -33,7 +32,5 @@ var Browser =
    supportsCanvas: null,
    supportsElementOpacity: null
 };
-
-return Browser;
 
 }); // define

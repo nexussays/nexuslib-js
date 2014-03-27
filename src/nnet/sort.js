@@ -73,6 +73,6 @@ var SortBy =
    }
 };
 
-return Sort;
+return SortBy;
 
 }); // define

@@ -1,4 +1,4 @@
-define(['main'], function(){
+define(['nnet/debug/benchmark'], function(){
 
 return new (function()
 {

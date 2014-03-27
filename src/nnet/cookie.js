@@ -3,9 +3,11 @@ define([], function(){
 //
 // Provide easier access to browser cookies
 //
-var Cookie = new (function()
+return new (function()
 {
    var cookiesStore = {};
+
+   var self = this;
 
    this.getString = function(name)
    {
@@ -26,7 +28,7 @@ var Cookie = new (function()
 
    this.getJSON = function(name)
    {
-      var value = Cookie.getString(name), result;
+      var value = self.getString(name), result;
       try
       {
          result = value && evalJSON(value);
@@ -74,15 +76,13 @@ var Cookie = new (function()
 
    this.writeJSON = function(name, object, expiration, pathValue, secure)
    {
-      return Cookie.writeString(name, toJSON(object), expiration, pathValue, secure);
+      return self.writeString(name, toJSON(object), expiration, pathValue, secure);
    };
 
    this.expire = function(name)
    {
-      Cookie.writeString(name, "", -1);
+      self.writeString(name, "", -1);
    };
 })();
-
-return Cookie;
 
 }); // define

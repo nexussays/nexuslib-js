@@ -1,4 +1,4 @@
-define(['main'], function(){
+define([], function(){
 
 //
 // Methods to perform rudimentary performance benchmarks

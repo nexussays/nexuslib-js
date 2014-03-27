@@ -3,7 +3,7 @@ define(["nnet/element"], function(Element){
 //
 // Allows easy creation of HTML elements
 //
-var HTML = new (function()
+return new (function()
 {
    var self = this;
 
@@ -51,7 +51,5 @@ var HTML = new (function()
       "table", "tbody", "td", "textarea", "tfoot", "th", "thead", "title", "tr", "tt",
       "ul", "var"]).forEach(self.defineTag);
 });
-
-return HTML;
 
 }); // define

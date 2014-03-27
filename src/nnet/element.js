@@ -1,4 +1,4 @@
-define(["nnet/element"], function(){
+define(["nnet/get", "nnet/event"], function(get, wrapEvent){
 
 //
 // Extend HTML elements with additional functionality
@@ -112,7 +112,7 @@ var Element = new (function()
          var self = this;
          events[func] = function()
          {
-            func.call(self, NNet.Event(arguments[0]));
+            func.call(self, wrapEvent(arguments[0]));
          };
          if(objtype(this.addEventListener) == "function")
          {
@@ -201,5 +201,7 @@ var Element = new (function()
    delete name;
    delete apply;
 })();
+
+return Element;
 
 }); // define
