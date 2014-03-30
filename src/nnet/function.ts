@@ -1,10 +1,11 @@
-define(["nnet/event", "nnet/array"], function(wrapEvent){
+import Event = require("nnet/event");
+import ArrayUtils = require("nnet/array_utils");
 
 //
 // Function utilities and helpers
 //
 
-function applyAll(funcs, scope, params)
+export function applyAll(funcs, scope, params)
 {
    for(var x in funcs)
    {
@@ -15,10 +16,10 @@ function applyAll(funcs, scope, params)
    }
 }
 
-function applyAllWrapEvent(funcs, scope, params)
+export function applyAllWrapEvent(funcs, scope, params)
 {
-   var args = Array.toArray(params);
-   args[0] = wrapEvent(args[0]);
+   var args = ArrayUtils.toArray(params);
+   args[0] = new Event(args[0]);
    applyAll(funcs, scope, args);
    /*
    funcs.forEach(function(func)
@@ -30,10 +31,3 @@ function applyAllWrapEvent(funcs, scope, params)
    });
    //*/
 }
-
-return {
-   "applyAll": applyAll,
-   "applyAllWrapEvent": applyAllWrapEvent
-}
-
-}); // define
