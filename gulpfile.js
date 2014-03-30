@@ -20,9 +20,9 @@ var config =
       dest:
       {
          root: "bin",
-         compiled: "bin/js",
-         bundled: "bin/js-bundle",
-         minified: "bin/js-min"
+         compiled: "bin/raw",
+         bundled: "bin/bundled",
+         minified: "bin/min"
       }
    }
 };
@@ -34,14 +34,14 @@ config["requirejs"] =
    //r.js.cmd -o build.js optimize=none
    main:
    {
-      baseUrl: config.paths.dest.compiled,
       out: config.paths.dest.bundled + "/nnet.js",
-      //appDir: "./src",
+      //appDir: config.paths.dest.compiled,
+      baseUrl: config.paths.dest.compiled,
       //dir: "./bin",
-      exclude: [],
+      //exclude: [],
       //mainConfigFile: "./src/main.js",
       name: "main",
-      generateSourceMaps: true,
+      generateSourceMaps: false,
       optimize: "none"
    },
    builds:
@@ -49,6 +49,12 @@ config["requirejs"] =
       // just use default config above
       {},
       //r.js.cmd -o build.js optimize=none paths.requireLib=../node_modules/requirejs/require include=requireLib
+      {
+         out: config.paths.dest.bundled + "/nnet-self_loading.js",
+         include: ["../../lib/almond"],
+         //TODO: turn this back on once everything is properly wrapped
+         //wrap: true
+      },
       {
          out: config.paths.dest.bundled + "/nnet-with-require.js",
          paths:
@@ -81,7 +87,7 @@ gulp.task("compile-ts", function()
    // Compile TypeScript files
    return gulp.src(config.paths.src.ts)
       //.pipe(watch())
-      .pipe(changed(config.paths.src.root, { extension: '.js' }))
+      .pipe(changed(config.paths.dest.compiled, { extension: '.js' }))
       .pipe(tsc({
          emitError: false,
          module: 'amd',
