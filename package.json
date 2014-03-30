@@ -26,6 +26,7 @@
     "jshint-stylish": "^0.1.5",
     "gulp-clean": "^0.2.4",
     "gulp-uglify": "^0.2.1",
-    "gulp-rename": "^1.2.0"
+    "gulp-rename": "^1.2.0",
+    "gulp-changed": "^0.3.0"
   }
 }
