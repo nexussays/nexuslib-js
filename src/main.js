@@ -1,13 +1,8 @@
+/// <reference path="/lib/require.d.ts" />
 
 //
 // Use to package everything together with r.js
 //
-
-require.config(
-{
-   baseUrl: ".",
-   paths: { }
-});
 
 var NNet = {version : "0.10.0"};
 
@@ -16,12 +11,12 @@ function alertall()
    alert(Array.prototype.join.call(arguments, "\n"));
 }
 
-require(
+define(
 [
    'nnet/browser',
    'nnet/function',
    'nnet/element',
-   'core',
+   'nnet/core',
    'nnet/array',
    'nnet/color',
    'nnet/cookie',
