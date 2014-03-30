@@ -1,44 +1,48 @@
-var requirejs = require('./node_modules/requirejs/bin/r.js');
+var r = require('requirejs');
 
-var defaultConfig = {
-   baseUrl: "src",
-   out: "./bin/nnet.js",
-   //appDir: "./src",
-   //dir: "./bin",
-   exclude: [],
-   mainConfigFile: "./src/main.js",
-   name: "main",
-   generateSourceMaps: true,
-   optimize: "none"
-};
-
-function extend(using)
+function build(resultingConfig)
 {
+   resultingConfig = resultingConfig || {};
+   var defaultConfig = {
+      baseUrl: "src",
+      out: "./bin/nnet.js",
+      //appDir: "./src",
+      //dir: "./bin",
+      exclude: [],
+      mainConfigFile: "./src/main.js",
+      name: "main",
+      generateSourceMaps: true,
+      optimize: "none"
+   };
+
    for(var prop in defaultConfig)
    {
-      if(!(using.hasOwnProperty(prop)))
+      if(!(resultingConfig.hasOwnProperty(prop)))
       {
-         using[prop] = defaultConfig[prop];
+         resultingConfig[prop] = defaultConfig[prop];
       }
    }
-   return using;
+
+   // now run the optimizer
+   r.optimize(resultingConfig, console.log, console.err);
 }
 
 //r.js.cmd -o build.js optimize=none
-requirejs.optimize(defaultConfig, console.log, console.err);
+build();
 
 //r.js.cmd -o build.js optimize=none paths.requireLib=../node_modules/requirejs/require include=requireLib
-requirejs.optimize(extend({
+build({
    out: "./bin/nnet-with-require.js",
-   paths: {
+   paths:
+   {
       "requireLib": "../node_modules/requirejs/require"
    },
    include: ["requireLib"]
-}), console.log, console.err);
+});
 
 // build debug js
-requirejs.optimize(extend({
+build({
    out: "./bin/debug.js",
    mainConfigFile: "./src/nnet/debug/debug.js",
    name: "nnet/debug/debug"
-}), console.log, console.err);
+});

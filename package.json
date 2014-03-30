@@ -1,0 +1,31 @@
+{
+  "name": "nnet-js",
+  "version": "0.10.0",
+  "description": "Javascript utilities",
+  "main": "nnet.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nexussays/nnet-js.git"
+  },
+  "keywords": [
+    "javascript",
+    "typescript"
+  ],
+  "author": "Malachi Griffie <malachi@nexussays.com>",
+  "license": "MPL 2.0",
+  "devDependencies": {
+    "requirejs": "~2.1.11",
+    "typescript": "^0.9.7",
+    "gulp": "^3.6.0",
+    "gulp-tsc": "^0.6.0",
+    "gulp-jshint": "^1.5.1",
+    "gulp-watch": "^0.5.3",
+    "jshint-stylish": "^0.1.5",
+    "gulp-clean": "^0.2.4",
+    "gulp-uglify": "^0.2.1",
+    "gulp-rename": "^1.2.0"
+  }
+}
