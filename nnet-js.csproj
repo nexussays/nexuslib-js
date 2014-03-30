@@ -18,7 +18,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include=".gitignore" />
-    <Content Include="test\styles\app.css" />
+    <Content Include="lib\require.js" />
     <Content Include="bin\js-bundle\debug.js" />
     <Content Include="bin\js-bundle\nnet-with-require.js" />
     <Content Include="bin\js-bundle\nnet.js" />
@@ -47,20 +47,21 @@
     <Content Include="bin\js\nnet\using.js" />
     <Content Include="etc\file-template.txt" />
     <Content Include="gulpfile.js" />
-    <Content Include="test\index.htm" />
-    <Content Include="src\core.js" />
     <Content Include="src\main.js" />
-    <Content Include="src\nnet\array.js" />
-    <Content Include="src\nnet\browser.js" />
+    <TypeScriptCompile Include="src\nnet\array.ts" />
+    <Content Include="test\index.htm" />
+    <Content Include="src\nnet\core.js" />
+    <Content Include="src\nnet\_array.js" />
+    <TypeScriptCompile Include="src\nnet\browser.ts" />
     <Content Include="src\nnet\color.js" />
     <Content Include="src\nnet\cookie.js" />
     <Content Include="src\nnet\debug\benchmark.js" />
     <Content Include="src\nnet\debug\debug.js" />
     <Content Include="src\nnet\element.js" />
     <Content Include="src\nnet\error.js" />
-    <Content Include="src\nnet\event.js" />
+    <TypeScriptCompile Include="src\nnet\array_utils.ts" />
+    <TypeScriptCompile Include="src\nnet\event.ts" />
     <Content Include="src\nnet\form.js" />
-    <Content Include="src\nnet\function.js" />
     <Content Include="src\nnet\get.js" />
     <Content Include="src\nnet\html.js" />
     <Content Include="src\nnet\http.js" />
@@ -108,8 +109,10 @@
     <Content Include="_old\tools\scripts\CSS_Font_Recommended.js" />
     <Content Include="_old\tools\scripts\CSS_Font_Test_Page.js" />
     <Content Include="_old\tools\scripts\Utility_functions.js" />
+    <TypeScriptCompile Include="src\nnet\function.ts" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="lib\require.d.ts" />
     <TypeScriptCompile Include="src\app.ts" />
   </ItemGroup>
   <ItemGroup>
@@ -154,6 +157,7 @@
     <TypeScriptRemoveComments>false</TypeScriptRemoveComments>
     <TypeScriptSourceMap>true</TypeScriptSourceMap>
     <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
+    <TypeScriptOutDir>\bin\js</TypeScriptOutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <TypeScriptTarget>ES5</TypeScriptTarget>
