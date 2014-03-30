@@ -1,4 +1,4 @@
-define([], function(){
+define(["nnet/array_utils"], function(ArrayUtils){
 
 /// Usage:      get(args)
 /// Parameters: 0 - many; space-seperated strings of element identifiers
@@ -117,7 +117,7 @@ function get()
                      }
                      else
                      {
-                        result = Array.toArray(result);
+                        result = ArrayUtils.toArray(result);
                      }
                   }
                } //else / /.test(query)
@@ -184,7 +184,7 @@ get.byName = function(name, tag)
 };
 get.byTag = function(tag)
 {
-   var result = Array.toArray((this === get ? document : this).getElementsByTagName(tag || "*"));
+   var result = ArrayUtils.toArray((this === get ? document : this).getElementsByTagName(tag || "*"));
    result.__get = true;
    return result;
 };
