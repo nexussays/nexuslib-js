@@ -1,6 +1,8 @@
 Thumbs.db
 .DS_Store
 bin/
+obj/
 node_modules/
 *.user
 *.suo
+*.map
