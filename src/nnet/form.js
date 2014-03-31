@@ -1,4 +1,4 @@
-define(["nnet/get"], function(get){
+define(["nnet/dom/get"], function(get){
 
 //
 // 

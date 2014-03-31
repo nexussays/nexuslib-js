@@ -1,4 +1,4 @@
-define(["nnet/get", "nnet/event"], function(get, wrapEvent){
+define(["nnet/dom/get", "nnet/event"], function(get, wrapEvent){
 
 //
 // Extend HTML elements with additional functionality

@@ -1,8 +1,9 @@
-export = Browser;
+/// <reference path="../../lib/modernizr.d.ts"/>
 
 /**
  * Should probably be using modernizr instead; this code is nearly a decade old.
  */
+export = Browser;
 module Browser
 {
    declare class HTMLElement

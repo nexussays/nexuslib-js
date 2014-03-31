@@ -1,4 +1,4 @@
-define(["nnet/get", "nnet/html"], function(get, HTML){
+define(["nnet/dom/get", "nnet/html/html"], function(get, HTML){
 
 //
 // ADD SCRIPT

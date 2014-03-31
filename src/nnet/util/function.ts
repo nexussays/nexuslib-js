@@ -1,5 +1,5 @@
 import Event = require("nnet/event");
-import ArrayUtils = require("nnet/array_utils");
+import ArrayUtils = require("nnet/util/array_utils");
 
 //
 // Function utilities and helpers

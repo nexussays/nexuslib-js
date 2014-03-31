@@ -1,4 +1,4 @@
-define(["nnet/element"], function(Element){
+define(["nnet/html/element"], function(Element){
 
 //
 // Allows easy creation of HTML elements

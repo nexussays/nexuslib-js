@@ -18,55 +18,31 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include=".gitignore" />
+    <Content Include="lib\almond.js" />
     <Content Include="lib\require.js" />
-    <Content Include="bin\js-bundle\debug.js" />
-    <Content Include="bin\js-bundle\nnet-with-require.js" />
-    <Content Include="bin\js-bundle\nnet.js" />
-    <Content Include="bin\js-min\debug.min.js" />
-    <Content Include="bin\js-min\nnet-with-require.min.js" />
-    <Content Include="bin\js-min\nnet.min.js" />
-    <Content Include="bin\js\core.js" />
-    <Content Include="bin\js\greeter.js" />
-    <Content Include="bin\js\main.js" />
-    <Content Include="bin\js\nnet\array.js" />
-    <Content Include="bin\js\nnet\browser.js" />
-    <Content Include="bin\js\nnet\color.js" />
-    <Content Include="bin\js\nnet\cookie.js" />
-    <Content Include="bin\js\nnet\debug\benchmark.js" />
-    <Content Include="bin\js\nnet\debug\debug.js" />
-    <Content Include="bin\js\nnet\element.js" />
-    <Content Include="bin\js\nnet\error.js" />
-    <Content Include="bin\js\nnet\event.js" />
-    <Content Include="bin\js\nnet\form.js" />
-    <Content Include="bin\js\nnet\function.js" />
-    <Content Include="bin\js\nnet\get.js" />
-    <Content Include="bin\js\nnet\html.js" />
-    <Content Include="bin\js\nnet\http.js" />
-    <Content Include="bin\js\nnet\sort.js" />
-    <Content Include="bin\js\nnet\string.js" />
-    <Content Include="bin\js\nnet\using.js" />
-    <Content Include="etc\file-template.txt" />
     <Content Include="gulpfile.js" />
     <Content Include="src\main.js" />
-    <TypeScriptCompile Include="src\nnet\array.ts" />
-    <Content Include="test\index.htm" />
+    <TypeScriptCompile Include="lib\modernizr.d.ts" />
+    <TypeScriptCompile Include="src\nnet\net\IHttpResponse.ts" />
+    <TypeScriptCompile Include="src\nnet\util\array.ts" />
+    <Content Include="src\nnet\load.js" />
     <Content Include="src\nnet\core.js" />
-    <Content Include="src\nnet\_array.js" />
+    <Content Include="src\nnet\util\_array.js" />
     <TypeScriptCompile Include="src\nnet\browser.ts" />
     <Content Include="src\nnet\color.js" />
     <Content Include="src\nnet\cookie.js" />
     <Content Include="src\nnet\debug\benchmark.js" />
     <Content Include="src\nnet\debug\debug.js" />
-    <Content Include="src\nnet\element.js" />
-    <Content Include="src\nnet\error.js" />
-    <TypeScriptCompile Include="src\nnet\array_utils.ts" />
+    <Content Include="src\nnet\html\element.js" />
+    <TypeScriptCompile Include="src\nnet\error.ts" />
+    <TypeScriptCompile Include="src\nnet\util\array_utils.ts" />
     <TypeScriptCompile Include="src\nnet\event.ts" />
     <Content Include="src\nnet\form.js" />
-    <Content Include="src\nnet\get.js" />
-    <Content Include="src\nnet\html.js" />
-    <Content Include="src\nnet\http.js" />
+    <Content Include="src\nnet\dom\get.js" />
+    <Content Include="src\nnet\html\html.js" />
+    <TypeScriptCompile Include="src\nnet\net\HttpRequest.ts" />
     <Content Include="src\nnet\sort.js" />
-    <Content Include="src\nnet\string.js" />
+    <Content Include="src\nnet\util\string.js" />
     <Content Include="src\nnet\using.js" />
     <Content Include="test\editor.htm" />
     <Content Include="test\images\bkgd.png" />
@@ -92,35 +68,15 @@
     <Content Include="test\images\waiting_squares.gif" />
     <Content Include="test\styles\main.css" />
     <Content Include="test\webtest.js" />
-    <Content Include="_old\debug_page.htm" />
-    <Content Include="_old\debug_page_dimensions.htm" />
-    <Content Include="_old\dev.js" />
-    <Content Include="_old\events.htm" />
-    <Content Include="_old\extras.js" />
-    <Content Include="_old\regexp.htm" />
-    <Content Include="_old\tests\dom_selectors.htm" />
-    <Content Include="_old\tests\element_methods.htm" />
-    <Content Include="_old\tests\index.htm" />
-    <Content Include="_old\tools\array_it.htm" />
-    <Content Include="_old\tools\array_it.js" />
-    <Content Include="_old\tools\CSS_Font_Recommended.htm" />
-    <Content Include="_old\tools\CSS_Font_Test_Page.htm" />
-    <Content Include="_old\tools\list_it.htm" />
-    <Content Include="_old\tools\scripts\CSS_Font_Recommended.js" />
-    <Content Include="_old\tools\scripts\CSS_Font_Test_Page.js" />
-    <Content Include="_old\tools\scripts\Utility_functions.js" />
-    <TypeScriptCompile Include="src\nnet\function.ts" />
+    <TypeScriptCompile Include="src\nnet\util\function.ts" />
+    <TypeScriptCompile Include="src\nnet\util\ObjectUtils.ts" />
+    <TypeScriptCompile Include="src\nnet\util\WindowUtils.ts" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="lib\require.d.ts" />
     <TypeScriptCompile Include="src\app.ts" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="etc\nnet-sublime.file-template" />
-    <Content Include="etc\notes.md" />
-    <Content Include="bin\js-bundle\debug.js.map" />
-    <Content Include="bin\js-bundle\nnet-with-require.js.map" />
-    <Content Include="bin\js-bundle\nnet.js.map" />
     <Content Include="LICENSE" />
     <Content Include="package.json" />
     <Content Include="README.md" />
@@ -157,7 +113,7 @@
     <TypeScriptRemoveComments>false</TypeScriptRemoveComments>
     <TypeScriptSourceMap>true</TypeScriptSourceMap>
     <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
-    <TypeScriptOutDir>\bin\js</TypeScriptOutDir>
+    <TypeScriptOutDir>./compiled</TypeScriptOutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <TypeScriptTarget>ES5</TypeScriptTarget>
@@ -167,6 +123,6 @@
   </PropertyGroup>
   <Import Project="$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets')" />
   <PropertyGroup>
-    <PreBuildEvent>gulp compile</PreBuildEvent>
+    <PreBuildEvent>gulp build</PreBuildEvent>
   </PropertyGroup>
 </Project>

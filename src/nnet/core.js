@@ -1,34 +1,6 @@
 /**********************
 OBJECT
 **********************/
-Object.keys = function(obj)
-{
-   var arr = [];
-   for(var prop in obj)
-   {
-      arr.push(prop);
-   }
-   return arr;
-};
-Object.map = function(obj, keyFunc, valFunc)
-{
-   var newObj = {};
-   for(var x in obj)
-   {
-      newObj[(keyFunc ? keyFunc(x) : x)] = (valFunc ? valFunc(obj[x]) : obj[x]);
-   }
-   return newObj;
-};
-Object.join = function(obj, join)
-{
-   var result = [];
-   join = join || "";
-   for(var x in obj)
-   {
-      result.push(x + join + obj[x]);
-   }
-   return result;
-}
 function objtype(obj)
 {
    var type = typeof obj;

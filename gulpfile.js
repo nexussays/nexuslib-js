@@ -20,9 +20,9 @@ var config =
       dest:
       {
          root: "bin",
-         compiled: "bin/raw",
+         compiled: "bin/compiled",
          bundled: "bin/bundled",
-         minified: "bin/min"
+         minified: "bin/bundled"
       }
    }
 };
@@ -72,43 +72,15 @@ config["requirejs"] =
    ]
 };
 
-gulp.task("default", ["compile"]);
-
-gulp.task("build", ["compress"]);
+gulp.task("default", ["build"]);
 
 gulp.task("watch", function()
 {
    gulp.watch(config.paths.src.ts, ["compile-ts"]);
-   gulp.watch(config.paths.src.js, ["compile"]);
+   gulp.watch(config.paths.src.js, ["copy-js"]);
 });
 
-gulp.task("compile-ts", function()
-{
-   // Compile TypeScript files
-   return gulp.src(config.paths.src.ts)
-      //.pipe(watch())
-      .pipe(changed(config.paths.dest.compiled, { extension: '.js' }))
-      .pipe(tsc({
-         emitError: false,
-         module: 'amd',
-         target: 'ES3',
-         sourcemap: true,
-         outDir: config.paths.dest.compiled
-      }))
-      .pipe(gulp.dest(config.paths.dest.compiled));
-});
-
-gulp.task("compile", ["compile-ts"], function()
-{
-   // just straight copy any js files that have yet to be converted to TS
-   return gulp.src(config.paths.src.js)
-      .pipe(changed(config.paths.dest.compiled))
-      .pipe(gulp.dest(config.paths.dest.compiled))
-      //.pipe(jshint())
-      //.pipe(jshint.reporter("jshint-stylish"));
-});
-
-gulp.task("bundle", ["compile"], function(done)
+gulp.task("build", ["compile-ts", "copy-js"], function(done)
 {
    var r = require("requirejs");
 
@@ -134,9 +106,9 @@ gulp.task("bundle", ["compile"], function(done)
    done();
 });
 
-gulp.task("compress", ["bundle"], function()
+gulp.task("compress", ["build"], function()
 {
-   return gulp.src(config.paths.dest.bundled + "/**/*.js")
+   return gulp.src([config.paths.dest.bundled + "/**/*.js", "!" + config.paths.dest.bundled + "/**/*.min.js"])
       .pipe(rename({suffix: '.min'}))
       .pipe(changed(config.paths.dest.minified))
       .pipe(uglify())
@@ -147,4 +119,57 @@ gulp.task("clean", function()
 {
    return gulp.src(config.paths.dest.root, {read: false})
       .pipe(clean());
+});
+
+gulp.task("compile-ts", function()
+{
+   // Compile TypeScript files
+   return gulp.src(config.paths.src.ts)
+      //.pipe(watch())
+      .pipe(changed(config.paths.dest.compiled, { extension: '.js' }))
+      .pipe(tsc({
+         emitError: false,
+         module: 'amd',
+         target: 'ES3',
+         sourcemap: true,
+         outDir: config.paths.dest.compiled
+      }))
+      .pipe(gulp.dest(config.paths.dest.compiled));
+});
+
+gulp.task("copy-js", function()
+{
+   // just straight copy any js files that have yet to be converted to TS
+   return gulp.src(config.paths.src.js)
+      .pipe(changed(config.paths.dest.compiled))
+      .pipe(gulp.dest(config.paths.dest.compiled))
+      //.pipe(jshint())
+      //.pipe(jshint.reporter("jshint-stylish"));
+});
+
+// compile TypeScript using various compiler flags to more easily compare
+// the generated output with the original source
+gulp.task("ts-full", function()
+{
+   gulp.src(config.paths.src.ts)
+      //.pipe(watch())
+      .pipe(changed(config.paths.dest.root + "/ts/amd", { extension: '.js' }))
+      .pipe(tsc({
+         emitError: true,
+         module: 'amd',
+         target: 'ES3',
+         sourcemap: true,
+         outDir: config.paths.dest.root + "/ts/amd"
+      }))
+      .pipe(gulp.dest(config.paths.dest.root + "/ts/amd"));
+   gulp.src(config.paths.src.ts)
+      .pipe(changed(config.paths.dest.root + "/ts/commonjs", { extension: '.js' }))
+      .pipe(tsc({
+         emitError: true,
+         //module: 'amd',
+         target: 'ES3',
+         sourcemap: true,
+         outDir: config.paths.dest.root + "/ts/commonjs"
+      }))
+      .pipe(gulp.dest(config.paths.dest.root + "/ts/commonjs"));
 });
