@@ -1,4 +1,4 @@
-define(['nnet/debug/benchmark'], function(){
+define([], function(){
 
 return new (function()
 {
@@ -342,9 +342,9 @@ return new (function()
       if(tests.length > 0)
       {
          //run the tests
-         tests.map$(function(z) { return [z[0], tryIt(z[1])]; });
+         tests = tests.map(function(z) { return [z[0], tryIt(z[1])]; });
          //join the inner arrays
-         tests.map$(function(z) { return "\t\t<p>" + z.join("</p>\n\t\t<div>") + "</div>"; });
+         tests = tests.map(function(z) { return "\t\t<p>" + z.join("</p>\n\t\t<div>") + "</div>"; });
          //setup the html
          tests = "<ul class=\"tests\">\n" +
                  "\t<li>\n" + tests.join("\n</li>\n\t<li>\n") + "\n\t</li>\n" +

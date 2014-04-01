@@ -1,13 +1,14 @@
-requirejs.config({ paths: { nnet: '../bin/js/nnet' } });
+requirejs.config({ paths: { nnet: '../../bin/compiled/nnet', bin: '../../bin/compiled' } });
 require([
-   "../bin/js/main",
-   "nnet/get",
+   "bin/nnet",
+   "nnet/dom/get",
    "nnet/cookie",
-   "nnet/element",
-   "nnet/debug/debug",
-   "nnet/browser",
+   "nnet/html/element",
+   "./debug",
+   "nnet/BrowserUtils",
    "nnet/event",
-   "./webtest"
+   "./webtest",
+   "./benchmark",
 ], function(_, get, Cookie, Element, Debug, Browser, Event){
 
 //console.log("EDITOR");

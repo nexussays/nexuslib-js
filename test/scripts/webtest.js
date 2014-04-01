@@ -1,4 +1,6 @@
-﻿define(["nnet/get", "nnet/browser", "nnet/html"], function(get, Browser, HTML){
+﻿define(
+["nnet/dom/get", "nnet/BrowserUtils", "nnet/html/html"],
+function (get, Browser, HTML) {
 
 window.CreateMenu = function(id, buildFrom)
 {
