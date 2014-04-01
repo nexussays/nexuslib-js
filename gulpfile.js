@@ -26,6 +26,7 @@ var config =
       }
    }
 };
+config["package"] = require('./package.json');
 // define after setting config initially so we can use existing config values
 config["requirejs"] = 
 {
@@ -40,7 +41,7 @@ config["requirejs"] =
       //dir: "./bin",
       //exclude: [],
       //mainConfigFile: "./src/main.js",
-      name: "main",
+      name: "nnet",
       generateSourceMaps: false,
       optimize: "none"
    },
@@ -55,6 +56,7 @@ config["requirejs"] =
          //TODO: turn this back on once everything is properly wrapped
          //wrap: true
       },
+      /*
       {
          out: config.paths.dest.bundled + "/nnet-with-require.js",
          paths:
@@ -68,7 +70,7 @@ config["requirejs"] =
          out: config.paths.dest.bundled + "/debug.js",
          //mainConfigFile: "./src/nnet/debug/debug.js",
          name: "nnet/debug/debug"
-      }
+      }*/
    ]
 };
 
@@ -80,7 +82,7 @@ gulp.task("watch", function()
    gulp.watch(config.paths.src.js, ["copy-js"]);
 });
 
-gulp.task("build", ["compile-ts", "copy-js", "generate-namespace-roots-js"], function(done)
+gulp.task("build", ["compile-ts", "copy-js", "generate-module-index-js"], function(done)
 {
    var r = require("requirejs");
 
@@ -117,7 +119,11 @@ gulp.task("compress", ["build"], function()
 
 gulp.task("clean", function()
 {
-   return gulp.src(config.paths.dest.root, {read: false})
+   return gulp.src([
+         config.paths.dest.compiled,
+         config.paths.dest.bundled,
+         config.paths.dest.minified
+      ], {read: false})
       .pipe(clean());
 });
 
@@ -174,10 +180,10 @@ gulp.task("ts-full", function()
       .pipe(gulp.dest(config.paths.dest.root + "/ts/commonjs"));
 });
 
-gulp.task("generate-namespace-roots-ts", function(done)
+gulp.task("generate-module-index-ts", function(done)
 {
    generateModuleRoots(
-      './build/pkg-ts.mustache',
+      './build/module-index-ts.mustache',
       config.paths.src.root,
       (/\.ts$/),
       ".ts",
@@ -187,10 +193,10 @@ gulp.task("generate-namespace-roots-ts", function(done)
    done();
 });
 
-gulp.task("generate-namespace-roots-js", ["compile-ts", "copy-js"], function(done)
+gulp.task("generate-module-index-js", ["compile-ts", "copy-js"], function(done)
 {
    generateModuleRoots(
-      './build/pkg-js.mustache',
+      './build/module-index-js.mustache',
       config.paths.dest.compiled,
       (/\.js$/),
       ".js"
@@ -204,7 +210,6 @@ gulp.task("generate-namespace-roots-js", ["compile-ts", "copy-js"], function(don
 // Utility functions
 //
 
-// use mout build scripts to
 var _fs   = require('fs');
 var _path = require('path');
 var _mustache = require('mustache');
@@ -223,7 +228,8 @@ function generateModuleRoots(template, root, fileFilter, ext, basename)
       var dir = _path.join(root, item);
       var files = getFiles(root, item, fileFilter);
       //get parent directory and create js file with name of the current dir
-      var newFile = _path.join(_path.resolve(dir, ".."), _path.basename(item) + ext);
+      var newFileName = _path.basename(item) + ext;
+      var newFile = _path.join(_path.resolve(dir, ".."), newFileName);
       if(files.length > 0)
       {
          files = files.map(function(name)
@@ -246,7 +252,13 @@ function generateModuleRoots(template, root, fileFilter, ext, basename)
          //console.log(newFile);
          //console.log(files);
 
-         var renderedFile = _mustache.render(template, {"path": item, "files": files});
+         var model = {"path": item, "files": files};
+         if(newFileName == config.package.main)
+         {
+            model["version"] = config.package.version;
+         }
+
+         var renderedFile = _mustache.render(template, model);
 
          //console.log(renderedFile + "");
          _fs.writeFileSync(newFile, renderedFile, 'utf-8');
