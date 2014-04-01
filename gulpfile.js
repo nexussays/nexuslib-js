@@ -14,7 +14,7 @@ var config =
       src:
       {
          root: "src",
-         ts: "src/**/*.ts",
+         ts: ["src/**/*.ts", "!src/**/*.d.ts"],
          js: "src/**/*.js"
       },
       dest:
@@ -80,7 +80,7 @@ gulp.task("watch", function()
    gulp.watch(config.paths.src.js, ["copy-js"]);
 });
 
-gulp.task("build", ["compile-ts", "copy-js"], function(done)
+gulp.task("build", ["compile-ts", "copy-js", "generate-namespace-roots-js"], function(done)
 {
    var r = require("requirejs");
 
@@ -173,3 +173,122 @@ gulp.task("ts-full", function()
       }))
       .pipe(gulp.dest(config.paths.dest.root + "/ts/commonjs"));
 });
+
+gulp.task("generate-namespace-roots-ts", function(done)
+{
+   generateModuleRoots(
+      './build/pkg-ts.mustache',
+      config.paths.src.root,
+      (/\.ts$/),
+      ".ts",
+      [".ts", ".d"]
+   );
+
+   done();
+});
+
+gulp.task("generate-namespace-roots-js", ["compile-ts", "copy-js"], function(done)
+{
+   generateModuleRoots(
+      './build/pkg-js.mustache',
+      config.paths.dest.compiled,
+      (/\.js$/),
+      ".js"
+   );
+
+   done();
+});
+
+
+//
+// Utility functions
+//
+
+// use mout build scripts to
+var _fs   = require('fs');
+var _path = require('path');
+var _mustache = require('mustache');
+
+function generateModuleRoots(template, root, fileFilter, ext, basename)
+{
+   basename = basename || ext;
+
+   var template = _fs.readFileSync(template).toString();
+   _mustache.parse(template);
+
+   var src = getDirs(root, "nnet");
+   src.forEach(function(item)
+   {
+      //console.log(item);
+      var dir = _path.join(root, item);
+      var files = getFiles(root, item, fileFilter);
+      //get parent directory and create js file with name of the current dir
+      var newFile = _path.join(_path.resolve(dir, ".."), _path.basename(item) + ext);
+      if(files.length > 0)
+      {
+         files = files.map(function(name)
+         {
+            // to account for .d.ts files when generating TypeScript code
+            if(Array.isArray(basename))
+            {
+               for(var x = 0; x < basename.length; ++x)
+               {
+                  name = _path.basename(name, basename[x]);
+               }
+               return name;
+            }
+            else
+            {
+               return _path.basename(name, basename);
+            }
+         });
+
+         //console.log(newFile);
+         //console.log(files);
+
+         var renderedFile = _mustache.render(template, {"path": item, "files": files});
+
+         //console.log(renderedFile + "");
+         _fs.writeFileSync(newFile, renderedFile, 'utf-8');
+      }
+   });
+}
+function getDirs(baseExclude, baseInclude)
+{
+   var result = [ baseInclude ];
+   var dirs = [ baseInclude ];
+   while(dirs.length > 0)
+   {
+      var dir = dirs.pop();
+      var contents = _fs.readdirSync( _path.normalize(_path.join(baseExclude, dir)) );
+      for(var x = 0; x < contents.length; ++x)
+      {
+         var name = contents[x];
+         var file = dir + "/" + name; //path.join uses \ on Windows
+         var stats = _fs.statSync(_path.join(baseExclude, file));
+         if(name[0] != "." && stats.isDirectory())
+         {
+            dirs.push(file);
+            result.push(file);
+         }
+      }
+   }
+   return result.sort();
+}
+
+function getFiles(baseExclude, dir, allowed)
+{
+   var contents = _fs.readdirSync( _path.normalize(_path.join(baseExclude, dir)) );
+   for(var x = contents.length - 1; x >= 0; --x)
+   {
+      var name = contents[x];
+      var file = _path.join(dir, name);
+      var filePath = _path.join(baseExclude, file);
+      var stats = _fs.statSync(filePath);
+      if(!stats.isFile() || !allowed.test(file))
+      {
+         contents.splice(x, 1);
+      }
+   }
+   return contents.sort();
+}
