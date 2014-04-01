@@ -224,7 +224,6 @@ function generateModuleRoots(template, root, fileFilter, ext, basename)
    var src = getDirs(root, "nnet");
    src.forEach(function(item)
    {
-      //console.log(item);
       var dir = _path.join(root, item);
       var files = getFiles(root, item, fileFilter);
       //get parent directory and create js file with name of the current dir
@@ -285,7 +284,8 @@ function getDirs(baseExclude, baseInclude)
          }
       }
    }
-   return result.sort();
+   // reverse sort so highest depth is first
+   return result.sort().reverse();
 }
 
 function getFiles(baseExclude, dir, allowed)
