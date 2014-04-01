@@ -1,4 +1,4 @@
-define(["nnet/util/array_utils"], function(ArrayUtils){
+define(["nnet/util/ArrayUtils"], function(ArrayUtils){
 
 /// Usage:      get(args)
 /// Parameters: 0 - many; space-seperated strings of element identifiers

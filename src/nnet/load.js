@@ -1,7 +1,7 @@
 ﻿define(
 [
-   'nnet/browser',
-   'nnet/util/function',
+   'nnet/BrowserUtils',
+   'nnet/util/FunctionUtils',
    'nnet/html/element'
 ], function(Browser, FunctionUtils, Element)
 {

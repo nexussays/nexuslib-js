@@ -1,10 +1,16 @@
+// Copyright Malachi Griffie <malachi@nexussays.com>
+//
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
 /// <reference path="../../lib/modernizr.d.ts"/>
 
 /**
  * Should probably be using modernizr instead; this code is nearly a decade old.
  */
-export = Browser;
-module Browser
+export = BrowserUtils;
+module BrowserUtils
 {
    declare class HTMLElement
    {

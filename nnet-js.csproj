@@ -23,19 +23,20 @@
     <Content Include="gulpfile.js" />
     <Content Include="src\main.js" />
     <TypeScriptCompile Include="lib\modernizr.d.ts" />
-    <TypeScriptCompile Include="src\nnet\net\IHttpResponse.ts" />
-    <TypeScriptCompile Include="src\nnet\util\array.ts" />
+    <TypeScriptCompile Include="src\nnet.ts" />
+    <TypeScriptCompile Include="src\nnet\net.ts" />
+    <TypeScriptCompile Include="src\nnet\net\IHttpResponse.d.ts" />
+    <TypeScriptCompile Include="src\nnet\util.ts" />
     <Content Include="src\nnet\load.js" />
     <Content Include="src\nnet\core.js" />
-    <Content Include="src\nnet\util\_array.js" />
-    <TypeScriptCompile Include="src\nnet\browser.ts" />
+    <TypeScriptCompile Include="src\nnet\BrowserUtils.ts" />
     <Content Include="src\nnet\color.js" />
     <Content Include="src\nnet\cookie.js" />
     <Content Include="src\nnet\debug\benchmark.js" />
     <Content Include="src\nnet\debug\debug.js" />
     <Content Include="src\nnet\html\element.js" />
     <TypeScriptCompile Include="src\nnet\error.ts" />
-    <TypeScriptCompile Include="src\nnet\util\array_utils.ts" />
+    <TypeScriptCompile Include="src\nnet\util\ArrayUtils.ts" />
     <TypeScriptCompile Include="src\nnet\event.ts" />
     <Content Include="src\nnet\form.js" />
     <Content Include="src\nnet\dom\get.js" />
@@ -68,13 +69,12 @@
     <Content Include="test\images\waiting_squares.gif" />
     <Content Include="test\styles\main.css" />
     <Content Include="test\webtest.js" />
-    <TypeScriptCompile Include="src\nnet\util\function.ts" />
+    <TypeScriptCompile Include="src\nnet\util\FunctionUtils.ts" />
     <TypeScriptCompile Include="src\nnet\util\ObjectUtils.ts" />
     <TypeScriptCompile Include="src\nnet\util\WindowUtils.ts" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="lib\require.d.ts" />
-    <TypeScriptCompile Include="src\app.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="LICENSE" />
@@ -113,7 +113,7 @@
     <TypeScriptRemoveComments>false</TypeScriptRemoveComments>
     <TypeScriptSourceMap>true</TypeScriptSourceMap>
     <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
-    <TypeScriptOutDir>./compiled</TypeScriptOutDir>
+    <TypeScriptOutDir>./bin/compiled</TypeScriptOutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <TypeScriptTarget>ES5</TypeScriptTarget>

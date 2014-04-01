@@ -1,5 +1,8 @@
-export = Event;
 
+/**
+ * Wraps native events and provides additional information
+ */
+export = Event;
 class Event
 {
    mouse = {};
@@ -20,12 +23,12 @@ class Event
    constructor(evt)
    {
       this.e = evt || window.event;
-      // make sure we're not recursively passing one of our Event instances to this constructor
       if(!this.e)
       {
          return;
       }
 
+      // make sure we're not recursively passing one of our Event instances to this constructor
       //if(this.e.__extended === true)
       //{
       //   this = this.e;
