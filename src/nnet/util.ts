@@ -14,3 +14,4 @@ export import array = require('nnet/util/array');
 export import obj = require('nnet/util/obj');
 export import serialization = require('nnet/util/serialization');
 export import string = require('nnet/util/string');
+export import using = require('nnet/util/using');

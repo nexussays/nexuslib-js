@@ -1,10 +1,3 @@
-//generates a random integer between the high and low values, inclusive
-//if no value is provided for the respective argument, the defaults of 0 (low) and 1 (high) are used
-Math.randomInt = function(low, high)
-{
-   var L = parseInt(low, 10) || 0, H = parseInt(high, 10) || 1;
-   return Math.floor( (Math.random() * (H - L + 1)) + L );
-};
 Number.prototype.days = function()
 {
    return this * (24).hours();

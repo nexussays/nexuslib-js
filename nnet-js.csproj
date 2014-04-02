@@ -29,12 +29,26 @@
     <TypeScriptCompile Include="src\nnet\dom\DOM.ts" />
     <TypeScriptCompile Include="src\nnet\error.ts" />
     <TypeScriptCompile Include="src\nnet\event.ts" />
+    <TypeScriptCompile Include="src\nnet\graphics.ts" />
+    <TypeScriptCompile Include="src\nnet\graphics\Color.ts" />
+    <TypeScriptCompile Include="src\nnet\html.ts" />
+    <TypeScriptCompile Include="src\nnet\math.ts" />
+    <TypeScriptCompile Include="src\nnet\math\asUnsigned.ts" />
+    <TypeScriptCompile Include="src\nnet\math\clamp.ts" />
+    <TypeScriptCompile Include="src\nnet\math\distance.ts" />
+    <TypeScriptCompile Include="src\nnet\math\matchSign.ts" />
+    <TypeScriptCompile Include="src\nnet\math\mean.ts" />
+    <TypeScriptCompile Include="src\nnet\math\Random.ts" />
+    <TypeScriptCompile Include="src\nnet\math\sign.ts" />
+    <TypeScriptCompile Include="src\nnet\math\toDegrees.ts" />
+    <TypeScriptCompile Include="src\nnet\math\toRadians.ts" />
+    <TypeScriptCompile Include="src\nnet\math\wrapAngleDegrees.ts" />
+    <TypeScriptCompile Include="src\nnet\math\wrapAngleRadians.ts" />
     <TypeScriptCompile Include="src\nnet\net.ts" />
     <TypeScriptCompile Include="src\nnet\net\IHttpResponse.d.ts" />
     <TypeScriptCompile Include="src\nnet\util.ts" />
     <Content Include="src\nnet\core.js" />
     <TypeScriptCompile Include="src\nnet\browser\BrowserUtils.ts" />
-    <Content Include="src\nnet\color.js" />
     <TypeScriptCompile Include="src\nnet\browser\Cookie.ts" />
     <TypeScriptCompile Include="src\nnet\dom\Element.ts" />
     <TypeScriptCompile Include="src\nnet\error\NNetError.ts" />
@@ -61,7 +75,7 @@
     <TypeScriptCompile Include="src\nnet\util\obj\Types.ts" />
     <TypeScriptCompile Include="src\nnet\util\serialization.ts" />
     <TypeScriptCompile Include="src\nnet\util\serialization\json.ts" />
-    <TypeScriptCompile Include="src\nnet\using.ts" />
+    <TypeScriptCompile Include="src\nnet\util\using.ts" />
     <Content Include="test\editor.htm" />
     <Content Include="test\images\bkgd.png" />
     <Content Include="test\images\block.png" />
@@ -104,7 +118,8 @@
     <Content Include="README.md" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="src\nnet\math\" />
+    <TypeScriptCompile Include="src\nnet\math\IPRNG.ts" />
+    <TypeScriptCompile Include="src\nnet\math\NativeRandomGenerator.ts" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="src\nnet\util\serialization\json\IJsonSerializable.ts" />
@@ -138,7 +153,7 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-    <TypeScriptTarget>ES3</TypeScriptTarget>
+    <TypeScriptTarget>ES5</TypeScriptTarget>
     <TypeScriptRemoveComments>false</TypeScriptRemoveComments>
     <TypeScriptSourceMap>true</TypeScriptSourceMap>
     <TypeScriptModuleKind>AMD</TypeScriptModuleKind>

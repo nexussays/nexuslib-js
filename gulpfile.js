@@ -26,6 +26,14 @@ var config =
       }
    }
 };
+config["typescript"] =
+{
+   emitError: false,
+   module: 'amd',
+   target: 'ES5',
+   sourcemap: true,
+   outDir: config.paths.dest.compiled
+};
 config["package"] = require('./package.json');
 // define after setting config initially so we can use existing config values
 config["requirejs"] = 
@@ -135,13 +143,7 @@ gulp.task("compile-ts", function()
    return gulp.src(config.paths.src.ts)
       //.pipe(watch())
       .pipe(changed(config.paths.dest.compiled, { extension: '.js' }))
-      .pipe(tsc({
-         emitError: false,
-         module: 'amd',
-         target: 'ES3',
-         sourcemap: true,
-         outDir: config.paths.dest.compiled
-      }))
+      .pipe(tsc(config.typescript))
       .pipe(gulp.dest(config.paths.dest.compiled));
 });
 

@@ -10,6 +10,6 @@
 
 export import flatten = require('nnet/util/array/flatten');
 export import makeRange = require('nnet/util/array/makeRange');
-export import map$ = require('nnet/util/array/map$');
+export import map = require('nnet/util/array/map');
 export import shuffle = require('nnet/util/array/shuffle');
 export import toArray = require('nnet/util/array/toArray');

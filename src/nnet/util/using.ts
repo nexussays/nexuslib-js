@@ -5,21 +5,21 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import get = require("nnet/dom/get");
-import HTML = require("nnet/html/html");
+import HTML = require("nnet/html/HTML");
 
-// this is nearly a decade old, so it's probably unecessary now
-
+/*
 export = using;
 // using("get.js");
 // using("get");
 // using("debug.js");
+// this is nearly a decade old, so it's probably unecessary now
 function using(scriptName)
 {
-   var addScript = function(url, head)
+   var addScript = (url, head) =>
    {
       get.tag(head===true?"head":"body")[0].appendChild(HTML.script({
          "type": "text/javascript",
-         "language": "Javascript",
+         //"language": "Javascript",
          "src": url
       }));
    };
@@ -32,13 +32,15 @@ function using(scriptName)
    var scriptTags = get.tag("script");
    for(var i = 0; i < scriptTags.length; ++i)
    {
-      if(scriptTags[i].src && /core\.js$/.test(scriptTags[i].src))
+      var script = <HTMLScriptElement>scriptTags[i];
+      if(script.src && /core\.js$/.test(script.src))
       {
          //get the path to the javascript file
-         var path = scriptTags[i].src.replace(/core\.js$/,'');
+         var path = script.src.replace(/core\.js$/,'');
          
          addScript(path + scriptName, true);
          break;
       }
    }
 }
+//*/
