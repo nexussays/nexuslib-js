@@ -11,8 +11,9 @@ require([
    "./benchmark",
 ], function(nnet, Init, Cookie, Element, Debug, Browser, Event){
 
-//Hoist get up to window
+//Hoist up some methods to window
 window.get = nnet.dom.get;
+//window.HTML = nnet.html.HTML;
 //Make sure HTMLElements are extended
 Element.applyElementPrototypes();
 
