@@ -30,7 +30,7 @@ return new (function()
       {
          // create element and apply element methods to it if they aren't already there
          element = document.createElement(this);
-         Element.__applyElementPrototypes(element);
+         Element.wrapElement(element);
          
          // append nodes
          if(arguments.length > 0)

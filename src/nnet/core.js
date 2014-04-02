@@ -1,22 +1,3 @@
-
-function parseBool(value)
-{
-   switch((value+"").toLowerCase())
-   {
-      case "true":
-      case "t":
-      case "1":
-      case "yes":
-      case "y":
-         return true;
-      default:
-         return false;
-   }
-}
-
-/**********************
-MUMERIC & MATH
-**********************/
 //generates a random integer between the high and low values, inclusive
 //if no value is provided for the respective argument, the defaults of 0 (low) and 1 (high) are used
 Math.randomInt = function(low, high)

@@ -5,9 +5,9 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import get = require("nnet/dom/get");
-import Event = require("nnet/event");
-import obj = require("nnet/util/ObjectUtils");
-import str = require("nnet/util/StringUtils");
+import NNetEvent = require("nnet/event/NNetEvent");
+import obj = require("nnet/util/obj");
+import _escapeHTML = require("nnet/util/string/escapeHTML");
 
 export = Element;
 /**
@@ -42,6 +42,35 @@ class Element
          });
       }
    }
+
+   static applyElementPrototypes()
+   {
+      /*
+      if(!Browser.supportsElementPrototype())
+      {
+         //TODO: determine if I need to add an onunload function to destroy all this so there are no memory leaks (mostly in IE)
+         documentPreload.applyElementPrototype = function()
+         {
+            // get all elements and wrap them with element prototypes
+            var result = get();
+            var type = objtype(result);
+            if(type == "node")
+            {
+               Element.__applyElementPrototypes(result);
+            }
+            else if(type == "array")
+            {
+               for(var x = 0; x < result.length; ++x)
+               {
+                  Element.__applyElementPrototypes(result[x]);
+               }
+            }
+            return result;
+         };
+      }
+      //*/
+      Element.wrapElement(HTMLElement.prototype, true);
+   }
 }
 
 /**
@@ -70,7 +99,7 @@ module ElementInternal
    {
       var div = document.createElement("div");
       div.appendChild(this.cloneNode(true));
-      return escapeHtml ? str.escapeHTML(div.innerHTML) : div.innerHTML;
+      return escapeHtml ? _escapeHTML(div.innerHTML) : div.innerHTML;
    }
 
    export function addCssClass(name, checkExistence)
@@ -159,7 +188,7 @@ module ElementInternal
       var self = this;
       events[func] = () =>
       {
-         func.call(self, new Event(arguments[0]));
+         func.call(self, new NNetEvent(arguments[0]));
       };
       if(obj.type(this.addEventListener) == "function")
       {

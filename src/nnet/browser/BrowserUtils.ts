@@ -4,7 +4,7 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-/// <reference path="../../lib/modernizr.d.ts"/>
+/// <reference path="../../../lib/modernizr.d.ts"/>
 
 /**
  * Should probably be using modernizr instead; this code is nearly a decade old.
@@ -27,29 +27,44 @@ module BrowserUtils
 
    export var quirksMode = (document.compatMode == "BackCompat" || typeof document.compatMode == "undefined");
 
-   export var supportsElementPrototype = (() =>
+   export var supportsElementPrototype = () =>
    {
       try
       {
          HTMLElement.prototype.testPrototype = true;
          return true;
       }
-      catch(no) { }
+      catch(no)
+      {
+      }
       return false;
-   })();
+   };
 
-   export var supportsDomDelete = (() =>
+   export var supportsDomDelete = () =>
    {
       try
       {
          delete HTMLElement.prototype.testPrototype;
          return true;
       }
-      catch(no) { }
+      catch(no)
+      {
+      }
       return false;
-   })();
+   };
 
-   //added to document.preload below
-   export var supportsCanvas = null;
-   export var supportsElementOpacity = null;
-};
+   export var supportsCanvas = () =>
+   {
+      var canvas = document.createElement("canvas");
+      if("getContext" in canvas)
+      {
+         return true;
+      }
+      return false;
+   };
+
+   export var supportsElementOpacity = () =>
+   {
+      return ("opacity" in document.body.style);
+   };
+}

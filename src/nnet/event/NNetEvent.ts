@@ -4,11 +4,11 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-export = Event;
+export = NNetEvent;
 /**
  * Wraps native events and provides additional information
  */
-class Event
+class NNetEvent
 {
    mouse = {};
    key = {};
@@ -151,7 +151,7 @@ class Event
       }
    }
 }
-module Event 
+module NNetEvent 
 {
    //Space: 32 | Enter: 13 | Tab: 9 | Backspace: 8 | Shift: 16 | Control: 17 | Alt: 18 | Esc: 27 | Delete: 46
    export enum Keys
