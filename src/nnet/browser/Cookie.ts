@@ -4,7 +4,8 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-import obj = require("nnet/util/ObjectUtils");
+import _t = require("nnet/util/obj/t");
+import Types = require("nnet/util/obj/Types");
 import JsonParser = require("nnet/util/serialization/json/JsonParser");
 
 export = Cookie;
@@ -24,33 +25,30 @@ class Cookie
       //this.expiresOn = new Date(Date.now() + (30 * 24 * 60 * 60 * 1000));
       if(expiration)
       {
-         if(obj.t(expiration) == obj.Types.date)
+         if(_t(expiration) == Types.date)
          {
             this.expiresOn = expiration;
          }
          else
          {
-            this.expireIn(expiration, false);
+            this.expireIn(expiration);
          }
       }
    }
 
-   expireIn(seconds: number, autoSave: Boolean= false)
+   expireIn(seconds: number): Cookie
    {
       // TODO: determine support for Date.now()
       //expires = new Date();
       //expires.setTime(expires.getTime() + expiration);
       this.expiresOn = new Date(Date.now() + seconds);
-      if(autoSave)
-      {
-         this.save();
-      }
+      return this;
    }
 
-   expire(autoSave: Boolean= false)
+   expire(): Cookie
    {
       // set to expire a year ago
-      this.expireIn(-(365 * 24 * 60 * 60 * 1000), autoSave);
+      return this.expireIn(-(365 * 24 * 60 * 60 * 1000));
    }
 
    save(): void
@@ -70,9 +68,14 @@ class Cookie
     * in this instance's data. If this cookie has not yet been saved, it will not
     * be modified.
     */
-   refresh(): void
+   refreshData(): Cookie
    {
-
+      var update = Cookie.retrieve(this.key, true);
+      if(update != null)
+      {
+         this.data = update.data;
+      }
+      return this;
    }
 
    toString(): string
@@ -87,6 +90,11 @@ class Cookie
    }
 
    private static __store: { [s: string]: Cookie; } = {};
+
+   static retrieveOrCreate(key, reload: boolean = false): Cookie
+   {
+      return Cookie.retrieve(key, reload) || new Cookie(key, {});
+   }
 
    static retrieve(key, reload: boolean = false): Cookie
    {

@@ -1,6 +1,6 @@
 ﻿define(
-["nnet/dom/get", "nnet/BrowserUtils", "nnet/html/html"],
-function (get, Browser, HTML) {
+["nnet/dom/get", "nnet/browser/BrowserUtils", "nnet/html/html", "nnet/util/obj/type", "nnet/util/string"],
+function (get, Browser, HTML, _type, _str) {
 
 window.CreateMenu = function(id, buildFrom)
 {
@@ -11,7 +11,7 @@ window.CreateMenu = function(id, buildFrom)
          var ul = HTML.ul();
          for(var x = 0; x < menu.length; ++x)
          {
-            var item = menu[x], type = objtype(item[1]), li = HTML.li(), match;
+            var item = menu[x], type = _type(item[1]), li = HTML.li(), match;
             
             if(type == "array")
             {
@@ -19,7 +19,7 @@ window.CreateMenu = function(id, buildFrom)
             }
             else if(item[1])
             {
-               match = item[1].replace(/\.?\.\/ ?/, "").trim().escapeRegExp();
+               match = _str.escapeRegExp(item[1].replace(/\.?\.\/ ?/, "").trim());
                if(match && window.location.href.match(match))
                {
                   li.setAttribute("class", "selected");

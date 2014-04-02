@@ -4,7 +4,8 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-import obj = require("nnet/util/ObjectUtils");
+import _t = require("nnet/util/obj/t");
+import Types = require("nnet/util/obj/Types");
 
 /**
  * Signature => public static function encode(object:Object):String
@@ -51,8 +52,8 @@ else
             result;
          for(property in x)
          {
-            val = x[property], type = obj.type(val);
-            if(type != "function" && isArray !== true)
+            val = x[property], type = _t(val);
+            if(type != Types.function && isArray !== true)
             {
                ret += "\"" + property + "\":";
             }
@@ -64,22 +65,22 @@ else
          return ret.replace(/,$/, "");
       }
 
-      function getValue(val, type)
+      function getValue(val, type:number):string
       {
          switch(type)
          {
-            case "number":
-            case "boolean":
-            case "null":
-            case "undefined":
+            case Types.number:
+            case Types.boolean:
+            case Types.null:
+            case Types.undefined:
                return val + "";
-            case "object":
+            case Types.object:
                return "{" + recurse(val) + "}";
-            case "array":
+            case Types.array:
                return "[" + recurse(val, true) + "]";
-            case "function":
+            case Types.function:
                return "";
-            case "date":
+            case Types.date:
                return "Date(" + val.getTime() + ")";
             default:
                val += "";
@@ -88,7 +89,7 @@ else
          }
       }
 
-      return getValue(value, obj.type(value));
+      return getValue(value, _t(value));
    };
    console.log("Using NNet JSON");
 }

@@ -4,7 +4,7 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-import ObjectUtils = require("nnet/util/ObjectUtils");
+import obj = require("nnet/util/obj");
 
 export = WindowUtils;
 class WindowUtils
@@ -69,7 +69,7 @@ class WindowUtils
 
    static replaceQueryString(hash)
    {
-      var querystring = ObjectUtils.join(ObjectUtils.map(hash, encodeURIComponent, encodeURIComponent), "=").join("&");
+      var querystring = obj.join(obj.map(hash, encodeURIComponent, encodeURIComponent), "=").join("&");
       window.location.search = (querystring == "" ? "" : "?" + querystring);
    }
 }

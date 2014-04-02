@@ -23,7 +23,11 @@
     <Content Include="gulpfile.js" />
     <TypeScriptCompile Include="lib\modernizr.d.ts" />
     <TypeScriptCompile Include="src\nnet.ts" />
+    <TypeScriptCompile Include="src\nnet\browser.ts" />
+    <TypeScriptCompile Include="src\nnet\dom.ts" />
     <TypeScriptCompile Include="src\nnet\dom\DOM.ts" />
+    <TypeScriptCompile Include="src\nnet\error.ts" />
+    <TypeScriptCompile Include="src\nnet\event.ts" />
     <TypeScriptCompile Include="src\nnet\net.ts" />
     <TypeScriptCompile Include="src\nnet\net\IHttpResponse.d.ts" />
     <TypeScriptCompile Include="src\nnet\util.ts" />
@@ -41,6 +45,16 @@
     <Content Include="src\nnet\html\html.js" />
     <TypeScriptCompile Include="src\nnet\net\HttpRequest.ts" />
     <Content Include="src\nnet\sort.js" />
+    <TypeScriptCompile Include="src\nnet\util\obj.ts" />
+    <TypeScriptCompile Include="src\nnet\util\obj\forEach.ts" />
+    <TypeScriptCompile Include="src\nnet\util\obj\join.ts" />
+    <TypeScriptCompile Include="src\nnet\util\obj\keys.ts" />
+    <TypeScriptCompile Include="src\nnet\util\obj\map.ts" />
+    <TypeScriptCompile Include="src\nnet\util\obj\t.ts" />
+    <TypeScriptCompile Include="src\nnet\util\obj\type.ts" />
+    <TypeScriptCompile Include="src\nnet\util\obj\Types.ts" />
+    <TypeScriptCompile Include="src\nnet\util\serialization.ts" />
+    <TypeScriptCompile Include="src\nnet\util\serialization\json.ts" />
     <TypeScriptCompile Include="src\nnet\util\StringUtils.ts" />
     <Content Include="src\nnet\using.js" />
     <Content Include="test\editor.htm" />
@@ -68,7 +82,6 @@
     <Content Include="test\styles\main.css" />
     <Content Include="test\webtest.js" />
     <TypeScriptCompile Include="src\nnet\util\FunctionUtils.ts" />
-    <TypeScriptCompile Include="src\nnet\util\ObjectUtils.ts" />
     <TypeScriptCompile Include="src\nnet\util\WindowUtils.ts" />
   </ItemGroup>
   <ItemGroup>

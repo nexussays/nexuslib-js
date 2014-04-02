@@ -1,30 +1,34 @@
 requirejs.config({ paths: { nnet: '../../bin/compiled/nnet', bin: '../../bin/compiled' } });
 require([
    "bin/nnet",
-   "nnet/browser/Cookies",
-   "nnet/html/element",
+   "nnet/browser/Init",
+   "nnet/browser/Cookie",
+   "nnet/dom/Element",
    "./debug",
-   "nnet/BrowserUtils",
-   "nnet/event",
+   "nnet/browser/BrowserUtils",
+   "nnet/event/NNetEvent",
    "./webtest",
    "./benchmark",
-], function(nnet, Cookie, Element, Debug, Browser, Event){
+], function(nnet, Init, Cookie, Element, Debug, Browser, Event){
 
 //Hoist get up to window
 window.get = nnet.dom.get;
+//Make sure HTMLElements are extended
+Element.applyElementPrototypes();
 
 var execute_text, showmembers, showoutput, catchtabs, output_executiondetails;
-var waitingImage;
-document.load.debug = function()
+var waitingImage, editorCookie;
+Init.window(console.log);
+Init.dom(function()
 {
    //create the dropdown menu
    CreateMenu("nav", Sections.Javascript.Menu);
-   var cookie = Cookie.getJSON("EditorPreferences");
+   editorCookie = Cookie.retrieveOrCreate("EditorPreferences");
    
    //get the textarea with the code
    execute_text = get.id("#execute_text");
    execute_text.onkeydown = execute_text_onkeydown;
-   execute_text.value = (cookie && cookie.execute_text) ? unescape(cookie.execute_text) : "";
+   execute_text.value = editorCookie.data.execute_text ? unescape(editorCookie.data.execute_text) : "";
    //wireup event handlers
    get.id("#execute_go").onclick = __go;
    output_executiondetails = get.id("output_executiondetails");
@@ -34,13 +38,13 @@ document.load.debug = function()
    //setup options
    //default to verbose output (this value is actually checked in __go)
    showmembers = get.id("#showmembers");
-   showmembers.checked = (cookie && cookie.showmembers) ? cookie.showmembers : false;
+   showmembers.checked = editorCookie.data.showmembers;
    //show the output of the eval
    showoutput = get.id("#showoutput");
-   showoutput.checked = (cookie && cookie.showoutput) ? cookie.showoutput : false;
+   showoutput.checked = editorCookie.data.showoutput;
    //default to not capturing tabs (ie - tabbing will take you out of the textarea and to the next form element)
    catchtabs = get.id("#catchtabs");
-   catchtabs.checked = (cookie && cookie.catchtabs) ? cookie.catchtabs : false;
+   catchtabs.checked = editorCookie.data.catchtabs;
    
    //set the output source for Debug results
    Debug.outputSource = get.id("#output");
@@ -66,22 +70,18 @@ document.load.debug = function()
       }
    }
    toggle.onclick();
-}
+});
 function __updateTestingHTMLAndCookie()
 {
    var testinghtml = get.id("#testinghtml");
    var temp = get.id("#extra");
    testinghtml.innerHTML = Element.getOuterHTML(temp, true).replace(/\t/g,"   ");
    
-   //update cookie
-   var prefs = 
-   {
-      "showmembers" : showmembers.checked,
-      "showoutput" : showoutput.checked,
-      "catchtabs" : catchtabs.checked,
-      "execute_text" : escape(execute_text.value)
-   };
-   Cookie.write("EditorPreferences", prefs, 30..days());
+   editorCookie.data.showmembers = showmembers.checked;
+   editorCookie.data.showoutput = showoutput.checked;
+   editorCookie.data.catchtabs = catchtabs.checked;
+   editorCookie.data.execute_text = escape(execute_text.value);
+   editorCookie.expireIn(30..days()).save();
 }
 function execute_text_onkeydown(evt)
 {
