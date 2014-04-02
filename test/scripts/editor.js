@@ -81,7 +81,7 @@ function __updateTestingHTMLAndCookie()
    editorCookie.data.showoutput = showoutput.checked;
    editorCookie.data.catchtabs = catchtabs.checked;
    editorCookie.data.execute_text = escape(execute_text.value);
-   editorCookie.expireIn(30..days()).save();
+   editorCookie.expireIn(nnet.util.Time.days(30)).save();
 }
 function execute_text_onkeydown(evt)
 {
