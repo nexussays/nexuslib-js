@@ -51,12 +51,12 @@ config["requirejs"] =
       {},
       //r.js.cmd -o build.js optimize=none paths.requireLib=../node_modules/requirejs/require include=requireLib
       {
-         out: config.paths.dest.bundled + "/nnet-self_loading.js",
+         out: config.paths.dest.bundled + "/nnet-with-almond.js",
          include: ["../../lib/almond"],
          //TODO: turn this back on once everything is properly wrapped
          //wrap: true
       },
-      /*
+      //*
       {
          out: config.paths.dest.bundled + "/nnet-with-require.js",
          paths:
@@ -65,12 +65,15 @@ config["requirejs"] =
          },
          include: ["requireLib"]
       },
+      //*/
+      /*
       // compile debug and benchmark utilities as well
       {
          out: config.paths.dest.bundled + "/debug.js",
          //mainConfigFile: "./src/nnet/debug/debug.js",
          name: "nnet/debug/debug"
-      }*/
+      }
+      //*/
    ]
 };
 

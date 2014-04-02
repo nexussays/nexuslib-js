@@ -18,7 +18,6 @@ Element.applyElementPrototypes();
 
 var execute_text, showmembers, showoutput, catchtabs, output_executiondetails;
 var waitingImage, editorCookie;
-Init.window(console.log);
 Init.dom(function()
 {
    //create the dropdown menu
