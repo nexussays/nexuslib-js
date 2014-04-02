@@ -16,9 +16,12 @@ export = get;
 ///             If one argument is passed containing a single id identifier, then the resulting element
 ///             or null is returned directly (not as the zero index of an array).
 function get(): Array<Node>;
+function get(el: HTMLElement): HTMLElement;
 function get(query: string): Array<Node>;
 function get(...query): Array<Node>;
 function get(query: string[]): Array<Node>;
+//TODO: Refine this so we don't need this catch-all
+function get(query:any): any;
 function get()
 {
    var self = (this == window || !("nodeType" in this)) ? document : this;
@@ -193,7 +196,7 @@ module get
       return (id ? (_t(id) == Types.string ? document.getElementById(id.replace(/^#/, "")) : ("id" in id ? id : null)) : null);
    }
 
-   export function name(name, tag)
+   export function name(name:string, tag?:string)
    {
       var result = ((this === get) ? document : this).getElementsByName(name);
       result = Filter.byNodeName(result, tag || "*");

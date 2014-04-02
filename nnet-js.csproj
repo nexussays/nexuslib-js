@@ -32,6 +32,8 @@
     <TypeScriptCompile Include="src\nnet\graphics.ts" />
     <TypeScriptCompile Include="src\nnet\graphics\Color.ts" />
     <TypeScriptCompile Include="src\nnet\html.ts" />
+    <TypeScriptCompile Include="src\nnet\html\form.ts" />
+    <TypeScriptCompile Include="src\nnet\html\form\RadioCollection.ts" />
     <TypeScriptCompile Include="src\nnet\math.ts" />
     <TypeScriptCompile Include="src\nnet\math\asUnsigned.ts" />
     <TypeScriptCompile Include="src\nnet\math\clamp.ts" />
@@ -47,7 +49,6 @@
     <TypeScriptCompile Include="src\nnet\net.ts" />
     <TypeScriptCompile Include="src\nnet\net\IHttpResponse.d.ts" />
     <TypeScriptCompile Include="src\nnet\util.ts" />
-    <Content Include="src\nnet\core.js" />
     <TypeScriptCompile Include="src\nnet\browser\BrowserUtils.ts" />
     <TypeScriptCompile Include="src\nnet\browser\Cookie.ts" />
     <TypeScriptCompile Include="src\nnet\dom\Element.ts" />
@@ -55,13 +56,14 @@
     <TypeScriptCompile Include="src\nnet\util\array.ts" />
     <TypeScriptCompile Include="src\nnet\util\array\flatten.ts" />
     <TypeScriptCompile Include="src\nnet\event\NNetEvent.ts" />
-    <Content Include="src\nnet\form.js" />
+    <TypeScriptCompile Include="src\nnet\html\form\Form.ts" />
     <TypeScriptCompile Include="src\nnet\dom\get.ts" />
     <TypeScriptCompile Include="src\nnet\html\HTML.ts" />
     <TypeScriptCompile Include="src\nnet\net\HttpRequest.ts" />
+    <TypeScriptCompile Include="src\nnet\util\isLeapYear.ts" />
     <TypeScriptCompile Include="src\nnet\util\Sort.ts" />
     <TypeScriptCompile Include="src\nnet\util\array\shuffle.ts" />
-    <TypeScriptCompile Include="src\nnet\util\array\map%24.ts" />
+    <TypeScriptCompile Include="src\nnet\util\array\map.ts" />
     <TypeScriptCompile Include="src\nnet\util\array\toArray.ts" />
     <TypeScriptCompile Include="src\nnet\util\array\makeRange.ts" />
     <TypeScriptCompile Include="src\nnet\util\obj.ts" />
@@ -75,6 +77,7 @@
     <TypeScriptCompile Include="src\nnet\util\obj\Types.ts" />
     <TypeScriptCompile Include="src\nnet\util\serialization.ts" />
     <TypeScriptCompile Include="src\nnet\util\serialization\json.ts" />
+    <TypeScriptCompile Include="src\nnet\util\Time.ts" />
     <TypeScriptCompile Include="src\nnet\util\using.ts" />
     <Content Include="test\editor.htm" />
     <Content Include="test\images\bkgd.png" />
@@ -118,7 +121,7 @@
     <Content Include="README.md" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="src\nnet\math\IPRNG.ts" />
+    <TypeScriptCompile Include="src\nnet\math\IPRNG.d.ts" />
     <TypeScriptCompile Include="src\nnet\math\NativeRandomGenerator.ts" />
   </ItemGroup>
   <ItemGroup>

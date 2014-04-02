@@ -127,7 +127,7 @@ gulp.task("compress", ["build"], function()
       .pipe(gulp.dest(config.paths.dest.minified));
 });
 
-gulp.task("clean", function()
+gulp.task("clean", ["generate-module-index-ts"], function()
 {
    return gulp.src([
          config.paths.dest.compiled,

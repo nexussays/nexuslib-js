@@ -9,8 +9,10 @@
 // see: "generate-module-roots-ts" task in gulpfile.js
 
 export import Sort = require('nnet/util/Sort');
+export import Time = require('nnet/util/Time');
 export import WindowUtils = require('nnet/util/WindowUtils');
 export import array = require('nnet/util/array');
+export import isLeapYear = require('nnet/util/isLeapYear');
 export import obj = require('nnet/util/obj');
 export import serialization = require('nnet/util/serialization');
 export import string = require('nnet/util/string');
