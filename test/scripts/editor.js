@@ -1,17 +1,17 @@
 requirejs.config({ paths: { nnet: '../../bin/compiled/nnet', bin: '../../bin/compiled' } });
 require([
    "bin/nnet",
-   "nnet/dom/get",
-   "nnet/cookie",
+   "nnet/browser/Cookies",
    "nnet/html/element",
    "./debug",
    "nnet/BrowserUtils",
    "nnet/event",
    "./webtest",
    "./benchmark",
-], function(_, get, Cookie, Element, Debug, Browser, Event){
+], function(nnet, Cookie, Element, Debug, Browser, Event){
 
-//console.log("EDITOR");
+//Hoist get up to window
+window.get = nnet.dom.get;
 
 var execute_text, showmembers, showoutput, catchtabs, output_executiondetails;
 var waitingImage;
@@ -81,7 +81,7 @@ function __updateTestingHTMLAndCookie()
       "catchtabs" : catchtabs.checked,
       "execute_text" : escape(execute_text.value)
    };
-   Cookie.writeJSON("EditorPreferences", prefs, 30..days());
+   Cookie.write("EditorPreferences", prefs, 30..days());
 }
 function execute_text_onkeydown(evt)
 {
@@ -179,4 +179,5 @@ function out()
    //"convert" the items to strings so that null and undefined are actually written
    Debug.write(Array.prototype.map.call(arguments, function(x){return x += "";}).join("<br />"), false);
 }
-});
+
+}); //require

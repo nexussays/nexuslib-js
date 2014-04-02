@@ -21,9 +21,9 @@
     <Content Include="lib\almond.js" />
     <Content Include="lib\require.js" />
     <Content Include="gulpfile.js" />
-    <Content Include="src\main.js" />
     <TypeScriptCompile Include="lib\modernizr.d.ts" />
     <TypeScriptCompile Include="src\nnet.ts" />
+    <TypeScriptCompile Include="src\nnet\dom\DOM.ts" />
     <TypeScriptCompile Include="src\nnet\net.ts" />
     <TypeScriptCompile Include="src\nnet\net\IHttpResponse.d.ts" />
     <TypeScriptCompile Include="src\nnet\util.ts" />
@@ -31,19 +31,17 @@
     <Content Include="src\nnet\core.js" />
     <TypeScriptCompile Include="src\nnet\BrowserUtils.ts" />
     <Content Include="src\nnet\color.js" />
-    <Content Include="src\nnet\cookie.js" />
-    <Content Include="src\nnet\debug\benchmark.js" />
-    <Content Include="src\nnet\debug\debug.js" />
-    <Content Include="src\nnet\html\element.js" />
-    <TypeScriptCompile Include="src\nnet\error.ts" />
+    <TypeScriptCompile Include="src\nnet\browser\Cookie.ts" />
+    <TypeScriptCompile Include="src\nnet\dom\Element.ts" />
+    <TypeScriptCompile Include="src\nnet\error\NNetError.ts" />
     <TypeScriptCompile Include="src\nnet\util\ArrayUtils.ts" />
-    <TypeScriptCompile Include="src\nnet\event.ts" />
+    <TypeScriptCompile Include="src\nnet\event\Event.ts" />
     <Content Include="src\nnet\form.js" />
-    <Content Include="src\nnet\dom\get.js" />
+    <TypeScriptCompile Include="src\nnet\dom\get.ts" />
     <Content Include="src\nnet\html\html.js" />
     <TypeScriptCompile Include="src\nnet\net\HttpRequest.ts" />
     <Content Include="src\nnet\sort.js" />
-    <Content Include="src\nnet\util\string.js" />
+    <TypeScriptCompile Include="src\nnet\util\StringUtils.ts" />
     <Content Include="src\nnet\using.js" />
     <Content Include="test\editor.htm" />
     <Content Include="test\images\bkgd.png" />
@@ -81,6 +79,13 @@
     <Content Include="package.json" />
     <Content Include="README.md" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="src\nnet\math\" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="src\nnet\util\serialization\json\IJsonSerializable.ts" />
+    <TypeScriptCompile Include="src\nnet\util\serialization\json\JsonParser.ts" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -113,7 +118,9 @@
     <TypeScriptRemoveComments>false</TypeScriptRemoveComments>
     <TypeScriptSourceMap>true</TypeScriptSourceMap>
     <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
-    <TypeScriptOutDir>./bin/compiled</TypeScriptOutDir>
+    <TypeScriptGeneratesDeclarations>True</TypeScriptGeneratesDeclarations>
+    <TypeScriptOutDir>./bin/ts-maps</TypeScriptOutDir>
+    <TypeScriptMapRoot>./bin/ts-maps</TypeScriptMapRoot>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <TypeScriptTarget>ES5</TypeScriptTarget>

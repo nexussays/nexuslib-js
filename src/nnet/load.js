@@ -2,7 +2,7 @@
 [
    'nnet/BrowserUtils',
    'nnet/util/FunctionUtils',
-   'nnet/html/element'
+   'nnet/dom/Element'
 ], function(Browser, FunctionUtils, Element)
 {
 /**********************

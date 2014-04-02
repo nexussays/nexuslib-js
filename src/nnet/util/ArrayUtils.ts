@@ -24,12 +24,13 @@ export function makeRange(from, to, step)
 /**
  * Convert an Array-like object to an Array
  */
-export function toArray(collection)
+export function toArray<T>(collection):Array<T>
 {
    if(collection instanceof Array)
    {
       return collection;
    }
+
    for(var x = 0, ln = collection.length, arr = []; x < ln; ++x)
    {
       arr[x] = collection[x];

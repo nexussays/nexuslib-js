@@ -9,7 +9,7 @@
 // see: "generate-module-roots-ts" task in gulpfile.js
 
 export import BrowserUtils = require('nnet/BrowserUtils');
-export import error = require('nnet/error');
+export import error = require('nnet/error/NNetError');
 export import event = require('nnet/event');
 export import net = require('nnet/net');
 export import util = require('nnet/util');

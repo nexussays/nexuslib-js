@@ -78,8 +78,7 @@ gulp.task("default", ["build"]);
 
 gulp.task("watch", function()
 {
-   gulp.watch(config.paths.src.ts, ["compile-ts"]);
-   gulp.watch(config.paths.src.js, ["copy-js"]);
+   gulp.watch(config.paths.src.ts, ["compile-ts", "generate-module-index-js"]);
 });
 
 gulp.task("build", ["compile-ts", "copy-js", "generate-module-index-js"], function(done)
@@ -153,33 +152,6 @@ gulp.task("copy-js", function()
       //.pipe(jshint.reporter("jshint-stylish"));
 });
 
-// compile TypeScript using various compiler flags to more easily compare
-// the generated output with the original source
-gulp.task("ts-full", function()
-{
-   gulp.src(config.paths.src.ts)
-      //.pipe(watch())
-      .pipe(changed(config.paths.dest.root + "/ts/amd", { extension: '.js' }))
-      .pipe(tsc({
-         emitError: true,
-         module: 'amd',
-         target: 'ES3',
-         sourcemap: true,
-         outDir: config.paths.dest.root + "/ts/amd"
-      }))
-      .pipe(gulp.dest(config.paths.dest.root + "/ts/amd"));
-   gulp.src(config.paths.src.ts)
-      .pipe(changed(config.paths.dest.root + "/ts/commonjs", { extension: '.js' }))
-      .pipe(tsc({
-         emitError: true,
-         //module: 'amd',
-         target: 'ES3',
-         sourcemap: true,
-         outDir: config.paths.dest.root + "/ts/commonjs"
-      }))
-      .pipe(gulp.dest(config.paths.dest.root + "/ts/commonjs"));
-});
-
 gulp.task("generate-module-index-ts", function(done)
 {
    generateModuleRoots(
@@ -193,7 +165,7 @@ gulp.task("generate-module-index-ts", function(done)
    done();
 });
 
-gulp.task("generate-module-index-js", ["compile-ts", "copy-js"], function(done)
+gulp.task("generate-module-index-js", ["compile-ts"], function(done)
 {
    generateModuleRoots(
       './build/module-index-js.mustache',
