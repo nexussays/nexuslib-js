@@ -1,10 +1,21 @@
-define(["nnet/util/ArrayUtils"], function(ArrayUtils){
+// Copyright Malachi Griffie <malachi@nexussays.com>
+//
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at http://mozilla.org/MPL/2.0/.
+import ArrayUtils = require("nnet/util/ArrayUtils");
+import str = require("nnet/util/StringUtils");
 
+export = get;
 /// Usage:      get(args)
 /// Parameters: 0 - many; space-seperated strings of element identifiers
 /// Returns:    An array containing the results of the query (an empty array if no results were found).
 ///             If one argument is passed containing a single id identifier, then the resulting element
 ///             or null is returned directly (not as the zero index of an array).
+function get(): Array<Node>;
+function get(query: string): Array<Node>;
+function get(...query): Array<Node>;
+function get(query: string[]): Array<Node>;
 function get()
 {
    var self = (this == window || !("nodeType" in this)) ? document : this;
@@ -13,7 +24,7 @@ function get()
    //if "x.get()" was called, return all the elements contained in "x"
    if(arglength === 0)
    {
-      elements = get.byTag("*");
+      elements = get.tag("*");
    }
    else
    {
@@ -147,6 +158,9 @@ function get()
    return (returnSingle ? (elements[0] ? elements[0] : null) : elements);
 }
 
+// ReSharper disable once InconsistentNaming
+module get
+{
 //not used at the moment
 //get.__matchAll = /^(\w*|\*)?(?:#([\w-]+))?(?:\.([\w-]+))*(?:\[(\w+)(?:([~^$*|]?)=(["'])?((?:\\\6|[^\]])*?)\6)?\])*$/i;
 
@@ -156,65 +170,70 @@ function get()
 //[4] -- *ignore* the type of containing quotes in the attribute
 //[5] -- the attribute value matched, if any
 //see: <http://blog.stevenlevithan.com/regular-expressions/match-quoted-string>
-get.__multiples = /(?:\.([\w-]+))|(?:\[(\w+)(?:([~^$*|]?)=(["'])?((?:\\\4|[^\]])*?)\4)?\])/ig;
+   export var __multiples = /(?:\.([\w-]+))|(?:\[(\w+)(?:([~^$*|]?)=(["'])?((?:\\\4|[^\]])*?)\4)?\])/ig;
 
 //[1] -- the element tag matched, if any
 //[2] -- the id matched, if any
-get.__tagid = /^(\*|\w*)?(?:#([\w-]+))?/i;
+   export var __tagid = /^(\*|\w*)?(?:#([\w-]+))?/i;
 
 //I would like to not allow tag, but since tag#id is valid CSS selector syntax, I guess we can't ignore that usage
-get.id = function(id)//, tag)
-{
-   ///<summary>Gets an element in the DOM with the specified id attribute</summary>
-   ///<param name="id" optional="false" type="String">The id of the element</param>
-   ///<returns domElement="true" mayBeNull="true" />
-   //return document.getElementById(id.replace(/^#/,''));
+   export function id(id) //, tag)
+   {
+      ///<summary>Gets an element in the DOM with the specified id attribute</summary>
+      ///<param name="id" optional="false" type="String">The id of the element</param>
+      ///<returns domElement="true" mayBeNull="true" />
+      //return document.getElementById(id.replace(/^#/,''));
 
-   //if id is null or doesn't match either of the below, return null
-   //if id is a string, return it from the DOM
-   //if id has a property called "id" assume it is an element (eg - redundant call to get()) and return it
-   return (id != null ? (id.isString ? document.getElementById(id.replace(/^#/, "")) : ("id" in id ? id : null)) : null);
-};
-get.byName = function(name, tag)
-{
-   var result = ((this === get) ? document : this).getElementsByName(name);
-   result = Filter.byNodeName(result, tag || "*");
-   result.__get = true;
-   return result;
-};
-get.byTag = function(tag)
-{
-   var result = ArrayUtils.toArray((this === get ? document : this).getElementsByTagName(tag || "*"));
-   result.__get = true;
-   return result;
-};
-get.byClass = function(name, tag)
-{
-   return get.byAttribute.call(this, "class", name.replace(/^\./, ''), tag, "~");
-};
-get.byAttribute = function(attr, val, tag, type)
-{
-   ///<summary>Gets an array of elements in the DOM with the specified attribute values</summary>
-   ///<param name="attr" optional="false" type="String">The name of the attribute to get</param>
-   ///<param name="val" optional="true" type="String">The value of the attribute (must be regular expression escaped)</param>
-   ///<param name="tag" optional="true" type="String">The name of an element to restrict the search to. If this is not given it will search the entire DOM</param>
-   ///<param name="type" optional="true" type="String">The type of search to perform ("~", "^", "$", "*"), if absent an exact search is performed</param>
-   ///<returns elementDomElement="true" mayBeNull="true" />
-   var allElements = (this === get ? document : this).getElementsByTagName(tag || "*");
-   var result = Filter.byAttribute(allElements, attr, val, type);
-   result.__get = true;
-   return result;
-};
+      //if id is null or doesn't match either of the below, return null
+      //if id is a string, return it from the DOM
+      //if id has a property called "id" assume it is an element (eg - redundant call to get()) and return it
+      return (id != null ? (id.isString ? document.getElementById(id.replace(/^#/, "")) : ("id" in id ? id : null)) : null);
+   }
+
+   export function name(name, tag)
+   {
+      var result = ((this === get) ? document : this).getElementsByName(name);
+      result = Filter.byNodeName(result, tag || "*");
+      result.__get = true;
+      return result;
+   }
+
+   export function tag(tag:string): Array<Node>
+   {
+      var result = ArrayUtils.toArray<Node>((this === get ? document : this).getElementsByTagName(tag || "*"));
+      result["__get"] = true;
+      return result;
+   }
+
+   export function cssClass(name:string, tag?:string): Array<Node>
+   {
+      return get.attribute.call(this, "class", name.replace(/^\./, ''), tag, "~");
+   }
+   export function attribute(attr:string, val?:string, tag?:string, type?:string): Array<Node>
+   {
+      ///<summary>Gets an array of elements in the DOM with the specified attribute values</summary>
+      ///<param name="attr" optional="false" type="String">The name of the attribute to get</param>
+      ///<param name="val" optional="true" type="String">The value of the attribute</param>
+      ///<param name="tag" optional="true" type="String">The name of an element to restrict the search to. If this is not given it will search the entire DOM</param>
+      ///<param name="type" optional="true" type="String">The type of search to perform ("~", "^", "$", "*"), if absent an exact search is performed</param>
+      ///<returns elementDomElement="true" mayBeNull="true" />
+      var allElements = (this === get ? document : this).getElementsByTagName(tag || "*");
+      var result = Filter.byAttribute(allElements, attr, str.escapeRegExp(val), type);
+      result["__get"] = true;
+      return result;
+   }
+}
 
 //
 // Filter helper methods for get
 //
-var Filter = new (function()
+class Filter
 {
-   var regexCache = {};
-   this.byAttribute = function(elements, attr, val, type)
+   static regexCache = {};
+   
+   static byAttribute(elements, attr, val, type)
    {
-      var result = [], regex = regexCache[val] && regexCache[val][type];
+      var result = [], regex = Filter.regexCache[val] && Filter.regexCache[val][type];
       if(regex == null)
       {
          var value = "(?:" + (val ? val.escapeRegExp() : ".*") + ")";
@@ -233,8 +252,8 @@ var Filter = new (function()
             //match exactly   
             default: regex = new RegExp("^" + value + "$", 'i'); break;
          }
-         regexCache[val] = regexCache[val] || {};
-         regexCache[val][type] = regex;
+         Filter.regexCache[val] = Filter.regexCache[val] || {};
+         Filter.regexCache[val][type] = regex;
       }
 
       for(var x = 0, ln = elements.length; x < ln; ++x)
@@ -250,9 +269,9 @@ var Filter = new (function()
       }
 
       return result;
-   };
-
-   this.byNodeName = function(elements, name)
+   }
+   
+   static byNodeName(elements, name)
    {
       name = name.toLowerCase();
       var result = [];
@@ -265,9 +284,5 @@ var Filter = new (function()
          }
       }
       return result;
-   };
-})();
-
-return get;
-
-}); // define
+   }
+}
