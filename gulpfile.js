@@ -35,6 +35,7 @@ config.typescript =
    removeComments: true,
    target: 'ES5',
    sourcemap: true,
+   declaration: true,
    outDir: config.paths.dest.compiled
 };
 config.package = require('./package.json');
