@@ -27,6 +27,14 @@ class NNetEvent
 
    constructor(evt)
    {
+      // consider adding:
+      //if ( !(this instanceof arguments.callee) )
+      //{
+      //   throw new Error("Constructor called as a function");
+      //}
+      // or is typescript catching it all that matters?
+      // see: http://stackoverflow.com/questions/383402/is-javascript-s-new-keyword-considered-harmful
+
       this.e = evt || window.event;
       if(!this.e)
       {
@@ -151,9 +159,9 @@ class NNetEvent
       }
    }
 }
+
 module NNetEvent 
 {
-   //Space: 32 | Enter: 13 | Tab: 9 | Backspace: 8 | Shift: 16 | Control: 17 | Alt: 18 | Esc: 27 | Delete: 46
    export enum Keys
    {
       "Backspace" = 8,

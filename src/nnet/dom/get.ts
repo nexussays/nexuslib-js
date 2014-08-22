@@ -9,6 +9,7 @@ import Types = require("nnet/util/obj/Types");
 import _toArray = require("nnet/util/array/toArray");
 import _escapeRegExp = require("nnet/util/string/escapeRegExp");
 
+//see: https://developer.mozilla.org/en-US/docs/Web/API/Node.compareDocumentPosition
 export = get;
 /// Usage:      get(args)
 /// Parameters: 0 - many; space-seperated strings of element identifiers
