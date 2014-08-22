@@ -2,10 +2,11 @@ var gulp   =  require('gulp');
 var watch  =  require('gulp-watch');
 var tsc    =  require('gulp-tsc');
 var jshint =  require('gulp-jshint');
-var clean  =  require('gulp-clean');
+var clean  =  require('gulp-rimraf');
 var uglify =  require('gulp-uglify');
 var rename =  require('gulp-rename');
 var changed = require('gulp-changed');
+var seq     = require('run-sequence');
 
 var config =
 {
@@ -94,7 +95,12 @@ gulp.task("watch", ["build"], function()
    gulp.watch(config.paths.src.ts, ["compile-ts", "generate-module-index-js"]);
 });
 
-gulp.task("build", ["compile-ts", "copy-js", "generate-module-index-js"], function(done)
+gulp.task("build", function(done)
+{
+   seq("compile-ts", "copy-js", "generate-module-index-js", "build-internal", done);
+});
+
+gulp.task("build-internal", function(done)
 {
    var r = require("requirejs");
 
@@ -130,7 +136,10 @@ gulp.task("compress", ["build"], function()
 });
 
 //TODO: implement package task
-gulp.task("package", ["clean", "compress"]);
+gulp.task("package", function(done)
+{
+   seq("clean", "compress", done);
+});
 
 gulp.task("clean", ["generate-module-index-ts"], function()
 {
