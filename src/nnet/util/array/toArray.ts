@@ -14,7 +14,8 @@ function toArray<T>(collection):Array<T>
    {
       return collection;
    }
-
+   
+   //return Array.prototype.slice.call( collection, 0 );
    for(var x = 0, ln = collection.length, arr = []; x < ln; ++x)
    {
       arr[x] = collection[x];

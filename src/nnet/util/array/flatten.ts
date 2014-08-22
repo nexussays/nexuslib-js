@@ -4,6 +4,8 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+import arrayLike = require("nnet/util/array/arrayLike");
+
 export = flatten;
 /**
  * Flattens an array of arrays into a single array.
@@ -13,13 +15,15 @@ export = flatten;
  */
 function flatten(source)
 {
-   var x = 0, ln = source.length, arr = [];
+   var x = 0,
+       ln = source.length,
+       arr = [];
    for(; x < ln; ++x)
    {
       if(x in source)
       {
          var value = source[x];
-         arr = arr.concat(value instanceof Array ? value.flatten() : value);
+         arr = arr.concat( arrayLike(value) ? flatten(value) : value );
       }
    }
    return arr;
