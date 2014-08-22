@@ -26,17 +26,19 @@ var config =
       }
    }
 };
-config["typescript"] =
+config.typescript =
 {
    emitError: false,
    module: 'amd',
+   //module: 'commonjs',
+   removeComments: true,
    target: 'ES5',
    sourcemap: true,
    outDir: config.paths.dest.compiled
 };
-config["package"] = require('./package.json');
+config.package = require('./package.json');
 // define after setting config initially so we can use existing config values
-config["requirejs"] = 
+config.requirejs = 
 {
    out: console.out,
    err: console.err,
@@ -87,7 +89,7 @@ config["requirejs"] =
 
 gulp.task("default", ["build"]);
 
-gulp.task("watch", function()
+gulp.task("watch", ["build"], function()
 {
    gulp.watch(config.paths.src.ts, ["compile-ts", "generate-module-index-js"]);
 });

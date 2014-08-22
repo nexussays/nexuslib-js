@@ -9,7 +9,7 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <TypeScriptToolsVersion>0.9</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>1.0</TypeScriptToolsVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -19,7 +19,6 @@
   <ItemGroup>
     <Content Include=".gitignore" />
     <Content Include="lib\almond.js" />
-    <Content Include="lib\require.js" />
     <Content Include="gulpfile.js" />
     <TypeScriptCompile Include="lib\modernizr.d.ts" />
     <TypeScriptCompile Include="src\nnet.ts" />
@@ -60,6 +59,7 @@
     <TypeScriptCompile Include="src\nnet\dom\get.ts" />
     <TypeScriptCompile Include="src\nnet\html\HTML.ts" />
     <TypeScriptCompile Include="src\nnet\net\HttpRequest.ts" />
+    <TypeScriptCompile Include="src\nnet\util\array\last.ts" />
     <TypeScriptCompile Include="src\nnet\util\isLeapYear.ts" />
     <TypeScriptCompile Include="src\nnet\util\Sort.ts" />
     <TypeScriptCompile Include="src\nnet\util\array\shuffle.ts" />
@@ -101,8 +101,12 @@
     <Content Include="test\images\silk\stop.png" />
     <Content Include="test\images\silk\textfield_key.png" />
     <Content Include="test\images\waiting_squares.gif" />
+    <Content Include="test\scripts\benchmark.js" />
+    <Content Include="test\scripts\debug.js" />
+    <Content Include="test\scripts\editor.js" />
+    <Content Include="test\scripts\webtest.js" />
+    <Content Include="test\styles\editor.css" />
     <Content Include="test\styles\main.css" />
-    <Content Include="test\webtest.js" />
     <TypeScriptCompile Include="src\nnet\util\string.ts" />
     <TypeScriptCompile Include="src\nnet\util\string\contains.ts" />
     <TypeScriptCompile Include="src\nnet\util\string\escapeHTML.ts" />
@@ -111,9 +115,6 @@
     <TypeScriptCompile Include="src\nnet\util\string\trim.ts" />
     <TypeScriptCompile Include="src\nnet\util\string\unescapeHTML.ts" />
     <TypeScriptCompile Include="src\nnet\util\WindowUtils.ts" />
-  </ItemGroup>
-  <ItemGroup>
-    <TypeScriptCompile Include="lib\require.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="LICENSE" />
@@ -127,6 +128,10 @@
   <ItemGroup>
     <TypeScriptCompile Include="src\nnet\util\serialization\json\IJsonSerializable.ts" />
     <TypeScriptCompile Include="src\nnet\util\serialization\json\JsonParser.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="build\module-index-js.mustache" />
+    <Content Include="build\module-index-ts.mustache" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -37,7 +37,7 @@ else
       }
       catch(ex)
       {
-         ex.name = "evalJSON() ERROR";
+         ex.name = "JsonEncodeError";
          throw ex;
       }
    };

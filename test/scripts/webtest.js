@@ -1,6 +1,10 @@
-﻿define(
-["nnet/dom/get", "nnet/browser/BrowserUtils", "nnet/html/html", "nnet/util/obj/type", "nnet/util/string"],
-function (get, Browser, HTML, _type, _str) {
+﻿define([
+   "nnet/dom/get",
+   "nnet/browser/BrowserUtils",
+   "nnet/html/html",
+   "nnet/util/obj/type",
+   "nnet/util/string"
+], function (get, Browser, HTML, _type, _str) {
 
 window.CreateMenu = function(id, buildFrom)
 {

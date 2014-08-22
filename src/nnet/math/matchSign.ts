@@ -12,12 +12,5 @@ export = matchSign;
  */
 function matchSign(source: number, compareTo: number): number
 {
-   if(compareTo < 0)
-   {
-      return source <= 0 ? source : -source;
-   }
-   else
-   {
-      return source >= 0 ? source : -source
-   }
+   return compareTo < 0 ? (source <= 0 ? source : -source) : (source >= 0 ? source : -source);
 }
