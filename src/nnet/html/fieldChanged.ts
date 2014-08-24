@@ -7,35 +7,8 @@
 import Element = require("nnet/dom/ElementUtils");
 import get = require("nnet/dom/get");
 
-
-export function getDefaultValue(elem: HTMLElement): string
-{
-   var el = <HTMLElement>get(elem);
-   if(el && "nodeName" in el)
-   {
-      var type = el.nodeName.toLowerCase();
-      if(type == "input" || type == "textarea")
-      {
-         return (<HTMLInputElement>el).defaultValue;
-      }
-      else if(type == "select")
-      {
-         var defaults = [], options = (<HTMLSelectElement>el).options;
-         for(var x = 0; x < options.length; ++x)
-         {
-            var option = options[x];
-            if(option.defaultSelected)
-            {
-               defaults.push(option.value);
-            }
-         }
-         return defaults.join(",");
-      }
-   }
-   return null;
-}
-
-export function fieldChanged(elem): boolean
+export = fieldChanged;
+function fieldChanged(elem): boolean
 {
    var el = <any>get(elem);
    if(el && "nodeName" in el)
