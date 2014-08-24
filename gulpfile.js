@@ -142,7 +142,7 @@ gulp.task("package", function(done)
    seq("clean", "compress", done);
 });
 
-gulp.task("clean", ["generate-module-index-ts"], function()
+gulp.task("clean", function()
 {
    return gulp.src([
          config.paths.dest.compiled,
@@ -152,7 +152,7 @@ gulp.task("clean", ["generate-module-index-ts"], function()
       .pipe(clean());
 });
 
-gulp.task("compile-ts", function()
+gulp.task("compile-ts", ["generate-module-index-ts"], function()
 {
    // Compile TypeScript files
    return gulp.src(config.paths.src.ts)
