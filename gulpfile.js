@@ -63,14 +63,14 @@ config.requirejs =
       {},
       //r.js.cmd -o build.js optimize=none paths.requireLib=../node_modules/requirejs/require include=requireLib
       {
-         out: config.paths.dest.bundled + "/nnet-with-almond.js",
+         out: config.paths.dest.bundled + "/nnet.with-almond.js",
          include: ["../../lib/almond"],
          //TODO: turn this back on once everything is properly wrapped
          //wrap: true
       },
       //*
       {
-         out: config.paths.dest.bundled + "/nnet-with-require.js",
+         out: config.paths.dest.bundled + "/nnet.with-require.js",
          paths:
          {
             "requireLib": "../../node_modules/requirejs/require"
@@ -91,17 +91,17 @@ config.requirejs =
 
 gulp.task("default", ["build"]);
 
-gulp.task("watch", ["build"], function()
+gulp.task("watch"/*, ["build"]*/, function()
 {
-   gulp.watch(config.paths.src.ts, ["compile-ts", "generate-module-index-js"]);
+   gulp.watch(config.paths.src.ts, [/*"compile-ts", */"generate-module-index-ts"]);
 });
 
 gulp.task("build", function(done)
 {
-   seq("compile-ts", "copy-js", "generate-module-index-js", "build-internal", done);
+   seq("compile-ts"/*, "copy-js", "generate-module-index-js"*/, done);
 });
 
-gulp.task("build-internal", function(done)
+gulp.task("optimize", function(done)
 {
    var r = require("requirejs");
 
@@ -127,7 +127,7 @@ gulp.task("build-internal", function(done)
    done();
 });
 
-gulp.task("compress", ["build"], function()
+gulp.task("compress", function()
 {
    return gulp.src([config.paths.dest.bundled + "/**/*.js", "!" + config.paths.dest.bundled + "/**/*.min.js"])
       .pipe(rename({suffix: '.min'}))
@@ -139,7 +139,7 @@ gulp.task("compress", ["build"], function()
 //TODO: implement package task
 gulp.task("package", function(done)
 {
-   seq("clean", "compress", done);
+   seq("clean", "build", "optimize", "compress", done);
 });
 
 gulp.task("clean", function()
