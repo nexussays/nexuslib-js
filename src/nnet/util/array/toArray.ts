@@ -10,13 +10,13 @@ export = toArray;
  */
 function toArray<T>(collection):Array<T>
 {
-   if(collection instanceof Array)
-   {
-      return collection;
-   }
+   //if(collection instanceof Array)
+   //{
+   //   return collection;
+   //}
    
    //return Array.prototype.slice.call( collection, 0 );
-   for(var x = 0, ln = collection.length, arr = []; x < ln; ++x)
+   for(var x = 0, ln = collection.length, arr : T[] = []; x < ln; ++x)
    {
       arr[x] = collection[x];
    }

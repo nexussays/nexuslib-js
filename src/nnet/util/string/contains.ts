@@ -5,21 +5,20 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 export = contains;
-function contains(str: string, val: string, sep, i):boolean
+function contains(source: string, value: string, separator?: string, caseInsensitive: boolean=false): boolean
 {
    //if case-insensitive, return a recurse of callee with lowercase arguments
    //otherwise find the passed string in str string, optionally bound by seperators
    return (
-      i === true ?
-      contains(str.toLowerCase(), val.toLowerCase(), sep, false) :
-      (
-      (sep) ?
-      (sep + str + sep).indexOf(sep + val + sep) > -1 :
-      str.indexOf(val) > -1
-      )
-      );
-
-   //str takes roughly twice as long when called by itself without the benefit of caching
+      caseInsensitive === true ?
+         contains( source.toLowerCase(), value.toLowerCase(), separator, false ) :
+         (
+            (separator) ?
+               (separator + source + separator).indexOf( separator + value + separator ) > -1 :
+               source.indexOf( value ) > -1
+         )
+   );
+   //this takes roughly twice as long when called by itself without the benefit of caching
    //the expression.
    //return (new RegExp("(?:^|\\s)" + val + "(?:\\s|$)", i ? "i" : "").test(val));
 }

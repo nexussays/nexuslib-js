@@ -4,17 +4,18 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+/// <reference path="../util/obj.ts"/>
 import get = require("nnet/dom/get");
 import NNetEvent = require("nnet/event/NNetEvent");
 import obj = require("nnet/util/obj");
 import _escapeHTML = require("nnet/util/string/escapeHTML");
 
-export = Element;
+export = ElementUtils;
 /**
  * Utility methods for HTML elements.
  * Call Element.applyElementPrototypes() to extend HTMLElement.prototype
  */
-class Element
+class ElementUtils
 {
    // declare all the methods on ElementInternal
    // TODO: See if there's a way to generate these dynamically
@@ -69,7 +70,7 @@ class Element
          };
       }
       //*/
-      Element.wrapElement(HTMLElement.prototype, true);
+      ElementUtils.wrapElement(HTMLElement.prototype, true);
    }
 }
 
@@ -243,7 +244,7 @@ module ElementInternal
       // function call to create closure on funcName
       function apply(funcName)
       {
-         Element[funcName] = () =>
+         ElementUtils[funcName] = () =>
          {
             return __wrapper.apply(funcName, arguments);
          };

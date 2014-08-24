@@ -18,7 +18,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include=".gitignore" />
-    <Content Include="lib\almond.js" />
     <Content Include="gulpfile.js" />
     <TypeScriptCompile Include="lib\modernizr.d.ts" />
     <TypeScriptCompile Include="src\nnet.ts" />
@@ -50,7 +49,7 @@
     <TypeScriptCompile Include="src\nnet\util.ts" />
     <TypeScriptCompile Include="src\nnet\browser\BrowserUtils.ts" />
     <TypeScriptCompile Include="src\nnet\browser\Cookie.ts" />
-    <TypeScriptCompile Include="src\nnet\dom\Element.ts" />
+    <TypeScriptCompile Include="src\nnet\dom\ElementUtils.ts" />
     <TypeScriptCompile Include="src\nnet\error\NNetError.ts" />
     <TypeScriptCompile Include="src\nnet\util\array.ts" />
     <TypeScriptCompile Include="src\nnet\util\array\flatten.ts" />
@@ -163,12 +162,12 @@
   </ProjectExtensions>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <TypeScriptTarget>ES5</TypeScriptTarget>
-    <TypeScriptRemoveComments>false</TypeScriptRemoveComments>
+    <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
     <TypeScriptSourceMap>true</TypeScriptSourceMap>
     <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
     <TypeScriptGeneratesDeclarations>True</TypeScriptGeneratesDeclarations>
-    <TypeScriptOutDir>./bin/ts-maps</TypeScriptOutDir>
-    <TypeScriptMapRoot>./bin/ts-maps</TypeScriptMapRoot>
+    <TypeScriptOutDir>./bin/compiled</TypeScriptOutDir>
+    <TypeScriptMapRoot>./bin/compiled</TypeScriptMapRoot>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <TypeScriptTarget>ES5</TypeScriptTarget>
@@ -178,6 +177,7 @@
   </PropertyGroup>
   <Import Project="$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets')" />
   <PropertyGroup>
-    <PreBuildEvent>gulp build</PreBuildEvent>
+    <PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
 </Project>

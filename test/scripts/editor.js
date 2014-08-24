@@ -3,7 +3,7 @@ require([
    "bin/nnet",
    "nnet/browser/Init",
    "nnet/browser/Cookie",
-   "nnet/dom/Element",
+   "nnet/dom/ElementUtils",
    "./debug",
    "nnet/browser/BrowserUtils",
    "nnet/event/NNetEvent",
