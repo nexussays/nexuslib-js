@@ -2,7 +2,7 @@
    "nnet/dom/get",
    "nnet/browser/BrowserUtils",
    "nnet/html/html",
-   "nnet/util/obj/type",
+   "nnet/util/object/type",
    "nnet/util/string"
 ], function (get, Browser, HTML, _type, _str) {
 

@@ -6,11 +6,12 @@
 
 import Element = require("nnet/dom/ElementUtils");
 import get = require("nnet/dom/get");
+import first = require("nnet/util/array/first");
 
 export = getDefaultValue;
 function getDefaultValue(elem: HTMLElement): string
 {
-   var el = <HTMLElement>get(elem);
+   var el = first(get(elem));
    if(el && "nodeName" in el)
    {
       var type = el.nodeName.toLowerCase();

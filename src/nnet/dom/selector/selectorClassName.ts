@@ -5,8 +5,8 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 
-import Types = require("nnet/util/obj/Types");
-import type = require("nnet/util/obj/t");
+import Types = require("nnet/util/object/Types");
+import type = require("nnet/util/object/t");
 import filterByAttribute = require("nnet/dom/selector/filterByAttribute");
 
 export = selectorClassName;

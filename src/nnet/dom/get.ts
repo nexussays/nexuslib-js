@@ -4,9 +4,8 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-
-import Types = require("nnet/util/obj/Types");
-import type = require("nnet/util/obj/t");
+import Types = require("nnet/util/object/Types");
+import type = require("nnet/util/object/t");
 import toArray = require("nnet/util/array/toArray");
 import flatten = require("nnet/util/array/flatten");
 import isArrayLike = require("nnet/util/array/isArrayLike");

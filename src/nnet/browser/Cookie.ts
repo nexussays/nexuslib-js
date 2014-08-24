@@ -4,9 +4,9 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-import _t = require("nnet/util/obj/t");
-import Types = require("nnet/util/obj/Types");
-import JsonParser = require("nnet/util/serialization/json/JsonParser");
+import _t = require("nnet/util/object/t");
+import Types = require("nnet/util/object/Types");
+import JsonParser = require("nnet/serialization/json/JsonParser");
 
 export = Cookie;
 /**

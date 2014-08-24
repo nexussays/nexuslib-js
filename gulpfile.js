@@ -185,7 +185,7 @@ gulp.task("generate-module-index-ts", function(done)
    done();
 });
 
-gulp.task("generate-module-index-js", ["compile-ts"], function(done)
+gulp.task("generate-module-index-js"/*, ["compile-ts"]*/, function(done)
 {
    generateModuleRoots(
       './build/module-index-js.mustache',

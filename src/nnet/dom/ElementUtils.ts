@@ -4,10 +4,10 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-/// <reference path="../util/obj.ts"/>
+/// <reference path="../util/object.ts"/>
 import get = require("nnet/dom/get");
 import NNetEvent = require("nnet/event/NNetEvent");
-import obj = require("nnet/util/obj");
+import obj = require("nnet/util/object");
 import _escapeHTML = require("nnet/util/string/escapeHTML");
 
 export = ElementUtils;

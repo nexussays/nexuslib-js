@@ -15,4 +15,5 @@ export import graphics = require('nnet/graphics');
 export import html = require('nnet/html');
 export import math = require('nnet/math');
 export import net = require('nnet/net');
+export import serialization = require('nnet/serialization');
 export import util = require('nnet/util');

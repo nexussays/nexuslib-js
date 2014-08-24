@@ -5,7 +5,7 @@
     <ProjectGuid>{3EEE0FF1-8F08-4B95-B156-8FAF86128487}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
-    <OutputPath>bin</OutputPath>
+    <OutputPath>./bin</OutputPath>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
@@ -23,8 +23,8 @@
     <TypeScriptCompile Include="src\nnet.ts" />
     <TypeScriptCompile Include="src\nnet\browser.ts" />
     <TypeScriptCompile Include="src\nnet\browser\Init.ts" />
-    <TypeScriptCompile Include="src\nnet\dom.ts" />
     <TypeScriptCompile Include="src\nnet\dom\DOM.ts" />
+    <TypeScriptCompile Include="src\nnet\dom\selector.ts" />
     <TypeScriptCompile Include="src\nnet\dom\selector\filterByAttribute.ts" />
     <TypeScriptCompile Include="src\nnet\dom\selector\filterByNodeName.ts" />
     <TypeScriptCompile Include="src\nnet\dom\selector\selectorClassName.ts" />
@@ -36,7 +36,7 @@
     <TypeScriptCompile Include="src\nnet\html.ts" />
     <TypeScriptCompile Include="src\nnet\html\form.ts" />
     <TypeScriptCompile Include="src\nnet\html\form\RadioCollection.ts" />
-    <TypeScriptCompile Include="src\nnet\html\fieldChanged.ts" />
+    <TypeScriptCompile Include="src\nnet\html\form\fieldChanged.ts" />
     <TypeScriptCompile Include="src\nnet\math.ts" />
     <TypeScriptCompile Include="src\nnet\math\asUnsigned.ts" />
     <TypeScriptCompile Include="src\nnet\math\clamp.ts" />
@@ -51,6 +51,7 @@
     <TypeScriptCompile Include="src\nnet\math\wrapAngleRadians.ts" />
     <TypeScriptCompile Include="src\nnet\net.ts" />
     <TypeScriptCompile Include="src\nnet\net\IHttpResponse.d.ts" />
+    <TypeScriptCompile Include="src\nnet\serialization.ts" />
     <TypeScriptCompile Include="src\nnet\util.ts" />
     <TypeScriptCompile Include="src\nnet\browser\BrowserUtils.ts" />
     <TypeScriptCompile Include="src\nnet\browser\Cookie.ts" />
@@ -59,31 +60,43 @@
     <TypeScriptCompile Include="src\nnet\util\array.ts" />
     <TypeScriptCompile Include="src\nnet\util\array\flatten.ts" />
     <TypeScriptCompile Include="src\nnet\event\NNetEvent.ts" />
-    <TypeScriptCompile Include="src\nnet\html\getDefaultValue.ts" />
+    <TypeScriptCompile Include="src\nnet\html\form\getDefaultValue.ts" />
     <TypeScriptCompile Include="src\nnet\dom\get.ts" />
     <TypeScriptCompile Include="src\nnet\html\HTML.ts" />
     <TypeScriptCompile Include="src\nnet\net\HttpRequest.ts" />
     <TypeScriptCompile Include="src\nnet\util\array\isArrayLike.ts" />
+    <TypeScriptCompile Include="src\nnet\util\array\first.ts" />
     <TypeScriptCompile Include="src\nnet\util\array\last.ts" />
     <TypeScriptCompile Include="src\nnet\util\isLeapYear.ts" />
+    <TypeScriptCompile Include="src\nnet\util\object.ts" />
     <TypeScriptCompile Include="src\nnet\util\Sort.ts" />
     <TypeScriptCompile Include="src\nnet\util\array\shuffle.ts" />
     <TypeScriptCompile Include="src\nnet\util\array\map.ts" />
     <TypeScriptCompile Include="src\nnet\util\array\toArray.ts" />
     <TypeScriptCompile Include="src\nnet\util\array\makeRange.ts" />
-    <TypeScriptCompile Include="src\nnet\util\obj.ts" />
-    <TypeScriptCompile Include="src\nnet\util\obj\forEach.ts" />
-    <TypeScriptCompile Include="src\nnet\util\obj\join.ts" />
-    <TypeScriptCompile Include="src\nnet\util\obj\keys.ts" />
-    <TypeScriptCompile Include="src\nnet\util\obj\map.ts" />
-    <TypeScriptCompile Include="src\nnet\util\obj\parseBool.ts" />
-    <TypeScriptCompile Include="src\nnet\util\obj\t.ts" />
-    <TypeScriptCompile Include="src\nnet\util\obj\type.ts" />
-    <TypeScriptCompile Include="src\nnet\util\obj\Types.ts" />
-    <TypeScriptCompile Include="src\nnet\util\serialization.ts" />
-    <TypeScriptCompile Include="src\nnet\util\serialization\json.ts" />
+    <TypeScriptCompile Include="src\nnet\util\object\forEach.ts" />
+    <TypeScriptCompile Include="src\nnet\util\object\join.ts" />
+    <TypeScriptCompile Include="src\nnet\util\object\keys.ts" />
+    <TypeScriptCompile Include="src\nnet\util\object\map.ts" />
+    <TypeScriptCompile Include="src\nnet\util\object\parseBool.ts" />
+    <TypeScriptCompile Include="src\nnet\util\object\t.ts" />
+    <TypeScriptCompile Include="src\nnet\util\object\type.ts" />
+    <TypeScriptCompile Include="src\nnet\util\object\Types.ts" />
+    <TypeScriptCompile Include="src\nnet\serialization\json.ts" />
     <TypeScriptCompile Include="src\nnet\util\Time.ts" />
     <TypeScriptCompile Include="src\nnet\util\using.ts" />
+    <TypeScriptCompile Include="src\nnet\util\string.ts" />
+    <TypeScriptCompile Include="src\nnet\util\string\contains.ts" />
+    <TypeScriptCompile Include="src\nnet\util\string\escapeHTML.ts" />
+    <TypeScriptCompile Include="src\nnet\util\string\escapeRegExp.ts" />
+    <TypeScriptCompile Include="src\nnet\util\string\stripTags.ts" />
+    <TypeScriptCompile Include="src\nnet\util\string\trim.ts" />
+    <TypeScriptCompile Include="src\nnet\util\string\unescapeHTML.ts" />
+    <TypeScriptCompile Include="src\nnet\util\WindowUtils.ts" />
+    <TypeScriptCompile Include="src\nnet\math\IPRNG.d.ts" />
+    <TypeScriptCompile Include="src\nnet\math\NativeRandomGenerator.ts" />
+    <TypeScriptCompile Include="src\nnet\serialization\json\IJsonSerializable.ts" />
+    <TypeScriptCompile Include="src\nnet\serialization\json\JsonParser.ts" />
     <Content Include="test\editor.htm" />
     <Content Include="test\images\bkgd.png" />
     <Content Include="test\images\block.png" />
@@ -112,29 +125,9 @@
     <Content Include="test\scripts\webtest.js" />
     <Content Include="test\styles\editor.css" />
     <Content Include="test\styles\main.css" />
-    <TypeScriptCompile Include="src\nnet\util\string.ts" />
-    <TypeScriptCompile Include="src\nnet\util\string\contains.ts" />
-    <TypeScriptCompile Include="src\nnet\util\string\escapeHTML.ts" />
-    <TypeScriptCompile Include="src\nnet\util\string\escapeRegExp.ts" />
-    <TypeScriptCompile Include="src\nnet\util\string\stripTags.ts" />
-    <TypeScriptCompile Include="src\nnet\util\string\trim.ts" />
-    <TypeScriptCompile Include="src\nnet\util\string\unescapeHTML.ts" />
-    <TypeScriptCompile Include="src\nnet\util\WindowUtils.ts" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="LICENSE" />
     <Content Include="package.json" />
     <Content Include="README.md" />
-  </ItemGroup>
-  <ItemGroup>
-    <TypeScriptCompile Include="src\nnet\math\IPRNG.d.ts" />
-    <TypeScriptCompile Include="src\nnet\math\NativeRandomGenerator.ts" />
-  </ItemGroup>
-  <ItemGroup>
-    <TypeScriptCompile Include="src\nnet\util\serialization\json\IJsonSerializable.ts" />
-    <TypeScriptCompile Include="src\nnet\util\serialization\json\JsonParser.ts" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="build\module-index-js.mustache" />
     <Content Include="build\module-index-ts.mustache" />
   </ItemGroup>
@@ -185,7 +178,8 @@
     <PreBuildEvent>
     </PreBuildEvent>
   </PropertyGroup>
-   <PropertyGroup>
-      <PostBuildEvent>xcopy /f /y "$(SolutionDir)$(OutDir)" "$(SolutionDir)test\scripts\bin"</PostBuildEvent>
-   </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
 </Project>
