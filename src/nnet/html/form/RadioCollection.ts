@@ -7,6 +7,7 @@
 import Element = require("nnet/dom/ElementUtils");
 import get = require("nnet/dom/get");
 
+//export = RadioCollection;
 class RadioCollection
 {
    value = null;
@@ -16,18 +17,18 @@ class RadioCollection
 
    constructor(name)
    {
-      var i = get.name(name);
-      if(i)
+      var elements = <HTMLInputElement[]>get.name(name);
+      if(elements)
       {
-         for(var x = 0; x < i.length; ++x)
+         for(var x = 0; x < elements.length; ++x)
          {
-            if(i[x].type == "radio")
+            if(elements[x].type == "radio")
             {
-               this.items.push(i[x]);
-               if(i[x].checked)
+               this.items.push(elements[x]);
+               if(elements[x].checked)
                {
                   //index is not set to x since x is all items with this name and we are only counting about radios
-                  this.__set(i[x].value, this.items.length - 1);
+                  this.__set(elements[x].value, this.items.length - 1);
                }
             }
          }

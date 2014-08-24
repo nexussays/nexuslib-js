@@ -36,6 +36,7 @@
     <TypeScriptCompile Include="src\nnet\html.ts" />
     <TypeScriptCompile Include="src\nnet\html\form.ts" />
     <TypeScriptCompile Include="src\nnet\html\form\RadioCollection.ts" />
+    <TypeScriptCompile Include="src\nnet\html\fieldChanged.ts" />
     <TypeScriptCompile Include="src\nnet\math.ts" />
     <TypeScriptCompile Include="src\nnet\math\asUnsigned.ts" />
     <TypeScriptCompile Include="src\nnet\math\clamp.ts" />
@@ -58,7 +59,7 @@
     <TypeScriptCompile Include="src\nnet\util\array.ts" />
     <TypeScriptCompile Include="src\nnet\util\array\flatten.ts" />
     <TypeScriptCompile Include="src\nnet\event\NNetEvent.ts" />
-    <TypeScriptCompile Include="src\nnet\html\form\Form.ts" />
+    <TypeScriptCompile Include="src\nnet\html\getDefaultValue.ts" />
     <TypeScriptCompile Include="src\nnet\dom\get.ts" />
     <TypeScriptCompile Include="src\nnet\html\HTML.ts" />
     <TypeScriptCompile Include="src\nnet\net\HttpRequest.ts" />
@@ -184,4 +185,7 @@
     <PreBuildEvent>
     </PreBuildEvent>
   </PropertyGroup>
+   <PropertyGroup>
+      <PostBuildEvent>xcopy /f /y "$(SolutionDir)$(OutDir)" "$(SolutionDir)test\scripts\bin"</PostBuildEvent>
+   </PropertyGroup>
 </Project>

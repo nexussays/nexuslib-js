@@ -157,9 +157,9 @@ gulp.task("compile-ts", function()
    // Compile TypeScript files
    return gulp.src(config.paths.src.ts)
       //.pipe(watch())
-      .pipe(changed(config.paths.dest.compiled, { extension: '.js' }))
+      .pipe(changed(config.typescript.outDir, { extension: '.js' }))
       .pipe(tsc(config.typescript))
-      .pipe(gulp.dest(config.paths.dest.compiled));
+      .pipe(gulp.dest(config.typescript.outDir));
 });
 
 gulp.task("copy-js", function()

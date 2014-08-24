@@ -6,7 +6,8 @@
 
 
 import Types = require("nnet/util/obj/Types");
-import type = require("nnet/util/obj/t");
+import t = require("nnet/util/obj/t");
+import get = require("nnet/dom/get");
 import filterByAttribute = require("nnet/dom/selector/filterByAttribute");
 import toArray = require("nnet/util/array/toArray");
 
