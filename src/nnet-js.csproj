@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <ProjectGuid>{3EEE0FF1-8F08-4B95-B156-8FAF86128487}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <OutputPath>../bin</OutputPath>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <TypeScriptToolsVersion>1.0</TypeScriptToolsVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+  </PropertyGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="nnet.ts" />
+    <TypeScriptCompile Include="nnet\browser.ts" />
+    <TypeScriptCompile Include="nnet\browser\Init.ts" />
+    <TypeScriptCompile Include="nnet\dom\DOM.ts" />
+    <TypeScriptCompile Include="nnet\dom\selector.ts" />
+    <TypeScriptCompile Include="nnet\dom\selector\filterByAttribute.ts" />
+    <TypeScriptCompile Include="nnet\dom\selector\filterByNodeName.ts" />
+    <TypeScriptCompile Include="nnet\dom\selector\selectorClassName.ts" />
+    <TypeScriptCompile Include="nnet\dom\selector\selectorQueryAll.ts" />
+    <TypeScriptCompile Include="nnet\error.ts" />
+    <TypeScriptCompile Include="nnet\event.ts" />
+    <TypeScriptCompile Include="nnet\graphics.ts" />
+    <TypeScriptCompile Include="nnet\graphics\Color.ts" />
+    <TypeScriptCompile Include="nnet\html.ts" />
+    <TypeScriptCompile Include="nnet\html\form.ts" />
+    <TypeScriptCompile Include="nnet\html\form\RadioCollection.ts" />
+    <TypeScriptCompile Include="nnet\html\form\fieldChanged.ts" />
+    <TypeScriptCompile Include="nnet\math.ts" />
+    <TypeScriptCompile Include="nnet\math\asUnsigned.ts" />
+    <TypeScriptCompile Include="nnet\math\clamp.ts" />
+    <TypeScriptCompile Include="nnet\math\distance.ts" />
+    <TypeScriptCompile Include="nnet\math\matchSign.ts" />
+    <TypeScriptCompile Include="nnet\math\mean.ts" />
+    <TypeScriptCompile Include="nnet\math\Random.ts" />
+    <TypeScriptCompile Include="nnet\math\sign.ts" />
+    <TypeScriptCompile Include="nnet\math\toDegrees.ts" />
+    <TypeScriptCompile Include="nnet\math\toRadians.ts" />
+    <TypeScriptCompile Include="nnet\math\wrapAngleDegrees.ts" />
+    <TypeScriptCompile Include="nnet\math\wrapAngleRadians.ts" />
+    <TypeScriptCompile Include="nnet\net.ts" />
+    <TypeScriptCompile Include="nnet\net\IHttpResponse.d.ts" />
+    <TypeScriptCompile Include="nnet\serialization.ts" />
+    <TypeScriptCompile Include="nnet\util.ts" />
+    <TypeScriptCompile Include="nnet\browser\BrowserUtils.ts" />
+    <TypeScriptCompile Include="nnet\browser\Cookie.ts" />
+    <TypeScriptCompile Include="nnet\dom\ElementUtils.ts" />
+    <TypeScriptCompile Include="nnet\error\NNetError.ts" />
+    <TypeScriptCompile Include="nnet\util\array.ts" />
+    <TypeScriptCompile Include="nnet\util\array\flatten.ts" />
+    <TypeScriptCompile Include="nnet\event\NNetEvent.ts" />
+    <TypeScriptCompile Include="nnet\html\form\getDefaultValue.ts" />
+    <TypeScriptCompile Include="nnet\dom\get.ts" />
+    <TypeScriptCompile Include="nnet\html\HTML.ts" />
+    <TypeScriptCompile Include="nnet\net\HttpRequest.ts" />
+    <TypeScriptCompile Include="nnet\util\array\isArrayLike.ts" />
+    <TypeScriptCompile Include="nnet\util\array\first.ts" />
+    <TypeScriptCompile Include="nnet\util\array\last.ts" />
+    <TypeScriptCompile Include="nnet\util\isLeapYear.ts" />
+    <TypeScriptCompile Include="nnet\util\object_.ts" />
+    <TypeScriptCompile Include="nnet\util\Sort.ts" />
+    <TypeScriptCompile Include="nnet\util\array\shuffle.ts" />
+    <TypeScriptCompile Include="nnet\util\array\map.ts" />
+    <TypeScriptCompile Include="nnet\util\array\toArray.ts" />
+    <TypeScriptCompile Include="nnet\util\array\makeRange.ts" />
+    <TypeScriptCompile Include="nnet\util\object\forEach.ts" />
+    <TypeScriptCompile Include="nnet\util\object\join.ts" />
+    <TypeScriptCompile Include="nnet\util\object\keys.ts" />
+    <TypeScriptCompile Include="nnet\util\object\map.ts" />
+    <TypeScriptCompile Include="nnet\util\object\parseBool.ts" />
+    <TypeScriptCompile Include="nnet\util\object\t.ts" />
+    <TypeScriptCompile Include="nnet\util\object\type.ts" />
+    <TypeScriptCompile Include="nnet\util\object\Types.ts" />
+    <TypeScriptCompile Include="nnet\serialization\json.ts" />
+    <TypeScriptCompile Include="nnet\util\Time.ts" />
+    <TypeScriptCompile Include="nnet\util\using.ts" />
+    <TypeScriptCompile Include="nnet\util\string.ts" />
+    <TypeScriptCompile Include="nnet\util\string\contains.ts" />
+    <TypeScriptCompile Include="nnet\util\string\escapeHTML.ts" />
+    <TypeScriptCompile Include="nnet\util\string\escapeRegExp.ts" />
+    <TypeScriptCompile Include="nnet\util\string\stripTags.ts" />
+    <TypeScriptCompile Include="nnet\util\string\trim.ts" />
+    <TypeScriptCompile Include="nnet\util\string\unescapeHTML.ts" />
+    <TypeScriptCompile Include="nnet\util\WindowUtils.ts" />
+    <TypeScriptCompile Include="nnet\math\IPRNG.d.ts" />
+    <TypeScriptCompile Include="nnet\math\NativeRandomGenerator.ts" />
+    <TypeScriptCompile Include="nnet\serialization\json\IJsonSerializable.ts" />
+    <TypeScriptCompile Include="nnet\serialization\json\JsonParser.ts" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>nnet_js</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>64101</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:64101/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <TypeScriptTarget>ES5</TypeScriptTarget>
+    <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
+    <TypeScriptSourceMap>true</TypeScriptSourceMap>
+    <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
+    <TypeScriptGeneratesDeclarations>True</TypeScriptGeneratesDeclarations>
+    <TypeScriptOutDir>../bin/compiled</TypeScriptOutDir>
+    <TypeScriptMapRoot>../bin/compiled</TypeScriptMapRoot>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <TypeScriptTarget>ES5</TypeScriptTarget>
+    <TypeScriptRemoveComments>true</TypeScriptRemoveComments>
+    <TypeScriptSourceMap>false</TypeScriptSourceMap>
+    <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
+  </PropertyGroup>
+  <Import Project="$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets')" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>
