@@ -4,8 +4,8 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-export = arrayLike;
-function arrayLike(source:any):boolean
+export = isArrayLike;
+function isArrayLike(source:any):boolean
 {
    return source instanceof Array || (typeof source === 'object' && isFinite(source.length));
 }

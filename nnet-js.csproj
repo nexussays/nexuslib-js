@@ -25,6 +25,10 @@
     <TypeScriptCompile Include="src\nnet\browser\Init.ts" />
     <TypeScriptCompile Include="src\nnet\dom.ts" />
     <TypeScriptCompile Include="src\nnet\dom\DOM.ts" />
+    <TypeScriptCompile Include="src\nnet\dom\selector\filterByAttribute.ts" />
+    <TypeScriptCompile Include="src\nnet\dom\selector\filterByNodeName.ts" />
+    <TypeScriptCompile Include="src\nnet\dom\selector\selectorClassName.ts" />
+    <TypeScriptCompile Include="src\nnet\dom\selector\selectorQueryAll.ts" />
     <TypeScriptCompile Include="src\nnet\error.ts" />
     <TypeScriptCompile Include="src\nnet\event.ts" />
     <TypeScriptCompile Include="src\nnet\graphics.ts" />
@@ -58,7 +62,7 @@
     <TypeScriptCompile Include="src\nnet\dom\get.ts" />
     <TypeScriptCompile Include="src\nnet\html\HTML.ts" />
     <TypeScriptCompile Include="src\nnet\net\HttpRequest.ts" />
-    <TypeScriptCompile Include="src\nnet\util\array\arrayLike.ts" />
+    <TypeScriptCompile Include="src\nnet\util\array\isArrayLike.ts" />
     <TypeScriptCompile Include="src\nnet\util\array\last.ts" />
     <TypeScriptCompile Include="src\nnet\util\isLeapYear.ts" />
     <TypeScriptCompile Include="src\nnet\util\Sort.ts" />
