@@ -4,13 +4,20 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-import Types = require("nnet/util/object/Types");
-import type = require("nnet/util/object/t");
-import toArray = require("nnet/util/array/toArray");
-import flatten = require("nnet/util/array/flatten");
-import isArrayLike = require("nnet/util/array/isArrayLike");
-import ElementUtils = require("nnet/dom/ElementUtils");
-import filterByNodeName = require("nnet/dom/selector/filterByNodeName");
+///ts:import=Types
+import Types = require('../util/object/Types'); ///ts:import:generated
+///ts:import=type
+import type = require('../util/object/type'); ///ts:import:generated
+///ts:import=toArray
+import toArray = require('../util/array/toArray'); ///ts:import:generated
+///ts:import=flatten
+import flatten = require('../util/array/flatten'); ///ts:import:generated
+///ts:import=isArrayLike
+import isArrayLike = require('../util/array/isArrayLike'); ///ts:import:generated
+///ts:import=ElementUtils
+import ElementUtils = require('./ElementUtils'); ///ts:import:generated
+///ts:import=filterByNodeName
+import filterByNodeName = require('./selector/filterByNodeName'); ///ts:import:generated
 
 export = get;
 

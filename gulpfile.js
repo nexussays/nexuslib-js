@@ -219,7 +219,7 @@ function generateModuleRoots(template, root, fileFilter, ext, basename)
       var dir = _path.join(root, item);
       var files = getFiles(root, item, fileFilter);
       //get parent directory and create js file with name of the current dir
-      var newFileName = _path.basename(item) + ext;
+      var newFileName = _path.basename(item) + "_" + ext;
       var newFile = _path.join(_path.resolve(dir, ".."), newFileName);
       if(files.length > 0)
       {
@@ -243,7 +243,7 @@ function generateModuleRoots(template, root, fileFilter, ext, basename)
          //console.log(newFile);
          //console.log(files);
 
-         var model = {"path": item, "files": files};
+         var model = {"path": "./" + item.split("/").last(), "files": files};
          if(newFileName == config.package.main)
          {
             model["version"] = config.package.version;
@@ -276,7 +276,7 @@ function getDirs(baseExclude, baseInclude)
          }
       }
    }
-   // reverse sort so highest depth is first
+   // reverse sort so higher depths are first
    return result.sort().reverse();
 }
 
@@ -296,3 +296,8 @@ function getFiles(baseExclude, dir, allowed)
    }
    return contents.sort();
 }
+
+Array.prototype.last = function last()
+{
+   return this.length > 0 ? this[this.length - 1] : null;
+};

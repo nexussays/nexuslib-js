@@ -17,24 +17,23 @@
     <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="nnet.ts" />
-    <TypeScriptCompile Include="nnet\browser.ts" />
     <TypeScriptCompile Include="nnet\browser\Init.ts" />
+    <TypeScriptCompile Include="nnet\browser_.ts" />
     <TypeScriptCompile Include="nnet\dom\DOM.ts" />
-    <TypeScriptCompile Include="nnet\dom\selector.ts" />
     <TypeScriptCompile Include="nnet\dom\selector\filterByAttribute.ts" />
     <TypeScriptCompile Include="nnet\dom\selector\filterByNodeName.ts" />
     <TypeScriptCompile Include="nnet\dom\selector\selectorClassName.ts" />
     <TypeScriptCompile Include="nnet\dom\selector\selectorQueryAll.ts" />
-    <TypeScriptCompile Include="nnet\error.ts" />
-    <TypeScriptCompile Include="nnet\event.ts" />
-    <TypeScriptCompile Include="nnet\graphics.ts" />
+    <TypeScriptCompile Include="nnet\dom\selector_.ts" />
+    <TypeScriptCompile Include="nnet\dom_.ts" />
+    <TypeScriptCompile Include="nnet\error_.ts" />
+    <TypeScriptCompile Include="nnet\event_.ts" />
     <TypeScriptCompile Include="nnet\graphics\Color.ts" />
-    <TypeScriptCompile Include="nnet\html.ts" />
-    <TypeScriptCompile Include="nnet\html\form.ts" />
+    <TypeScriptCompile Include="nnet\graphics_.ts" />
     <TypeScriptCompile Include="nnet\html\form\RadioCollection.ts" />
     <TypeScriptCompile Include="nnet\html\form\fieldChanged.ts" />
-    <TypeScriptCompile Include="nnet\math.ts" />
+    <TypeScriptCompile Include="nnet\html\form_.ts" />
+    <TypeScriptCompile Include="nnet\html_.ts" />
     <TypeScriptCompile Include="nnet\math\asUnsigned.ts" />
     <TypeScriptCompile Include="nnet\math\clamp.ts" />
     <TypeScriptCompile Include="nnet\math\distance.ts" />
@@ -46,15 +45,15 @@
     <TypeScriptCompile Include="nnet\math\toRadians.ts" />
     <TypeScriptCompile Include="nnet\math\wrapAngleDegrees.ts" />
     <TypeScriptCompile Include="nnet\math\wrapAngleRadians.ts" />
-    <TypeScriptCompile Include="nnet\net.ts" />
+    <TypeScriptCompile Include="nnet\math_.ts" />
     <TypeScriptCompile Include="nnet\net\IHttpResponse.d.ts" />
-    <TypeScriptCompile Include="nnet\serialization.ts" />
-    <TypeScriptCompile Include="nnet\util.ts" />
     <TypeScriptCompile Include="nnet\browser\BrowserUtils.ts" />
     <TypeScriptCompile Include="nnet\browser\Cookie.ts" />
     <TypeScriptCompile Include="nnet\dom\ElementUtils.ts" />
     <TypeScriptCompile Include="nnet\error\NNetError.ts" />
-    <TypeScriptCompile Include="nnet\util\array.ts" />
+    <TypeScriptCompile Include="nnet\net_.ts" />
+    <TypeScriptCompile Include="nnet\serialization\json_.ts" />
+    <TypeScriptCompile Include="nnet\serialization_.ts" />
     <TypeScriptCompile Include="nnet\util\array\flatten.ts" />
     <TypeScriptCompile Include="nnet\event\NNetEvent.ts" />
     <TypeScriptCompile Include="nnet\html\form\getDefaultValue.ts" />
@@ -64,6 +63,7 @@
     <TypeScriptCompile Include="nnet\util\array\isArrayLike.ts" />
     <TypeScriptCompile Include="nnet\util\array\first.ts" />
     <TypeScriptCompile Include="nnet\util\array\last.ts" />
+    <TypeScriptCompile Include="nnet\util\array_.ts" />
     <TypeScriptCompile Include="nnet\util\isLeapYear.ts" />
     <TypeScriptCompile Include="nnet\util\object_.ts" />
     <TypeScriptCompile Include="nnet\util\Sort.ts" />
@@ -79,10 +79,9 @@
     <TypeScriptCompile Include="nnet\util\object\t.ts" />
     <TypeScriptCompile Include="nnet\util\object\type.ts" />
     <TypeScriptCompile Include="nnet\util\object\Types.ts" />
-    <TypeScriptCompile Include="nnet\serialization\json.ts" />
+    <TypeScriptCompile Include="nnet\util\string_.ts" />
     <TypeScriptCompile Include="nnet\util\Time.ts" />
     <TypeScriptCompile Include="nnet\util\using.ts" />
-    <TypeScriptCompile Include="nnet\util\string.ts" />
     <TypeScriptCompile Include="nnet\util\string\contains.ts" />
     <TypeScriptCompile Include="nnet\util\string\escapeHTML.ts" />
     <TypeScriptCompile Include="nnet\util\string\escapeRegExp.ts" />
@@ -94,6 +93,8 @@
     <TypeScriptCompile Include="nnet\math\NativeRandomGenerator.ts" />
     <TypeScriptCompile Include="nnet\serialization\json\IJsonSerializable.ts" />
     <TypeScriptCompile Include="nnet\serialization\json\JsonParser.ts" />
+    <TypeScriptCompile Include="nnet\util_.ts" />
+    <TypeScriptCompile Include="nnet_.ts" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
