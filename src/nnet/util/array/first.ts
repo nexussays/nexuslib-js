@@ -5,6 +5,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 export = first;
+
 function first(source)
 {
    return source != null && source.length > 0 ? source[0] : null;

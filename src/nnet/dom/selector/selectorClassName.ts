@@ -10,6 +10,7 @@ import type = require("nnet/util/object/t");
 import filterByAttribute = require("nnet/dom/selector/filterByAttribute");
 
 export = selectorClassName;
+
 function selectorClassName(name: string, tag?: string): Array<Node>
 {
    var allElements = (type( this ) != Types.node ? document : this).getElementsByTagName( tag || "*" );

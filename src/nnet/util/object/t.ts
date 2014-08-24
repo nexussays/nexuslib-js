@@ -7,6 +7,7 @@
 import type = require("nnet/util/object/type");
 
 export = t;
+
 /**
  * Internal short-hand for obj.type(obj, true)
  * So we can get Type integer instead of string. Makes it quicker and easier for
@@ -14,5 +15,5 @@ export = t;
  */
 function t(obj: any): number
 {
-   return type(obj, true);
+   return type( obj, true );
 }

@@ -8,23 +8,26 @@ import NNetError = require("nnet/error/NNetError");
 import IHttpResponse = require("nnet/net/IHttpResponse");
 
 export = HttpRequest;
+
 /**
  * 
  */
 class HttpRequest
 {
-   request : XMLHttpRequest = null;
-   params : any;
-   body : any = null;
+   request: XMLHttpRequest = null;
+   params: any;
+   body: any = null;
    headers: any = {};
-   url : string;
+   url: string;
    response: IHttpResponse = {
       text: null,
       xml: null,
       time: 0,
       status: 0
    };
-   onComplete = (...args) => { };
+   onComplete = (...args) =>
+   {
+   };
 
    constructor(url, params)
    {
@@ -40,52 +43,52 @@ class HttpRequest
       else if(typeof ActiveXObject != "undefined")
       {
          //this.request = new ActiveXObject("Msxml2.XMLHTTP");
-         this.request = new ActiveXObject("Microsoft.XMLHTTP");
+         this.request = new ActiveXObject( "Microsoft.XMLHTTP" );
       }
       else
       {
-         throw new NNetError("HttpRequest is not supported in this browser");
+         throw new NNetError( "HttpRequest is not supported in this browser" );
       }
    }
 
-   sendGet(async:boolean):boolean
+   sendGet(async: boolean): boolean
    {
-      return this.send(HttpRequest.Method.GET, async);
+      return this.send( HttpRequest.Method.GET, async );
    }
 
-   sendPost(async:boolean):boolean
+   sendPost(async: boolean): boolean
    {
-      return this.send(HttpRequest.Method.POST, async);
+      return this.send( HttpRequest.Method.POST, async );
    }
-   
-   sendPut(async:boolean):boolean
+
+   sendPut(async: boolean): boolean
    {
-      return this.send(HttpRequest.Method.PUT, async);
+      return this.send( HttpRequest.Method.PUT, async );
    }
-   
-   sendDelete(async:boolean):boolean
+
+   sendDelete(async: boolean): boolean
    {
-      return this.send(HttpRequest.Method.DELETE, async);
+      return this.send( HttpRequest.Method.DELETE, async );
    }
-   
-   sendHead(async:boolean):boolean
+
+   sendHead(async: boolean): boolean
    {
-      return this.send(HttpRequest.Method.HEAD, async);
+      return this.send( HttpRequest.Method.HEAD, async );
    }
-   
-   send(method:HttpRequest.Method, asynchronous:boolean):boolean
+
+   send(method: HttpRequest.Method, asynchronous: boolean): boolean
    {
       var async = (asynchronous === false ? false : true);
-      var querystring : any = [];
+      var querystring: any = [];
 
       //if we are sending an entity body, ignore the query string
       if(this.body == null)
       {
          for(var x in this.params)
          {
-            querystring.push(encodeURIComponent(x) + "=" + encodeURIComponent(this.params[x]));
+            querystring.push( encodeURIComponent( x ) + "=" + encodeURIComponent( this.params[x] ) );
          }
-         querystring = querystring.join("&");
+         querystring = querystring.join( "&" );
       }
 
       switch(method)
@@ -109,13 +112,13 @@ class HttpRequest
             }
             break;
          case HttpRequest.Method.HEAD:
-            throw new NNetError("HttpRequest.sendHead() is not yet implemented");
+            throw new NNetError( "HttpRequest.sendHead() is not yet implemented" );
             break;
          default:
-            throw new NNetError("Improper value \"" + method + "\" passed to HttpRequest.send() method. Valid values are \"GET, POST, PUT, DELETE, HEAD\"");
+            throw new NNetError( "Improper value \"" + method + "\" passed to HttpRequest.send() method. Valid values are \"GET, POST, PUT, DELETE, HEAD\"" );
       }
 
-      this.request.open(HttpRequest.Method[method], this.url, async);
+      this.request.open( HttpRequest.Method[method], this.url, async );
       this.request.onreadystatechange = () =>
       {
          this.stateChange();
@@ -127,15 +130,15 @@ class HttpRequest
 
       for(var header in this.headers)
       {
-         this.request.setRequestHeader(encodeURIComponent(header), encodeURIComponent(this.headers[header]));
+         this.request.setRequestHeader( encodeURIComponent( header ), encodeURIComponent( this.headers[header] ) );
       }
 
       this.response.time = (new Date()).getTime();
-      this.request.send(this.body || querystring);
+      this.request.send( this.body || querystring );
 
       return true;
    }
-   
+
    private stateChange()
    {
       switch(this.request.readyState)
@@ -156,13 +159,14 @@ class HttpRequest
             this.response.text = this.request.responseText || null;
             this.response.xml = this.request.responseXML || null;
             //Debug.Object(this.request, true);
-            this.onComplete(this.response);
+            this.onComplete( this.response );
             break;
          default:
-            throw new NNetError("INVALID readyState \"" + this.request.readyState + "\" in HTTPRequest");
+            throw new NNetError( "INVALID readyState \"" + this.request.readyState + "\" in HTTPRequest" );
       }
    }
 }
+
 module HttpRequest
 {
    export enum Method

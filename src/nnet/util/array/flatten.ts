@@ -7,6 +7,7 @@
 import arrayLike = require("nnet/util/array/isArrayLike");
 
 export = flatten;
+
 /**
  * Flattens an array of arrays into a single array.
  * @example
@@ -23,7 +24,7 @@ function flatten(source)
       if(x in source)
       {
          var value = source[x];
-         arr = arr.concat( arrayLike(value) ? flatten(value) : value );
+         arr = arr.concat( arrayLike( value ) ? flatten( value ) : value );
       }
    }
    return arr;

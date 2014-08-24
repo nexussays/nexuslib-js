@@ -8,9 +8,10 @@ import Element = require("nnet/dom/ElementUtils");
 import get = require("nnet/dom/get");
 
 export = fieldChanged;
+
 function fieldChanged(elem): boolean
 {
-   var el = <any>get(elem);
+   var el = <any>get( elem );
    if(el && "nodeName" in el)
    {
       var type = el.nodeName.toLowerCase();

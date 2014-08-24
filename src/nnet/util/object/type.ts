@@ -7,6 +7,7 @@
 import Types = require("nnet/util/object/Types");
 
 export = type;
+
 function type(obj: any, useInt: boolean= false): any //string|number
 {
    var objtype = typeof obj;
@@ -14,15 +15,15 @@ function type(obj: any, useInt: boolean= false): any //string|number
    if(objtype === "object")
    {
       result = obj === null ? Types.null :
-      obj instanceof Array ? Types.array :
-      //this fails to capture the document node
-      //obj instanceof HTMLElement ? "element" :
-      "nodeType" in obj ? Types.node :
-      obj === window ? Types.window :
-      obj instanceof Date ? Types.date :
-      //highly unlikely that a string was created from the constructor, so it is last
-      obj instanceof String ? Types.string :
-      result;
+                  obj instanceof Array ? Types.array :
+                     //this fails to capture the document node
+                     //obj instanceof HTMLElement ? "element" :
+                     "nodeType" in obj ? Types.node :
+                        obj === window ? Types.window :
+                           obj instanceof Date ? Types.date :
+                              //highly unlikely that a string was created from the constructor, so it is last
+                              obj instanceof String ? Types.string :
+                                 result;
    }
    else if(objtype === "function" && obj instanceof RegExp)
    {

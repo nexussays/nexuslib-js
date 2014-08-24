@@ -5,6 +5,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 export = isLeapYear;
+
 function isLeapYear(year: number): boolean
 {
    return (((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0));

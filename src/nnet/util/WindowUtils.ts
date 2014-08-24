@@ -7,6 +7,7 @@
 import obj = require("./object_");
 
 export = WindowUtils;
+
 class WindowUtils
 {
    static jump(anchor)
@@ -20,7 +21,7 @@ class WindowUtils
             window.location.host +
             window.location.pathname +
             window.location.search +
-            "#" + anchor);
+            "#" + anchor );
          //alert("added");
       }
       //this is causing what I believe are page reload errors, for some reason I guess you can't clear the hash from the page.
@@ -44,8 +45,8 @@ class WindowUtils
       return ({
          "viewportHeight": doc.clientHeight || body.clientHeight,
          "viewportWidth": doc.clientWidth || body.clientWidth,
-         "contentHeight": doc.offsetHeight || doc.scrollHeight || body.offsetHeight || body.scrollHeight,//((BrowserUtils.isIE || BrowserUtils.quirksMode) ? doc.scrollHeight : doc.offsetHeight),
-         "contentWidth": doc.offsetWidth || doc.scrollWidth || body.offsetWidth || body.scrollWidth,//((BrowserUtils.isIE || BrowserUtils.quirksMode) ? doc.scrollWidth : doc.offsetWidth),
+         "contentHeight": doc.offsetHeight || doc.scrollHeight || body.offsetHeight || body.scrollHeight, //((BrowserUtils.isIE || BrowserUtils.quirksMode) ? doc.scrollHeight : doc.offsetHeight),
+         "contentWidth": doc.offsetWidth || doc.scrollWidth || body.offsetWidth || body.scrollWidth, //((BrowserUtils.isIE || BrowserUtils.quirksMode) ? doc.scrollWidth : doc.offsetWidth),
          "scrollYOffset": window.pageYOffset || doc.scrollTop || body.scrollTop,
          "scrollXOffset": window.pageXOffset || doc.scrollLeft || body.scrollLeft
       });
@@ -54,14 +55,14 @@ class WindowUtils
    static parseQueryString()
    {
       var dict = {};
-      var search: any = window.location.search.substring(1);
+      var search: any = window.location.search.substring( 1 );
       if(search != "")
       {
-         search = search.split("&");
+         search = search.split( "&" );
          for(var x = 0; x < search.length; ++x)
          {
-            var entry = search[x].split("=");
-            dict[decodeURIComponent(entry[0])] = decodeURIComponent(entry[1]);
+            var entry = search[x].split( "=" );
+            dict[decodeURIComponent( entry[0] )] = decodeURIComponent( entry[1] );
          }
       }
       return dict;
@@ -69,7 +70,7 @@ class WindowUtils
 
    static replaceQueryString(hash)
    {
-      var querystring = obj.join(obj.map(hash, encodeURIComponent, encodeURIComponent), "=").join("&");
+      var querystring = obj.join( obj.map( hash, encodeURIComponent, encodeURIComponent ), "=" ).join( "&" );
       window.location.search = (querystring == "" ? "" : "?" + querystring);
    }
 }

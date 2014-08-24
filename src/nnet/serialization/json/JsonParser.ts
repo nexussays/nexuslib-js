@@ -24,7 +24,7 @@ if(JSON && JSON.stringify && typeof JSON.stringify === "function")
 {
    encode = JSON.stringify;
    decode = JSON.parse;
-   console.log("Using native JSON");
+   console.log( "Using native JSON" );
 }
 else
 {
@@ -33,7 +33,7 @@ else
    {
       try
       {
-         return eval("(" + value + ")");
+         return eval( "(" + value + ")" );
       }
       catch(ex)
       {
@@ -43,29 +43,29 @@ else
    };
    decode = (value: any) =>
    {
-      function recurse(x, isArray:boolean=false)
+      function recurse(x, isArray: boolean=false)
       {
          var ret = "",
-            property,
-            val,
-            type,
-            result;
+             property,
+             val,
+             type,
+             result;
          for(property in x)
          {
-            val = x[property], type = _t(val);
+            val = x[property], type = _t( val );
             if(type != Types.function && isArray !== true)
             {
                ret += "\"" + property + "\":";
             }
 
-            result = getValue(val, type);
+            result = getValue( val, type );
             ret += result ? result + "," : "";
          }
          //remove that last comma
-         return ret.replace(/,$/, "");
+         return ret.replace( /,$/, "" );
       }
 
-      function getValue(val, type:number):string
+      function getValue(val, type: number): string
       {
          switch(type)
          {
@@ -75,9 +75,9 @@ else
             case Types.undefined:
                return val + "";
             case Types.object:
-               return "{" + recurse(val) + "}";
+               return "{" + recurse( val ) + "}";
             case Types.array:
-               return "[" + recurse(val, true) + "]";
+               return "[" + recurse( val, true ) + "]";
             case Types.function:
                return "";
             case Types.date:
@@ -85,13 +85,13 @@ else
             default:
                val += "";
                //escape any escape characters, then escape any quotes
-               return "\"" + val.replace(/\\/g, "\\\\").replace(/[\r\n]/g, "\\n").replace(/"/g, "\\\"") + "\"";
+               return "\"" + val.replace( /\\/g, "\\\\" ).replace( /[\r\n]/g, "\\n" ).replace( /"/g, "\\\"" ) + "\"";
          }
       }
 
-      return getValue(value, _t(value));
+      return getValue( value, _t( value ) );
    };
-   console.log("Using NNet JSON");
+   console.log( "Using NNet JSON" );
 }
 
 //interface Date

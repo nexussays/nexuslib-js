@@ -5,9 +5,10 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 export = escapeHTML;
+
 function escapeHTML(str: string): string
 {
-   var div = document.createElement("div");
-   div.appendChild(document.createTextNode(str));
+   var div = document.createElement( "div" );
+   div.appendChild( document.createTextNode( str ) );
    return div.innerHTML;
 }

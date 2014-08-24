@@ -5,10 +5,11 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 export = forEach;
-function forEach(obj, func: (key: any, value: any, obj?) => any): void
+
+function forEach(obj: Object, func: (key: any, value: any, o?: any) => void): void
 {
    for(var x in obj)
    {
-      func.call(obj, x, obj[x], obj);
+      func.call( obj, x, obj[x], obj );
    }
 }

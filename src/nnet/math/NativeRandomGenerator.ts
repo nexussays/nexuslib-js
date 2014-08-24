@@ -7,6 +7,7 @@
 import IPRNG = require("nnet/math/IPRNG");
 
 export = NativeRandomGenerator;
+
 /**
  * Random number generator using the built-in Math.random() function
  */
@@ -14,9 +15,15 @@ class NativeRandomGenerator implements IPRNG
 {
    private m_currentState: number;
 
-   get period(): number { return 2147483647 /*int.MAX_VALUE*/; }
+   get period(): number
+   {
+      return 2147483647 /*int.MAX_VALUE*/;
+   }
 
-   get currentState(): number { return this.m_currentState; }
+   get currentState(): number
+   {
+      return this.m_currentState;
+   }
 
    next(): number
    {

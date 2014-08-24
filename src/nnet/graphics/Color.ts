@@ -9,6 +9,7 @@ import Types = require("nnet/util/object/Types");
 import _clamp = require("nnet/math/clamp");
 
 export = Color;
+
 class Color
 {
    static LUM_R: number = 0.212671;
@@ -17,7 +18,6 @@ class Color
 
    constructor(public red: number = 0, public green: number = 0, public blue: number = 0, public alpha: number = 255)
    {
-
    }
 
    matches(other: Color): boolean
@@ -30,11 +30,11 @@ class Color
 
    setSaturation(n: number): Color
    {
-      if(!isNaN(n))
+      if(!isNaN( n ))
       {
-         this.red = _clamp(this.red * ((1 - n) * Color.LUM_R + n), 0, 255);
-         this.green = _clamp(this.green * ((1 - n) * Color.LUM_G + n), 0, 255);
-         this.blue = _clamp(this.blue * ((1 - n) * Color.LUM_B + n), 0, 255);
+         this.red = _clamp( this.red * ((1 - n) * Color.LUM_R + n), 0, 255 );
+         this.green = _clamp( this.green * ((1 - n) * Color.LUM_G + n), 0, 255 );
+         this.blue = _clamp( this.blue * ((1 - n) * Color.LUM_B + n), 0, 255 );
       }
       return this;
    }
@@ -49,7 +49,7 @@ class Color
       var y: number = Color.LUM_R * this.red + Color.LUM_G * this.green + Color.LUM_B * this.blue;
 
       //return new color but retain alpha from pre-greyscale version
-      return new Color(y, y, y, this.alpha);
+      return new Color( y, y, y, this.alpha );
    }
 
    toNumber(): number
@@ -66,11 +66,11 @@ class Color
    static fromHex(color: number): Color;
    static fromHex(color: any): Color
    {
-      if(_t(color) != Types.number)
+      if(_t( color ) != Types.number)
       {
-         color = parseInt((color + "").replace(/^\#/, ""), 16);
+         color = parseInt( (color + "").replace( /^\#/, "" ), 16 );
       }
-      return Color.fromArgb(color);
+      return Color.fromArgb( color );
    }
 
    static fromArgb(color: number): Color
@@ -79,6 +79,6 @@ class Color
       var r: number = ((color >> 16) & 0xFF);
       var g: number = ((color >> 8) & 0xFF);
       var b: number = (color & 0xFF);
-      return new Color(r, g, b, a);
+      return new Color( r, g, b, a );
    }
 }

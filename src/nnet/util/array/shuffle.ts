@@ -5,16 +5,19 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 export = shuffle;
+
 /**
  * Randomizes the values of the provided Array
  */
 function shuffle(source)
 {
-   var i = source.length, j, temp;
+   var i = source.length,
+       j,
+       temp;
    while(i)
    {
       --i;
-      j = Math.floor(Math.random() * (i + 1));
+      j = Math.floor( Math.random() * (i + 1) );
       temp = source[i];
       source[i] = source[j];
       source[j] = temp;

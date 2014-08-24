@@ -9,9 +9,10 @@ import get = require("nnet/dom/get");
 import first = require("nnet/util/array/first");
 
 export = getDefaultValue;
+
 function getDefaultValue(elem: HTMLElement): string
 {
-   var el = first(get(elem));
+   var el = first( get( elem ) );
    if(el && "nodeName" in el)
    {
       var type = el.nodeName.toLowerCase();
@@ -21,16 +22,17 @@ function getDefaultValue(elem: HTMLElement): string
       }
       else if(type == "select")
       {
-         var defaults = [], options = (<HTMLSelectElement>el).options;
+         var defaults = [],
+             options = (<HTMLSelectElement>el).options;
          for(var x = 0; x < options.length; ++x)
          {
             var option = options[x];
             if(option.defaultSelected)
             {
-               defaults.push(option.value);
+               defaults.push( option.value );
             }
          }
-         return defaults.join(",");
+         return defaults.join( "," );
       }
    }
    return null;

@@ -4,12 +4,13 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-/// <reference path="../../../lib/modernizr.d.ts"/>
+/// <reference path="../../../lib/modernizr.d.ts" />
 
 /**
  * Should probably be using modernizr instead; this code is nearly a decade old.
  */
 export = BrowserUtils;
+
 module BrowserUtils
 {
    declare class HTMLElement
@@ -21,7 +22,7 @@ module BrowserUtils
 
    export var version = Math.floor(
       /*@if(@_jscript_version)(@_jscript_version - 5)@else@*/0
-      /*@end@*/* 10);
+      /*@end@*/ * 10 );
 
    export var strictMode = (document.compatMode == "CSS1Compat");
 
@@ -55,7 +56,7 @@ module BrowserUtils
 
    export var supportsCanvas = () =>
    {
-      var canvas = document.createElement("canvas");
+      var canvas = document.createElement( "canvas" );
       if("getContext" in canvas)
       {
          return true;

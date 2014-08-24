@@ -5,6 +5,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 export = last;
+
 /**
  * Returns the last value of the array. Useful if you don't want to declare an additional variable, eg when using .split()
  */

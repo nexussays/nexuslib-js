@@ -7,9 +7,10 @@
 import stripTags = require("nnet/util/string/stripTags");
 
 export = unescapeHTML;
+
 function unescapeHTML(str: string): string
 {
-   var div = document.createElement("div");
-   div.innerHTML = stripTags(str);
+   var div = document.createElement( "div" );
+   div.innerHTML = stripTags( str );
    return div.childNodes[0] ? div.childNodes[0].nodeValue : '';
 }

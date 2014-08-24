@@ -11,11 +11,11 @@ export function dom(func: (e?: NNetEvent) => void): void
 {
    if(!isDomLoaded)
    {
-      this.documentLoad.push(func);
+      this.documentLoad.push( func );
    }
    else
    {
-      setTimeout(func, 1);
+      setTimeout( func, 1 );
    }
 }
 
@@ -23,11 +23,11 @@ export function content(func: (e?: NNetEvent) => void): void
 {
    if(!isContentLoaded)
    {
-      windowLoad.push(func);
+      windowLoad.push( func );
    }
    else
    {
-      setTimeout(func, 1);
+      setTimeout( func, 1 );
    }
 }
 
@@ -48,21 +48,21 @@ var windowReadyHandler = (e?: Event) =>
    if(!isContentLoaded)
    {
       // fallback for dom ready just in case other methods fail
-      domReadyHandler(e);
+      domReadyHandler( e );
 
-      console.debug("Window Ready: " + (e || document.readyState));
+      console.debug( "Window Ready: " + (e || document.readyState) );
       isContentLoaded = true;
 
       var evt: NNetEvent = null;
       if(e)
       {
-         evt = new NNetEvent(e);
+         evt = new NNetEvent( e );
       }
 
-      windowLoad.forEach((func) =>
+      windowLoad.forEach( (func) =>
       {
-         func(evt);
-      });
+         func( evt );
+      } );
 
       windowLoad = [];
    }
@@ -81,25 +81,25 @@ var domReadyHandler = (e?: Event) =>
          return;
       }
 
-      console.debug("DOM Ready: " + (e || state));
+      console.debug( "DOM Ready: " + (e || state) );
       isDomLoaded = true;
 
       var evt: NNetEvent = null;
       if(e)
       {
-         evt = new NNetEvent(e);
+         evt = new NNetEvent( e );
       }
 
       //documentPreload.forEach((func) =>
       //{
       //   func(evt);
       //});
-      documentLoad.forEach((func) =>
+      documentLoad.forEach( (func) =>
       {
-         func(evt);
-      });
+         func( evt );
+      } );
 
-      clearInterval(domLoadCheck);
+      clearInterval( domLoadCheck );
 
       documentLoad = [];
       //documentPreload = [];
@@ -107,7 +107,7 @@ var domReadyHandler = (e?: Event) =>
 
       //if(state == "complete")
       //{
-         //windowReadyHandler(e);
+      //windowReadyHandler(e);
       //}
    }
 };
@@ -127,44 +127,42 @@ else
 
    if(typeof window.addEventListener == "function")
    {
-      console.debug("window.addEventListener");
-      window.addEventListener("load", windowReadyHandler, false);
+      console.debug( "window.addEventListener" );
+      window.addEventListener( "load", windowReadyHandler, false );
    }
    else if(typeof window.attachEvent == "function")
    {
-      console.debug("window.attachEvent");
-      window.attachEvent("onload", windowReadyHandler);
+      console.debug( "window.attachEvent" );
+      window.attachEvent( "onload", windowReadyHandler );
    }
 
    // fallback to old-style window.onload
    var existingWindowLoad = window.onload;
    window.onload = (e: Event) =>
    {
-      console.debug("window.onload");
+      console.debug( "window.onload" );
       if(existingWindowLoad)
       {
-         existingWindowLoad(e);
+         existingWindowLoad( e );
       }
-      windowReadyHandler(e);
-   }
-
-   //
+      windowReadyHandler( e );
+   }; //
    // document
    //
 
    if(typeof document.addEventListener == "function")
    {
-      console.debug("document.DOMContentLoaded");
-      document.addEventListener("DOMContentLoaded", domReadyHandler, false);
+      console.debug( "document.DOMContentLoaded" );
+      document.addEventListener( "DOMContentLoaded", domReadyHandler, false );
    }
    else if(typeof document.attachEvent == "function")
    {
-      console.debug("document.onreadystatechange");
-      document.attachEvent("onreadystatechange", domReadyHandler);
+      console.debug( "document.onreadystatechange" );
+      document.attachEvent( "onreadystatechange", domReadyHandler );
    }
 
    // fallback to interval check for readyState
-   domLoadCheck = setInterval(domReadyHandler, 10);
+   domLoadCheck = setInterval( domReadyHandler, 10 );
 
    /*
    else if("readyState" in document && Browser.isIE)

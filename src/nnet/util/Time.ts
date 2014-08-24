@@ -7,17 +7,17 @@
 
 export function days(num: number): number
 {
-   return num * hours(24);
+   return num * hours( 24 );
 }
 
 export function hours(num: number): number
 {
-   return num * minutes(60);
+   return num * minutes( 60 );
 }
 
 export function minutes(num: number): number
 {
-   return num * seconds(60);
+   return num * seconds( 60 );
 }
 
 export function seconds(num: number): number

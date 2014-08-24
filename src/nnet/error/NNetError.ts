@@ -8,6 +8,7 @@
  * Base class for errors thrown by nnet-js
  */
 export = NNetError;
+
 class NNetError
 {
    name: string;

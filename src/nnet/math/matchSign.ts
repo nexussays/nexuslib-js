@@ -5,6 +5,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 export = matchSign;
+
 /**
  * Compares the sign value of source to compareTo and returns source or -source as appropriate
  * @param   source      The value to check the sign of and return

@@ -9,6 +9,7 @@ import Types = require("nnet/util/object/Types");
 import JsonParser = require("nnet/serialization/json/JsonParser");
 
 export = Cookie;
+
 /**
  * Provide easier access to browser cookies
  */
@@ -25,13 +26,13 @@ class Cookie
       //this.expiresOn = new Date(Date.now() + (30 * 24 * 60 * 60 * 1000));
       if(expiration)
       {
-         if(_t(expiration) == Types.date)
+         if(_t( expiration ) == Types.date)
          {
             this.expiresOn = expiration;
          }
          else
          {
-            this.expireIn(expiration);
+            this.expireIn( expiration );
          }
       }
    }
@@ -41,14 +42,14 @@ class Cookie
       // TODO: determine support for Date.now()
       //expires = new Date();
       //expires.setTime(expires.getTime() + expiration);
-      this.expiresOn = new Date(Date.now() + seconds);
+      this.expiresOn = new Date( Date.now() + seconds );
       return this;
    }
 
    expire(): Cookie
    {
       // set to expire a year ago
-      return this.expireIn(-(365 * 24 * 60 * 60 * 1000));
+      return this.expireIn( -(365 * 24 * 60 * 60 * 1000) );
    }
 
    save(): void
@@ -70,7 +71,7 @@ class Cookie
     */
    refreshData(): Cookie
    {
-      var update = Cookie.retrieve(this.key, true);
+      var update = Cookie.retrieve( this.key, true );
       if(update != null)
       {
          this.data = update.data;
@@ -80,46 +81,46 @@ class Cookie
 
    toString(): string
    {
-      var key = encodeURIComponent(this.key + "");
-      var value = encodeURIComponent(JsonParser.encode(this.data));
+      var key = encodeURIComponent( this.key + "" );
+      var value = encodeURIComponent( JsonParser.encode( this.data ) );
       return key + "=" + value +
-         (this.expiresOn ? ";expires=" + this.expiresOn.toUTCString() : "") +
-         (this.path ? ";path=" + this.path : "") +
-         (this.domain ? ";domain=" + this.domain : "") +
-         (this.isSecure === true ? ";secure" : "");
+      (this.expiresOn ? ";expires=" + this.expiresOn.toUTCString() : "") +
+      (this.path ? ";path=" + this.path : "") +
+      (this.domain ? ";domain=" + this.domain : "") +
+      (this.isSecure === true ? ";secure" : "");
    }
 
    private static __store: { [s: string]: Cookie; } = {};
 
    static retrieveOrCreate(key, reload: boolean = false): Cookie
    {
-      return Cookie.retrieve(key, reload) || new Cookie(key, {});
+      return Cookie.retrieve( key, reload ) || new Cookie( key, {} );
    }
 
    static retrieve(key, reload: boolean = false): Cookie
    {
       if(reload || !(key in Cookie.__store))
       {
-         var allCookies = document.cookie.split(";");
+         var allCookies = document.cookie.split( ";" );
          for(var x = 0; x < allCookies.length; ++x)
          {
             var cookie = allCookies[x].trim();
-            var index = cookie.indexOf("=");
-            var dk = decodeURIComponent(cookie.substring(0, index));
+            var index = cookie.indexOf( "=" );
+            var dk = decodeURIComponent( cookie.substring( 0, index ) );
             if(dk === key)
             {
-               var dv = decodeURIComponent(cookie.substring(index + 1));
+               var dv = decodeURIComponent( cookie.substring( index + 1 ) );
                var value: any;
                try
                {
-                  value = dv && JsonParser.decode(dv);
+                  value = dv && JsonParser.decode( dv );
                }
                catch(ex)
                {
-                  console.error(ex);
+                  console.error( ex );
                   value = null;
                }
-               Cookie.__store[key] = new Cookie(key, value);
+               Cookie.__store[key] = new Cookie( key, value );
                break;
             }
          }
@@ -131,7 +132,7 @@ class Cookie
    static write(key: string, value: any, expiration?: Date, path?: string, domain?: string, secure?: boolean): Cookie;
    static write(key: string, value: any, expiration?: any, path?: string, domain?: string, secure?: boolean): Cookie
    {
-      var cookie = new Cookie(key, value, expiration, path, domain, secure);
+      var cookie = new Cookie( key, value, expiration, path, domain, secure );
       cookie.save();
       return cookie;
    }

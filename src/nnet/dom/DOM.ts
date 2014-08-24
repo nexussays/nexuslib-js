@@ -9,7 +9,7 @@ import Types = require("nnet/util/object/Types");
 
 export function type(el)
 {
-   if(el != null && _t(el) === Types.node)
+   if(el != null && _t( el ) === Types.node)
    {
       //IE does not define window.Node, so use magic numbers instead
       switch(el.nodeType)
@@ -21,7 +21,7 @@ export function type(el)
          //Node.TEXT_NODE == 3
          //does an extra check to see if the textnode contains any characters other than whitespace
          case 3:
-            return /\S/.test(el.nodeValue) ? "text" : "whitespace";
+            return /\S/.test( el.nodeValue ) ? "text" : "whitespace";
          //Node.CDATA_SECTION_NODE == 4
          //Node.ENTITY_REFERENCE_NODE == 5
          //Node.ENTITY_NODE == 6
@@ -41,4 +41,4 @@ export function type(el)
    }
    //TODO: Need to determine an actual return type here
    return "null";
-} 
+}

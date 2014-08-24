@@ -5,6 +5,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 export = map$;
+
 /**
  * Array#map which directly alters the array instead of returning a new array
  */
@@ -15,7 +16,7 @@ function map$(func, scope)
    {
       if(x in scope)
       {
-         scope[x] = func.call(scope, scope[x], x, scope);
+         scope[x] = func.call( scope, scope[x], x, scope );
       }
    }
 }

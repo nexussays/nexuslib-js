@@ -8,13 +8,14 @@ import IPRNG = require("nnet/math/IPRNG");
 import NativeRandomGenerator = require("nnet/math/NativeRandomGenerator");
 
 export = Random;
+
 /**
  * Given a random number generator, this class provides convenience methods for
  * random number generation and other random operations.
  */
 class Random
 {
-   private static __random: Random = new Random(new NativeRandomGenerator());
+   private static __random: Random = new Random( new NativeRandomGenerator() );
 
    static get instance(): Random
    {
@@ -37,8 +38,8 @@ class Random
     */
    float(min: number = 0, max: number = 1): number
    {
-      min = isNaN(min) || !isFinite(min) ? 0 : min;
-      max = isNaN(max) || !isFinite(max) ? 1 : max;
+      min = isNaN( min ) || !isFinite( min ) ? 0 : min;
+      max = isNaN( max ) || !isFinite( max ) ? 1 : max;
       var p: number = this.generator.next() / this.generator.period;
       return (p * (max - min)) + min;
    }
@@ -82,7 +83,7 @@ class Random
     */
    weightedRound(value: number): number
    {
-      var floor: number = Math.floor(value);
+      var floor: number = Math.floor( value );
       return (this.generator.next() / this.generator.period) > (value - floor) ? floor : floor + 1;
    }
 
@@ -97,12 +98,12 @@ class Random
       var choice: number;
       if(items.length == 1)
       {
-         choice = this.integer(0, items[0].length - 1);
+         choice = this.integer( 0, items[0].length - 1 );
          return items[0][choice];
       }
       else
       {
-         choice = this.integer(0, items.length - 1);
+         choice = this.integer( 0, items.length - 1 );
          return items[choice];
       }
    }

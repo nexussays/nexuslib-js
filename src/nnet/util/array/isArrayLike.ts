@@ -5,7 +5,8 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 export = isArrayLike;
-function isArrayLike(source:any):boolean
+
+function isArrayLike(source: any): boolean
 {
-   return source instanceof Array || (typeof source === 'object' && isFinite(source.length));
+   return source instanceof Array || (typeof source === 'object' && isFinite( source.length ));
 }

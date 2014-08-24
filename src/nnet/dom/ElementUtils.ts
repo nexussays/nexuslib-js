@@ -4,15 +4,20 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-///ts:import=get
-import get = require('./get'); ///ts:import:generated
+/// ts:import=get
 ///ts:import=NNetEvent
 import NNetEvent = require('../event/NNetEvent'); ///ts:import:generated
 ///ts:import=escapeHTML
 import escapeHTML = require('../util/string/escapeHTML'); ///ts:import:generated
-import obj = require('../util/object_');
+///ts:import=t
+import t = require('../util/object/t'); ///ts:import:generated
+///ts:import=type
+import type = require('../util/object/type'); ///ts:import:generated
+///ts:import=forEach
+import forEach = require('../util/object/forEach'); ///ts:import:generated
 
 export = ElementUtils;
+
 /**
  * Utility methods for HTML elements.
  * Call Element.applyElementPrototypes() to extend HTMLElement.prototype
@@ -37,13 +42,13 @@ class ElementUtils
       // if the browser *does* support element prototyping, this function is changed below
       if(override || (element && element.nodeType == 1))
       {
-         obj.forEach(elementInternal, (key, value) =>
+         forEach( elementInternal, function(key, value)
          {
             element[key] = function()
             {
-               return value.apply(this, arguments);
-            }
-         });
+               return value.apply( this, arguments );
+            };
+         } );
       }
    }
 
@@ -168,7 +173,7 @@ module elementInternal
          try
          {
             var el = arguments[x];
-            switch(obj.type( el ))
+            switch(type( el ))
             {
                case "array":
                   this.append.apply( this, el );
@@ -214,7 +219,7 @@ module elementInternal
       {
          func.call( this, new NNetEvent( arguments[0] ) );
       };
-      if(obj.type(this.addEventListener) == "function")
+      if(type( this.addEventListener ) == "function")
       {
          this.addEventListener( type, events[func], false );
       }
@@ -230,7 +235,7 @@ module elementInternal
       var events = (this.events[type] = this.events[type] || {});
       delete events[func];
 
-      if(obj.type( this.removeEventListener ) == "function")
+      if(type( this.removeEventListener ) == "function")
       {
          this.removeEventListener( type, events[func], false );
       }
@@ -250,7 +255,7 @@ module elementInternal
    function __wrapper()
    {
       // first argument is the element in question
-      var el = get(Array.prototype.shift.call(arguments));
+      var el = get( Array.prototype.shift.call( arguments ) );
       // TODO: Allow element arrays to be passed
       if("nodeType" in el)
       {
@@ -259,7 +264,7 @@ module elementInternal
       }
       else
       {
-         throw new TypeError( "\"" + el + "\" (typeof \"" + obj.type( el ) + "\") is not, or does not resolve to, a valid HTML Element" );
+         throw new TypeError( "\"" + el + "\" (typeof \"" + type( el ) + "\") is not, or does not resolve to, a valid HTML Element" );
       }
    }
 

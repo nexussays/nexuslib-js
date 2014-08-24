@@ -5,6 +5,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 export = contains;
+
 function contains(source: string, value: string, separator?: string, caseInsensitive: boolean=false): boolean
 {
    //if case-insensitive, return a recurse of callee with lowercase arguments

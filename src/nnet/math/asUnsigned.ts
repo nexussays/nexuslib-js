@@ -5,6 +5,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 export = asUnsigned;
+
 function asUnsigned(value: number): number
 {
    //1. shift 0 in from right to set sign bit to 0

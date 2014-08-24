@@ -5,6 +5,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 export = makeRange;
+
 /**
  * not in a global range() function because Javascript has no "yield" or other means
  * to defer execution, so we actually have to generate the entire range. I think
@@ -16,7 +17,7 @@ function makeRange(from, to, step)
    var arr = [];
    while(from <= to)
    {
-      arr.push(from);
+      arr.push( from );
       from += step;
    }
    return arr;

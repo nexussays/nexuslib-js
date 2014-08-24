@@ -10,6 +10,7 @@ import escapeRegExp = require("nnet/util/string/escapeRegExp");
 var regexCache = {};
 
 export = filterByAttribute;
+
 function filterByAttribute(elements, attr: string, val?: string, type?: string)
 {
    var result = [],

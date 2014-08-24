@@ -5,6 +5,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 export = wrapAngleRadians;
+
 function wrapAngleRadians(angle: number): number
 {
    while(angle <= -3.141593)

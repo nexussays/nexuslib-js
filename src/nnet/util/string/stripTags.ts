@@ -5,7 +5,8 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 export = stripTags;
+
 function stripTags(str: string): string
 {
-   return str.replace(/<\/?[^>]+>/gi, '');
+   return str.replace( /<\/?[^>]+>/gi, '' );
 }

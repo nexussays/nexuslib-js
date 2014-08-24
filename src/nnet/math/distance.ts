@@ -5,7 +5,8 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 export = distance;
+
 function distance(value1: number, value2: number): number
 {
-   return Math.abs(value1 - value2);
+   return Math.abs( value1 - value2 );
 }

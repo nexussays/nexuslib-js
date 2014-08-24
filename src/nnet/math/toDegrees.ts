@@ -5,6 +5,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 export = toDegrees;
+
 function toDegrees(radians: number): number
 {
    return (radians * 57.29578);

@@ -17,18 +17,18 @@ class RadioCollection
 
    constructor(name)
    {
-      var elements = <HTMLInputElement[]>get.name(name);
+      var elements = <HTMLInputElement[]>get.name( name );
       if(elements)
       {
          for(var x = 0; x < elements.length; ++x)
          {
             if(elements[x].type == "radio")
             {
-               this.items.push(elements[x]);
+               this.items.push( elements[x] );
                if(elements[x].checked)
                {
                   //index is not set to x since x is all items with this name and we are only counting about radios
-                  this.__set(elements[x].value, this.items.length - 1);
+                  this.__set( elements[x].value, this.items.length - 1 );
                }
             }
          }
@@ -65,7 +65,7 @@ class RadioCollection
          if(item.value == value)
          {
             item.checked = true;
-            this.__set(value, x);
+            this.__set( value, x );
             if(executeOnclickFunc === true && typeof item.onclick == "function")
             {
                item.onclick();
@@ -84,7 +84,7 @@ class RadioCollection
          if(item.checked)
          {
             //if the item is checked set the values accordingly
-            this.__set(item.value, x);
+            this.__set( item.value, x );
             //there can be only one valid selection in a radio collection, so return
             return;
          }

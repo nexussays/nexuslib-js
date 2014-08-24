@@ -5,9 +5,10 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 export = parseBool;
-function parseBool(value:any):boolean
+
+function parseBool(value: any): boolean
 {
-   switch((value+"").toLowerCase())
+   switch((value + "").toLowerCase())
    {
       case "true":
       case "t":
@@ -18,4 +19,4 @@ function parseBool(value:any):boolean
       default:
          return false;
    }
-} 
+}

@@ -5,6 +5,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 export = NNetEvent;
+
 /**
  * Wraps native events and provides additional information
  */
@@ -12,16 +13,16 @@ class NNetEvent
 {
    mouse = {};
    key = {};
-   type : string = "unknown";
-   e : any;
-   pageX : number = NaN;
-   pageY : number = NaN;
-   clientX : number = NaN;
-   clientY : number = NaN;
-   screenX : number = NaN;
-   screenY : number = NaN;
-   target : HTMLElement;
-   relatedTarget : HTMLElement;
+   type: string = "unknown";
+   e: any;
+   pageX: number = NaN;
+   pageY: number = NaN;
+   clientX: number = NaN;
+   clientY: number = NaN;
+   screenX: number = NaN;
+   screenY: number = NaN;
+   target: HTMLElement;
+   relatedTarget: HTMLElement;
 
    //private __extended;
 
@@ -53,14 +54,14 @@ class NNetEvent
       this.type = this.e.type;
 
       var button = this.e.button,
-         w3cType = (typeof this.e.which !== "undefined"),
-         isKeypress = (this.type == "keypress"),
-         isKeyUpOrDown = (this.type == "keyup" || this.type == "keydown"),
-         isMouseover = (this.type == "mouseover"),
-         isMouseout = (this.type == "mouseout"),
-         keycode = this.e.charCode || this.e.keyCode || null,
-         ucase = (keycode >= 65 && keycode <= 90),
-         lcase = (keycode >= 97 && keycode <= 122);
+          w3cType = (typeof this.e.which !== "undefined"),
+          isKeypress = (this.type == "keypress"),
+          isKeyUpOrDown = (this.type == "keyup" || this.type == "keydown"),
+          isMouseover = (this.type == "mouseover"),
+          isMouseout = (this.type == "mouseout"),
+          keycode = this.e.charCode || this.e.keyCode || null,
+          ucase = (keycode >= 65 && keycode <= 90),
+          lcase = (keycode >= 97 && keycode <= 122);
 
       // Mozilla uses the "which" property for button clicks in addition to the "button" property,
       // and they follow the W3C spec for the numbering scheme; so we use the existence
@@ -82,18 +83,18 @@ class NNetEvent
       {
          code: keycode,
          value: (isKeypress || (isKeyUpOrDown && (keycode >= 48 && keycode <= 90))) ?
-            String.fromCharCode(keycode) :
-            ((isKeyUpOrDown && (keycode - 96 >= 0 && keycode - 96 <= 9)) ?
-               String.fromCharCode(keycode - 48) : null),
+                   String.fromCharCode( keycode ) :
+                   ((isKeyUpOrDown && (keycode - 96 >= 0 && keycode - 96 <= 9)) ?
+                       String.fromCharCode( keycode - 48 ) : null),
          shift: (this.e.shiftKey || keycode == 16),
          ctrl: (this.e.ctrlKey || keycode == 17),
          alt: (this.e.altKey || keycode == 18),
          //If the key pressed is not an alpha character, then we cannot determine if caps lock is on so instead we set it to null.
          //If the key is uppercase without shift or lowercase with shift, then caps lock is on.
          capsLock: (!isKeypress || (!ucase && !lcase) ?
-            null :
-            ((ucase && !this.e.shiftKey) || (lcase && this.e.shiftKey) ?
-               true : false))
+                       null :
+                       ((ucase && !this.e.shiftKey) || (lcase && this.e.shiftKey) ?
+                           true : false))
       };
 
       //The element the event originated from
@@ -102,8 +103,8 @@ class NNetEvent
       //the related target, ie if a mouseover it is the element the mouse came from and if a mouseout
       //it is the element the mouse has gone to
       this.relatedTarget = (typeof this.e.relatedTarget == "undefined") ?
-         (isMouseover ? this.e.fromElement : ( isMouseout ? this.e.toElement : null )) :
-         this.e.relatedTarget;
+                              (isMouseover ? this.e.fromElement : (isMouseout ? this.e.toElement : null)) :
+                              this.e.relatedTarget;
 
       //pageX/Y are the values relative to the document itself
       //clientX/Y are the values relative to the viewport (browser window)
@@ -160,7 +161,7 @@ class NNetEvent
    }
 }
 
-module NNetEvent 
+module NNetEvent
 {
    export enum Keys
    {

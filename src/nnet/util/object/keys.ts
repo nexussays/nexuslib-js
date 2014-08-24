@@ -5,12 +5,13 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 export = keys;
+
 function keys(obj: any)
 {
    var arr = [];
    for(var prop in obj)
    {
-      arr.push(prop);
+      arr.push( prop );
    }
    return arr;
 }

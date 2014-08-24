@@ -9,9 +9,9 @@
  * So capital letters come before lowercase letters and numbers are sorted as alpha
  * (eg - 1243 is before 21 is before 320 is before 46, etc)
  */
-export function defaultSort(a, b):number
+export function defaultSort(a, b): number
 {
-   return alphanum(a + "", b + "");
+   return alphanum( a + "", b + "" );
 }
 
 /**
@@ -26,32 +26,32 @@ export function alphanum(a, b): number
 /**
  * Sort alphabetically, case-insensitive
  */
-export function alphanumCaseInsensitive(a, b):number
+export function alphanumCaseInsensitive(a, b): number
 {
-   return alphanum(((typeof a.toLowerCase == "function") ? a.toLowerCase() : a), ((typeof b.toLowerCase == "function") ? b.toLowerCase() : b));
+   return alphanum( ((typeof a.toLowerCase == "function") ? a.toLowerCase() : a), ((typeof b.toLowerCase == "function") ? b.toLowerCase() : b) );
 }
 
 /**
  * Sort on the length property of each item. Items without a length property will be compared as equal.
  */
-export function length(a, b):number
+export function length(a, b): number
 {
-   return property("length")(a, b);
+   return property( "length" )( a, b );
 }
-   
+
 /**
  * Returns a new function which sorts on the given property
  * @param prop The name of the property to compare
  * @param sortFunc The sorting function to compare with. Default is SortBy.alphanum
  */
-export function property(prop:string, sortFunc?:(a:any, b:any) => number):(a:any, b:any) => number
+export function property(prop: string, sortFunc?: (a: any, b: any) => number): (a: any, b: any) => number
 {
    sortFunc = (typeof sortFunc == "function" ? sortFunc : alphanum);
    return ((a, b) =>
    {
       if(typeof a[prop] !== "undefined" && typeof b[prop] !== "undefined")
       {
-         return sortFunc(a[prop], b[prop]);
+         return sortFunc( a[prop], b[prop] );
       }
       return 0;
    });
@@ -63,16 +63,16 @@ export function property(prop:string, sortFunc?:(a:any, b:any) => number):(a:any
  * ["bbb","c","cc","aa","z"].sort(Sort.multi(Sort.length,Sort.alphanum_i))
  * results in -> ["c","z","aa","CC","bbb"]
  */
-export function multi(...items):(a:any, b:any) => number
+export function multi(...items): (a: any, b: any) => number
 {
    //var items = Array.toArray(args);
    return ((a, b) =>
    {
       var result = 0;
       for(var x = 0,
-               ln = items.length; x < ln && result == 0; ++x)
+              ln = items.length; x < ln && result == 0; ++x)
       {
-         result = items[x](a, b);
+         result = items[x]( a, b );
       }
       return result;
    });
