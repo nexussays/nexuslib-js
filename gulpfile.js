@@ -52,8 +52,8 @@ config.requirejs =
       baseUrl: config.paths.dest.compiled,
       //dir: "./bin",
       //exclude: [],
-      //mainConfigFile: "./src/main.js",
-      name: "nnet",
+      //mainConfigFile: config.paths.dest.compiled + "/nnet_.js",
+      name: "nnet_",
       generateSourceMaps: false,
       optimize: "none"
    },
@@ -98,11 +98,13 @@ gulp.task("watch"/*, ["build"]*/, function()
 
 gulp.task("build", function(done)
 {
-   seq("compile-ts"/*, "copy-js", "generate-module-index-js"*/, done);
+   seq("compile-ts", "copy-js", "generate-module-index-js", done);
 });
 
 gulp.task("optimize", function(done)
 {
+   seq("copy-js", "generate-module-index-js");
+
    var r = require("requirejs");
 
    function requirejsOptimize(resultingConfig)
@@ -232,12 +234,12 @@ function generateModuleRoots(template, root, fileFilter, ext, basename)
                {
                   name = _path.basename(name, basename[x]);
                }
-               return name;
             }
             else
             {
-               return _path.basename(name, basename);
+               name = _path.basename(name, basename);
             }
+            return { "name": name.replace(/_$/, ""), "file": name };
          });
 
          //console.log(newFile);

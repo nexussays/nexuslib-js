@@ -17,16 +17,31 @@ module.exports = function(grunt)
       build: {},
       watch: {
          watch: "src"
+      },
+      imports: {
+         //watch:"src",
+         options:
+         {
+            compile: false
+         }
       }
    };
 
-   for(var task in ts)
+   for(var taskName in ts)
    {
       for(var prop in main)
       {
-         if(!(ts[task].hasOwnProperty( prop )))
+         if(!(ts[taskName].hasOwnProperty( prop )))
          {
-            ts[task][prop] = main[prop];
+            ts[taskName][prop] = main[prop];
+         }
+         else if(prop == "options")
+         {
+            var options = main[prop];
+            for(var opt in options)
+            {
+               ts[taskName][prop][opt] = options[opt];
+            }
          }
       }
    }
