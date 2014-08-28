@@ -105,7 +105,8 @@ module ElementUtils
    {
       if(params != null)
       {
-         for(var x = 0, ln = params.length; x < ln; ++x)
+         for(var x = 0,
+                 ln = params.length; x < ln; ++x)
          {
             try
             {
@@ -140,7 +141,7 @@ module ElementUtils
             }
             catch(e)
             {
-               console.error("append()", element, e );
+               console.error( "append()", element, e );
             }
          }
       }
@@ -197,11 +198,12 @@ module ElementUtils
       {
          forEach( ElementUtils, function(funcName, func)
          {
-            element[funcName] = function()
+            element[funcName] = function(...params: any[])
             {
-               Array.prototype.shift.call( arguments, this );
-               func.apply(this, arguments);
-            }
+               params.unshift( this );
+               //console.log( funcName, this, params );
+               func.apply( this, params );
+            };
          } );
       }
    }

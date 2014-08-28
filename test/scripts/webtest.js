@@ -31,19 +31,19 @@ window.CreateMenu = function(id, buildFrom)
                }
                else
                {
-                  li.appendChild(HTML.a({"href":item[1]}, item[0]));
+                  li.append( HTML.a( { "href": item[1] }, item[0] ) );
                }
             }
             //no children, just something visible in the menu section
             else
             {
-               li.appendChild(HTML.span({"class":"text"}, item[0]));
+               li.append( HTML.span( { "class": "text" }, item[0] ) );
             }
-            ul.appendChild(li);
+            ul.append( li );
          }
          return ul;
       }
-      get.id(id).appendChild(recurse(buildFrom));
+      get.id( id ).append( recurse( buildFrom ) );
    }
 
    get("#" + id + " span.dropdown").forEach(function(x)

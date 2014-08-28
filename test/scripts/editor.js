@@ -35,7 +35,7 @@ Init.dom(function()
    
    //get the textarea with the code
    execute_text = get.id("#execute_text");
-   execute_text.onkeydown = execute_text_onkeydown;
+   execute_text.bind("keydown", execute_text_onkeydown);
    execute_text.value = editorCookie.data.execute_text ? unescape(editorCookie.data.execute_text) : "";
    //wireup event handlers
    get.id("#execute_go").onclick = __go;
