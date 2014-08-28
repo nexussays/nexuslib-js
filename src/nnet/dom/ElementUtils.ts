@@ -4,285 +4,210 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-/// ts:import=get
+export = ElementUtils;
+
+///ts:import=get
+import get = require('./get'); ///ts:import:generated
 ///ts:import=NNetEvent
 import NNetEvent = require('../event/NNetEvent'); ///ts:import:generated
 ///ts:import=escapeHTML
 import escapeHTML = require('../util/string/escapeHTML'); ///ts:import:generated
 ///ts:import=t
 import t = require('../util/object/t'); ///ts:import:generated
-///ts:import=type
-import type = require('../util/object/type'); ///ts:import:generated
+///ts:import=Types
+import Types = require('../util/object/Types'); ///ts:import:generated
 ///ts:import=forEach
 import forEach = require('../util/object/forEach'); ///ts:import:generated
-
-export = ElementUtils;
+///ts:import=contains
+import contains = require('../util/string/contains'); ///ts:import:generated
+///ts:import=flatten
+import flatten = require('../util/array/flatten'); ///ts:import:generated
 
 /**
  * Utility methods for HTML elements.
  * Call Element.applyElementPrototypes() to extend HTMLElement.prototype
  */
-class ElementUtils
+module ElementUtils
 {
-   // declare all the methods on ElementInternal
-   // TODO: See if there's a way to generate these dynamically
-   static getAncestor: (tagName: string) => HTMLElement;
-   static getOuterHTML: (escapeHtml?: boolean) => string;
-   static addClass: (className: string, checkExistence: boolean) => void;
-   static removeClass: (className: string) => void;
-   static toggleClass: (className: string) => boolean;
-   static hasClass: (className: string) => boolean;
-   static append: () => void;
-   static bind: () => void;
-   static unbind: () => void;
-   static isAncestor: (element: Node, container: any) => boolean;
-
-   static wrapElement(element: HTMLElement, override?: boolean): void
-   {
-      // if the browser *does* support element prototyping, this function is changed below
-      if(override || (element && element.nodeType == 1))
-      {
-         forEach( elementInternal, function(key, value)
-         {
-            element[key] = function()
-            {
-               return value.apply( this, arguments );
-            };
-         } );
-      }
-   }
-
-   static applyElementPrototypes()
-   {
-      /*
-      if(!Browser.supportsElementPrototype())
-      {
-         //TODO: determine if I need to add an onunload function to destroy all this so there are no memory leaks (mostly in IE)
-         documentPreload.applyElementPrototype = function()
-         {
-            // get all elements and wrap them with element prototypes
-            var result = get();
-            var type = objtype(result);
-            if(type == "node")
-            {
-               Element.__applyElementPrototypes(result);
-            }
-            else if(type == "array")
-            {
-               for(var x = 0; x < result.length; ++x)
-               {
-                  Element.__applyElementPrototypes(result[x]);
-               }
-            }
-            return result;
-         };
-      }
-      //*/
-      ElementUtils.wrapElement( HTMLElement.prototype, true );
-   }
-}
-
-/**
-    * Element wraps these methods, so all functions are guaranteed to have a valid
-    * HTML element as the "this" variable
-    */
-module elementInternal
-{
-   export function getAncestor(tagName)
+   export function getAncestor(element: HTMLElement, tagName: string): Node
    {
       var tag = tagName.toLowerCase(),
-          iter = this,
-          result = null;
+          iter: Node = element;
       while(iter.parentNode)
       {
          //if the element is the one we are looking for, return the entire element
          if(iter.parentNode.nodeName.toLowerCase() == tag)
          {
-            result = iter.parentNode;
-            break;
+            return iter.parentNode;
          }
          iter = iter.parentNode;
       }
-      return result;
+      return null;
    }
 
-   export function isAncestor(element: Node, container: Window): boolean
-   export function isAncestor(element: Node, container: Element): boolean
-   export function isAncestor(element: Node, container: Node): boolean
-   export function isAncestor(element: Node, container: any): boolean
+   export function isAncestor(element: HTMLElement, ancestor: Node): boolean
    {
       // instead of checking for it each time, just have IE<8 fall through to the catch block
       try
       {
-         return (container.compareDocumentPosition( element ) & Node.DOCUMENT_POSITION_CONTAINED_BY) == Node.DOCUMENT_POSITION_CONTAINED_BY;
+         return (element.compareDocumentPosition( ancestor ) & Node.DOCUMENT_POSITION_CONTAINED_BY) == Node.DOCUMENT_POSITION_CONTAINED_BY;
       }
       catch(e)
       {
-         container = container == document || container == window ? document.documentElement : container;
-         return container !== element && container.contains( element );
+         return (<any>element == document || <any>element == window ? document.documentElement.contains( <HTMLElement>ancestor ) : false);
       }
    }
 
-   export function getOuterHTML(escapeHtml)
+   export function getOuterHTML(element: HTMLElement, escapeHtml: boolean = false): string
    {
       var div = document.createElement( "div" );
-      div.appendChild( this.cloneNode( true ) );
+      div.appendChild( element.cloneNode( true ) );
       return escapeHtml ? escapeHTML( div.innerHTML ) : div.innerHTML;
    }
 
-   export function addClass(name: string, checkExistence)
+   export function addClass(element: HTMLElement, name: string, checkExistence: boolean= false): boolean
    {
-      if(checkExistence === false || (!elementInternal.hasClass.call( this, name )))
+      if(checkExistence === false || (!hasClass( element, name )))
       {
-         this.className += " " + name;
-         //this.clasName = this.className.replace(/\s+$/gi, "") + " " + name;
+         element.className += " " + name;
+         //element.clasName = element.className.replace(/\s+$/gi, "") + " " + name;
+         return true;
       }
-      return true;
+      return false;
    }
 
-   export function removeClass(name)
+   export function removeClass(element: HTMLElement, name: string): boolean
    {
       //replace the name with an empty string
-      if(this.className)
+      if(element.className)
       {
-         this.className = this.className.replace( new RegExp( "(^|\\s)" + name + "(\\s|$)", "i" ), "$1$2" );
-         if(this.className == "")
+         element.className = element.className.replace( new RegExp( "(^|\\s)" + name + "(\\s|$)", "i" ), " " );
+         if(element.className == "")
          {
-            this.removeAttribute( "class" );
+            element.removeAttribute( "class" );
          }
       }
       return true;
    }
 
-   export function toggleClass(name)
+   export function toggleClass(element: HTMLElement, name: string)
    {
-      elementInternal.hasClass.call( this, name ) ? elementInternal.removeClass.call( this, name ) : elementInternal.addClass.call( this, name, true );
+      hasClass( element, name ) ? removeClass( element, name ) : addClass( element, name, true );
    }
 
-   export function hasClass(name)
+   export function hasClass(element: HTMLElement, name: string)
    {
-      //return (new RegExp("(?:^|\\s)" + name + "(?:\\s|$)", "i").test(this.className));
-      return (this.className && this.className.contains( name, " ", true ));
+      //return (new RegExp("(?:^|\\s)" + name + "(?:\\s|$)", "i").test(element.className));
+      return (element.className && contains( element.className, name, " ", true ));
    }
 
-   export function append()
+   export function append(element: HTMLElement, ...params: Array<any>): HTMLElement
    {
-      for(var x = 0,
-              ln = arguments.length; x < ln; ++x)
+      if(params != null)
       {
-         try
+         for(var x = 0, ln = params.length; x < ln; ++x)
          {
-            var el = arguments[x];
-            switch(type( el ))
+            try
             {
-               case "array":
-                  this.append.apply( this, el );
-                  break;
-               case "node":
-                  this.appendChild( el );
-                  break;
-               case "object":
-                  for(var prop in el)
-                  {
-                     //account for event handlers
-                     if(/^on/.test( prop ))
+               var arg = params[x];
+               switch(t( arg ))
+               {
+                  case Types.array:
+                     append.apply( element, arg );
+                     break;
+                  case Types.node:
+                     element.appendChild( arg );
+                     break;
+                  case Types.object:
+                     for(var prop in arg)
                      {
-                        this.addEvent( prop.substring( 2 ), el[prop] );
+                        //account for event handlers
+                        if(/^on/.test( prop ))
+                        {
+                           bind( element, prop.substring( 2 ), arg[prop] );
+                        }
+                        else
+                        {
+                           //TODO: handle style attribute
+                           element.setAttribute( prop, arg[prop] );
+                        }
                      }
-                     else
-                     {
-                        this.setAttribute( prop, el[prop] );
-                     }
-                     //TODO: handle style attribute
-                  }
-                  break;
-               default:
-                  //this.innerHTML += el;
-                  // 2014-03-07, feels like appending a text node is better than altering innerHTML
-                  this.appendChild( document.createTextNode( el + "" ) );
-                  break;
+                     break;
+                  default:
+                     element.appendChild( document.createTextNode( arg + "" ) );
+                     break;
+               }
+            }
+            catch(e)
+            {
+               console.error("append()", element, e );
             }
          }
-         catch(e)
-         {
-            console.error( "__append", e );
-         }
       }
-      return this;
+      return element;
    }
 
-   export function bind(type, func)
+   export function bind(element: any, eventName: string, func: (e: NNetEvent) => void)
    {
-      this.events = this.events || {};
-      var events = (this.events[type] = this.events[type] || {});
-      events[func] = () =>
+      var eventHandler = (e) =>
       {
-         func.call( this, new NNetEvent( arguments[0] ) );
+         func.call( element, new NNetEvent( e ) );
       };
-      if(type( this.addEventListener ) == "function")
+
+      if(t( element.addEventListener ) == Types.function)
       {
-         this.addEventListener( type, events[func], false );
+         element.addEventListener( eventName, eventHandler, false );
       }
       else
       {
-         this.attachEvent( "on" + type, events[func] );
+         element.attachEvent( "on" + eventName, eventHandler );
       }
+
+      // store the handler on the element itself so we can look it up to remove it
+      element.events = element.events || {};
+      var events = (element.events[eventName] = element.events[eventName] || {});
+      events[func] = eventHandler;
    }
 
-   export function unbind(type, func)
+   export function unbind(element: any, event: string, func: (e: NNetEvent) => void)
    {
-      this.events = this.events || {};
-      var events = (this.events[type] = this.events[type] || {});
+      element.events = element.events || {};
+      var events = (element.events[event] = element.events[event] || {});
+
+      if(t( element.removeEventListener ) == Types.function)
+      {
+         element.removeEventListener( event, events[func], false );
+      }
+      else
+      {
+         element.detachEvent( "on" + event, events[func] );
+      }
+
+      // remove the function from the dict on the element
       delete events[func];
-
-      if(type( this.removeEventListener ) == "function")
-      {
-         this.removeEventListener( type, events[func], false );
-      }
-      else
-      {
-         this.detachEvent( "on" + type, events[func] );
-      }
    }
 
-   /*
-   export function dispatchEvent(type)
+   export function dispatchEvent(el: HTMLElement, type)
    {
-
-   }
-   //*/
-
-   function __wrapper()
-   {
-      // first argument is the element in question
-      var el = get( Array.prototype.shift.call( arguments ) );
-      // TODO: Allow element arrays to be passed
-      if("nodeType" in el)
-      {
-         // remaining arguments are passed to the function being called
-         return elementInternal[this].apply( el, arguments );
-      }
-      else
-      {
-         throw new TypeError( "\"" + el + "\" (typeof \"" + type( el ) + "\") is not, or does not resolve to, a valid HTML Element" );
-      }
    }
 
-   //Now add all these methods to Element
-   (() =>
+   export function wrapElement(element: HTMLElement, force ?: boolean): void
    {
-      // function call to create closure on funcName
-      function apply(funcName)
+      if(element && (force || element.nodeType == Node.ELEMENT_NODE))
       {
-         ElementUtils[funcName] = () =>
+         forEach( ElementUtils, function(funcName, func)
          {
-            return __wrapper.apply( funcName, arguments );
-         };
+            element[funcName] = function()
+            {
+               Array.prototype.shift.call( arguments, this );
+               func.apply(this, arguments);
+            }
+         } );
       }
+   }
 
-      for(var name in elementInternal)
-      {
-         apply( name );
-      }
-   })();
+   export function applyElementPrototypes()
+   {
+      ElementUtils.wrapElement( HTMLElement.prototype, true );
+   }
 }

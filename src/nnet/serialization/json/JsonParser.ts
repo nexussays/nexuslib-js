@@ -4,8 +4,10 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-import _t = require("nnet/util/object/t");
-import Types = require("nnet/util/object/Types");
+///ts:import=t
+import t = require('../../util/object/t'); ///ts:import:generated
+///ts:import=Types
+import Types = require('../../util/object/Types'); ///ts:import:generated
 
 /**
  * Signature => public static function encode(object:Object):String
@@ -52,7 +54,7 @@ else
              result;
          for(property in x)
          {
-            val = x[property], type = _t( val );
+            val = x[property], type = t( val );
             if(type != Types.function && isArray !== true)
             {
                ret += "\"" + property + "\":";
@@ -89,7 +91,7 @@ else
          }
       }
 
-      return getValue( value, _t( value ) );
+      return getValue( value, t( value ) );
    };
    console.log( "Using NNet JSON" );
 }

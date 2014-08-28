@@ -4,9 +4,14 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-import _t = require("nnet/util/object/t");
-import Types = require("nnet/util/object/Types");
-import JsonParser = require("nnet/serialization/json/JsonParser");
+///ts:import=t
+import t = require('../util/object/t'); ///ts:import:generated
+///ts:import=Types
+import Types = require('../util/object/Types'); ///ts:import:generated
+///ts:import=JsonParser
+import JsonParser = require('../serialization/json/JsonParser'); ///ts:import:generated
+///ts:import=Milliseconds
+import Milliseconds = require('../util/Milliseconds'); ///ts:import:generated
 
 export = Cookie;
 
@@ -22,11 +27,9 @@ class Cookie
    constructor(public key: string, public data: Object, expiration?: any, public path: string = "/", public domain?: string, public isSecure: boolean = false)
    {
       //path = path || "/";
-      // Cookie will, by default, expire in 30 days
-      //this.expiresOn = new Date(Date.now() + (30 * 24 * 60 * 60 * 1000));
       if(expiration)
       {
-         if(_t( expiration ) == Types.date)
+         if(t( expiration ) == Types.date)
          {
             this.expiresOn = expiration;
          }
@@ -37,31 +40,24 @@ class Cookie
       }
    }
 
-   expireIn(seconds: number): Cookie
+   expireIn(milliseconds: number): Cookie
    {
       // TODO: determine support for Date.now()
       //expires = new Date();
       //expires.setTime(expires.getTime() + expiration);
-      this.expiresOn = new Date( Date.now() + seconds );
+      this.expiresOn = new Date( Date.now() + milliseconds );
       return this;
    }
 
    expire(): Cookie
    {
-      // set to expire a year ago
-      return this.expireIn( -(365 * 24 * 60 * 60 * 1000) );
+      // set expiration to the past
+      return this.expireIn( -(Milliseconds.days( 365 )) );
    }
 
    save(): void
    {
-      var cookie = this.toString();
-
-      if(!(this.key in Cookie.__store))
-      {
-         Cookie.__store[this.key] = this;
-      }
-
-      document.cookie = cookie;
+      Cookie.save( this );
    }
 
    /**
@@ -89,48 +85,62 @@ class Cookie
       (this.domain ? ";domain=" + this.domain : "") +
       (this.isSecure === true ? ";secure" : "");
    }
+}
 
-   private static __store: { [s: string]: Cookie; } = {};
+module Cookie
+{
+   var cookieCache: { [s: string]: Cookie; } = { };
 
-   static retrieveOrCreate(key, reload: boolean = false): Cookie
+   export function retrieveOrCreate(key, reload: boolean = false): Cookie
    {
       return Cookie.retrieve( key, reload ) || new Cookie( key, {} );
    }
 
-   static retrieve(key, reload: boolean = false): Cookie
+   export function retrieve(key, reload: boolean = false): Cookie
    {
-      if(reload || !(key in Cookie.__store))
+      if(reload || !(key in cookieCache))
       {
          var allCookies = document.cookie.split( ";" );
          for(var x = 0; x < allCookies.length; ++x)
          {
             var cookie = allCookies[x].trim();
-            var index = cookie.indexOf( "=" );
-            var dk = decodeURIComponent( cookie.substring( 0, index ) );
-            if(dk === key)
+            var delimeter = cookie.indexOf( "=" );
+            if(decodeURIComponent(cookie.substring(0, delimeter)) === key)
             {
-               var dv = decodeURIComponent( cookie.substring( index + 1 ) );
+               var encodedValue = decodeURIComponent( cookie.substring( delimeter + 1 ) );
                var value: any;
                try
                {
-                  value = dv && JsonParser.decode( dv );
+                  value = encodedValue && JsonParser.decode( encodedValue );
                }
                catch(ex)
                {
-                  console.error( ex );
-                  value = null;
+                  console.warn( ex );
+                  value = encodedValue;
                }
-               Cookie.__store[key] = new Cookie( key, value );
+               cookieCache[key] = new Cookie( key, value );
                break;
             }
          }
       }
-      return (key in Cookie.__store ? Cookie.__store[key] : null);
+      return (key in cookieCache ? cookieCache[key] : null);
    }
 
-   static write(key: string, value: any, expiration?: number, path?: string, domain?: string, secure?: boolean): Cookie;
-   static write(key: string, value: any, expiration?: Date, path?: string, domain?: string, secure?: boolean): Cookie;
-   static write(key: string, value: any, expiration?: any, path?: string, domain?: string, secure?: boolean): Cookie
+   export function save(cookie:Cookie):void
+   {
+      var cookieVal = cookie.toString();
+
+      if(!(cookie.key in cookieCache))
+      {
+         cookieCache[cookie.key] = cookie;
+      }
+
+      document.cookie = cookieVal;
+   }
+
+   export function write(key: string, value: any, expiration?: number, path?: string, domain?: string, secure?: boolean): Cookie;
+   export function write(key: string, value: any, expiration?: Date, path?: string, domain?: string, secure?: boolean): Cookie;
+   export function write(key: string, value: any, expiration?: any, path?: string, domain?: string, secure?: boolean): Cookie
    {
       var cookie = new Cookie( key, value, expiration, path, domain, secure );
       cookie.save();

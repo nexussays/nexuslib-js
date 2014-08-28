@@ -3,7 +3,7 @@
    "nnet/browser/BrowserUtils",
    "nnet/html/html",
    "nnet/util/object/type",
-   "nnet/util/string"
+   "nnet/util/string_"
 ], function (get, Browser, HTML, _type, _str) {
 
 window.CreateMenu = function(id, buildFrom)
@@ -48,13 +48,13 @@ window.CreateMenu = function(id, buildFrom)
 
    get("#" + id + " span.dropdown").forEach(function(x)
    {
-      x.parentNode.addEvent("mouseover", CreateMenu.show);
-      x.parentNode.addEvent("mouseout", CreateMenu.show);
+      x.parentNode.bind("mouseover", CreateMenu.show);
+      x.parentNode.bind("mouseout", CreateMenu.show);
    });
 };
 CreateMenu.show = function()
 {
-   this.toggleCssClass("hover");
+   this.toggleClass("hover");
 };
 
 window.Sections = 

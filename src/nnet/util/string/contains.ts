@@ -6,16 +6,19 @@
 
 export = contains;
 
-function contains(source: string, value: string, separator?: string, caseInsensitive: boolean=false): boolean
+/**
+ * @param boundary Provide a word boundary if desired, else the provided character will be found anywhere in he source string, even in the middle of a word.
+ */
+function contains(source: string, value: string, boundary?: string, caseInsensitive: boolean=false): boolean
 {
    //if case-insensitive, return a recurse of callee with lowercase arguments
    //otherwise find the passed string in str string, optionally bound by seperators
    return (
       caseInsensitive === true ?
-         contains( source.toLowerCase(), value.toLowerCase(), separator, false ) :
+         contains( source.toLowerCase(), value.toLowerCase(), boundary, false ) :
          (
-            (separator) ?
-               (separator + source + separator).indexOf( separator + value + separator ) > -1 :
+            (boundary) ?
+               (boundary + source + boundary).indexOf( boundary + value + boundary ) > -1 :
                source.indexOf( value ) > -1
          )
    );

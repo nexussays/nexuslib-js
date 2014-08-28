@@ -5,7 +5,7 @@
     <ProjectGuid>{3EEE0FF1-8F08-4B95-B156-8FAF86128487}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
-    <OutputPath>../bin</OutputPath>
+    <OutputPath>../obj</OutputPath>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
@@ -15,11 +15,13 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <TsOutDir Condition="$(TsOutDir) == '' Or $(TsOutDir) == '*Undefined*'">$(SolutionDir)\bin\compiled</TsOutDir>
   </PropertyGroup>
   <ItemGroup>
     <TypeScriptCompile Include="nnet\browser\Init.ts" />
     <TypeScriptCompile Include="nnet\browser_.ts" />
-    <TypeScriptCompile Include="nnet\dom\DOM.ts" />
+    <TypeScriptCompile Include="nnet\dom\nodetype.ts" />
     <TypeScriptCompile Include="nnet\dom\selector\filterByAttribute.ts" />
     <TypeScriptCompile Include="nnet\dom\selector\filterByNodeName.ts" />
     <TypeScriptCompile Include="nnet\dom\selector\selectorClassName.ts" />
@@ -65,6 +67,7 @@
     <TypeScriptCompile Include="nnet\util\array\last.ts" />
     <TypeScriptCompile Include="nnet\util\array_.ts" />
     <TypeScriptCompile Include="nnet\util\isLeapYear.ts" />
+    <TypeScriptCompile Include="nnet\util\object\extend.ts" />
     <TypeScriptCompile Include="nnet\util\object_.ts" />
     <TypeScriptCompile Include="nnet\util\Sort.ts" />
     <TypeScriptCompile Include="nnet\util\array\shuffle.ts" />
@@ -80,7 +83,7 @@
     <TypeScriptCompile Include="nnet\util\object\type.ts" />
     <TypeScriptCompile Include="nnet\util\object\Types.ts" />
     <TypeScriptCompile Include="nnet\util\string_.ts" />
-    <TypeScriptCompile Include="nnet\util\Time.ts" />
+    <TypeScriptCompile Include="nnet\util\Milliseconds.ts" />
     <TypeScriptCompile Include="nnet\util\using.ts" />
     <TypeScriptCompile Include="nnet\util\string\contains.ts" />
     <TypeScriptCompile Include="nnet\util\string\escapeHTML.ts" />
@@ -91,7 +94,6 @@
     <TypeScriptCompile Include="nnet\util\WindowUtils.ts" />
     <TypeScriptCompile Include="nnet\math\IPRNG.d.ts" />
     <TypeScriptCompile Include="nnet\math\NativeRandomGenerator.ts" />
-    <TypeScriptCompile Include="nnet\serialization\json\IJsonSerializable.ts" />
     <TypeScriptCompile Include="nnet\serialization\json\JsonParser.ts" />
     <TypeScriptCompile Include="nnet\util_.ts" />
     <TypeScriptCompile Include="nnet_.ts" />
@@ -129,9 +131,9 @@
     <TypeScriptSourceMap>true</TypeScriptSourceMap>
     <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
     <TypeScriptGeneratesDeclarations>True</TypeScriptGeneratesDeclarations>
-    <TypeScriptOutDir>../bin/compiled</TypeScriptOutDir>
-    <TypeScriptMapRoot>../bin/compiled</TypeScriptMapRoot>
-    <TypeScriptCompileOnSaveEnabled>False</TypeScriptCompileOnSaveEnabled>
+    <TypeScriptOutDir>$(TsOutDir)</TypeScriptOutDir>
+    <TypeScriptMapRoot>$(TsOutDir)</TypeScriptMapRoot>
+    <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <TypeScriptTarget>ES5</TypeScriptTarget>
@@ -141,11 +143,11 @@
   </PropertyGroup>
   <Import Project="$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets')" />
   <PropertyGroup>
-    <PreBuildEvent>
-    </PreBuildEvent>
+    <PreBuildEvent>call gulp generate-module-index-ts
+call grunt ts:imports</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>call gulp optimize
+xcopy /q /y /i /s "$(TsOutDir)" "$(SolutionDir)test\scripts\out"</PostBuildEvent>
   </PropertyGroup>
 </Project>

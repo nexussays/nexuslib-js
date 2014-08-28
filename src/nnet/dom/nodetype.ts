@@ -4,12 +4,15 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-import _t = require("nnet/util/object/t");
-import Types = require("nnet/util/object/Types");
+///ts:import=t
+import t = require('../util/object/t'); ///ts:import:generated
+///ts:import=Types
+import Types = require('../util/object/Types'); ///ts:import:generated
 
-export function type(el)
+export = nodetype;
+function nodetype(el)
 {
-   if(el != null && _t( el ) === Types.node)
+   if(el != null && t( el ) === Types.node)
    {
       //IE does not define window.Node, so use magic numbers instead
       switch(el.nodeType)

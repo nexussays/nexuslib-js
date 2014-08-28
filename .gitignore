@@ -8,3 +8,4 @@ node_modules/
 *.map
 .tscache/
 .baseDir.ts
+test/scripts/out/

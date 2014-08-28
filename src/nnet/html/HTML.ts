@@ -15,7 +15,7 @@ function defineTag(tag)
    exports[tag.toLowerCase()] = () => create.apply( tag, arguments );
 }
 
-function create()
+export function create()
 {
    var element;
 

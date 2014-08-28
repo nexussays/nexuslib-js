@@ -1,18 +1,25 @@
-requirejs.config({ paths: { nnet: '../../bin/compiled/nnet', bin: '../../bin/compiled' } });
+requirejs.config({ paths: { nnet: './out/nnet' } });
+requirejs.onError = function (err) {
+   console.error(err.requireType + ', modules=' + err.requireModules);
+   throw err;
+};
 require([
-   "bin/nnet",
+   "./out/nnet_",
+   "nnet/dom_",
    "nnet/browser/Init",
    "nnet/browser/Cookie",
    "nnet/dom/ElementUtils",
    "./debug",
    "nnet/browser/BrowserUtils",
    "nnet/event/NNetEvent",
+   "nnet/util/Milliseconds",
    "./webtest",
-   "./benchmark",
-], function(nnet, Init, Cookie, Element, Debug, Browser, Event){
+   "./benchmark"
+], function(nnet, dom, Init, Cookie, Element, Debug, Browser, Event, Milliseconds){
 
 //Hoist up some methods to window
 window.get = nnet.dom.get;
+
 //window.HTML = nnet.html.HTML;
 //Make sure HTMLElements are extended
 Element.applyElementPrototypes();
@@ -21,6 +28,7 @@ var execute_text, showmembers, showoutput, catchtabs, output_executiondetails;
 var waitingImage, editorCookie;
 Init.dom(function()
 {
+   console.log( "dom init" );
    //create the dropdown menu
    CreateMenu("nav", Sections.Javascript.Menu);
    editorCookie = Cookie.retrieveOrCreate("EditorPreferences");
@@ -81,7 +89,7 @@ function __updateTestingHTMLAndCookie()
    editorCookie.data.showoutput = showoutput.checked;
    editorCookie.data.catchtabs = catchtabs.checked;
    editorCookie.data.execute_text = escape(execute_text.value);
-   editorCookie.expireIn(nnet.util.Time.days(30)).save();
+   editorCookie.expireIn(Milliseconds.days(30)).save();
 }
 function execute_text_onkeydown(evt)
 {
@@ -124,7 +132,7 @@ function __go()
    //Debug.allowMultiple = allowmultiple.checked;
    
    //display the waiting image
-   Element.removeCssClass(waitingImage, "hidden");
+   Element.removeClass(waitingImage, "hidden");
       
    //reset html of output area so that is not included in any code executed below
    //(eg - if the debug output element is called using get() in the debug code)
@@ -149,7 +157,7 @@ function __go()
       //end the timer and hide the waiting image
       end = new Date();
 
-      Element.addCssClass(waitingImage, "hidden");
+      Element.addClass(waitingImage, "hidden");
       
       //update the testing HTML to reflect any changes
       //update the cookie with updated preferences

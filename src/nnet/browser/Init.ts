@@ -4,8 +4,10 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-import Element = require("nnet/dom/ElementUtils");
-import NNetEvent = require("nnet/event/NNetEvent");
+///ts:import=ElementUtils
+import ElementUtils = require('../dom/ElementUtils'); ///ts:import:generated
+///ts:import=NNetEvent
+import NNetEvent = require('../event/NNetEvent'); ///ts:import:generated
 
 export function dom(func: (e?: NNetEvent) => void): void
 {
