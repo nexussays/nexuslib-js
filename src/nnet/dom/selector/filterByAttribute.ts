@@ -5,6 +5,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 
+///ts:import=escapeRegExp
 import escapeRegExp = require("nnet/util/string/escapeRegExp");
 
 var regexCache = {};

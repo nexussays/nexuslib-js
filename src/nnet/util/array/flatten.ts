@@ -4,7 +4,8 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-import arrayLike = require("nnet/util/array/isArrayLike");
+///ts:import=isArrayLike
+import isArrayLike = require("nnet/util/array/isArrayLike");
 
 export = flatten;
 
@@ -24,7 +25,7 @@ function flatten(source)
       if(x in source)
       {
          var value = source[x];
-         arr = arr.concat( arrayLike( value ) ? flatten( value ) : value );
+         arr = arr.concat( isArrayLike( value ) ? flatten( value ) : value );
       }
    }
    return arr;

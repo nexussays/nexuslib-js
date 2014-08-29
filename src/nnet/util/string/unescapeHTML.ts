@@ -4,6 +4,7 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with str
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+///ts:import=stripTags
 import stripTags = require("nnet/util/string/stripTags");
 
 export = unescapeHTML;

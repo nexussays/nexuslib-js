@@ -4,9 +4,12 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-import _t = require("nnet/util/object/t");
+///ts:import=t
+import t = require("nnet/util/object/t");
+///ts:import=Types
 import Types = require("nnet/util/object/Types");
-import _clamp = require("nnet/math/clamp");
+///ts:import=clamp
+import clamp = require("nnet/math/clamp");
 
 export = Color;
 
@@ -32,9 +35,9 @@ class Color
    {
       if(!isNaN( n ))
       {
-         this.red = _clamp( this.red * ((1 - n) * Color.LUM_R + n), 0, 255 );
-         this.green = _clamp( this.green * ((1 - n) * Color.LUM_G + n), 0, 255 );
-         this.blue = _clamp( this.blue * ((1 - n) * Color.LUM_B + n), 0, 255 );
+         this.red = clamp( this.red * ((1 - n) * Color.LUM_R + n), 0, 255 );
+         this.green = clamp( this.green * ((1 - n) * Color.LUM_G + n), 0, 255 );
+         this.blue = clamp( this.blue * ((1 - n) * Color.LUM_B + n), 0, 255 );
       }
       return this;
    }
@@ -66,7 +69,7 @@ class Color
    static fromHex(color: number): Color;
    static fromHex(color: any): Color
    {
-      if(_t( color ) != Types.number)
+      if(t( color ) != Types.number)
       {
          color = parseInt( (color + "").replace( /^\#/, "" ), 16 );
       }

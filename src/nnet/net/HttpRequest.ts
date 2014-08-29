@@ -4,7 +4,9 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+///ts:import=NNetError
 import NNetError = require("nnet/error/NNetError");
+///ts:import=IHttpResponse
 import IHttpResponse = require("nnet/net/IHttpResponse");
 
 export = HttpRequest;

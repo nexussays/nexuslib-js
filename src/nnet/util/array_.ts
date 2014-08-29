@@ -12,6 +12,6 @@ export import flatten = require('./array/flatten');
 export import isArrayLike = require('./array/isArrayLike');
 export import last = require('./array/last');
 export import makeRange = require('./array/makeRange');
-export import map = require('./array/map');
+export import map$ = require('./array/map$');
 export import shuffle = require('./array/shuffle');
 export import toArray = require('./array/toArray');

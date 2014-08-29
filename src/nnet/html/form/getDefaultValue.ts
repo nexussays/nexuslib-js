@@ -4,8 +4,9 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-import Element = require("nnet/dom/ElementUtils");
+///ts:import=get
 import get = require("nnet/dom/get");
+///ts:import=first
 import first = require("nnet/util/array/first");
 
 export = getDefaultValue;

@@ -4,20 +4,19 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+///ts:import=get
 import get = require("nnet/dom/get");
+///ts:import=HTML
 import HTML = require("nnet/html/HTML");
 
-/*
 export = using;
-// using("get.js");
-// using("get");
-// using("debug.js");
+
 // this is nearly a decade old, so it's probably unecessary now
 function using(scriptName)
 {
    var addScript = (url, head) =>
    {
-      get.tag(head===true?"head":"body")[0].appendChild(HTML.script({
+      get.tagName(head===true?"head":"body")[0].appendChild(HTML.script({
          "type": "text/javascript",
          //"language": "Javascript",
          "src": url
@@ -29,7 +28,7 @@ function using(scriptName)
       scriptName += ".js";
    }
    //find core.js include and use the same path
-   var scriptTags = get.tag("script");
+   var scriptTags = get.tagName("script");
    for(var i = 0; i < scriptTags.length; ++i)
    {
       var script = <HTMLScriptElement>scriptTags[i];
@@ -43,4 +42,3 @@ function using(scriptName)
       }
    }
 }
-//*/

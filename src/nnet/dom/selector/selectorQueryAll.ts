@@ -5,10 +5,15 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 
+///ts:import=Types
 import Types = require("nnet/util/object/Types");
+///ts:import=t
 import t = require("nnet/util/object/t");
+///ts:import=get
 import get = require("nnet/dom/get");
+///ts:import=filterByAttribute
 import filterByAttribute = require("nnet/dom/selector/filterByAttribute");
+///ts:import=toArray
 import toArray = require("nnet/util/array/toArray");
 
 export = selectorQueryAll;
