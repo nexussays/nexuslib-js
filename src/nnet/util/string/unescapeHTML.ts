@@ -5,7 +5,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 ///ts:import=stripTags
-import stripTags = require("nnet/util/string/stripTags");
+import stripTags = require('./stripTags'); ///ts:import:generated
 
 export = unescapeHTML;
 

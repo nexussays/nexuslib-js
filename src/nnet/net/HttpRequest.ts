@@ -5,9 +5,8 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 ///ts:import=NNetError
-import NNetError = require("nnet/error/NNetError");
-///ts:import=IHttpResponse
-import IHttpResponse = require("nnet/net/IHttpResponse");
+import NNetError = require('../error/NNetError'); ///ts:import:generated
+import IHttpResponse = require('./IHttpResponse');
 
 export = HttpRequest;
 

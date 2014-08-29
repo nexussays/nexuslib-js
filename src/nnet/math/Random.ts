@@ -4,10 +4,9 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-///ts:import=IPRNG
-import IPRNG = require("nnet/math/IPRNG");
+import IPRNG = require("./IPRNG");
 ///ts:import=NativeRandomGenerator
-import NativeRandomGenerator = require("nnet/math/NativeRandomGenerator");
+import NativeRandomGenerator = require('./NativeRandomGenerator'); ///ts:import:generated
 
 export = Random;
 

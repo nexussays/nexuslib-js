@@ -5,7 +5,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 ///ts:import=Types
-import Types = require("nnet/util/object/Types");
+import Types = require('./Types'); ///ts:import:generated
 
 export = type;
 

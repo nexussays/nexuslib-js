@@ -5,9 +5,9 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 ///ts:import=get
-import get = require("nnet/dom/get");
+import get = require('../dom/get'); ///ts:import:generated
 ///ts:import=HTML
-import HTML = require("nnet/html/HTML");
+import HTML = require('../html/HTML'); ///ts:import:generated
 
 export = using;
 

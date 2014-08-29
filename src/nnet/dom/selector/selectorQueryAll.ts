@@ -6,15 +6,15 @@
 
 
 ///ts:import=Types
-import Types = require("nnet/util/object/Types");
+import Types = require('../../util/object/Types'); ///ts:import:generated
 ///ts:import=t
-import t = require("nnet/util/object/t");
+import t = require('../../util/object/t'); ///ts:import:generated
 ///ts:import=get
-import get = require("nnet/dom/get");
+import get = require('../get'); ///ts:import:generated
 ///ts:import=filterByAttribute
-import filterByAttribute = require("nnet/dom/selector/filterByAttribute");
+import filterByAttribute = require('./filterByAttribute'); ///ts:import:generated
 ///ts:import=toArray
-import toArray = require("nnet/util/array/toArray");
+import toArray = require('../../util/array/toArray'); ///ts:import:generated
 
 export = selectorQueryAll;
 

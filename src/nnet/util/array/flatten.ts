@@ -5,7 +5,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 ///ts:import=isArrayLike
-import isArrayLike = require("nnet/util/array/isArrayLike");
+import isArrayLike = require('./isArrayLike'); ///ts:import:generated
 
 export = flatten;
 

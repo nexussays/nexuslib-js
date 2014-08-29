@@ -5,11 +5,11 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 ///ts:import=t
-import t = require("nnet/util/object/t");
+import t = require('../util/object/t'); ///ts:import:generated
 ///ts:import=Types
-import Types = require("nnet/util/object/Types");
+import Types = require('../util/object/Types'); ///ts:import:generated
 ///ts:import=clamp
-import clamp = require("nnet/math/clamp");
+import clamp = require('../math/clamp'); ///ts:import:generated
 
 export = Color;
 

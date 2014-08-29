@@ -5,7 +5,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 ///ts:import=ElementUtils
-import ElementUtils = require("nnet/dom/ElementUtils");
+import ElementUtils = require('../dom/ElementUtils'); ///ts:import:generated
 
 declare var exports;
 
