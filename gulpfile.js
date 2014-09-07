@@ -47,7 +47,7 @@ config.requirejs =
    //r.js.cmd -o build.js optimize=none
    main:
    {
-      out: config.paths.dest.bundled + "/nnet.js",
+      out: config.paths.dest.bundled + "/nnet-amd.min.js",
       //appDir: config.paths.dest.compiled,
       baseUrl: config.paths.dest.compiled,
       //dir: "./bin",
@@ -55,7 +55,7 @@ config.requirejs =
       //mainConfigFile: config.paths.dest.compiled + "/nnet_.js",
       name: "nnet_",
       generateSourceMaps: false,
-      optimize: "none"
+      //optimize: "none"
    },
    builds:
    [
@@ -63,14 +63,14 @@ config.requirejs =
       {},
       //r.js.cmd -o build.js optimize=none paths.requireLib=../node_modules/requirejs/require include=requireLib
       {
-         out: config.paths.dest.bundled + "/nnet.with-almond.js",
+         out: config.paths.dest.bundled + "/nnet-amd-with-almond.min.js",
          include: ["../../lib/almond"],
          //TODO: turn this back on once everything is properly wrapped
          //wrap: true
       },
       //*
       {
-         out: config.paths.dest.bundled + "/nnet.with-require.js",
+         out: config.paths.dest.bundled + "/nnet-amd-with-require.min.js",
          paths:
          {
             "requireLib": "../../node_modules/requirejs/require"

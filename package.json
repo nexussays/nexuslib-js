@@ -1,8 +1,8 @@
 {
   "name": "nnet-js",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "description": "Javascript utilities",
-  "main": "nnet.js",
+  "main": "./bin/compiled/nnet_.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,9 +17,13 @@
   "author": "Malachi Griffie <malachi@nexussays.com>",
   "license": "MPL 2.0",
   "devDependencies": {
+    "browserify": ">=5.10.1",
+    "deamdify": ">=0.1.1",
     "grunt": ">=0.4.5",
+    "grunt-browserify": ">=3.0.0",
     "grunt-ts": ">=1.11.6",
     "gulp": ">=3.8.7",
+    "gulp-browserify": "^0.5.0",
     "gulp-changed": ">=1.0.0",
     "gulp-jshint": ">=1.8.4",
     "gulp-rename": ">=1.2.0",

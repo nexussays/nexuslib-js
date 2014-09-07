@@ -46,11 +46,21 @@ module.exports = function(grunt)
       }
    }
 
-   // load the task
+   grunt.loadNpmTasks( "grunt-browserify" );
    grunt.loadNpmTasks( "grunt-ts" );
    // Configure grunt here
    grunt.registerTask( "default", ["ts:build"] );
    grunt.initConfig( {
       ts: ts,
+      browserify: {
+         dist: {
+            src: ["bin/compiled/**/*.js"],
+            dest: "bin/bundled/nnet-browserify.js",
+            options: {
+               transform: ['deamdify'],
+               standalone: "nnet"
+            }
+         }
+      }
    } );
 }
