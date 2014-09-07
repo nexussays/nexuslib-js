@@ -19,8 +19,9 @@
     <TsOutDir Condition="$(TsOutDir) == '' Or $(TsOutDir) == '*Undefined*'">$(SolutionDir)\bin\compiled</TsOutDir>
   </PropertyGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="nnet\browser\Init.ts" />
+    <TypeScriptCompile Include="nnet\dom\onLoaded.ts" />
     <TypeScriptCompile Include="nnet\browser_.ts" />
+    <TypeScriptCompile Include="nnet\dom\onInteractive.ts" />
     <TypeScriptCompile Include="nnet\dom\nodetype.ts" />
     <TypeScriptCompile Include="nnet\dom\selector\filterByAttribute.ts" />
     <TypeScriptCompile Include="nnet\dom\selector\filterByNodeName.ts" />

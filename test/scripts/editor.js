@@ -6,16 +6,16 @@ requirejs.onError = function (err) {
 require([
    "./out/nnet_",
    "nnet/dom_",
-   "nnet/browser/Init",
+   "nnet/dom/onInteractive",
    "nnet/browser/Cookie",
    "nnet/dom/ElementUtils",
    "./debug",
    "nnet/browser/BrowserUtils",
-   "nnet/event/NNetEvent",
    "nnet/util/Milliseconds",
+   "nnet/event/Keys",
    "./webtest",
    "./benchmark"
-], function(nnet, dom, Init, Cookie, Element, Debug, Browser, Event, Milliseconds){
+], function( nnet, dom, onInteractive, Cookie, Element, Debug, Browser, Milliseconds, Keys ) {
 
 //Hoist up some methods to window
 window.get = nnet.dom.get;
@@ -26,7 +26,7 @@ Element.applyElementPrototypes();
 
 var execute_text, showmembers, showoutput, catchtabs, output_executiondetails;
 var waitingImage, editorCookie;
-Init.dom(function()
+onInteractive( function()
 {
    console.log( "dom init" );
    //create the dropdown menu
@@ -91,12 +91,12 @@ function __updateTestingHTMLAndCookie()
    editorCookie.data.execute_text = escape(execute_text.value);
    editorCookie.expireIn(Milliseconds.days(30)).save();
 }
-function execute_text_onkeydown(evt)
+function execute_text_onkeydown(e)
 {
-   var e = new Event(evt), tab = "   ", start = execute_text.selectionStart, end = execute_text.selectionEnd;
+   var tab = "   ", start = execute_text.selectionStart, end = execute_text.selectionEnd;
    
    //only catch tabs if the corresponding checkbox is checked
-   if(catchtabs.checked && e.key.code == Event.Keys.Tab)
+   if(catchtabs.checked && e.key.code == Keys.Tab)
    {
       //prevent the default action
       e.preventDefault();
@@ -117,7 +117,7 @@ function execute_text_onkeydown(evt)
       execute_text.setSelectionRange(start + tab.length, start + tab.length);
    }
 
-   if(e.key.ctrl && (e.key.code == Event.Keys.Enter || e.key.value == "S"))
+   if(e.key.ctrl && (e.key.code == Keys.Enter || e.key.value == "S"))
    {
       //prevent the default action
       e.preventDefault();

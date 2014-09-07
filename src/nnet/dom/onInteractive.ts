@@ -1,0 +1,77 @@
+﻿// Copyright Malachi Griffie <malachi@nexussays.com>
+//
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+///ts:import=WrappedEvent
+import WrappedEvent = require('../event/WrappedEvent'); ///ts:import:generated
+
+export = onInteractive;
+
+var callbacks: Array<(e?: WrappedEvent) => void> = [];
+var domLoadIntervalToken;
+var isDomReady: Boolean = /loaded|complete|interactive/.test(document.readyState);
+// callback for document
+var domReadyHandler = (e?: Event) =>
+{
+   if(!isDomReady && /loaded|complete|interactive/.test(document.readyState))
+   {
+      console.debug("DOM Ready: " + (e || document.readyState));
+      isDomReady = true;
+
+      var evt: WrappedEvent = null;
+      if(e)
+      {
+         evt = new WrappedEvent(e);
+      }
+
+      var callback: (e?: WrappedEvent) => void;
+      while(callback = callbacks.shift())
+      {
+         callback(evt);
+      }
+
+      if(domLoadIntervalToken)
+      {
+         clearInterval( domLoadIntervalToken );
+         domLoadIntervalToken = null;
+      }
+   }
+};
+
+// see if content is already available
+if(!isDomReady)
+{
+   if(typeof document.addEventListener == "function")
+   {
+      console.debug("document.DOMContentLoaded");
+      document.addEventListener("DOMContentLoaded", domReadyHandler, false);
+   }
+   else if(typeof document.attachEvent == "function")
+   {
+      console.debug( "document.onreadystatechange" );
+      document.attachEvent( "onreadystatechange", domReadyHandler );
+   }
+   else
+   {
+      // fallback to polling
+      domLoadIntervalToken = setInterval(domReadyHandler, 10);
+   }
+}
+else
+{
+   domReadyHandler();
+}
+
+function onInteractive(callback: (e?: WrappedEvent) => void): void
+{
+   if(isDomReady)
+   {
+      setTimeout( callback, 1 );
+   }
+   else
+   {
+      callbacks.push( callback );
+   }
+}

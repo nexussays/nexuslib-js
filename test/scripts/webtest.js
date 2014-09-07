@@ -1,7 +1,7 @@
 ﻿define([
    "nnet/dom/get",
    "nnet/browser/BrowserUtils",
-   "nnet/html/html",
+   "nnet/dom/html",
    "nnet/util/object/type",
    "nnet/util/string_"
 ], function (get, Browser, HTML, _type, _str) {

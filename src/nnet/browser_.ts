@@ -9,4 +9,3 @@
 
 export import BrowserUtils = require('./browser/BrowserUtils');
 export import Cookie = require('./browser/Cookie');
-export import Init = require('./browser/Init');

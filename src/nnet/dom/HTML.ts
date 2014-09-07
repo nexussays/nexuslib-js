@@ -160,7 +160,13 @@ export function create()
       // append nodes
       if(arguments.length > 0)
       {
-         ElementUtils.append( element, arguments );
+         var params = [element];
+         for(var i = 0; i < (arguments.length - 0); i++)
+         {
+            params[i + 1] = arguments[i + 0];
+         }
+         // "this" argument should be irrelevant
+         ElementUtils.append.apply( element, params );
       }
    }
 
