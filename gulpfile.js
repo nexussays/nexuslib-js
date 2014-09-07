@@ -136,6 +136,12 @@ gulp.task("compress", function()
       .pipe(changed(config.paths.dest.minified))
       .pipe(uglify())
       .pipe(gulp.dest(config.paths.dest.minified));
+} );
+
+gulp.task("definitions", function()
+{
+   return gulp.src( config.paths.dest.compiled + "/**/*.d.ts")
+      .pipe( gulp.dest( config.paths.dest.compiled + ".d" ) );
 });
 
 //TODO: implement package task
@@ -148,6 +154,7 @@ gulp.task("clean", function()
 {
    return gulp.src([
          config.paths.dest.compiled,
+         config.paths.dest.compiled + ".d",
          config.paths.dest.bundled,
          config.paths.dest.minified
       ], {read: false})
