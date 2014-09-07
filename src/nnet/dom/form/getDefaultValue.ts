@@ -5,7 +5,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 ///ts:import=get
-import get = require('../../dom/get'); ///ts:import:generated
+import get = require('../get'); ///ts:import:generated
 ///ts:import=first
 import first = require('../../util/array/first'); ///ts:import:generated
 

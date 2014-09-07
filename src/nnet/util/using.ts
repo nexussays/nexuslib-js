@@ -7,7 +7,7 @@
 ///ts:import=get
 import get = require('../dom/get'); ///ts:import:generated
 ///ts:import=HTML
-import HTML = require('../html/HTML'); ///ts:import:generated
+import HTML = require('../dom/HTML'); ///ts:import:generated
 
 export = using;
 

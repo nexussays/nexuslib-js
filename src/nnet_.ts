@@ -12,7 +12,6 @@ export import dom = require('./nnet/dom_');
 export import error = require('./nnet/error_');
 export import event = require('./nnet/event_');
 export import graphics = require('./nnet/graphics_');
-export import html = require('./nnet/html_');
 export import math = require('./nnet/math_');
 export import net = require('./nnet/net_');
 export import serialization = require('./nnet/serialization_');

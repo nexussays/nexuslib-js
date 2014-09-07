@@ -3,7 +3,6 @@ module.exports = function(grunt)
    var main = {
       src: ["src/**/*.ts"],
       outDir: "bin/compiled",
-      //watch: 'src',
       // Use to override the default options, http://gruntjs.com/configuring-tasks#options
       options: {
          target: 'es5',
@@ -19,7 +18,6 @@ module.exports = function(grunt)
          watch: "src"
       },
       imports: {
-         //watch:"src",
          options:
          {
             compile: false
