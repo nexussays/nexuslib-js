@@ -8,8 +8,8 @@ export = ElementUtils;
 
 ///ts:import=get
 import get = require('./get'); ///ts:import:generated
-///ts:import=NNetEvent
-import NNetEvent = require('../event/NNetEvent'); ///ts:import:generated
+///ts:import=WrappedEvent
+import WrappedEvent = require('../event/WrappedEvent'); ///ts:import:generated
 ///ts:import=escapeHTML
 import escapeHTML = require('../util/string/escapeHTML'); ///ts:import:generated
 ///ts:import=t
@@ -111,8 +111,8 @@ module ElementUtils
          for(var x = 0,
                  ln = params.length; x < ln; ++x)
          {
-            try
-            {
+            //try
+            //{
                var arg = params[x];
                switch(t( arg ))
                {
@@ -141,21 +141,21 @@ module ElementUtils
                      element.appendChild( document.createTextNode( arg + "" ) );
                      break;
                }
-            }
-            catch(e)
-            {
-               console.error( "append()", element, e );
-            }
+            //}
+            //catch(e)
+            //{
+            //   console.error( (this === ElementUtils) + "", element, x, arg, e );
+            //}
          }
       }
       return element;
    }
 
-   export function bind(element: any, eventName: string, func: (e: NNetEvent) => void)
+   export function bind(element: any, eventName: string, func: (e: WrappedEvent) => void)
    {
       var eventHandler = (e) =>
       {
-         func.call( element, new NNetEvent( e ) );
+         func.call( element, new WrappedEvent( e ) );
       };
 
       if(t( element.addEventListener ) == Types.function)
@@ -173,7 +173,7 @@ module ElementUtils
       events[func] = eventHandler;
    }
 
-   export function unbind(element: any, event: string, func: (e: NNetEvent) => void)
+   export function unbind(element: any, event: string, func: (e: WrappedEvent) => void)
    {
       element.events = element.events || {};
       var events = (element.events[event] = element.events[event] || {});
@@ -201,10 +201,13 @@ module ElementUtils
       {
          forEach( ElementUtils, function(funcName, func)
          {
-            element[funcName] = function(...params: any[])
+            element[funcName] = function()
             {
-               params.unshift( this );
-               //console.log( funcName, this, params );
+               var params = [this];
+               for(var i = 0; i < (arguments.length - 0); i++)
+               {
+                  params[i + 1] = arguments[i + 0];
+               }
                func.apply( this, params );
             };
          } );

@@ -29,6 +29,7 @@
     <TypeScriptCompile Include="nnet\dom\selector_.ts" />
     <TypeScriptCompile Include="nnet\dom_.ts" />
     <TypeScriptCompile Include="nnet\error_.ts" />
+    <TypeScriptCompile Include="nnet\event\Keys.ts" />
     <TypeScriptCompile Include="nnet\event_.ts" />
     <TypeScriptCompile Include="nnet\graphics\Color.ts" />
     <TypeScriptCompile Include="nnet\graphics_.ts" />
@@ -56,7 +57,7 @@
     <TypeScriptCompile Include="nnet\serialization\json_.ts" />
     <TypeScriptCompile Include="nnet\serialization_.ts" />
     <TypeScriptCompile Include="nnet\util\array\flatten.ts" />
-    <TypeScriptCompile Include="nnet\event\NNetEvent.ts" />
+    <TypeScriptCompile Include="nnet\event\WrappedEvent.ts" />
     <TypeScriptCompile Include="nnet\dom\form\getDefaultValue.ts" />
     <TypeScriptCompile Include="nnet\dom\get.ts" />
     <TypeScriptCompile Include="nnet\dom\HTML.ts" />
