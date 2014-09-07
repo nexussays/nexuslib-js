@@ -160,7 +160,7 @@ export function create()
       // append nodes
       if(arguments.length > 0)
       {
-         element.append.apply( element, arguments );
+         ElementUtils.append( element, arguments );
       }
    }
 

@@ -7,7 +7,7 @@
 ///ts:import=get
 import get = require('../get'); ///ts:import:generated
 
-//export = RadioCollection;
+export = RadioCollection;
 class RadioCollection
 {
    value = null;

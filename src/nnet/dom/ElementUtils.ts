@@ -101,7 +101,10 @@ module ElementUtils
       return (element.className && contains( element.className, name, " ", true ));
    }
 
-   export function append(element: HTMLElement, ...params: Array<any>): HTMLElement
+   export function append(element: Element, ...params: Array<Array<any>>): Element;
+   export function append(element: Element, ...params: Array<Node>): Element;
+   export function append(element: Element, ...params: Array<Object>): Element;
+   export function append(element: Element, ...params: Array<any>): Element
    {
       if(params != null)
       {
@@ -114,10 +117,10 @@ module ElementUtils
                switch(t( arg ))
                {
                   case Types.array:
-                     append.apply( element, arg );
+                     (<Array<any>>arg).forEach( item => append( element, item ) );
                      break;
                   case Types.node:
-                     element.appendChild( arg );
+                     element.appendChild( <Node>arg );
                      break;
                   case Types.object:
                      for(var prop in arg)
