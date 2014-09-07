@@ -47,7 +47,7 @@
     <TypeScriptCompile Include="nnet\math\wrapAngleDegrees.ts" />
     <TypeScriptCompile Include="nnet\math\wrapAngleRadians.ts" />
     <TypeScriptCompile Include="nnet\math_.ts" />
-    <TypeScriptCompile Include="nnet\net\IHttpResponse.d.ts" />
+    <TypeScriptCompile Include="nnet\net\IHttpResponse.ts" />
     <TypeScriptCompile Include="nnet\browser\BrowserUtils.ts" />
     <TypeScriptCompile Include="nnet\browser\Cookie.ts" />
     <TypeScriptCompile Include="nnet\dom\ElementUtils.ts" />
@@ -91,7 +91,7 @@
     <TypeScriptCompile Include="nnet\util\string\trim.ts" />
     <TypeScriptCompile Include="nnet\util\string\unescapeHTML.ts" />
     <TypeScriptCompile Include="nnet\util\WindowUtils.ts" />
-    <TypeScriptCompile Include="nnet\math\IPRNG.d.ts" />
+    <TypeScriptCompile Include="nnet\math\IPRNG.ts" />
     <TypeScriptCompile Include="nnet\math\NativeRandomGenerator.ts" />
     <TypeScriptCompile Include="nnet\serialization\json\JsonParser.ts" />
     <TypeScriptCompile Include="nnet\util_.ts" />
@@ -127,7 +127,7 @@
   </ProjectExtensions>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <TypeScriptTarget>ES5</TypeScriptTarget>
-    <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
+    <TypeScriptRemoveComments>True</TypeScriptRemoveComments>
     <TypeScriptSourceMap>true</TypeScriptSourceMap>
     <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
     <TypeScriptGeneratesDeclarations>True</TypeScriptGeneratesDeclarations>

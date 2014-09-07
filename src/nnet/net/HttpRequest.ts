@@ -6,7 +6,8 @@
 
 ///ts:import=NNetError
 import NNetError = require('../error/NNetError'); ///ts:import:generated
-import IHttpResponse = require('./IHttpResponse');
+///ts:import=IHttpResponse
+import IHttpResponse = require('./IHttpResponse'); ///ts:import:generated
 
 export = HttpRequest;
 
