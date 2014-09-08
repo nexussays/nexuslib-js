@@ -14,5 +14,4 @@ export import join = require('./object/join');
 export import keys = require('./object/keys');
 export import map = require('./object/map');
 export import parseBool = require('./object/parseBool');
-export import t = require('./object/t');
 export import type = require('./object/type');

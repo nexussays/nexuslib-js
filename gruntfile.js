@@ -46,7 +46,6 @@ module.exports = function(grunt)
 
    grunt.loadNpmTasks( "grunt-browserify" );
    grunt.loadNpmTasks( "grunt-ts" );
-   // Configure grunt here
    grunt.registerTask( "default", ["ts:build"] );
    grunt.initConfig( {
       ts: ts,

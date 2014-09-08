@@ -9,10 +9,10 @@ import Types = require('./Types'); ///ts:import:generated
 
 export = type;
 
-function type(obj: any, useInt: boolean= false): any //string|number
+function type(obj: any): Types
 {
    var objtype = typeof obj;
-   var result = Types[objtype];
+   var result = type[objtype];
    if(objtype === "object")
    {
       result = obj === null ? Types.null :
@@ -30,24 +30,5 @@ function type(obj: any, useInt: boolean= false): any //string|number
    {
       result = Types.regexp;
    }
-   return useInt ? result : Types[result];
+   return result;
 }
-
-/* alt
-var TYPES = {
-    'undefined'        : 'undefined',
-    'number'           : 'number',
-    'boolean'          : 'boolean',
-    'string'           : 'string',
-    '[object Function]': 'function',
-    '[object RegExp]'  : 'regexp',
-    '[object Array]'   : 'array',
-    '[object Date]'    : 'date',
-    '[object Error]'   : 'error'
-},
-TOSTRING = Object.prototype.toString;
-
-function type(o) {
-    return TYPES[typeof o] || TYPES[TOSTRING.call(o)] || (o ? 'object' : 'null');
-};
-*/

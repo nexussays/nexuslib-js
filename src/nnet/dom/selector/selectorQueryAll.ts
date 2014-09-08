@@ -7,8 +7,8 @@
 
 ///ts:import=Types
 import Types = require('../../util/object/Types'); ///ts:import:generated
-///ts:import=t
-import t = require('../../util/object/t'); ///ts:import:generated
+///ts:import=type
+import type = require('../../util/object/type'); ///ts:import:generated
 ///ts:import=get
 import get = require('../get'); ///ts:import:generated
 ///ts:import=filterByAttribute
@@ -84,7 +84,7 @@ function selectorQueryAll()
             continue;
          }
          //otherwise if it is not null and is a string, search for it
-         else if(t( argument ) == Types.string)
+         else if(type( argument ) == Types.string)
          {
             //split the current argument by commas
             //if there is more than one result, then get each individually

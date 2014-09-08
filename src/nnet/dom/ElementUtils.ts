@@ -12,10 +12,10 @@ import get = require('./get'); ///ts:import:generated
 import WrappedEvent = require('../event/WrappedEvent'); ///ts:import:generated
 ///ts:import=escapeHTML
 import escapeHTML = require('../util/string/escapeHTML'); ///ts:import:generated
-///ts:import=t
-import t = require('../util/object/t'); ///ts:import:generated
 ///ts:import=Types
 import Types = require('../util/object/Types'); ///ts:import:generated
+///ts:import=type
+import type = require('../util/object/type'); ///ts:import:generated
 ///ts:import=forEach
 import forEach = require('../util/object/forEach'); ///ts:import:generated
 ///ts:import=contains
@@ -114,7 +114,7 @@ module ElementUtils
             //try
             //{
                var arg = params[x];
-               switch(t( arg ))
+               switch(type( arg ))
                {
                   case Types.array:
                      (<Array<any>>arg).forEach( item => append( element, item ) );
@@ -158,7 +158,7 @@ module ElementUtils
          func.call( element, new WrappedEvent( e ) );
       };
 
-      if(t( element.addEventListener ) == Types.function)
+      if(type( element.addEventListener ) == Types.function)
       {
          element.addEventListener( eventName, eventHandler, false );
       }
@@ -178,7 +178,7 @@ module ElementUtils
       element.events = element.events || {};
       var events = (element.events[event] = element.events[event] || {});
 
-      if(t( element.removeEventListener ) == Types.function)
+      if(type( element.removeEventListener ) == Types.function)
       {
          element.removeEventListener( event, events[func], false );
       }

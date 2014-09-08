@@ -69,6 +69,7 @@
     <TypeScriptCompile Include="nnet\util\array_.ts" />
     <TypeScriptCompile Include="nnet\util\isLeapYear.ts" />
     <TypeScriptCompile Include="nnet\util\object\extend.ts" />
+    <TypeScriptCompile Include="nnet\util\object\Types.ts" />
     <TypeScriptCompile Include="nnet\util\object_.ts" />
     <TypeScriptCompile Include="nnet\util\Sort.ts" />
     <TypeScriptCompile Include="nnet\util\array\shuffle.ts" />
@@ -80,9 +81,7 @@
     <TypeScriptCompile Include="nnet\util\object\keys.ts" />
     <TypeScriptCompile Include="nnet\util\object\map.ts" />
     <TypeScriptCompile Include="nnet\util\object\parseBool.ts" />
-    <TypeScriptCompile Include="nnet\util\object\t.ts" />
     <TypeScriptCompile Include="nnet\util\object\type.ts" />
-    <TypeScriptCompile Include="nnet\util\object\Types.ts" />
     <TypeScriptCompile Include="nnet\util\string_.ts" />
     <TypeScriptCompile Include="nnet\util\Milliseconds.ts" />
     <TypeScriptCompile Include="nnet\util\using.ts" />

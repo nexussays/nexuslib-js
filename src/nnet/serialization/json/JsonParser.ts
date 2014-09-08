@@ -4,8 +4,8 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-///ts:import=t
-import t = require('../../util/object/t'); ///ts:import:generated
+///ts:import=type
+import type = require('../../util/object/type'); ///ts:import:generated
 ///ts:import=Types
 import Types = require('../../util/object/Types'); ///ts:import:generated
 
@@ -48,28 +48,26 @@ else
       function recurse(x, isArray: boolean=false)
       {
          var ret = "",
-             property,
-             val,
-             type,
              result;
-         for(property in x)
+         for(var property in x)
          {
-            val = x[property], type = t( val );
-            if(type != Types.function && isArray !== true)
+            var val = x[property];
+            var t = type(val);
+            if(t != Types.function && isArray !== true)
             {
                ret += "\"" + property + "\":";
             }
 
-            result = getValue( val, type );
+            result = getValue( val, t );
             ret += result ? result + "," : "";
          }
          //remove that last comma
          return ret.replace( /,$/, "" );
       }
 
-      function getValue(val, type: number): string
+      function getValue(val, t: number): string
       {
-         switch(type)
+         switch(t)
          {
             case Types.number:
             case Types.boolean:
@@ -91,7 +89,7 @@ else
          }
       }
 
-      return getValue( value, t( value ) );
+      return getValue( value, type( value ) );
    };
    console.log( "Using NNet JSON" );
 }
