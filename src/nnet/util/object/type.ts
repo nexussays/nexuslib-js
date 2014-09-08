@@ -4,7 +4,7 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-///ts:import=Types
+/// ts:import=Types
 import Types = require('./Types'); ///ts:import:generated
 
 export = type;
@@ -12,19 +12,20 @@ export = type;
 function type(obj: any): Types
 {
    var objtype = typeof obj;
-   var result = type[objtype];
+   var result = Types[objtype];
    if(objtype === "object")
    {
       result = obj === null ? Types.null :
                   obj instanceof Array ? Types.array :
-                     //this fails to capture the document node
-                     //obj instanceof HTMLElement ? "element" :
-                     "nodeType" in obj ? Types.node :
-                        obj === window ? Types.window :
-                           obj instanceof Date ? Types.date :
-                              //highly unlikely that a string was created from the constructor, so it is last
-                              obj instanceof String ? Types.string :
-                                 result;
+                     obj instanceof RegExp ? Types.regexp :
+                        //this fails to capture the document node
+                        //obj instanceof HTMLElement ? "element" :
+                        "nodeType" in obj ? Types.node :
+                           obj === window ? Types.window :
+                              obj instanceof Date ? Types.date :
+                                 //highly unlikely that a string was created from the constructor, so it is last
+                                 obj instanceof String ? Types.string :
+                                    result;
    }
    else if(objtype === "function" && obj instanceof RegExp)
    {

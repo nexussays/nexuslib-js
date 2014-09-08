@@ -3,8 +3,9 @@
    "nnet/browser/BrowserUtils",
    "nnet/dom/html",
    "nnet/util/object/type",
+   "nnet/util/object/Types",
    "nnet/util/string_"
-], function (get, Browser, HTML, _type, _str) {
+], function (get, Browser, HTML, type, Types, _str) {
 
 window.CreateMenu = function(id, buildFrom)
 {
@@ -15,9 +16,9 @@ window.CreateMenu = function(id, buildFrom)
          var ul = HTML.ul();
          for(var x = 0; x < menu.length; ++x)
          {
-            var item = menu[x], type = _type(item[1]), li = HTML.li(), match;
+            var item = menu[x], li = HTML.li(), match;
             
-            if(type == "array")
+            if(type(item[1]) == Types.array)
             {
                li.append(HTML.span({ "class": "dropdown" }, item[0]), recurse(item[1]));
             }

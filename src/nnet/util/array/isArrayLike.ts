@@ -8,5 +8,5 @@ export = isArrayLike;
 
 function isArrayLike(source: any): boolean
 {
-   return source instanceof Array || (typeof source === 'object' && isFinite( source.length ));
+   return source && (source instanceof Array || (typeof source === 'object' && isFinite( source.length )));
 }

@@ -26,8 +26,8 @@ function get(query: Element): Array<Element>;
 function get(query: string): Array<Element>;
 function get(query?: any): Array<Element>
 {
-   var documentRoot = type( this ) != Types.node;
-   var root: Element = (documentRoot ? document : this);
+   var useDocumentAsRoot = type( this ) != Types.node;
+   var root: Element = (useDocumentAsRoot ? document : this);
 
    if(!root || !query)
    {
@@ -37,7 +37,7 @@ function get(query?: any): Array<Element>
    // if an element was provided, either just return it, or, if there's a different root we're searching from, make sure the root is an ancestors of it
    if(type( query ) === Types.node)
    {
-      return documentRoot || query.nodeType == Node.DOCUMENT_NODE || ElementUtils.isAncestor( query, root ) ? [query] : [];
+      return (useDocumentAsRoot || query.nodeType == Node.DOCUMENT_NODE || ElementUtils.isAncestor( query, root ) ? [query] : []);
    }
 
    // if query is an array, run get for each element of the array and flatten the results
@@ -61,11 +61,11 @@ module get
       //if id is null or doesn't match either of the below, return null
       //if id is a string, return it from the DOM
       //if id has a property called "id" assume it is an element (eg - redundant call to get()) and return it
-      var t;
-      return id && ((t = type(id)) == Types.string ? document.getElementById((<string>id)[0] == "#" ? (<string>id).substr(1) : id) : (t == Types.node ? id : null));
+      var t = type(id);
+      return id && (t == Types.string ? document.getElementById((<string>id)[0] == "#" ? (<string>id).substr(1) : id) : (t == Types.node ? id : null));
    }
 
-   export function name(name: string, tag?: string)
+   export function name(name: string, tag?: string): Array<Element>
    {
       var result = (type( this ) != Types.node ? document : this).getElementsByName( name );
       if(tag)
