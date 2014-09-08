@@ -144,11 +144,10 @@
   <Import Project="$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets')" />
   <PropertyGroup>
     <PreBuildEvent>call grunt ts:imports
-call gulp generate-module-index-ts
-call gulp definitions</PreBuildEvent>
+call gulp generate-module-index-ts</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>call gulp optimize
+    <PostBuildEvent>call gulp definitions
 xcopy /q /y /i /s "$(TsOutDir)" "$(SolutionDir)test\scripts\out"</PostBuildEvent>
   </PropertyGroup>
 </Project>
