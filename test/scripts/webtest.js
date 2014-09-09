@@ -2,9 +2,9 @@
    "nnet/dom/get",
    "nnet/browser/BrowserUtils",
    "nnet/dom/html",
-   "nnet/util/object/type",
-   "nnet/util/object/Types",
-   "nnet/util/string_"
+   "nnet/object/type",
+   "nnet/object/Types",
+   "nnet/_string"
 ], function (get, Browser, HTML, type, Types, _str) {
 
 window.CreateMenu = function(id, buildFrom)

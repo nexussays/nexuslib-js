@@ -4,8 +4,8 @@ requirejs.onError = function (err) {
    throw err;
 };
 require([
-   "./out/nnet_",
-   "nnet/dom_",
+   "./out/_nnet",
+   "nnet/_dom",
    "nnet/dom/onInteractive",
    "nnet/browser/Cookie",
    "nnet/dom/ElementUtils",
@@ -116,7 +116,6 @@ function execute_text_onkeydown(e)
       
       execute_text.setSelectionRange(start + tab.length, start + tab.length);
    }
-
    if(e.key.ctrl && (e.key.code == Keys.Enter || e.key.value == "S"))
    {
       //prevent the default action
