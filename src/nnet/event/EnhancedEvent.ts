@@ -4,9 +4,12 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-export = WrappedEvent;
+/// ts:import=IEnhancedEvent
+import IEnhancedEvent = require('./IEnhancedEvent'); ///ts:import:generated
 
-class WrappedEvent
+export = EnhancedEvent;
+
+class EnhancedEvent implements IEnhancedEvent
 {
    button: number;
    type: string = "unknown";
@@ -19,8 +22,8 @@ class WrappedEvent
    ucase: boolean;
    lcase: boolean;
    mouse: { left: boolean; right: boolean; middle: boolean };
-   key: { code: number; value:string; shift: boolean; ctrl: boolean; alt: boolean; capsLock: boolean };
-   e: Event;
+   key: { code: number; value: string; shift: boolean; ctrl: boolean; alt: boolean; capsLock: boolean; meta: boolean };
+   originalEvent: Event;
    pageX: number = NaN;
    pageY: number = NaN;
    clientX: number = NaN;
@@ -46,9 +49,10 @@ class WrappedEvent
       //}
       //this.__extended = true;
 
+      this.originalEvent = event;
       this.type = event.type;
       this.button = (<any>event).button;
-      this.w3cType = (typeof (<any>event).which !== "undefined");
+      this.w3cType = (typeof (<KeyboardEvent>event).which !== "undefined");
       this.isKeypress = (this.type == "keypress");
       this.isKeyUpOrDown = /keyup|keydown/.test( this.type );
       this.isMouseover = this.type == "mouseover";
@@ -80,14 +84,15 @@ class WrappedEvent
                    String.fromCharCode( this.keycode ) :
                    ((this.isKeyUpOrDown && (this.keycode - 96 >= 0 && this.keycode - 96 <= 9)) ?
                        String.fromCharCode( this.keycode - 48 ) : null),
-         shift: ((<any>event).shiftKey || this.keycode == 16),
-         ctrl: ((<any>event).ctrlKey || this.keycode == 17),
-         alt: ((<any>event).altKey || this.keycode == 18),
+         shift: ((<KeyboardEvent>event).shiftKey || this.keycode == 16),
+         ctrl: ((<KeyboardEvent>event).ctrlKey || this.keycode == 17),
+         alt: ((<KeyboardEvent>event).altKey || this.keycode == 18),
+         meta: ((<KeyboardEvent>event).metaKey), // || this.keycode == ???),
          //If the key pressed is not an alpha character, then we cannot determine if caps lock is on so instead we set it to null.
          //If the key is uppercase without shift or lowercase with shift, then caps lock is on.
          capsLock: (!this.isKeypress || (!this.ucase && !this.lcase) ?
                        null :
-                       ((this.ucase && !(<any>event).shiftKey) || (this.lcase && (<any>event).shiftKey) ?
+                       ((this.ucase && !(<KeyboardEvent>event).shiftKey) || (this.lcase && (<KeyboardEvent>event).shiftKey) ?
                            true : false))
       };
 
@@ -124,33 +129,45 @@ class WrappedEvent
       this.screenY = (<any>event).screenY;
    }
 
-   stop()
+   stop(): void
    {
       this.preventDefault();
       this.stopPropagation();
    }
 
-   preventDefault()
+   preventDefault(): void
    {
-      if("preventDefault" in this.e)
+      if("preventDefault" in this.originalEvent)
       {
-         this.e.preventDefault();
+         this.originalEvent.preventDefault();
       }
       else
       {
-         (<any>this.e).returnValue = false;
+         (<any>this.originalEvent).returnValue = false;
       }
    }
 
-   stopPropagation()
+   stopPropagation(): void
    {
-      if("stopPropagation" in this.e)
+      if("stopPropagation" in this.originalEvent)
       {
-         this.e.stopPropagation();
+         this.originalEvent.stopPropagation();
       }
       else
       {
-         this.e.cancelBubble = true;
+         this.originalEvent.cancelBubble = true;
+      }
+   }
+
+   stopImmediatePropagation(): void
+   {
+      if("stopImmediatePropagation" in this.originalEvent)
+      {
+         this.originalEvent.stopImmediatePropagation();
+      }
+      else
+      {
+         this.stopPropagation();
       }
    }
 }
