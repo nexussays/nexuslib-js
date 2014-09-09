@@ -7,7 +7,7 @@
 export = contains;
 
 /**
- * @param boundary Provide a word boundary if desired, else the provided character will be found anywhere in he source string, even in the middle of a word.
+ * @param boundary Provide a word boundary if desired, else the provided character will be found anywhere in the source string, even in the middle of a word.
  */
 function contains(source: string, value: string, boundary?: string, caseInsensitive: boolean=false): boolean
 {

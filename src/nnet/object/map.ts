@@ -6,7 +6,7 @@
 
 export = map;
 
-function map(obj, keyFunc: (string) => any, valFunc: (any) => any)
+function map(obj: any, keyFunc?: (any) => any, valFunc?: (any) => any)
 {
    var newObj = {};
    for(var x in obj)

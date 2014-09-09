@@ -12,4 +12,5 @@ export import escapeHTML = require('./string/escapeHTML');
 export import escapeRegExp = require('./string/escapeRegExp');
 export import stripTags = require('./string/stripTags');
 export import trim = require('./string/trim');
+export import trimChars = require('./string/trimChars');
 export import unescapeHTML = require('./string/unescapeHTML');

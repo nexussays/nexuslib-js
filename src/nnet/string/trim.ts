@@ -5,13 +5,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 export = trim;
-
 function trim(str: string): string
 {
-   if(arguments.length > 0)
-   {
-      var args = (Array.prototype.map.call( arguments, x => x.escapeRegExp() )).join( "|" );
-      return str.replace( new RegExp( "^(?:" + args + ")+|(?:" + args + ")+$", "g" ), "" );
-   }
-   return str.replace( /^\s+|\s+$/, "" );
+   return str.replace( /^\s+|\s+$/g, "" );
 }

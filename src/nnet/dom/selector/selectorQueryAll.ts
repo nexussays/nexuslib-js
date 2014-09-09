@@ -6,9 +6,9 @@
 
 
 ///ts:import=Types
-import Types = require('../../object/Types'); ///ts:import:generated
+import Types = require('../../Types'); ///ts:import:generated
 ///ts:import=type
-import type = require('../../object/type'); ///ts:import:generated
+import type = require('../../type'); ///ts:import:generated
 ///ts:import=get
 import get = require('../get'); ///ts:import:generated
 ///ts:import=filterByAttribute

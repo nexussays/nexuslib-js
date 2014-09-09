@@ -67,11 +67,11 @@ window.Sections =
          ["..up", "./"],
          ["Javascript",
             [
-               ["Editor", "/web/Javascript/editor.htm"],
-               ["Event", "/web/Javascript/events.htm"],
-               ["Information", "/web/Javascript/information.htm"],
-               ["Regular Expressions", "/web/Javascript/regexp.htm"],
-               ["Testing", "/web/Javascript/tests/index.htm"]
+               ["Editor", "./editor.htm"],
+               ["Event", "./events.htm"],
+               ["Information", "./information.htm"],
+               ["Regular Expressions", "./regexp.htm"],
+               ["Testing", "./tests/index.htm"]
             ]
          ],
          ["[Browser in " + (Browser.strictMode ? "StrictMode" : Browser.quirksMode ? "QuirksMode" : "Unknown Rendering Mode") + "]"]

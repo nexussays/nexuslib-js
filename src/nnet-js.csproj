@@ -30,7 +30,8 @@
     <TypeScriptCompile Include="nnet\dom\_form.ts" />
     <TypeScriptCompile Include="nnet\dom\_selector.ts" />
     <TypeScriptCompile Include="nnet\event\IEnhancedEvent.ts" />
-    <TypeScriptCompile Include="nnet\util\Keys.ts" />
+    <TypeScriptCompile Include="nnet\string\trimChars.ts" />
+    <TypeScriptCompile Include="nnet\util\Keyboard.ts" />
     <TypeScriptCompile Include="nnet\graphics\Color.ts" />
     <TypeScriptCompile Include="nnet\dom\form\RadioCollection.ts" />
     <TypeScriptCompile Include="nnet\dom\form\fieldChanged.ts" />
@@ -61,8 +62,8 @@
     <TypeScriptCompile Include="nnet\array\last.ts" />
     <TypeScriptCompile Include="nnet\serialization\_json.ts" />
     <TypeScriptCompile Include="nnet\util\isLeapYear.ts" />
-    <TypeScriptCompile Include="nnet\object\extend.ts" />
-    <TypeScriptCompile Include="nnet\object\Types.ts" />
+    <TypeScriptCompile Include="nnet\object\extendPrototype.ts" />
+    <TypeScriptCompile Include="nnet\Types.ts" />
     <TypeScriptCompile Include="nnet\util\Sort.ts" />
     <TypeScriptCompile Include="nnet\array\shuffle.ts" />
     <TypeScriptCompile Include="nnet\array\map%24.ts" />
@@ -72,8 +73,8 @@
     <TypeScriptCompile Include="nnet\object\join.ts" />
     <TypeScriptCompile Include="nnet\object\keys.ts" />
     <TypeScriptCompile Include="nnet\object\map.ts" />
-    <TypeScriptCompile Include="nnet\object\parseBool.ts" />
-    <TypeScriptCompile Include="nnet\object\type.ts" />
+    <TypeScriptCompile Include="nnet\parseBool.ts" />
+    <TypeScriptCompile Include="nnet\type.ts" />
     <TypeScriptCompile Include="nnet\util\Milliseconds.ts" />
     <TypeScriptCompile Include="nnet\util\using.ts" />
     <TypeScriptCompile Include="nnet\string\contains.ts" />

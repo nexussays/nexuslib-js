@@ -6,9 +6,9 @@
 
 export = keys;
 
-function keys(obj: any)
+function keys(obj: any): Array<string>
 {
-   var arr = [];
+   var arr: string[] = [];
    for(var prop in obj)
    {
       arr.push( prop );

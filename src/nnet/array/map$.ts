@@ -9,14 +9,14 @@ export = map$;
 /**
  * Array#map which directly alters the array instead of returning a new array
  */
-function map$(func, scope)
+function map$<T>(mapFunc: (item: T, index: number, array: Array<T>) => any, scope: Array<T>): void
 {
    var ln = scope.length;
    for(var x = 0; x < ln; ++x)
    {
       if(x in scope)
       {
-         scope[x] = func.call( scope, scope[x], x, scope );
+         scope[x] = mapFunc.call( scope, scope[x], x, scope );
       }
    }
 }

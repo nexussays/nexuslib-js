@@ -5,9 +5,9 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 ///ts:import=type
-import type = require('../../object/type'); ///ts:import:generated
+import type = require('../../type'); ///ts:import:generated
 ///ts:import=Types
-import Types = require('../../object/Types'); ///ts:import:generated
+import Types = require('../../Types'); ///ts:import:generated
 
 /**
  * Signature => public static function encode(object:Object):String

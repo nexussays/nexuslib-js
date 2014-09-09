@@ -9,10 +9,10 @@ export = join;
 /**
  * Join an object hash's key and value into a single item and return an array
  */
-function join(obj: any, join: string): Array<string>
+function join(obj: any, join: string=": "): Array<string>
 {
    var result = [];
-   join = join || "";
+   join = join || ": ";
    for(var x in obj)
    {
       result.push( x + join + obj[x] );
