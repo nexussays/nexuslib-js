@@ -19,6 +19,7 @@
     <TsOutDir Condition="$(TsOutDir) == '' Or $(TsOutDir) == '*Undefined*'">$(SolutionDir)\bin\compiled</TsOutDir>
   </PropertyGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="nnet\dom\IEnhancedElement.ts" />
     <TypeScriptCompile Include="nnet\dom\onLoaded.ts" />
     <TypeScriptCompile Include="nnet\dom\onInteractive.ts" />
     <TypeScriptCompile Include="nnet\dom\nodetype.ts" />
@@ -28,7 +29,8 @@
     <TypeScriptCompile Include="nnet\dom\selector\selectorQueryAll.ts" />
     <TypeScriptCompile Include="nnet\dom\_form.ts" />
     <TypeScriptCompile Include="nnet\dom\_selector.ts" />
-    <TypeScriptCompile Include="nnet\event\Keys.ts" />
+    <TypeScriptCompile Include="nnet\event\IEnhancedEvent.ts" />
+    <TypeScriptCompile Include="nnet\util\Keys.ts" />
     <TypeScriptCompile Include="nnet\graphics\Color.ts" />
     <TypeScriptCompile Include="nnet\dom\form\RadioCollection.ts" />
     <TypeScriptCompile Include="nnet\dom\form\fieldChanged.ts" />
@@ -49,7 +51,7 @@
     <TypeScriptCompile Include="nnet\dom\ElementUtils.ts" />
     <TypeScriptCompile Include="nnet\error\NNetError.ts" />
     <TypeScriptCompile Include="nnet\array\flatten.ts" />
-    <TypeScriptCompile Include="nnet\event\WrappedEvent.ts" />
+    <TypeScriptCompile Include="nnet\event\EnhancedEvent.ts" />
     <TypeScriptCompile Include="nnet\dom\form\getDefaultValue.ts" />
     <TypeScriptCompile Include="nnet\dom\get.ts" />
     <TypeScriptCompile Include="nnet\dom\HTML.ts" />
@@ -106,6 +108,9 @@
   <PropertyGroup>
     <RootNamespace>nnet_js</RootNamespace>
   </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+  </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <ProjectExtensions>
@@ -147,7 +152,7 @@
 call gulp generate-module-index-ts</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>call gulp definitions
-xcopy /q /y /i /s "$(TsOutDir)" "$(SolutionDir)test\scripts\out"</PostBuildEvent>
+    <PostBuildEvent>call gulp aggregate-declarations
+call gulp build-js</PostBuildEvent>
   </PropertyGroup>
 </Project>

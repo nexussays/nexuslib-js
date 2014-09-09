@@ -8,8 +8,10 @@ export = ElementUtils;
 
 ///ts:import=get
 import get = require('./get'); ///ts:import:generated
-///ts:import=WrappedEvent
-import WrappedEvent = require('../event/WrappedEvent'); ///ts:import:generated
+///ts:import=IEnhancedEvent
+import IEnhancedEvent = require('../event/IEnhancedEvent'); ///ts:import:generated
+///ts:import=EnhancedEvent
+import EnhancedEvent = require('../event/EnhancedEvent'); ///ts:import:generated
 ///ts:import=escapeHTML
 import escapeHTML = require('../string/escapeHTML'); ///ts:import:generated
 ///ts:import=Types
@@ -95,16 +97,16 @@ module ElementUtils
       hasClass( element, name ) ? removeClass( element, name ) : addClass( element, name, true );
    }
 
-   export function hasClass(element: HTMLElement, name: string)
+   export function hasClass(element: HTMLElement, name: string):boolean
    {
       //return (new RegExp("(?:^|\\s)" + name + "(?:\\s|$)", "i").test(element.className));
       return (element.className && contains( element.className, name, " ", true ));
    }
 
-   export function append(element: Element, ...params: Array<Array<any>>): Element;
-   export function append(element: Element, ...params: Array<Node>): Element;
-   export function append(element: Element, ...params: Array<Object>): Element;
-   export function append(element: Element, ...params: Array<any>): Element
+   export function append(element: HTMLElement, ...params: Array<Array<any>>): Element;
+   export function append(element: HTMLElement, ...params: Array<Node>): Element;
+   export function append(element: HTMLElement, ...params: Array<Object>): Element;
+   export function append(element: HTMLElement, ...params: Array<any>): Element
    {
       if(params != null)
       {
@@ -151,11 +153,11 @@ module ElementUtils
       return element;
    }
 
-   export function bind(element: any, eventName: string, func: (e: WrappedEvent) => void)
+   export function bind(element: HTMLElement, eventName: string, func: (e: IEnhancedEvent) => void)
    {
       var eventHandler = (e) =>
       {
-         func.call( element, new WrappedEvent( e ) );
+         func.call( element, new EnhancedEvent( e ) );
       };
 
       if(type( element.addEventListener ) == Types.function)
@@ -168,15 +170,18 @@ module ElementUtils
       }
 
       // store the handler on the element itself so we can look it up to remove it
-      element.events = element.events || {};
-      var events = (element.events[eventName] = element.events[eventName] || {});
+      var anyEl = (<any>element);
+      anyEl.events = anyEl.events || {};
+      var events = (anyEl.events[eventName] = anyEl.events[eventName] || {});
+
       events[func] = eventHandler;
    }
 
-   export function unbind(element: any, event: string, func: (e: WrappedEvent) => void)
+   export function unbind(element: HTMLElement, event: string, func: (e: IEnhancedEvent) => void)
    {
-      element.events = element.events || {};
-      var events = (element.events[event] = element.events[event] || {});
+      var anyEl = (<any>element);
+      anyEl.events = anyEl.events || {};
+      var events = (anyEl.events[event] = anyEl.events[event] || {});
 
       if(type( element.removeEventListener ) == Types.function)
       {
@@ -195,7 +200,7 @@ module ElementUtils
    {
    }
 
-   export function wrapElement(element: HTMLElement, force ?: boolean): void
+   export function wrapElement(element: HTMLElement, force?: boolean): HTMLElement
    {
       if(element && (force || element.nodeType == Node.ELEMENT_NODE))
       {
@@ -212,6 +217,7 @@ module ElementUtils
             };
          } );
       }
+      return element;
    }
 
    export function applyElementPrototypes()

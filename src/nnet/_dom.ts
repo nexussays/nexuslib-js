@@ -9,6 +9,7 @@
 
 export import ElementUtils = require('./dom/ElementUtils');
 export import HTML = require('./dom/HTML');
+export import IEnhancedElement = require('./dom/IEnhancedElement');
 export import form = require('./dom/_form');
 export import selector = require('./dom/_selector');
 export import get = require('./dom/get');

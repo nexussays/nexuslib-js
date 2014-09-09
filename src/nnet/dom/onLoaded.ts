@@ -4,11 +4,11 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-///ts:import=WrappedEvent
-import WrappedEvent = require('../event/WrappedEvent'); ///ts:import:generated
+///ts:import=EnhancedEvent
+import EnhancedEvent = require('../event/EnhancedEvent'); ///ts:import:generated
 
 export = onLoaded;
-function onLoaded(callback: (e?: WrappedEvent) => void): void
+function onLoaded(callback: (e?: EnhancedEvent) => void): void
 {
    if(isContentLoaded)
    {
@@ -20,7 +20,7 @@ function onLoaded(callback: (e?: WrappedEvent) => void): void
    }
 }
 
-var callbacks: Array<(e?: WrappedEvent) => void> = [];
+var callbacks: Array<(e?: EnhancedEvent) => void> = [];
 var isContentLoaded: Boolean = false;
 // callback for window
 var windowReadyHandler = (e?: Event) =>
@@ -30,13 +30,13 @@ var windowReadyHandler = (e?: Event) =>
       console.debug( "Window Ready: " + (e || document.readyState) );
       isContentLoaded = true;
 
-      var evt: WrappedEvent = null;
+      var evt: EnhancedEvent = null;
       if(e)
       {
-         evt = new WrappedEvent( e );
+         evt = new EnhancedEvent( e );
       }
 
-      var callback: (e?: WrappedEvent) => void;
+      var callback: (e?: EnhancedEvent) => void;
       while(callback = callbacks.shift())
       {
          callback(evt);

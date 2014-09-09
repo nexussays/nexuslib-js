@@ -15,8 +15,13 @@ export = flatten;
  * [0,1,2,3,4,["a","b","c"],5,[["x","y","z"],[1,2,3]]]
  * becomes [0,1,2,3,4,"a","b","c",5,"x","y","z",1,2,3]
  */
-function flatten(source)
+function flatten(source: Array<any>): Array<any>
 {
+   if(source == null)
+   {
+      return [];
+   }
+
    var x = 0,
        ln = source.length,
        arr = [];
@@ -25,7 +30,7 @@ function flatten(source)
       if(x in source)
       {
          var value = source[x];
-         arr = arr.concat( isArrayLike( value ) ? flatten( value ) : value );
+         arr.push.apply(arr, isArrayLike( value ) ? flatten( value ) : value );
       }
    }
    return arr;

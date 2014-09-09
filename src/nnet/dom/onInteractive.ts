@@ -4,12 +4,12 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-///ts:import=WrappedEvent
-import WrappedEvent = require('../event/WrappedEvent'); ///ts:import:generated
+///ts:import=EnhancedEvent
+import EnhancedEvent = require('../event/EnhancedEvent'); ///ts:import:generated
 
 export = onInteractive;
 
-var callbacks: Array<(e?: WrappedEvent) => void> = [];
+var callbacks: Array<(e?: EnhancedEvent) => void> = [];
 var domLoadIntervalToken;
 var isDomReady: Boolean = /loaded|complete|interactive/.test(document.readyState);
 // callback for document
@@ -20,13 +20,13 @@ var domReadyHandler = (e?: Event) =>
       console.debug("DOM Ready: " + (e || document.readyState));
       isDomReady = true;
 
-      var evt: WrappedEvent = null;
+      var evt: EnhancedEvent = null;
       if(e)
       {
-         evt = new WrappedEvent(e);
+         evt = new EnhancedEvent(e);
       }
 
-      var callback: (e?: WrappedEvent) => void;
+      var callback: (e?: EnhancedEvent) => void;
       while(callback = callbacks.shift())
       {
          callback(evt);
@@ -64,7 +64,7 @@ else
    domReadyHandler();
 }
 
-function onInteractive(callback: (e?: WrappedEvent) => void): void
+function onInteractive(callback: (e?: EnhancedEvent) => void): void
 {
    if(isDomReady)
    {
