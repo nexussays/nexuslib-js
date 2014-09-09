@@ -6,7 +6,7 @@
 
 
 ///ts:import=escapeRegExp
-import escapeRegExp = require('../../util/string/escapeRegExp'); ///ts:import:generated
+import escapeRegExp = require('../../string/escapeRegExp'); ///ts:import:generated
 
 var regexCache = {};
 

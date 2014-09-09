@@ -6,15 +6,15 @@
 
 
 ///ts:import=Types
-import Types = require('../../util/object/Types'); ///ts:import:generated
+import Types = require('../../object/Types'); ///ts:import:generated
 ///ts:import=type
-import type = require('../../util/object/type'); ///ts:import:generated
+import type = require('../../object/type'); ///ts:import:generated
 ///ts:import=get
 import get = require('../get'); ///ts:import:generated
 ///ts:import=filterByAttribute
 import filterByAttribute = require('./filterByAttribute'); ///ts:import:generated
 ///ts:import=toArray
-import toArray = require('../../util/array/toArray'); ///ts:import:generated
+import toArray = require('../../array/toArray'); ///ts:import:generated
 
 export = selectorQueryAll;
 

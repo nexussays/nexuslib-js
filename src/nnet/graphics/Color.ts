@@ -5,9 +5,9 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 ///ts:import=type
-import type = require('../util/object/type'); ///ts:import:generated
+import type = require('../object/type'); ///ts:import:generated
 ///ts:import=Types
-import Types = require('../util/object/Types'); ///ts:import:generated
+import Types = require('../object/Types'); ///ts:import:generated
 ///ts:import=clamp
 import clamp = require('../math/clamp'); ///ts:import:generated
 

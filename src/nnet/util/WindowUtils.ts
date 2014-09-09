@@ -5,9 +5,9 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 ///ts:import=map
-import map = require('./object/map'); ///ts:import:generated
+import map = require('../object/map'); ///ts:import:generated
 ///ts:import=join
-import join = require('./object/join'); ///ts:import:generated
+import join = require('../object/join'); ///ts:import:generated
 
 export = WindowUtils;
 

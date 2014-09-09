@@ -9,9 +9,9 @@
 
 export import ElementUtils = require('./dom/ElementUtils');
 export import HTML = require('./dom/HTML');
-export import form = require('./dom/form_');
+export import form = require('./dom/_form');
+export import selector = require('./dom/_selector');
 export import get = require('./dom/get');
 export import nodetype = require('./dom/nodetype');
 export import onInteractive = require('./dom/onInteractive');
 export import onLoaded = require('./dom/onLoaded');
-export import selector = require('./dom/selector_');

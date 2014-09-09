@@ -5,15 +5,15 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 ///ts:import=Types
-import Types = require('../util/object/Types'); ///ts:import:generated
+import Types = require('../object/Types'); ///ts:import:generated
 ///ts:import=type
-import type = require('../util/object/type'); ///ts:import:generated
+import type = require('../object/type'); ///ts:import:generated
 ///ts:import=toArray
-import toArray = require('../util/array/toArray'); ///ts:import:generated
+import toArray = require('../array/toArray'); ///ts:import:generated
 ///ts:import=flatten
-import flatten = require('../util/array/flatten'); ///ts:import:generated
+import flatten = require('../array/flatten'); ///ts:import:generated
 ///ts:import=isArrayLike
-import isArrayLike = require('../util/array/isArrayLike'); ///ts:import:generated
+import isArrayLike = require('../array/isArrayLike'); ///ts:import:generated
 ///ts:import=ElementUtils
 import ElementUtils = require('./ElementUtils'); ///ts:import:generated
 ///ts:import=filterByNodeName

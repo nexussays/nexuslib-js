@@ -228,7 +228,7 @@ function generateModuleRoots(template, root, fileFilter, ext, basename)
       var dir = _path.join(root, item);
       var files = getFiles(root, item, fileFilter);
       //get parent directory and create js file with name of the current dir
-      var newFileName = _path.basename(item) + "_" + ext;
+      var newFileName = "_" + _path.basename(item) + ext;
       var newFile = _path.join(_path.resolve(dir, ".."), newFileName);
       if(files.length > 0)
       {
@@ -246,7 +246,7 @@ function generateModuleRoots(template, root, fileFilter, ext, basename)
             {
                name = _path.basename(name, basename);
             }
-            return { "name": name.replace(/_$/, ""), "file": name };
+            return { "name": name.replace(/^_|_$/g, ""), "file": name };
          });
 
          //console.log(newFile);

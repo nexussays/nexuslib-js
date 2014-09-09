@@ -7,7 +7,7 @@
 ///ts:import=get
 import get = require('../get'); ///ts:import:generated
 ///ts:import=first
-import first = require('../../util/array/first'); ///ts:import:generated
+import first = require('../../array/first'); ///ts:import:generated
 
 export = getDefaultValue;
 

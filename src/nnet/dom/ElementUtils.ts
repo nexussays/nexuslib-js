@@ -11,17 +11,17 @@ import get = require('./get'); ///ts:import:generated
 ///ts:import=WrappedEvent
 import WrappedEvent = require('../event/WrappedEvent'); ///ts:import:generated
 ///ts:import=escapeHTML
-import escapeHTML = require('../util/string/escapeHTML'); ///ts:import:generated
+import escapeHTML = require('../string/escapeHTML'); ///ts:import:generated
 ///ts:import=Types
-import Types = require('../util/object/Types'); ///ts:import:generated
+import Types = require('../object/Types'); ///ts:import:generated
 ///ts:import=type
-import type = require('../util/object/type'); ///ts:import:generated
+import type = require('../object/type'); ///ts:import:generated
 ///ts:import=forEach
-import forEach = require('../util/object/forEach'); ///ts:import:generated
+import forEach = require('../object/forEach'); ///ts:import:generated
 ///ts:import=contains
-import contains = require('../util/string/contains'); ///ts:import:generated
+import contains = require('../string/contains'); ///ts:import:generated
 ///ts:import=flatten
-import flatten = require('../util/array/flatten'); ///ts:import:generated
+import flatten = require('../array/flatten'); ///ts:import:generated
 
 /**
  * Utility methods for HTML elements.

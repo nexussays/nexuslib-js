@@ -10,8 +10,5 @@
 export import Milliseconds = require('./util/Milliseconds');
 export import Sort = require('./util/Sort');
 export import WindowUtils = require('./util/WindowUtils');
-export import array = require('./util/array_');
 export import isLeapYear = require('./util/isLeapYear');
-export import object = require('./util/object_');
-export import string = require('./util/string_');
 export import using = require('./util/using');
