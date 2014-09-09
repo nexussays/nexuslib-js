@@ -1,12 +1,12 @@
-var gulp   =  require('gulp');
-var watch  =  require('gulp-watch');
-var tsc    =  require('gulp-tsc');
-var jshint =  require('gulp-jshint');
-var clean  =  require('gulp-rimraf');
-var uglify =  require('gulp-uglify');
-var rename =  require('gulp-rename');
-var changed = require('gulp-changed');
-var seq     = require('run-sequence');
+var gulp = require( 'gulp' );
+var watch = require( 'gulp-watch' );
+var tsc = require( 'gulp-tsc' );
+var jshint = require( 'gulp-jshint' );
+var clean = require( 'gulp-rimraf' );
+var uglify = require( 'gulp-uglify' );
+var rename = require( 'gulp-rename' );
+var changed = require( 'gulp-changed' );
+var seq = require( 'run-sequence' );
 
 var config =
 {
@@ -23,7 +23,8 @@ var config =
          root: "bin",
          compiled: "bin/compiled",
          bundled: "bin/bundled",
-         minified: "bin/bundled"
+         minified: "bin/bundled",
+         test: "test/scripts/out"
       }
    }
 };
@@ -38,24 +39,24 @@ config.typescript =
    declaration: true,
    outDir: config.paths.dest.compiled
 };
-config.package = require('./package.json');
+config.package = require( './package.json' );
 // define after setting config initially so we can use existing config values
-config.requirejs = 
+config.requirejs =
 {
    out: console.out,
    err: console.err,
    //r.js.cmd -o build.js optimize=none
    main:
    {
-      out: config.paths.dest.bundled + "/nnet-amd.min.js",
+      out: config.paths.dest.bundled + "/nnet-amd.js",
       //appDir: config.paths.dest.compiled,
       baseUrl: config.paths.dest.compiled,
       //dir: "./bin",
       //exclude: [],
       //mainConfigFile: config.paths.dest.compiled + "/nnet_.js",
-      name: "nnet_",
+      name: "_nnet",
       generateSourceMaps: false,
-      //optimize: "none"
+      optimize: "none"
    },
    builds:
    [
@@ -63,14 +64,14 @@ config.requirejs =
       {},
       //r.js.cmd -o build.js optimize=none paths.requireLib=../node_modules/requirejs/require include=requireLib
       {
-         out: config.paths.dest.bundled + "/nnet-amd-with-almond.min.js",
+         out: config.paths.dest.bundled + "/nnet-amd-with-almond.js",
          include: ["../../lib/almond"],
          //TODO: turn this back on once everything is properly wrapped
          //wrap: true
       },
       //*
       {
-         out: config.paths.dest.bundled + "/nnet-amd-with-require.min.js",
+         out: config.paths.dest.bundled + "/nnet-amd-with-require.js",
          paths:
          {
             "requireLib": "../../node_modules/requirejs/require"
@@ -89,23 +90,28 @@ config.requirejs =
    ]
 };
 
-gulp.task("default", ["build"]);
+gulp.task( "default", ["build"] );
 
-gulp.task("watch"/*, ["build"]*/, function()
+gulp.task( "watch" /*, ["build"]*/, function()
 {
-   gulp.watch(config.paths.src.ts, [/*"compile-ts", */"generate-module-index-ts"]);
-});
+   gulp.watch( config.paths.src.ts, [ /*"compile-ts", */"generate-module-index-ts"] );
+} );
 
-gulp.task("build", function(done)
+gulp.task( "build", function(done)
 {
-   seq("compile-ts", "copy-js", "generate-module-index-js", done);
-});
+   seq( "compile-ts", "build-js", "aggregate-declarations", done );
+} );
 
-gulp.task("optimize", function(done)
+gulp.task( "build-js", function(done)
 {
-   seq("copy-js", "generate-module-index-js");
+   seq( "copy-js", "generate-module-index-js", "copy-js-to-test", done );
+} );
 
-   var r = require("requirejs");
+gulp.task( "optimize", function(done)
+{
+   seq( "build-js", "aggregate-declarations", done );
+
+   var r = require( "requirejs" );
 
    function requirejsOptimize(resultingConfig)
    {
@@ -113,75 +119,94 @@ gulp.task("optimize", function(done)
 
       for(var prop in config.requirejs.main)
       {
-         if(!(resultingConfig.hasOwnProperty(prop)))
+         if(!(resultingConfig.hasOwnProperty( prop )))
          {
             resultingConfig[prop] = config.requirejs.main[prop];
          }
       }
 
       // now run the optimizer
-      r.optimize(resultingConfig, config.requirejs.out, config.requirejs.err);
+      r.optimize( resultingConfig, config.requirejs.out, config.requirejs.err );
    }
 
-   config.requirejs.builds.forEach(requirejsOptimize);
+   config.requirejs.builds.forEach( requirejsOptimize );
 
    // signal that we're done
-   done();
-});
-
-gulp.task("compress", function()
-{
-   return gulp.src([config.paths.dest.bundled + "/**/*.js", "!" + config.paths.dest.bundled + "/**/*.min.js"])
-      .pipe(rename({suffix: '.min'}))
-      .pipe(changed(config.paths.dest.minified))
-      .pipe(uglify())
-      .pipe(gulp.dest(config.paths.dest.minified));
+   //done();
 } );
 
-gulp.task("definitions", function()
+gulp.task( "compress", ["optimize"], function()
 {
-   return gulp.src( config.paths.dest.compiled + "/**/*.d.ts")
-      .pipe( gulp.dest( config.paths.dest.compiled + ".d" ) );
-});
+   return gulp.src( [config.paths.dest.bundled + "/**/*.js", "!" + config.paths.dest.bundled + "/**/*.min.js"] )
+      .pipe( rename( { suffix: '.min' } ) )
+      .pipe( changed( config.paths.dest.minified ) )
+      .pipe( uglify() )
+      .pipe( gulp.dest( config.paths.dest.minified ) );
+} );
+
+gulp.task( "aggregate-declarations", function(done)
+{
+   var dts = require( 'dts-bundle' );
+   dts.bundle( {
+      name: "nnet",
+      out: "../bundled/nnet.d.ts",
+      indent: '   ',
+      main: config.paths.dest.compiled + "/_nnet.d.ts"
+   } );
+   _fs.writeFileSync( config.paths.dest.bundled + "/nnet.d.ts", _fs.readFileSync( config.paths.dest.bundled + "/nnet.d.ts" ).toString().replace( /__nnet\//g, "" ), 'utf-8' );
+
+   done();
+   //return gulp.src( config.paths.dest.compiled + "/**/*.d.ts" )
+   //   .pipe( changed( config.paths.dest.compiled + ".d" ) )
+   //   .pipe( gulp.dest( config.paths.dest.compiled + ".d" ) );
+} );
+
+// xcopy /q /y /i /s "$(TsOutDir)\*.js" "$(SolutionDir)test\scripts\out"
+gulp.task( "copy-js-to-test", function()
+{
+   return gulp.src( config.paths.dest.compiled + "/**/*.js" )
+      .pipe( changed( config.paths.dest.test ) )
+      .pipe( gulp.dest( config.paths.dest.test ) );
+} );
+
 
 //TODO: implement package task
-gulp.task("package", function(done)
+gulp.task( "package", function(done)
 {
-   seq("clean", "build", "optimize", "compress", done);
-});
+   seq( "clean", "build", "optimize", "compress", done );
+} );
 
-gulp.task("clean", function()
+gulp.task( "clean", function()
 {
-   return gulp.src([
+   return gulp.src( [
          config.paths.dest.compiled,
          config.paths.dest.compiled + ".d",
          config.paths.dest.bundled,
          config.paths.dest.minified
-      ], {read: false})
-      .pipe(clean());
-});
+      ], { read: false } )
+      .pipe( clean() );
+} );
 
-gulp.task("compile-ts", ["generate-module-index-ts"], function()
+gulp.task( "compile-ts", ["generate-module-index-ts"], function()
 {
    // Compile TypeScript files
-   return gulp.src(config.paths.src.ts)
+   return gulp.src( config.paths.src.ts )
       //.pipe(watch())
-      .pipe(changed(config.typescript.outDir, { extension: '.js' }))
-      .pipe(tsc(config.typescript))
-      .pipe(gulp.dest(config.typescript.outDir));
-});
+      .pipe( changed( config.typescript.outDir, { extension: '.js' } ) )
+      .pipe( tsc( config.typescript ) )
+      .pipe( gulp.dest( config.typescript.outDir ) );
+} );
 
-gulp.task("copy-js", function()
+gulp.task( "copy-js", function()
 {
    // just straight copy any js files that have yet to be converted to TS
-   return gulp.src(config.paths.src.js)
-      .pipe(changed(config.paths.dest.compiled))
-      .pipe(gulp.dest(config.paths.dest.compiled))
-      //.pipe(jshint())
-      //.pipe(jshint.reporter("jshint-stylish"));
-});
+   return gulp.src( config.paths.src.js )
+      .pipe( changed( config.paths.dest.compiled ) )
+      .pipe( gulp.dest( config.paths.dest.compiled ) ); //.pipe(jshint())
+   //.pipe(jshint.reporter("jshint-stylish"));
+} );
 
-gulp.task("generate-module-index-ts", function(done)
+gulp.task( "generate-module-index-ts", function(done)
 {
    generateModuleRoots(
       './build/module-index-ts.mustache',
@@ -192,9 +217,9 @@ gulp.task("generate-module-index-ts", function(done)
    );
 
    done();
-});
+} );
 
-gulp.task("generate-module-index-js"/*, ["compile-ts"]*/, function(done)
+gulp.task( "generate-module-index-js" /*, ["compile-ts"]*/, function(done)
 {
    generateModuleRoots(
       './build/module-index-js.mustache',
@@ -204,84 +229,85 @@ gulp.task("generate-module-index-js"/*, ["compile-ts"]*/, function(done)
    );
 
    done();
-});
+} );
 
 
 //
 // Utility functions
 //
 
-var _fs   = require('fs');
-var _path = require('path');
-var _mustache = require('mustache');
+var _fs = require( 'fs' );
+var _path = require( 'path' );
+var _mustache = require( 'mustache' );
 
 function generateModuleRoots(template, root, fileFilter, ext, basename)
 {
    basename = basename || ext;
 
-   var template = _fs.readFileSync(template).toString();
-   _mustache.parse(template);
+   var template = _fs.readFileSync( template ).toString();
+   _mustache.parse( template );
 
-   var src = getDirs(root, "nnet");
-   src.forEach(function(item)
+   var src = getDirs( root, "nnet" );
+   src.forEach( function(item)
    {
-      var dir = _path.join(root, item);
-      var files = getFiles(root, item, fileFilter);
+      var dir = _path.join( root, item );
+      var files = getFiles( root, item, fileFilter );
       //get parent directory and create js file with name of the current dir
-      var newFileName = "_" + _path.basename(item) + ext;
-      var newFile = _path.join(_path.resolve(dir, ".."), newFileName);
+      var newFileName = "_" + _path.basename( item ) + ext;
+      var newFile = _path.join( _path.resolve( dir, ".." ), newFileName );
       if(files.length > 0)
       {
-         files = files.map(function(name)
+         files = files.map( function(name)
          {
             // to account for .d.ts files when generating TypeScript code
-            if(Array.isArray(basename))
+            if(Array.isArray( basename ))
             {
                for(var x = 0; x < basename.length; ++x)
                {
-                  name = _path.basename(name, basename[x]);
+                  name = _path.basename( name, basename[x] );
                }
             }
             else
             {
-               name = _path.basename(name, basename);
+               name = _path.basename( name, basename );
             }
-            return { "name": name.replace(/^_|_$/g, ""), "file": name };
-         });
+            return { "name": name.replace( /^_|_$/g, "" ), "file": name };
+         } );
 
          //console.log(newFile);
          //console.log(files);
 
-         var model = {"path": "./" + item.split("/").last(), "files": files};
+         var model = { "path": "./" + item.split( "/" ).last(), "files": files };
          if(newFileName == config.package.main)
          {
             model["version"] = config.package.version;
          }
 
-         var renderedFile = _mustache.render(template, model);
+         var renderedFile = _mustache.render( template, model );
 
          //console.log(renderedFile + "");
-         _fs.writeFileSync(newFile, renderedFile, 'utf-8');
+         _fs.writeFileSync( newFile, renderedFile, 'utf-8' );
       }
-   });
+   } );
 }
+
 function getDirs(baseExclude, baseInclude)
 {
-   var result = [ baseInclude ];
-   var dirs = [ baseInclude ];
+   var result = [baseInclude];
+   var dirs = [baseInclude];
    while(dirs.length > 0)
    {
       var dir = dirs.pop();
-      var contents = _fs.readdirSync( _path.normalize(_path.join(baseExclude, dir)) );
+      var contents = _fs.readdirSync( _path.normalize( _path.join( baseExclude, dir ) ) );
       for(var x = 0; x < contents.length; ++x)
       {
          var name = contents[x];
          var file = dir + "/" + name; //path.join uses \ on Windows
-         var stats = _fs.statSync(_path.join(baseExclude, file));
+         var stats = _fs.statSync( _path.join( baseExclude, file ) );
          if(name[0] != "." && stats.isDirectory())
          {
-            dirs.push(file);
-            result.push(file);
+            dirs.push( file );
+            result.push( file );
          }
       }
    }
@@ -291,16 +317,16 @@ function getDirs(baseExclude, baseInclude)
 
 function getFiles(baseExclude, dir, allowed)
 {
-   var contents = _fs.readdirSync( _path.normalize(_path.join(baseExclude, dir)) );
+   var contents = _fs.readdirSync( _path.normalize( _path.join( baseExclude, dir ) ) );
    for(var x = contents.length - 1; x >= 0; --x)
    {
       var name = contents[x];
-      var file = _path.join(dir, name);
-      var filePath = _path.join(baseExclude, file);
-      var stats = _fs.statSync(filePath);
-      if(!stats.isFile() || !allowed.test(file))
+      var file = _path.join( dir, name );
+      var filePath = _path.join( baseExclude, file );
+      var stats = _fs.statSync( filePath );
+      if(!stats.isFile() || !allowed.test( file ))
       {
-         contents.splice(x, 1);
+         contents.splice( x, 1 );
       }
    }
    return contents.sort();

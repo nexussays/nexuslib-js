@@ -5,7 +5,7 @@ VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nnet-js", "src\nnet-js.csproj", "{3EEE0FF1-8F08-4B95-B156-8FAF86128487}"
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "test(1)", "http://localhost:14224", "{D651747D-F10D-4972-BC92-E1E8F898A62B}"
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "test", "http://localhost:14224", "{D651747D-F10D-4972-BC92-E1E8F898A62B}"
 	ProjectSection(WebsiteProperties) = preProject
 		UseIISExpress = "true"
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5"
