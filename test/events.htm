@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Javascript Event Handling</title>
+<link href="./favicon.ico" rel="Shortcut Icon" />
+<link href="./styles/main.css" rel="stylesheet" type="text/css" />
+<link href="./styles/editor.css" rel="stylesheet" type="text/css" />
+<script src="./scripts/require.js" data-main="./scripts/events.js"></script>
+<style type="text/css">
+textarea
+{
+   width: 40em;
+}
+input[type="text"]
+{
+   font-family:Consolas;
+}
+</style>
+</head>
+<body>
+<div id="nav"></div>
+<h1>Javascript Event Handling</h1>
+<fieldset>
+   <legend>Event information</legend>
+   <dl class="flat" style="float:left;width:40%;line-height:2em">
+      <dt>
+         key:<input type="text" id="keyevent" autocomplete="off" />
+      </dt>
+      <dd>
+         <label for="keyup">up:<input type="checkbox" id="keyup" /></label>
+         <label for="keydown">down:<input type="checkbox" id="keydown" /></label>
+         <label for="keypress">press:<input type="checkbox" id="keypress" /></label>
+      </dd>
+      <dt>
+         mouse click:
+      </dt>
+      <dd>
+         <label for="mouseup">up:<input type="checkbox" id="mouseup" /></label>
+         <label for="mousedown">down:<input type="checkbox" id="mousedown" /></label>
+         <label for="click">click:<input type="checkbox" id="click" /></label>
+         <label for="contextmenu">contextmenu:<input type="checkbox" id="contextmenu" /></label>
+      </dd>
+      <dt>
+         mouse move:
+      </dt>
+      <dd>
+         <label for="mouseover">over:<input type="checkbox" id="mouseover" /></label>
+         <label for="mouseout">out:<input type="checkbox" id="mouseout" /></label>
+         <label for="mousemove">move:<input type="checkbox" id="mousemove" /></label>
+      </dd>
+      <dt>
+         touch:
+      </dt>
+      <dd>
+         <label for="touchstart">start:<input type="checkbox" id="touchstart" /></label>
+         <label for="touchend">end:<input type="checkbox" id="touchend" /></label>
+         <label for="touchcancel">cancel:<input type="checkbox" id="touchcancel" /></label>
+         <label for="touchleave">leave:<input type="checkbox" id="touchleave" /></label>
+         <label for="touchmove">move:<input type="checkbox" id="touchmove" /></label>
+      </dd>
+      <dd>
+         <div class="testingbox" id="inputevent" alt="[EVENT]">
+            <div class="block"></div>
+            <div class="block"></div>
+         </div>
+      </dd>
+   </dl>
+   <div style="float:left;width:40%;">
+      <textarea rows="8" readonly="readonly" cols="10" id="log"></textarea>
+      <p>
+         <button type="button" id="log_clear">
+            <img src="./images/silk/page_white.png" /> Clear
+         </button>
+      </p>
+   </div>
+   <div class="clear"></div>
+</fieldset>
+<h4>Output:</h4>
+<div id="output"></div>
+</body>
+</html>
