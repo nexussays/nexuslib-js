@@ -4,21 +4,16 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+/// ts:import=Keyboard
+import Keyboard = require('../util/Keyboard'); ///ts:import:generated
+
 export = IEnhancedEvent;
-interface IEnhancedEvent// extends Event
+
+interface IEnhancedEvent // extends Event
 {
-   button: number;
    type: string;
-   w3cType: boolean;
-   isKeypress: boolean;
-   isKeyUpOrDown: boolean;
-   isMouseover: boolean;
-   isMouseout: boolean;
-   keycode: number;
-   ucase: boolean;
-   lcase: boolean;
    mouse: { left: boolean; right: boolean; middle: boolean };
-   key: { code: number; value: string; shift: boolean; ctrl: boolean; alt: boolean; capsLock: boolean; meta:boolean };
+   key: { code: Keyboard; value: string; shift: boolean; ctrl: boolean; alt: boolean; capsLock: boolean; meta: boolean };
    originalEvent: Event;
    pageX: number;
    pageY: number;
@@ -28,8 +23,14 @@ interface IEnhancedEvent// extends Event
    screenY: number;
    target: HTMLElement;
    relatedTarget: HTMLElement;
-   stop(): void;
+   /**
+    * Prevent default and stop propagation
+    */
+   kill(): void;
    preventDefault(): void;
    stopPropagation(): void;
    stopImmediatePropagation(): void;
+   isMouseEvent(): boolean;
+   isKeyboardEvent(): boolean;
+   isTouchEvent(): boolean;
 }

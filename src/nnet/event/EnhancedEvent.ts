@@ -6,23 +6,16 @@
 
 /// ts:import=IEnhancedEvent
 import IEnhancedEvent = require('./IEnhancedEvent'); ///ts:import:generated
+///ts:import=Keyboard
+import Keyboard = require('../util/Keyboard'); ///ts:import:generated
 
 export = EnhancedEvent;
 
 class EnhancedEvent implements IEnhancedEvent
 {
-   button: number;
    type: string = "unknown";
-   w3cType: boolean;
-   isKeypress: boolean;
-   isKeyUpOrDown: boolean;
-   isMouseover: boolean;
-   isMouseout: boolean;
-   keycode: number;
-   ucase: boolean;
-   lcase: boolean;
-   mouse: { left: boolean; right: boolean; middle: boolean };
-   key: { code: number; value: string; shift: boolean; ctrl: boolean; alt: boolean; capsLock: boolean; meta: boolean };
+   mouse: { left: boolean; right: boolean; middle: boolean } = { left: undefined, right: undefined, middle: undefined };
+   key: { code: Keyboard; value: string; shift: boolean; ctrl: boolean; alt: boolean; capsLock: boolean; meta: boolean } = { code: undefined, value: undefined, shift: undefined, ctrl: undefined, alt: undefined, capsLock: undefined, meta: undefined };
    originalEvent: Event;
    pageX: number = NaN;
    pageY: number = NaN;
@@ -33,12 +26,16 @@ class EnhancedEvent implements IEnhancedEvent
    target: HTMLElement;
    relatedTarget: HTMLElement;
 
+   private m_isMouseEvent: boolean;
+   private m_isKeyboardEvent: boolean;
+   private m_isTouchEvent: boolean;
+
    constructor(evt: Event)
    {
       var event = (evt || window.event);
       if(!event)
       {
-         return null;
+         return;
       }
 
       // make sure we're not recursively passing one of our Event instances to this constructor
@@ -51,15 +48,16 @@ class EnhancedEvent implements IEnhancedEvent
 
       this.originalEvent = event;
       this.type = event.type;
-      this.button = (<any>event).button;
-      this.w3cType = (typeof (<KeyboardEvent>event).which !== "undefined");
-      this.isKeypress = (this.type == "keypress");
-      this.isKeyUpOrDown = /keyup|keydown/.test( this.type );
-      this.isMouseover = this.type == "mouseover";
-      this.isMouseout = this.type == "mouseout";
-      this.keycode = (<any>event).charCode || (<any>event).keyCode || null;
-      this.ucase = (this.keycode >= 65 && this.keycode <= 90);
-      this.lcase = (this.keycode >= 97 && this.keycode <= 122);
+
+      var button = (<any>event).button;
+      var w3cButton = (typeof (<KeyboardEvent>event).which !== "undefined");
+      var keycode = (<KeyboardEvent>event).charCode || (<KeyboardEvent>event).keyCode || null;
+      var ucase = (keycode >= 65 && keycode <= 90);
+      var lcase = (keycode >= 97 && keycode <= 122);
+
+      this.m_isMouseEvent = /^mouse|^(?:show|contextmenu|DOMMouseScroll)$|click$/.test(this.type);
+      this.m_isKeyboardEvent = /^key/.test(this.type);
+      this.m_isTouchEvent = /^touch/.test(this.type);
 
       // Mozilla uses the "which" property for button clicks in addition to the "button" property,
       // and they follow the W3C spec for the numbering scheme; so we use the existence
@@ -68,31 +66,33 @@ class EnhancedEvent implements IEnhancedEvent
       this.mouse =
       {
          //W3C.button: 0; Microsoft.button: 1; Gecko.which: 1
-         left: ((this.w3cType && this.button === 0) || (!this.w3cType && (this.button & 1) === 1)),
+         left: ((w3cButton && button === 0) || (!w3cButton && (button & 1) === 1)),
          //W3C.button: 2; Microsoft.button: 2; Gecko.which: 3
-         right: ((this.w3cType && this.button === 2) || (!this.w3cType && (this.button & 2) === 2)),
+         right: ((w3cButton && button === 2) || (!w3cButton && (button & 2) === 2)),
          //W3C.button: 1; Microsoft.button: 4; Gecko.which: 2
-         middle: ((this.w3cType && this.button === 1) || (!this.w3cType && (this.button & 4) === 4))
+         middle: ((w3cButton && button === 1) || (!w3cButton && (button & 4) === 4))
       };
 
       //up arrow: 38 | down arrow: 40 | left arrow: 37 | right arrow: 39
       //For more information, see: <http://unixpapa.com/js/key.html>
+      var isKeypress = this.type == "keypress";
+      var isKeyUpOrDown = /keyup|keydown/.test(this.type);
       this.key =
       {
-         code: this.keycode,
-         value: (this.isKeypress || (this.isKeyUpOrDown && (this.keycode >= 48 && this.keycode <= 90))) ?
-                   String.fromCharCode( this.keycode ) :
-                   ((this.isKeyUpOrDown && (this.keycode - 96 >= 0 && this.keycode - 96 <= 9)) ?
-                       String.fromCharCode( this.keycode - 48 ) : null),
-         shift: ((<KeyboardEvent>event).shiftKey || this.keycode == 16),
-         ctrl: ((<KeyboardEvent>event).ctrlKey || this.keycode == 17),
-         alt: ((<KeyboardEvent>event).altKey || this.keycode == 18),
-         meta: ((<KeyboardEvent>event).metaKey), // || this.keycode == ???),
+         code: keycode,
+         value: (isKeypress || (isKeyUpOrDown && (keycode >= 48 && keycode <= 90))) ?
+                   String.fromCharCode( keycode ) :
+                   ((isKeyUpOrDown && (keycode - 96 >= 0 && keycode - 96 <= 9)) ?
+                       String.fromCharCode( keycode - 48 ) : null),
+         shift: ((<KeyboardEvent>event).shiftKey || keycode == Keyboard.Shift),
+         ctrl: ((<KeyboardEvent>event).ctrlKey || keycode == Keyboard.Control),
+         alt: ((<KeyboardEvent>event).altKey || keycode == Keyboard.Alternate),
+         meta: ((<KeyboardEvent>event).metaKey), // || keycode == ???),
          //If the key pressed is not an alpha character, then we cannot determine if caps lock is on so instead we set it to null.
          //If the key is uppercase without shift or lowercase with shift, then caps lock is on.
-         capsLock: (!this.isKeypress || (!this.ucase && !this.lcase) ?
-                       null :
-                       ((this.ucase && !(<KeyboardEvent>event).shiftKey) || (this.lcase && (<KeyboardEvent>event).shiftKey) ?
+         capsLock: (!isKeypress || (!ucase && !lcase) ?
+                       undefined :
+                       ((ucase && !(<KeyboardEvent>event).shiftKey) || (lcase && (<KeyboardEvent>event).shiftKey) ?
                            true : false))
       };
 
@@ -102,7 +102,7 @@ class EnhancedEvent implements IEnhancedEvent
       //the related target, ie if a mouseover it is the element the mouse came from and if a mouseout
       //it is the element the mouse has gone to
       this.relatedTarget = (typeof (<any>event).relatedTarget == "undefined") ?
-                              (this.isMouseover ? (<any>event).fromElement : (this.isMouseout ? (<any>event).toElement : null)) :
+                              (this.type == "mouseover" ? (<any>event).fromElement : (this.type == "mouseout" ? (<any>event).toElement : null)) :
                               (<any>event).relatedTarget;
 
       //pageX/Y are the values relative to the document itself
@@ -129,9 +129,25 @@ class EnhancedEvent implements IEnhancedEvent
       this.screenY = (<any>event).screenY;
    }
 
-   stop(): void
+   isMouseEvent(): boolean
+   {
+      return this.m_isMouseEvent;
+   }
+
+   isKeyboardEvent(): boolean
+   {
+      return this.m_isKeyboardEvent;
+   }
+
+   isTouchEvent(): boolean
+   {
+      return this.m_isTouchEvent;
+   }
+
+   kill(): void
    {
       this.preventDefault();
+      this.stopImmediatePropagation();
       this.stopPropagation();
    }
 
