@@ -230,10 +230,11 @@ return new (function()
             try
             {
                item = x[property];
-
+               var itemType = ___gettype( item );
+               var execFunc = false;
                //if we are not only displaying a selected subset of the object's members
                //or we ARE displaying a selected subset and the current member is one of them
-               if(selectedMembers === true || selectedMembers.indexOf(property) != -1)
+               if( selectedMembers === true || selectedMembers.indexOf( property ) != -1 || ( execFunc = (itemType == "function" && selectedMembers.indexOf( property + "()" ) != -1 )) )
                {
                   //special handling for strings so we don't enumerate over every single character in it
                   if(xType == "string" && (property >= 0 && property < x.length))
@@ -244,15 +245,15 @@ return new (function()
                   params += html.startHead + property;
 
                   //add type information
-                  params += " <span class=\"type\">[" + ___gettype(item);
-                  params += (___gettype(item) == "node" ? ": " + ___nodetype(item) : "");
+                  params += " <span class=\"type\">[" + itemType;
+                  params += (itemType == "node" ? ": " + ___nodetype(item) : "");
                   params += "]</span>";
 
                   params += html.endHead + html.startBody;
                   try
                   {
                      //debug one level deep when using "simple", but don't recurse on window
-                     if(___gettype(item) == "object" && item !== window)
+                     if(itemType == "object" && item !== window)
                      {
                         //set temp variable j to the current object, and k is our tempArray
                         var j = x[property], k = [];
@@ -264,7 +265,7 @@ return new (function()
                      }
                      else
                      {
-                        params += ___escapeHTML(stringVal(item));
+                        params += ___escapeHTML( stringVal( execFunc ? item.call(x) : item ) );
                      }
                   }
                   catch(ex)
