@@ -209,6 +209,7 @@
     <PreBuildEvent>call grunt ts:imports</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>call gulp generate-module-index-js</PostBuildEvent>
+    <PostBuildEvent>call grunt copy:definitions
+call grunt gen:js-index</PostBuildEvent>
   </PropertyGroup>
 </Project>
