@@ -61,7 +61,7 @@ module EnhancedHTMLElement
 {
    export interface IHTMLElementEnhancements extends EnhancedElement.IElementEnhancements
    {
-      addClass(name: string, checkExistence: boolean): boolean;
+      addClass(name: string, checkExistence?: boolean): boolean;
       removeClass(name: string): boolean;
       toggleClass(name: string);
       hasClass(name: string): boolean;
