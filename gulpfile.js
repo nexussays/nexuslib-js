@@ -104,12 +104,12 @@ gulp.task( "build", function(done)
 
 gulp.task( "build-js", function(done)
 {
-   seq( "copy-js", "generate-module-index-js", "copy-js-to-test", done );
+   seq( "copy-js", "generate-module-index-js", "aggregate-declarations", "copy-js-to-test", done );
 } );
 
 gulp.task( "optimize", function(done)
 {
-   seq( "build-js", "aggregate-declarations", done );
+   seq( "build-js", done );
 
    var r = require( "requirejs" );
 
@@ -164,7 +164,7 @@ gulp.task( "aggregate-declarations", function(done)
 // xcopy /q /y /i /s "$(TsOutDir)\*.js" "$(SolutionDir)test\scripts\out"
 gulp.task( "copy-js-to-test", function()
 {
-   return gulp.src( config.paths.dest.compiled + "/**/*.js" )
+   return gulp.src( [config.paths.dest.compiled + "/**/*.js", config.paths.dest.bundled + "/nnet.d.ts"] )
       .pipe( changed( config.paths.dest.test ) )
       .pipe( gulp.dest( config.paths.dest.test ) );
 } );

@@ -79,7 +79,7 @@ class EnhancedElement implements EnhancedElement.IElementEnhancements
             var arg = params[x];
             if(isArrayLike( arg ))
             {
-               (<Array<any>>arg).forEach(this.append);
+               [].forEach( this.append, arg );
             }
             else
             {

@@ -22,6 +22,13 @@ module.exports = function(grunt)
          {
             compile: false
          }
+      },
+      test: {
+         src: ["test/scripts/*.ts"],
+         options: {
+            declaration: false,
+            removeComments: false
+         }
       }
    };
 

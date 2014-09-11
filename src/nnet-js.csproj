@@ -22,7 +22,7 @@
     <TypeScriptCompile Include="nnet\dom\applyEnhancementsToPrototype.ts" />
     <TypeScriptCompile Include="nnet\dom\EnhancedElementCollection.ts" />
     <TypeScriptCompile Include="nnet\dom\EnhancedHTMLElement.ts" />
-    <TypeScriptCompile Include="nnet\dom\getWrapped.ts" />
+    <TypeScriptCompile Include="nnet\dom\getElement.ts" />
     <TypeScriptCompile Include="nnet\dom\IEnhancedHTMLElement.ts" />
     <TypeScriptCompile Include="nnet\dom\IEnhancedElement.ts" />
     <TypeScriptCompile Include="nnet\dom\IGetElement.ts" />
@@ -160,7 +160,6 @@
 call gulp generate-module-index-ts</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>call gulp aggregate-declarations
-call gulp build-js</PostBuildEvent>
+    <PostBuildEvent>call gulp build-js</PostBuildEvent>
   </PropertyGroup>
 </Project>
