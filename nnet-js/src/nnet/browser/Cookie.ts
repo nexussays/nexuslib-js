@@ -9,7 +9,7 @@ import type = require('../type'); ///ts:import:generated
 ///ts:import=Types
 import Types = require('../Types'); ///ts:import:generated
 ///ts:import=JsonParser
-import JsonParser = require('../serialization/json/JsonParser'); ///ts:import:generated
+import JsonParser = require('../serialization/JsonParser'); ///ts:import:generated
 ///ts:import=Milliseconds
 import Milliseconds = require('../util/Milliseconds'); ///ts:import:generated
 
