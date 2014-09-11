@@ -21,7 +21,7 @@ import isArrayLike = require('../array/isArrayLike'); ///ts:import:generated
 
 export = EnhancedElement;
 
-class EnhancedElement implements EnhancedElement.IInternal
+class EnhancedElement
 {
    private asElement(): Element
    {
@@ -227,21 +227,5 @@ class EnhancedElement implements EnhancedElement.IInternal
       {
          el['on' + eventName]();
       }
-   }
-}
-
-module EnhancedElement
-{
-   export interface IInternal
-   {
-      getAncestor(tagName: string): Node;
-      isAncestor(ancestor: Node): boolean;
-      getOuterHTML(escapeHtml?: boolean): string;
-      append(...params: Array<Array<any>>): IEnhancedElement;
-      append(...params: Array<Node>): IEnhancedElement;
-      append(...params: Array<Object>): IEnhancedElement;
-      bind(eventName: string, func: (e: IEnhancedEvent) => void): void;
-      unbind(eventName: string, func: (e: IEnhancedEvent) => void): void;
-      trigger(eventName: string): void;
    }
 }

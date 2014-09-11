@@ -11,7 +11,7 @@ import EnhancedElement = require('./EnhancedElement'); ///ts:import:generated
 
 export = EnhancedHTMLElement;
 
-class EnhancedHTMLElement extends EnhancedElement implements EnhancedHTMLElement.IInternal
+class EnhancedHTMLElement extends EnhancedElement
 {
    private asHTMLElement(): HTMLElement
    {
@@ -54,16 +54,5 @@ class EnhancedHTMLElement extends EnhancedElement implements EnhancedHTMLElement
    {
       //return (new RegExp("(?:^|\\s)" + name + "(?:\\s|$)", "i").test(element.className));
       return (this.asHTMLElement().className && contains( this.asHTMLElement().className, name, " ", true ));
-   }
-}
-
-module EnhancedHTMLElement
-{
-   export interface IInternal extends EnhancedElement.IInternal
-   {
-      addClass(name: string, checkExistence?: boolean): boolean;
-      removeClass(name: string): boolean;
-      toggleClass(name: string);
-      hasClass(name: string): boolean;
    }
 }

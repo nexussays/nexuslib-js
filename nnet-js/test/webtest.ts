@@ -20,11 +20,11 @@ export function createMenu(id, buildFrom)
    {
       function recurse(menu)
       {
-         var ul = <nnet.dom.IEnhancedHTMLElement>(<any>HTML.ul());
+         var ul = HTML.ul();
          for(var x = 0; x < menu.length; ++x)
          {
             var item = menu[x],
-                li = <nnet.dom.IEnhancedHTMLElement>(<any>HTML.li()),
+                li = HTML.li(),
                 match;
 
             if(type( item[1] ) == Types.array)
@@ -36,7 +36,7 @@ export function createMenu(id, buildFrom)
                match = escapeRegExp( item[1].replace( /\.?\.\/ ?/, "" ).trim() );
                if(match && window.location.href.match( match ))
                {
-                  li.setAttribute( "class", "selected" );
+                  li.addClass( "selected" );
                   li.innerHTML = item[0];
                }
                else

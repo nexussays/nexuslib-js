@@ -9,7 +9,7 @@ import EnhancedElement = require('./EnhancedElement'); ///ts:import:generated
 
 export = IEnhancedElement;
 
-interface IEnhancedElement extends Element, EnhancedElement.IElementEnhancements
+interface IEnhancedElement extends Element, EnhancedElement
 {
    
 }

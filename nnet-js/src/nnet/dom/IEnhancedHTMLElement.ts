@@ -11,7 +11,7 @@ export = IEnhancedHTMLElement;
 
 // combines EnhancedHTMLElement.IHTMLElementEnhancements which has our enhanced methods with HTMLElement so we 
 // can still access all the native element properties
-interface IEnhancedHTMLElement extends HTMLElement, EnhancedHTMLElement.IHTMLElementEnhancements
+interface IEnhancedHTMLElement extends HTMLElement, EnhancedHTMLElement
 {
    
 }
