@@ -4,8 +4,8 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-///ts:import=NNetError
-/// No file or directory matched name "NNetError" ///ts:import:generated
+///ts:import=Error
+/// No file or directory matched name "Error" ///ts:import:generated
 ///ts:import=IHttpResponse
 import IHttpResponse = require('./IHttpResponse'); ///ts:import:generated
 
@@ -49,7 +49,7 @@ class HttpRequest
       }
       else
       {
-         throw new NNetError( "HttpRequest is not supported in this browser" );
+         throw new Error( "HttpRequest is not supported in this browser" );
       }
    }
 
@@ -114,10 +114,10 @@ class HttpRequest
             }
             break;
          case HttpRequest.Method.HEAD:
-            throw new NNetError( "HttpRequest.sendHead() is not yet implemented" );
+            throw new Error( "HttpRequest.sendHead() is not yet implemented" );
             break;
          default:
-            throw new NNetError( "Improper value \"" + method + "\" passed to HttpRequest.send() method. Valid values are \"GET, POST, PUT, DELETE, HEAD\"" );
+            throw new Error( "Improper value \"" + method + "\" passed to HttpRequest.send() method. Valid values are \"GET, POST, PUT, DELETE, HEAD\"" );
       }
 
       this.request.open( HttpRequest.Method[method], this.url, async );
@@ -164,7 +164,7 @@ class HttpRequest
             this.onComplete( this.response );
             break;
          default:
-            throw new NNetError( "INVALID readyState \"" + this.request.readyState + "\" in HTTPRequest" );
+            throw new Error( "INVALID readyState \"" + this.request.readyState + "\" in HTTPRequest" );
       }
    }
 }

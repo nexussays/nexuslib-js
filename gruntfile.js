@@ -1,8 +1,8 @@
 module.exports = function(grunt)
 {
    var main = {
-      src: ["nnet-js/src/**/*.ts"],
-      outDir: "nnet-js/bin/compiled/src",
+      src: ["nnet-js/src/**/*.ts", "nnet-js/test/*.ts"],
+      outDir: "nnet-js/bin/compiled",
       // Use to override the default options, http://gruntjs.com/configuring-tasks#options
       options: {
          target: 'es5',
@@ -22,6 +22,10 @@ module.exports = function(grunt)
          {
             compile: false
          }
+      },
+      main: {
+         src: ["nnet-js/src/**/*.ts"],
+         outDir: "nnet-js/bin/compiled/src",
       },
       test: {
          src: ["nnet-js/test/*.ts"],

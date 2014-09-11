@@ -21,9 +21,12 @@
   <ItemGroup>
     <TypeScriptCompile Include="lib\modernizr.d.ts" />
     <TypeScriptCompile Include="lib\require.d.ts" />
+    <TypeScriptCompile Include="src\nnet\array\enhancePrototype.ts" />
     <TypeScriptCompile Include="src\nnet\dom\applyEnhancementsToPrototype.ts" />
-    <TypeScriptCompile Include="src\nnet\dom\EnhancedElementCollection.ts" />
+    <TypeScriptCompile Include="src\nnet\dom\EnhancedElement.ts" />
+    <TypeScriptCompile Include="src\nnet\dom\EnhancedHTMLElementCollection.ts" />
     <TypeScriptCompile Include="src\nnet\dom\EnhancedHTMLElement.ts" />
+    <TypeScriptCompile Include="src\nnet\dom\enhanceHTMLElement.ts" />
     <TypeScriptCompile Include="src\nnet\dom\getElement.ts" />
     <TypeScriptCompile Include="src\nnet\dom\IEnhancedHTMLElement.ts" />
     <TypeScriptCompile Include="src\nnet\dom\IEnhancedElement.ts" />
@@ -35,7 +38,6 @@
     <TypeScriptCompile Include="src\nnet\dom\selector\filterByNodeName.ts" />
     <TypeScriptCompile Include="src\nnet\dom\selector\selectorClassName.ts" />
     <TypeScriptCompile Include="src\nnet\dom\selector\selectorQueryAll.ts" />
-    <TypeScriptCompile Include="src\nnet\dom\enhanceHTMLElement.ts" />
     <TypeScriptCompile Include="src\nnet\dom\enhanceElement.ts" />
     <TypeScriptCompile Include="src\nnet\dom\_form.ts" />
     <TypeScriptCompile Include="src\nnet\dom\_selector.ts" />
@@ -59,8 +61,6 @@
     <TypeScriptCompile Include="src\nnet\net\IHttpResponse.ts" />
     <TypeScriptCompile Include="src\nnet\browser\BrowserUtils.ts" />
     <TypeScriptCompile Include="src\nnet\browser\Cookie.ts" />
-    <TypeScriptCompile Include="src\nnet\dom\EnhancedElement.ts" />
-    <TypeScriptCompile Include="src\nnet\error\NNetError.ts" />
     <TypeScriptCompile Include="src\nnet\array\flatten.ts" />
     <TypeScriptCompile Include="src\nnet\event\EnhancedEvent.ts" />
     <TypeScriptCompile Include="src\nnet\dom\form\getDefaultValue.ts" />
@@ -99,7 +99,6 @@
     <TypeScriptCompile Include="src\nnet\_array.ts" />
     <TypeScriptCompile Include="src\nnet\_browser.ts" />
     <TypeScriptCompile Include="src\nnet\_dom.ts" />
-    <TypeScriptCompile Include="src\nnet\_error.ts" />
     <TypeScriptCompile Include="src\nnet\_event.ts" />
     <TypeScriptCompile Include="src\nnet\_graphics.ts" />
     <TypeScriptCompile Include="src\nnet\_math.ts" />
@@ -167,7 +166,7 @@
     <RootNamespace>nnet_js</RootNamespace>
   </PropertyGroup>
   <PropertyGroup>
-    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+    <RunPostBuildEvent>Always</RunPostBuildEvent>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
@@ -207,10 +206,9 @@
   </PropertyGroup>
   <Import Project="$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets')" />
   <PropertyGroup>
-    <PreBuildEvent>call grunt ts:imports
-call gulp generate-module-index-ts</PreBuildEvent>
+    <PreBuildEvent>call grunt ts:imports</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>call gulp build-js</PostBuildEvent>
+    <PostBuildEvent>call gulp generate-module-index-js</PostBuildEvent>
   </PropertyGroup>
 </Project>

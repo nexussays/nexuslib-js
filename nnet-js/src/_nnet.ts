@@ -11,7 +11,6 @@ export import Types = require('./nnet/Types');
 export import array = require('./nnet/_array');
 export import browser = require('./nnet/_browser');
 export import dom = require('./nnet/_dom');
-export import error = require('./nnet/_error');
 export import event = require('./nnet/_event');
 export import graphics = require('./nnet/_graphics');
 export import math = require('./nnet/_math');

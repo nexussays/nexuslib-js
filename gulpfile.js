@@ -101,14 +101,9 @@ gulp.task( "build", function(done)
    seq( "compile-ts", "build-js", done );
 } );
 
-gulp.task( "build-js", function(done)
-{
-   seq( "copy-js", "generate-module-index-js", "aggregate-declarations", done );
-} );
-
 gulp.task( "optimize", function(done)
 {
-   seq( "build-js", done );
+   seq( "generate-module-index-js", "aggregate-declarations", done );
 
    var r = require( "requirejs" );
 
@@ -160,14 +155,6 @@ gulp.task( "aggregate-declarations", function(done)
    //   .pipe( gulp.dest( config.paths.dest.compiled + ".d" ) );
 } );
 
-// xcopy /q /y /i /s "$(TsOutDir)\*.js" "$(SolutionDir)test\scripts\out"
-//gulp.task( "copy-js-to-test", function()
-//{
-//   return gulp.src( [config.paths.dest.compiled + "/**/*.js", config.paths.dest.bundled + "/nnet.d.ts"] )
-//      .pipe( changed( config.paths.dest.test ) )
-//      .pipe( gulp.dest( config.paths.dest.test ) );
-//} );
-
 
 //TODO: implement package task
 gulp.task( "package", function(done)
@@ -194,15 +181,6 @@ gulp.task( "compile-ts", ["generate-module-index-ts"], function()
       .pipe( changed( config.typescript.outDir, { extension: '.js' } ) )
       .pipe( tsc( config.typescript ) )
       .pipe( gulp.dest( config.typescript.outDir ) );
-} );
-
-gulp.task( "copy-js", function()
-{
-   // just straight copy any js files that have yet to be converted to TS
-   return gulp.src( config.paths.src.js )
-      .pipe( changed( config.paths.dest.compiled ) )
-      .pipe( gulp.dest( config.paths.dest.compiled ) ); //.pipe(jshint())
-   //.pipe(jshint.reporter("jshint-stylish"));
 } );
 
 gulp.task( "generate-module-index-ts", function(done)
