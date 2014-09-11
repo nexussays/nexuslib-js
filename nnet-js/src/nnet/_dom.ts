@@ -21,6 +21,7 @@ export import enhanceElement = require('./dom/enhanceElement');
 export import enhanceHTMLElement = require('./dom/enhanceHTMLElement');
 export import getElement = require('./dom/getElement');
 export import getElementRaw = require('./dom/getElementRaw');
+export import isAncestor = require('./dom/isAncestor');
 export import nodetype = require('./dom/nodetype');
 export import onInteractive = require('./dom/onInteractive');
 export import onLoaded = require('./dom/onLoaded');

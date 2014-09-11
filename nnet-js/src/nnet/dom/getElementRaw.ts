@@ -4,7 +4,7 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-///ts:import=Types
+/// ts:import=Types
 import Types = require('../Types'); ///ts:import:generated
 ///ts:import=type
 import type = require('../type'); ///ts:import:generated
@@ -18,6 +18,8 @@ import isArrayLike = require('../array/isArrayLike'); ///ts:import:generated
 import EnhancedElement = require('./EnhancedElement'); ///ts:import:generated
 ///ts:import=filterByNodeName
 import filterByNodeName = require('./selector/filterByNodeName'); ///ts:import:generated
+///ts:import=isAncestor
+import isAncestor = require('./isAncestor'); ///ts:import:generated
 
 export = getElementRaw;
 
@@ -37,7 +39,7 @@ function getElementRaw(query?: any): Array<Element>
    // if an element was provided, either just return it, or, if there's a different root we're searching from, make sure the root is an ancestors of it
    if(type( query ) === Types.node)
    {
-      return (useDocumentAsRoot || query.nodeType == Node.DOCUMENT_NODE || EnhancedElement.isAncestor( query, root ) ? [query] : []);
+      return (useDocumentAsRoot || query.nodeType == Node.DOCUMENT_NODE || isAncestor( query, root ) ? [query] : []);
    }
 
    // if query is an array, run get for each element of the array and flatten the results
@@ -61,8 +63,8 @@ module getElementRaw
       //if id is null or doesn't match either of the below, return null
       //if id is a string, return it from the DOM
       //if id has a property called "id" assume it is an element (eg - redundant call to get()) and return it
-      var t = type(id);
-      return id && (t == Types.string ? document.getElementById((<string>id)[0] == "#" ? (<string>id).substr(1) : id) : (t == Types.node ? id : null));
+      var t = type( id );
+      return id && (t == Types.string ? document.getElementById( (<string>id)[0] == "#" ? (<string>id).substr( 1 ) : id ) : (t == Types.node ? id : null));
    }
 
    export function name(name: string, tag?: string): Array<Element>

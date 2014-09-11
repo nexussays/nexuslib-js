@@ -31,6 +31,7 @@
     <TypeScriptCompile Include="src\nnet\dom\IEnhancedHTMLElement.ts" />
     <TypeScriptCompile Include="src\nnet\dom\IEnhancedElement.ts" />
     <TypeScriptCompile Include="src\nnet\dom\IGetElement.ts" />
+    <TypeScriptCompile Include="src\nnet\dom\isAncestor.ts" />
     <TypeScriptCompile Include="src\nnet\dom\onLoaded.ts" />
     <TypeScriptCompile Include="src\nnet\dom\onInteractive.ts" />
     <TypeScriptCompile Include="src\nnet\dom\nodetype.ts" />
@@ -70,7 +71,6 @@
     <TypeScriptCompile Include="src\nnet\array\isArrayLike.ts" />
     <TypeScriptCompile Include="src\nnet\array\first.ts" />
     <TypeScriptCompile Include="src\nnet\array\last.ts" />
-    <TypeScriptCompile Include="src\nnet\serialization\_json.ts" />
     <TypeScriptCompile Include="src\nnet\util\isLeapYear.ts" />
     <TypeScriptCompile Include="src\nnet\object\extendPrototype.ts" />
     <TypeScriptCompile Include="src\nnet\Types.ts" />
@@ -95,7 +95,7 @@
     <TypeScriptCompile Include="src\nnet\util\WindowUtils.ts" />
     <TypeScriptCompile Include="src\nnet\math\IPRNG.ts" />
     <TypeScriptCompile Include="src\nnet\math\NativeRandomGenerator.ts" />
-    <TypeScriptCompile Include="src\nnet\serialization\json\JsonParser.ts" />
+    <TypeScriptCompile Include="src\nnet\serialization\JsonParser.ts" />
     <TypeScriptCompile Include="src\nnet\_array.ts" />
     <TypeScriptCompile Include="src\nnet\_browser.ts" />
     <TypeScriptCompile Include="src\nnet\_dom.ts" />
