@@ -1,8 +1,8 @@
 module.exports = function(grunt)
 {
    var main = {
-      src: ["src/**/*.ts"],
-      outDir: "bin/compiled",
+      src: ["nnet-js/src/**/*.ts"],
+      outDir: "nnet-js/bin/compiled/src",
       // Use to override the default options, http://gruntjs.com/configuring-tasks#options
       options: {
          target: 'es5',
@@ -24,7 +24,8 @@ module.exports = function(grunt)
          }
       },
       test: {
-         src: ["test/scripts/*.ts"],
+         src: ["nnet-js/test/*.ts"],
+         outDir: "nnet-js/bin/compiled/test",
          options: {
             declaration: false,
             removeComments: false
@@ -58,8 +59,8 @@ module.exports = function(grunt)
       ts: ts,
       browserify: {
          dist: {
-            src: ["bin/compiled/**/*.js"],
-            dest: "bin/bundled/nnet-browserify.js",
+            src: ["nnet-js/bin/compiled/src/**/*.js"],
+            dest: "nnet-js/bin/bundled/nnet-browserify.js",
             options: {
                transform: ['deamdify'],
                standalone: "nnet"

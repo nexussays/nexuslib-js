@@ -14,17 +14,16 @@ var config =
    {
       src:
       {
-         root: "src",
-         ts: ["src/**/*.ts", "!src/**/*.d.ts"],
-         js: "src/**/*.js"
+         root: "nnet-js/src",
+         ts: ["nnet-js/src/**/*.ts", "!nnet-js/src/**/*.d.ts"],
+         js: "nnet-js/src/**/*.js"
       },
       dest:
       {
-         root: "bin",
-         compiled: "bin/compiled",
-         bundled: "bin/bundled",
-         minified: "bin/bundled",
-         test: "test/scripts/out"
+         root: "nnet-js/bin",
+         compiled: "nnet-js/bin/compiled/src",
+         bundled: "nnet-js/bin/bundled",
+         minified: "nnet-js/bin/bundled"
       }
    }
 };
@@ -65,7 +64,7 @@ config.requirejs =
       //r.js.cmd -o build.js optimize=none paths.requireLib=../node_modules/requirejs/require include=requireLib
       {
          out: config.paths.dest.bundled + "/nnet-amd-with-almond.js",
-         include: ["../../lib/almond"],
+         include: ["../../../lib/almond"],
          //TODO: turn this back on once everything is properly wrapped
          //wrap: true
       },
@@ -74,7 +73,7 @@ config.requirejs =
          out: config.paths.dest.bundled + "/nnet-amd-with-require.js",
          paths:
          {
-            "requireLib": "../../node_modules/requirejs/require"
+            "requireLib": "../../../../node_modules/requirejs/require"
          },
          include: ["requireLib"]
       },
@@ -99,12 +98,12 @@ gulp.task( "watch" /*, ["build"]*/, function()
 
 gulp.task( "build", function(done)
 {
-   seq( "compile-ts", "build-js", "aggregate-declarations", done );
+   seq( "compile-ts", "build-js", done );
 } );
 
 gulp.task( "build-js", function(done)
 {
-   seq( "copy-js", "generate-module-index-js", "aggregate-declarations", "copy-js-to-test", done );
+   seq( "copy-js", "generate-module-index-js", "aggregate-declarations", done );
 } );
 
 gulp.task( "optimize", function(done)
@@ -149,7 +148,7 @@ gulp.task( "aggregate-declarations", function(done)
    var dts = require( 'dts-bundle' );
    dts.bundle( {
       name: "nnet",
-      out: "../bundled/nnet.d.ts",
+      out: "../../bundled/nnet.d.ts",
       indent: '   ',
       main: config.paths.dest.compiled + "/_nnet.d.ts"
    } );
@@ -162,12 +161,12 @@ gulp.task( "aggregate-declarations", function(done)
 } );
 
 // xcopy /q /y /i /s "$(TsOutDir)\*.js" "$(SolutionDir)test\scripts\out"
-gulp.task( "copy-js-to-test", function()
-{
-   return gulp.src( [config.paths.dest.compiled + "/**/*.js", config.paths.dest.bundled + "/nnet.d.ts"] )
-      .pipe( changed( config.paths.dest.test ) )
-      .pipe( gulp.dest( config.paths.dest.test ) );
-} );
+//gulp.task( "copy-js-to-test", function()
+//{
+//   return gulp.src( [config.paths.dest.compiled + "/**/*.js", config.paths.dest.bundled + "/nnet.d.ts"] )
+//      .pipe( changed( config.paths.dest.test ) )
+//      .pipe( gulp.dest( config.paths.dest.test ) );
+//} );
 
 
 //TODO: implement package task

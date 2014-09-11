@@ -1,0 +1,216 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <ProjectGuid>{3EEE0FF1-8F08-4B95-B156-8FAF86128487}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <OutputPath>../obj</OutputPath>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <TypeScriptToolsVersion>1.0</TypeScriptToolsVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <TsOutDir Condition="$(TsOutDir) == '' Or $(TsOutDir) == '*Undefined*'">.\bin\compiled</TsOutDir>
+  </PropertyGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="lib\modernizr.d.ts" />
+    <TypeScriptCompile Include="lib\require.d.ts" />
+    <TypeScriptCompile Include="src\nnet\dom\applyEnhancementsToPrototype.ts" />
+    <TypeScriptCompile Include="src\nnet\dom\EnhancedElementCollection.ts" />
+    <TypeScriptCompile Include="src\nnet\dom\EnhancedHTMLElement.ts" />
+    <TypeScriptCompile Include="src\nnet\dom\getElement.ts" />
+    <TypeScriptCompile Include="src\nnet\dom\IEnhancedHTMLElement.ts" />
+    <TypeScriptCompile Include="src\nnet\dom\IEnhancedElement.ts" />
+    <TypeScriptCompile Include="src\nnet\dom\IGetElement.ts" />
+    <TypeScriptCompile Include="src\nnet\dom\onLoaded.ts" />
+    <TypeScriptCompile Include="src\nnet\dom\onInteractive.ts" />
+    <TypeScriptCompile Include="src\nnet\dom\nodetype.ts" />
+    <TypeScriptCompile Include="src\nnet\dom\selector\filterByAttribute.ts" />
+    <TypeScriptCompile Include="src\nnet\dom\selector\filterByNodeName.ts" />
+    <TypeScriptCompile Include="src\nnet\dom\selector\selectorClassName.ts" />
+    <TypeScriptCompile Include="src\nnet\dom\selector\selectorQueryAll.ts" />
+    <TypeScriptCompile Include="src\nnet\dom\enhanceHTMLElement.ts" />
+    <TypeScriptCompile Include="src\nnet\dom\enhanceElement.ts" />
+    <TypeScriptCompile Include="src\nnet\dom\_form.ts" />
+    <TypeScriptCompile Include="src\nnet\dom\_selector.ts" />
+    <TypeScriptCompile Include="src\nnet\event\IEnhancedEvent.ts" />
+    <TypeScriptCompile Include="src\nnet\string\trimChars.ts" />
+    <TypeScriptCompile Include="src\nnet\util\Keyboard.ts" />
+    <TypeScriptCompile Include="src\nnet\graphics\Color.ts" />
+    <TypeScriptCompile Include="src\nnet\dom\form\RadioCollection.ts" />
+    <TypeScriptCompile Include="src\nnet\dom\form\fieldChanged.ts" />
+    <TypeScriptCompile Include="src\nnet\math\asUnsigned.ts" />
+    <TypeScriptCompile Include="src\nnet\math\clamp.ts" />
+    <TypeScriptCompile Include="src\nnet\math\distance.ts" />
+    <TypeScriptCompile Include="src\nnet\math\matchSign.ts" />
+    <TypeScriptCompile Include="src\nnet\math\mean.ts" />
+    <TypeScriptCompile Include="src\nnet\math\Random.ts" />
+    <TypeScriptCompile Include="src\nnet\math\sign.ts" />
+    <TypeScriptCompile Include="src\nnet\math\toDegrees.ts" />
+    <TypeScriptCompile Include="src\nnet\math\toRadians.ts" />
+    <TypeScriptCompile Include="src\nnet\math\wrapAngleDegrees.ts" />
+    <TypeScriptCompile Include="src\nnet\math\wrapAngleRadians.ts" />
+    <TypeScriptCompile Include="src\nnet\net\IHttpResponse.ts" />
+    <TypeScriptCompile Include="src\nnet\browser\BrowserUtils.ts" />
+    <TypeScriptCompile Include="src\nnet\browser\Cookie.ts" />
+    <TypeScriptCompile Include="src\nnet\dom\EnhancedElement.ts" />
+    <TypeScriptCompile Include="src\nnet\error\NNetError.ts" />
+    <TypeScriptCompile Include="src\nnet\array\flatten.ts" />
+    <TypeScriptCompile Include="src\nnet\event\EnhancedEvent.ts" />
+    <TypeScriptCompile Include="src\nnet\dom\form\getDefaultValue.ts" />
+    <TypeScriptCompile Include="src\nnet\dom\getElementRaw.ts" />
+    <TypeScriptCompile Include="src\nnet\dom\HTML.ts" />
+    <TypeScriptCompile Include="src\nnet\net\HttpRequest.ts" />
+    <TypeScriptCompile Include="src\nnet\array\isArrayLike.ts" />
+    <TypeScriptCompile Include="src\nnet\array\first.ts" />
+    <TypeScriptCompile Include="src\nnet\array\last.ts" />
+    <TypeScriptCompile Include="src\nnet\serialization\_json.ts" />
+    <TypeScriptCompile Include="src\nnet\util\isLeapYear.ts" />
+    <TypeScriptCompile Include="src\nnet\object\extendPrototype.ts" />
+    <TypeScriptCompile Include="src\nnet\Types.ts" />
+    <TypeScriptCompile Include="src\nnet\util\Sort.ts" />
+    <TypeScriptCompile Include="src\nnet\array\shuffle.ts" />
+    <TypeScriptCompile Include="src\nnet\array\map%24.ts" />
+    <TypeScriptCompile Include="src\nnet\array\toArray.ts" />
+    <TypeScriptCompile Include="src\nnet\array\makeRange.ts" />
+    <TypeScriptCompile Include="src\nnet\object\forEach.ts" />
+    <TypeScriptCompile Include="src\nnet\object\join.ts" />
+    <TypeScriptCompile Include="src\nnet\object\keys.ts" />
+    <TypeScriptCompile Include="src\nnet\object\map.ts" />
+    <TypeScriptCompile Include="src\nnet\parseBool.ts" />
+    <TypeScriptCompile Include="src\nnet\type.ts" />
+    <TypeScriptCompile Include="src\nnet\util\Milliseconds.ts" />
+    <TypeScriptCompile Include="src\nnet\string\contains.ts" />
+    <TypeScriptCompile Include="src\nnet\string\escapeHTML.ts" />
+    <TypeScriptCompile Include="src\nnet\string\escapeRegExp.ts" />
+    <TypeScriptCompile Include="src\nnet\string\stripTags.ts" />
+    <TypeScriptCompile Include="src\nnet\string\trim.ts" />
+    <TypeScriptCompile Include="src\nnet\string\unescapeHTML.ts" />
+    <TypeScriptCompile Include="src\nnet\util\WindowUtils.ts" />
+    <TypeScriptCompile Include="src\nnet\math\IPRNG.ts" />
+    <TypeScriptCompile Include="src\nnet\math\NativeRandomGenerator.ts" />
+    <TypeScriptCompile Include="src\nnet\serialization\json\JsonParser.ts" />
+    <TypeScriptCompile Include="src\nnet\_array.ts" />
+    <TypeScriptCompile Include="src\nnet\_browser.ts" />
+    <TypeScriptCompile Include="src\nnet\_dom.ts" />
+    <TypeScriptCompile Include="src\nnet\_error.ts" />
+    <TypeScriptCompile Include="src\nnet\_event.ts" />
+    <TypeScriptCompile Include="src\nnet\_graphics.ts" />
+    <TypeScriptCompile Include="src\nnet\_math.ts" />
+    <TypeScriptCompile Include="src\nnet\_net.ts" />
+    <TypeScriptCompile Include="src\nnet\_object.ts" />
+    <TypeScriptCompile Include="src\nnet\_serialization.ts" />
+    <TypeScriptCompile Include="src\nnet\_string.ts" />
+    <TypeScriptCompile Include="src\nnet\_util.ts" />
+    <TypeScriptCompile Include="src\_nnet.ts" />
+    <TypeScriptCompile Include="test\benchmark.ts" />
+    <TypeScriptCompile Include="test\config.ts" />
+    <TypeScriptCompile Include="test\debug.d.ts">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="test\editor.ts" />
+    <TypeScriptCompile Include="test\events.ts" />
+    <TypeScriptCompile Include="test\webtest.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="editor.htm" />
+    <Content Include="events.htm" />
+    <Content Include="images\bkgd.png" />
+    <Content Include="images\block.png" />
+    <Content Include="images\silk\accept.png" />
+    <Content Include="images\silk\add.png" />
+    <Content Include="images\silk\cancel.png" />
+    <Content Include="images\silk\check.png" />
+    <Content Include="images\silk\cross.png" />
+    <Content Include="images\silk\delete.png" />
+    <Content Include="images\silk\error.png" />
+    <Content Include="images\silk\exclamation.png" />
+    <Content Include="images\silk\help.png" />
+    <Content Include="images\silk\information.png" />
+    <Content Include="images\silk\lock_edit.png" />
+    <Content Include="images\silk\page_white.png" />
+    <Content Include="images\silk\resultset_next.png" />
+    <Content Include="images\silk\script_go.png" />
+    <Content Include="images\silk\script_lightning.png" />
+    <Content Include="images\silk\star.png" />
+    <Content Include="images\silk\stop.png" />
+    <Content Include="images\silk\textfield_key.png" />
+    <Content Include="images\waiting_squares.gif" />
+    <Content Include="lib\almond.js" />
+    <Content Include="lib\require.js" />
+    <Content Include="styles\editor.css" />
+    <Content Include="styles\main.css" />
+    <Content Include="test\debug.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Web.config" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>nnet_js</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>14224</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:14224/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <TypeScriptTarget>ES5</TypeScriptTarget>
+    <TypeScriptRemoveComments>True</TypeScriptRemoveComments>
+    <TypeScriptSourceMap>true</TypeScriptSourceMap>
+    <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
+    <TypeScriptGeneratesDeclarations>True</TypeScriptGeneratesDeclarations>
+    <TypeScriptOutDir>$(TsOutDir)</TypeScriptOutDir>
+    <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
+    <OutputPath>obj\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <TypeScriptTarget>ES5</TypeScriptTarget>
+    <TypeScriptRemoveComments>true</TypeScriptRemoveComments>
+    <TypeScriptSourceMap>false</TypeScriptSourceMap>
+    <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
+  </PropertyGroup>
+  <Import Project="$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets')" />
+  <PropertyGroup>
+    <PreBuildEvent>call grunt ts:imports
+call gulp generate-module-index-ts</PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>call gulp build-js</PostBuildEvent>
+  </PropertyGroup>
+</Project>

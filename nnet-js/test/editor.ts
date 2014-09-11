@@ -1,71 +1,67 @@
-requirejs.config({ paths: { nnet: './out/nnet' } });
-requirejs.onError = function (err) {
-   console.error(err.requireType + ', modules=' + err.requireModules);
-   throw err;
-};
-require([
-   "./out/_nnet",
-   "nnet/_dom",
-   "nnet/dom/onInteractive",
-   "nnet/browser/Cookie",
-   "nnet/dom/ElementUtils",
-   "./debug",
-   "nnet/browser/BrowserUtils",
-   "nnet/util/Milliseconds",
-   "nnet/event/Keys",
-   "./webtest",
-   "./benchmark"
-], function( nnet, dom, onInteractive, Cookie, Element, Debug, Browser, Milliseconds, Keys ) {
+/// <reference path="debug.d.ts" />
 
-//Hoist up some methods to window
-window.get = nnet.dom.get;
+import nnet = require("../src/_nnet");//"./out/_nnet");
+import applyEnhancementsToPrototype = require("../src/nnet/dom/applyEnhancementsToPrototype");
+import onInteractive = require("../src/nnet/dom/onInteractive");
+import getElement = require("../src/nnet/dom/getElement");
+import Keys = require("../src/nnet/util/Keyboard");
+import Browser = require("../src/nnet/browser/BrowserUtils");
+import Milliseconds = require("../src/nnet/util/Milliseconds");
+import Cookie = require("../src/nnet/browser/Cookie");
 
-//window.HTML = nnet.html.HTML;
+import Debug = require("debug");
+import webtest = require('./webtest');
+import Benchmark = require("./benchmark");
+
+//Hoist up some methods to window and set local vars for others
+(<any>window).get = nnet.dom.getElement;
+
+declare var unescape: any;
+declare var escape: any;
+
 //Make sure HTMLElements are extended
-Element.applyElementPrototypes();
+applyEnhancementsToPrototype();
 
 var execute_text, showmembers, showoutput, catchtabs, output_executiondetails;
-var waitingImage, editorCookie;
+var editorCookie;
 onInteractive( function()
 {
    console.log( "dom init" );
    //create the dropdown menu
-   CreateMenu("nav", Sections.Javascript.Menu);
+   webtest.createMenu("nav", webtest.sections.Javascript.Menu);
    editorCookie = Cookie.retrieveOrCreate("EditorPreferences");
    
    //get the textarea with the code
-   execute_text = get.id("#execute_text");
+   execute_text = getElement.id("#execute_text");
    execute_text.bind("keydown", execute_text_onkeydown);
    execute_text.value = editorCookie.data.execute_text ? unescape(editorCookie.data.execute_text) : "";
    //wireup event handlers
-   get.id("#execute_go").onclick = __go;
-   output_executiondetails = get.id("output_executiondetails");
-   
-   waitingImage = get.id("#waiting");
+   getElement.id("#execute_go").onclick = __go;
+   output_executiondetails = getElement.id("output_executiondetails");
    
    //setup options
    //default to verbose output (this value is actually checked in __go)
-   showmembers = get.id("#showmembers");
+   showmembers = getElement.id("#showmembers");
    showmembers.checked = editorCookie.data.showmembers;
    //show the output of the eval
-   showoutput = get.id("#showoutput");
+   showoutput = getElement.id("#showoutput");
    showoutput.checked = editorCookie.data.showoutput;
    //default to not capturing tabs (ie - tabbing will take you out of the textarea and to the next form element)
-   catchtabs = get.id("#catchtabs");
+   catchtabs = getElement.id("#catchtabs");
    catchtabs.checked = editorCookie.data.catchtabs;
    
    //set the output source for Debug results
-   Debug.outputSource = get.id("#output");
+   Debug.outputSource = getElement.id("#output");
    Debug.allowMultiple = true;
    
    //update the displayed HTML with the data actually on the page
    //update the cookie which stores preference values
    __updateTestingHTMLAndCookie();
    
-   var toggle = get.id("#html_toggle_link");
-   toggle.onclick = function()
+   var toggle = getElement.id("#html_toggle_link");
+   toggle.bind( "click", function()
    {
-      var html = get.id("#testinghtml");
+      var html = getElement.id( "#testinghtml" );
       if(html.style.display == "none")
       {
          html.style.display = "block";
@@ -76,14 +72,16 @@ onInteractive( function()
          html.style.display = "none";
          this.innerHTML = "Show available testing HTML&#8681;";
       }
-   }
-   toggle.onclick();
+   });
+   var evt = new MouseEvent();
+   evt.type = "click";
+   toggle.dispatchEvent( evt );
+   //toggle.onclick();
 });
 function __updateTestingHTMLAndCookie()
 {
-   var testinghtml = get.id("#testinghtml");
-   var temp = get.id("#extra");
-   testinghtml.innerHTML = Element.getOuterHTML(temp, true).replace(/\t/g,"   ");
+   var testinghtml = getElement.id("#testinghtml");
+   testinghtml.innerHTML = getElement.id("#extra").getOuterHTML(true).replace(/\t/g,"   ");
    
    editorCookie.data.showmembers = showmembers.checked;
    editorCookie.data.showoutput = showoutput.checked;
@@ -121,7 +119,9 @@ function execute_text_onkeydown(e)
       //prevent the default action
       e.preventDefault();
       
-      get.id("#execute_go").onclick();
+      var evt = new MouseEvent();
+      evt.type = "click";
+      getElement.id("#execute_go").dispatchEvent(evt);
    }
 }
 function __go()
@@ -131,7 +131,7 @@ function __go()
    //Debug.allowMultiple = allowmultiple.checked;
    
    //display the waiting image
-   Element.removeClass(waitingImage, "hidden");
+   getElement.id("#waiting").addClass("hidden");
       
    //reset html of output area so that is not included in any code executed below
    //(eg - if the debug output element is called using get() in the debug code)
@@ -139,7 +139,7 @@ function __go()
    
    setTimeout(function()
    {
-      var end, start = new Date(), result;
+      var end, start = Date.now(), result;
       try
       {
          //execute the code in the textarea
@@ -154,9 +154,9 @@ function __go()
          Debug.Error(ex, true);
       }
       //end the timer and hide the waiting image
-      end = new Date();
+      end = Date.now();
 
-      Element.addClass(waitingImage, "hidden");
+      getElement.id("#waiting").addClass("hidden");
       
       //update the testing HTML to reflect any changes
       //update the cookie with updated preferences
@@ -179,12 +179,11 @@ function simp(x, props)
 }
 function loop(times, code, context)
 {
-   simp(Benchmark.loop(times, code, context), true);
+   var b = new Benchmark();
+   simp(b.loop(times, code, context), true);
 }
-function out()
+function out(...params:any[])
 {
    //"convert" the items to strings so that null and undefined are actually written
-   Debug.write(Array.prototype.map.call(arguments, function(x){return x += "";}).join("<br />"), false);
+   Debug.write(params.map(x => x += "").join("<br />"), false);
 }
-
-}); //require
