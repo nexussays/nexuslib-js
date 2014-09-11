@@ -10,15 +10,17 @@ import getElementRaw = require('./getElementRaw'); ///ts:import:generated
 import enhanceHTMLElement = require('./enhanceHTMLElement'); ///ts:import:generated
 ///ts:import=IEnhancedHTMLElement
 import IEnhancedHTMLElement = require('./IEnhancedHTMLElement'); ///ts:import:generated
+///ts:import=EnhancedHTMLElementCollection
+import EnhancedHTMLElementCollection = require('./EnhancedHTMLElementCollection'); ///ts:import:generated
 
 export = getElement;
 
-function getElement(query: Node): Array<IEnhancedHTMLElement>;
-function getElement(query: Element): Array<IEnhancedHTMLElement>;
-function getElement(query: string): Array<IEnhancedHTMLElement>;
-function getElement(query?: any): Array<IEnhancedHTMLElement>
+function getElement(query: Node): EnhancedHTMLElementCollection;
+function getElement(query: Element): EnhancedHTMLElementCollection;
+function getElement(query: string): EnhancedHTMLElementCollection;
+function getElement(query?: any): EnhancedHTMLElementCollection
 {
-   return getElementRaw.call( this, query ).map( enhanceHTMLElement );
+   return new EnhancedHTMLElementCollection( getElementRaw.call( this, query ).map( enhanceHTMLElement ) );
 }
 
 module getElement
@@ -30,18 +32,18 @@ module getElement
       return enhanceHTMLElement( getElementRaw.id.call( this, id ) );
    }
 
-   export function name(name: string, tag?: string): Array<IEnhancedHTMLElement>
+   export function name(name: string, tag?: string): EnhancedHTMLElementCollection
    {
-      return getElementRaw.name.call( this, name, tag ).map( enhanceHTMLElement );
+      return new EnhancedHTMLElementCollection( getElementRaw.name.call( this, name, tag ).map( enhanceHTMLElement ) );
    }
 
-   export function className(name: string, tag?: string): Array<IEnhancedHTMLElement>
+   export function className(name: string, tag?: string): EnhancedHTMLElementCollection
    {
-      return getElementRaw.className.call( this, name, tag ).map( enhanceHTMLElement );
+      return new EnhancedHTMLElementCollection( getElementRaw.className.call( this, name, tag ).map( enhanceHTMLElement ) );
    }
 
-   export function tagName(name: string): Array<IEnhancedHTMLElement>
+   export function tagName(name: string): EnhancedHTMLElementCollection
    {
-      return getElementRaw.tagName.call( this, name ).map( enhanceHTMLElement );
+      return new EnhancedHTMLElementCollection( getElementRaw.tagName.call( this, name ).map( enhanceHTMLElement ) );
    }
 }
