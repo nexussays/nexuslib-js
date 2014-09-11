@@ -14,8 +14,8 @@ import toArray = require('../array/toArray'); ///ts:import:generated
 import flatten = require('../array/flatten'); ///ts:import:generated
 ///ts:import=isArrayLike
 import isArrayLike = require('../array/isArrayLike'); ///ts:import:generated
-///ts:import=ElementUtils
-import ElementUtils = require('./ElementUtils'); ///ts:import:generated
+///ts:import=EnhancedElement
+import EnhancedElement = require('./EnhancedElement'); ///ts:import:generated
 ///ts:import=filterByNodeName
 import filterByNodeName = require('./selector/filterByNodeName'); ///ts:import:generated
 
@@ -37,7 +37,7 @@ function getElementRaw(query?: any): Array<Element>
    // if an element was provided, either just return it, or, if there's a different root we're searching from, make sure the root is an ancestors of it
    if(type( query ) === Types.node)
    {
-      return (useDocumentAsRoot || query.nodeType == Node.DOCUMENT_NODE || ElementUtils.isAncestor( query, root ) ? [query] : []);
+      return (useDocumentAsRoot || query.nodeType == Node.DOCUMENT_NODE || EnhancedElement.prototype.isAncestor.call( query, root ) ? [query] : []);
    }
 
    // if query is an array, run get for each element of the array and flatten the results

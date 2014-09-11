@@ -4,8 +4,10 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-/// ts:import=ElementUtils
-import ElementUtils = require('./ElementUtils'); ///ts:import:generated
+///ts:import=enhanceHTMLElement
+import enhanceHTMLElement = require('./enhanceHTMLElement'); ///ts:import:generated
+///ts:import=IEnhancedHTMLElement
+import IEnhancedHTMLElement = require('./IEnhancedHTMLElement'); ///ts:import:generated
 
 declare var exports;
 
@@ -174,34 +176,28 @@ export declare function video(...params: any[]): HTMLVideoElement;
 function defineTag(tag)
 {
    // using $ as an escape for "var" above since it's a TypeScript keyword
-   exports[tag.toLowerCase()] = () => create.apply( tag.replace("$",""), arguments );
+   exports[tag.toLowerCase()] = () => create.apply( tag.replace( "$", "" ), arguments );
 }
 
-export function create()
+function create():any
 {
-   var element;
+   var element: IEnhancedHTMLElement;
 
    // special case for text nodes
    if(this == "text")
    {
-      element = document.createTextNode( Array.prototype.join.call( arguments, "" ) || "" );
+      // this is actually an invalid cast, Text is 
+      return document.createTextNode( Array.prototype.join.call( arguments, "" ) || "" );
    }
    else
    {
       // create element and apply element methods to it if they aren't already there
-      element = document.createElement( this );
-      ElementUtils.wrapElement( element );
+      element = enhanceHTMLElement( document.createElement( this ) );
 
       // append nodes
       if(arguments.length > 0)
       {
-         var params = [element];
-         for(var i = 0; i < (arguments.length - 0); i++)
-         {
-            params[i + 1] = arguments[i + 0];
-         }
-         // "this" argument should be irrelevant
-         ElementUtils.append.apply( element, params );
+         element.append( arguments );
       }
    }
 

@@ -19,7 +19,11 @@
     <TsOutDir Condition="$(TsOutDir) == '' Or $(TsOutDir) == '*Undefined*'">$(SolutionDir)\bin\compiled</TsOutDir>
   </PropertyGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="nnet\dom\applyEnhancementsToPrototype.ts" />
+    <TypeScriptCompile Include="nnet\dom\EnhancedElementCollection.ts" />
+    <TypeScriptCompile Include="nnet\dom\EnhancedHTMLElement.ts" />
     <TypeScriptCompile Include="nnet\dom\getWrapped.ts" />
+    <TypeScriptCompile Include="nnet\dom\IEnhancedHTMLElement.ts" />
     <TypeScriptCompile Include="nnet\dom\IEnhancedElement.ts" />
     <TypeScriptCompile Include="nnet\dom\IGetElement.ts" />
     <TypeScriptCompile Include="nnet\dom\onLoaded.ts" />
@@ -29,6 +33,8 @@
     <TypeScriptCompile Include="nnet\dom\selector\filterByNodeName.ts" />
     <TypeScriptCompile Include="nnet\dom\selector\selectorClassName.ts" />
     <TypeScriptCompile Include="nnet\dom\selector\selectorQueryAll.ts" />
+    <TypeScriptCompile Include="nnet\dom\enhanceHTMLElement.ts" />
+    <TypeScriptCompile Include="nnet\dom\enhanceElement.ts" />
     <TypeScriptCompile Include="nnet\dom\_form.ts" />
     <TypeScriptCompile Include="nnet\dom\_selector.ts" />
     <TypeScriptCompile Include="nnet\event\IEnhancedEvent.ts" />
@@ -51,7 +57,7 @@
     <TypeScriptCompile Include="nnet\net\IHttpResponse.ts" />
     <TypeScriptCompile Include="nnet\browser\BrowserUtils.ts" />
     <TypeScriptCompile Include="nnet\browser\Cookie.ts" />
-    <TypeScriptCompile Include="nnet\dom\ElementUtils.ts" />
+    <TypeScriptCompile Include="nnet\dom\EnhancedElement.ts" />
     <TypeScriptCompile Include="nnet\error\NNetError.ts" />
     <TypeScriptCompile Include="nnet\array\flatten.ts" />
     <TypeScriptCompile Include="nnet\event\EnhancedEvent.ts" />
@@ -78,7 +84,6 @@
     <TypeScriptCompile Include="nnet\parseBool.ts" />
     <TypeScriptCompile Include="nnet\type.ts" />
     <TypeScriptCompile Include="nnet\util\Milliseconds.ts" />
-    <TypeScriptCompile Include="nnet\util\using.ts" />
     <TypeScriptCompile Include="nnet\string\contains.ts" />
     <TypeScriptCompile Include="nnet\string\escapeHTML.ts" />
     <TypeScriptCompile Include="nnet\string\escapeRegExp.ts" />

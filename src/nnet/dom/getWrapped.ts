@@ -4,44 +4,44 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-///ts:import=getElementRaw
+/// ts:import=getElementRaw
 import getElementRaw = require('./getElementRaw'); ///ts:import:generated
-///ts:import=ElementUtils
-import ElementUtils = require('./ElementUtils'); ///ts:import:generated
-///ts:import=IEnhancedElement
-import IEnhancedElement = require('./IEnhancedElement'); ///ts:import:generated
+///ts:import=enhanceHTMLElement
+import enhanceHTMLElement = require('./enhanceHTMLElement'); ///ts:import:generated
+///ts:import=IEnhancedHTMLElement
+import IEnhancedHTMLElement = require('./IEnhancedHTMLElement'); ///ts:import:generated
 
 export = getElement;
 
-function getElement(query: Node): Array<IEnhancedElement>;
-function getElement(query: Element): Array<IEnhancedElement>;
-function getElement(query: string): Array<IEnhancedElement>;
-function getElement(query?: any): Array<IEnhancedElement>
+function getElement(query: Node): Array<IEnhancedHTMLElement>;
+function getElement(query: Element): Array<IEnhancedHTMLElement>;
+function getElement(query: string): Array<IEnhancedHTMLElement>;
+function getElement(query?: any): Array<IEnhancedHTMLElement>
 {
-   return getElementRaw.call( this, query ).map( ElementUtils.wrapElement );
+   return getElementRaw.call( this, query ).map( enhanceHTMLElement );
 }
 
 module getElement
 {
-   export function id(id: Node): IEnhancedElement
-   export function id(id: string): IEnhancedElement
-   export function id(id: any): IEnhancedElement
+   export function id(id: Node): IEnhancedHTMLElement
+   export function id(id: string): IEnhancedHTMLElement
+   export function id(id: any): IEnhancedHTMLElement
    {
-      return ElementUtils.wrapElement(getElementRaw.id.call( this, id ) );
+      return enhanceHTMLElement( getElementRaw.id.call( this, id ) );
    }
 
-   export function name(name: string, tag?: string): Array<IEnhancedElement>
+   export function name(name: string, tag?: string): Array<IEnhancedHTMLElement>
    {
-      return getElementRaw.name.call( this, name, tag ).map( ElementUtils.wrapElement );
+      return getElementRaw.name.call( this, name, tag ).map( enhanceHTMLElement );
    }
 
-   export function className(name: string, tag?: string): Array<IEnhancedElement>
+   export function className(name: string, tag?: string): Array<IEnhancedHTMLElement>
    {
-      return getElementRaw.className.call( this, name, tag ).map( ElementUtils.wrapElement );
+      return getElementRaw.className.call( this, name, tag ).map( enhanceHTMLElement );
    }
 
-   export function tagName(name: string): Array<IEnhancedElement>
+   export function tagName(name: string): Array<IEnhancedHTMLElement>
    {
-      return getElementRaw.tagName.call( this, name ).map( ElementUtils.wrapElement );
+      return getElementRaw.tagName.call( this, name ).map( enhanceHTMLElement );
    }
 }
