@@ -15,10 +15,10 @@ function applyEnhancementsToPrototype()
 {
    if(enhanceElement.enabled)
    {
-      enhanceElement(Element.prototype, true);
+      enhanceElement( Element.prototype, true );
       enhanceElement.enabled = false;
 
-      enhanceHTMLElement(HTMLElement.prototype, true);
+      enhanceHTMLElement( HTMLElement.prototype, true );
       enhanceHTMLElement.enabled = false;
    }
 }

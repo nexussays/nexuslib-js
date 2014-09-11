@@ -4,7 +4,7 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-///ts:import=isArrayLike
+/// ts:import=isArrayLike
 import isArrayLike = require('./isArrayLike'); ///ts:import:generated
 
 export = flatten;
@@ -30,7 +30,7 @@ function flatten(source: Array<any>): Array<any>
       if(x in source)
       {
          var value = source[x];
-         arr.push.apply(arr, isArrayLike( value ) ? flatten( value ) : value );
+         arr.push.apply( arr, isArrayLike( value ) ? flatten( value ) : value );
       }
    }
    return arr;

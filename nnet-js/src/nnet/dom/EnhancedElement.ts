@@ -18,6 +18,8 @@ import type = require('../type'); ///ts:import:generated
 import IEnhancedElement = require('./IEnhancedElement'); ///ts:import:generated
 ///ts:import=isArrayLike
 import isArrayLike = require('../array/isArrayLike'); ///ts:import:generated
+///ts:import=isAncestor
+import isAncestor = require('./isAncestor'); ///ts:import:generated
 
 export = EnhancedElement;
 
@@ -30,43 +32,9 @@ class EnhancedElement
       return (<Element>(<any>this));
    }
 
-   getAncestor(tagName: string): Node
-   {
-      var tag = tagName.toLowerCase(),
-          iter: Node = this.asElement();
-      while(iter.parentNode)
-      {
-         //if the element is the one we are looking for, return the entire element
-         if(iter.parentNode.nodeName.toLowerCase() == tag)
-         {
-            return iter.parentNode;
-         }
-         iter = iter.parentNode;
-      }
-      return null;
-   }
-
-   static getAncestor(element: Element, tagName: string): Node
-   {
-      return EnhancedElement.prototype.getAncestor.call( element, tagName );
-   }
-
    isAncestor(ancestor: Node): boolean
    {
-      // instead of checking for it each time, just have IE<8 fall through to the catch block
-      try
-      {
-         return (this.asElement().compareDocumentPosition( ancestor ) & Node.DOCUMENT_POSITION_CONTAINED_BY) == Node.DOCUMENT_POSITION_CONTAINED_BY;
-      }
-      catch(e)
-      {
-         return (<any>this == document || <any>this == window ? document.documentElement.contains( <HTMLElement>ancestor ) : false);
-      }
-   }
-
-   static isAncestor(element: Element, ancestor: Node): boolean
-   {
-      return EnhancedElement.prototype.isAncestor.call( element, ancestor );
+      return isAncestor( this.asElement(), ancestor );
    }
 
    getOuterHTML(escapeHtml: boolean = false): string
@@ -89,7 +57,7 @@ class EnhancedElement
             var arg = params[x];
             if(isArrayLike( arg ))
             {
-               Array.prototype.forEach.call(arg, item => this.append(item), this);
+               Array.prototype.forEach.call( arg, item => this.append( item ), this );
             }
             else
             {
@@ -123,14 +91,6 @@ class EnhancedElement
       return <IEnhancedElement>this.asElement();
    }
 
-   static append(element: Element, ...params: Array<Array<any>>): Element;
-   static append(element: Element, ...params: Array<Node>): Element;
-   static append(element: Element, ...params: Array<Object>): Element;
-   static append(element: Element, ...params: Array<any>): Element
-   {
-      return EnhancedElement.prototype.append.apply( element, params );
-   }
-
    bind(eventName: string, func: (e: IEnhancedEvent) => void): void
    {
       var eventHandler = function(e)
@@ -155,11 +115,6 @@ class EnhancedElement
       events[func] = eventHandler;
    }
 
-   static bind(element: Element, eventName: string, func: (e: IEnhancedEvent) => void): void
-   {
-      return EnhancedElement.prototype.bind.call( element, eventName, func );
-   }
-
    unbind(event: string, func: (e: IEnhancedEvent) => void): void
    {
       var anyEl = (<any>this.asElement());
@@ -179,28 +134,23 @@ class EnhancedElement
       delete events[func];
    }
 
-   static unbind(element: Element, eventName: string, func: (e: IEnhancedEvent) => void): void
-   {
-      return EnhancedElement.prototype.unbind.call( element, eventName, func );
-   }
-
    trigger(eventName: string): void
    {
       var event: Event;
       if((<any>window).initCustomEvent)
       {
-         console.log( "initCustomEvent" );
+         //console.log( "initCustomEvent" );
          event = (<any>window).initCustomEvent( eventName, true, true );
       }
       else if(document.createEvent)
       {
-         console.log("document.createEvent");
+         //console.log("document.createEvent");
          event = document.createEvent( 'HTMLEvents' );
          event.initEvent( eventName, true, true );
       }
       else if(document.createEventObject)
       {
-         console.log("document.createEventObject");
+         //console.log("document.createEventObject");
          event = document.createEventObject();
          (<MSEventObj>event).type = eventName;
       }

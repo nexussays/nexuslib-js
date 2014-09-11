@@ -4,7 +4,7 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-///ts:import=type
+/// ts:import=type
 import type = require('../type'); ///ts:import:generated
 ///ts:import=Types
 import Types = require('../Types'); ///ts:import:generated
@@ -89,7 +89,7 @@ class Cookie
 
 module Cookie
 {
-   var cookieCache: { [s: string]: Cookie; } = { };
+   var cookieCache: { [s: string]: Cookie; } = {};
 
    export function retrieveOrCreate(key, reload: boolean = false): Cookie
    {
@@ -105,7 +105,7 @@ module Cookie
          {
             var cookie = allCookies[x].trim();
             var delimeter = cookie.indexOf( "=" );
-            if(decodeURIComponent(cookie.substring(0, delimeter)) === key)
+            if(decodeURIComponent( cookie.substring( 0, delimeter ) ) === key)
             {
                var encodedValue = decodeURIComponent( cookie.substring( delimeter + 1 ) );
                var value: any;
@@ -126,7 +126,7 @@ module Cookie
       return (key in cookieCache ? cookieCache[key] : null);
    }
 
-   export function save(cookie:Cookie):void
+   export function save(cookie: Cookie): void
    {
       var cookieVal = cookie.toString();
 

@@ -8,6 +8,14 @@
 import contains = require('../string/contains'); ///ts:import:generated
 ///ts:import=EnhancedElement
 import EnhancedElement = require('./EnhancedElement'); ///ts:import:generated
+///ts:import=IEnhancedHTMLElement
+/// No file or directory matched name "IEnhancedHTMLElement" ///ts:import:generated
+///ts:import=getElement
+import getElement = require('./getElement'); ///ts:import:generated
+///ts:import=EnhancedHTMLElementCollection
+import EnhancedHTMLElementCollection = require('./EnhancedHTMLElementCollection'); ///ts:import:generated
+///ts:import=isAncestor
+import isAncestor = require('./isAncestor'); ///ts:import:generated
 
 export = EnhancedHTMLElement;
 
@@ -18,6 +26,11 @@ class EnhancedHTMLElement extends EnhancedElement
       // this class should never be instantiated by itself, we just copy its prototype
       // to objects or to other element protoypes
       return (<HTMLElement>(<any>this));
+   }
+
+   getAncestors(query: string): EnhancedHTMLElementCollection
+   {
+      return getElement( query ).filter$( item => isAncestor( this.asHTMLElement(), item ) );
    }
 
    addClass(name: string, checkExistence: boolean= false): boolean
@@ -55,4 +68,10 @@ class EnhancedHTMLElement extends EnhancedElement
       //return (new RegExp("(?:^|\\s)" + name + "(?:\\s|$)", "i").test(element.className));
       return (this.asHTMLElement().className && contains( this.asHTMLElement().className, name, " ", true ));
    }
+
+   find(query: string): EnhancedHTMLElementCollection
+   {
+      return getElement.call( this, query );
+   }
+}
 }
