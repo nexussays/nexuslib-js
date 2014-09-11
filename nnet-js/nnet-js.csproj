@@ -28,7 +28,6 @@
     <TypeScriptCompile Include="src\nnet\dom\getElement.ts" />
     <TypeScriptCompile Include="src\nnet\dom\EnhancedHTMLElement.ts" />
     <TypeScriptCompile Include="src\nnet\dom\EnhancedElement.ts" />
-    <TypeScriptCompile Include="src\nnet\dom\IGetElement.ts" />
     <TypeScriptCompile Include="src\nnet\dom\isAncestor.ts" />
     <TypeScriptCompile Include="src\nnet\dom\onLoaded.ts" />
     <TypeScriptCompile Include="src\nnet\dom\onInteractive.ts" />
