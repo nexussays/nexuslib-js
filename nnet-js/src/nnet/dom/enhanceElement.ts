@@ -5,7 +5,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 /// ts:import=EnhancedElement
-/// No file or directory matched name "EnhancedElement" ///ts:import:generated
+import EnhancedElement = require('./EnhancedElement'); ///ts:import:generated
 ///ts:import=IEnhancedElement
 import IEnhancedElement = require('./IEnhancedElement'); ///ts:import:generated
 

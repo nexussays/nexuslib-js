@@ -11,9 +11,9 @@ import EnhancedElement = require('./EnhancedElement'); ///ts:import:generated
 
 export = EnhancedHTMLElement;
 
-class EnhancedHTMLElement extends EnhancedElement implements EnhancedHTMLElement.IHTMLElementEnhancements
+class EnhancedHTMLElement extends EnhancedElement implements EnhancedHTMLElement.IInternal
 {
-   private get asHTMLElement(): HTMLElement
+   private asHTMLElement(): HTMLElement
    {
       // this class should never be instantiated by itself, we just copy its prototype
       // to objects or to other element protoypes
@@ -24,7 +24,7 @@ class EnhancedHTMLElement extends EnhancedElement implements EnhancedHTMLElement
    {
       if(checkExistence === false || (!this.hasClass( name )))
       {
-         this.asHTMLElement.className += " " + name;
+         this.asHTMLElement().className += " " + name;
          //element.clasName = element.className.replace(/\s+$/gi, "") + " " + name;
          return true;
       }
@@ -34,12 +34,12 @@ class EnhancedHTMLElement extends EnhancedElement implements EnhancedHTMLElement
    removeClass(name: string): boolean
    {
       //replace the name with an empty string
-      if(this.asHTMLElement.className)
+      if(this.asHTMLElement().className)
       {
-         this.asHTMLElement.className = this.asHTMLElement.className.replace( new RegExp( "(^|\\s)" + name + "(\\s|$)", "i" ), " " );
-         if(this.asHTMLElement.className == "")
+         this.asHTMLElement().className = this.asHTMLElement().className.replace( new RegExp( "(^|\\s)" + name + "(\\s|$)", "i" ), " " );
+         if(this.asHTMLElement().className == "")
          {
-            this.asHTMLElement.removeAttribute( "class" );
+            this.asHTMLElement().removeAttribute( "class" );
          }
       }
       return true;
@@ -53,13 +53,13 @@ class EnhancedHTMLElement extends EnhancedElement implements EnhancedHTMLElement
    hasClass(name: string): boolean
    {
       //return (new RegExp("(?:^|\\s)" + name + "(?:\\s|$)", "i").test(element.className));
-      return (this.asHTMLElement.className && contains( this.asHTMLElement.className, name, " ", true ));
+      return (this.asHTMLElement().className && contains( this.asHTMLElement().className, name, " ", true ));
    }
 }
 
 module EnhancedHTMLElement
 {
-   export interface IHTMLElementEnhancements extends EnhancedElement.IElementEnhancements
+   export interface IInternal extends EnhancedElement.IInternal
    {
       addClass(name: string, checkExistence?: boolean): boolean;
       removeClass(name: string): boolean;

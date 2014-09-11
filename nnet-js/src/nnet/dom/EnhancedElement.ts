@@ -21,9 +21,9 @@ import isArrayLike = require('../array/isArrayLike'); ///ts:import:generated
 
 export = EnhancedElement;
 
-class EnhancedElement implements EnhancedElement.IElementEnhancements
+class EnhancedElement implements EnhancedElement.IInternal
 {
-   private get asElement(): Element
+   private asElement(): Element
    {
       // this class should never be instantiated by itself, we just copy its prototype
       // to objects or to other element protoypes
@@ -33,7 +33,7 @@ class EnhancedElement implements EnhancedElement.IElementEnhancements
    getAncestor(tagName: string): Node
    {
       var tag = tagName.toLowerCase(),
-          iter: Node = this.asElement;
+          iter: Node = this.asElement();
       while(iter.parentNode)
       {
          //if the element is the one we are looking for, return the entire element
@@ -46,12 +46,17 @@ class EnhancedElement implements EnhancedElement.IElementEnhancements
       return null;
    }
 
+   static getAncestor(element: Element, tagName: string): Node
+   {
+      return EnhancedElement.prototype.getAncestor.call( element, tagName );
+   }
+
    isAncestor(ancestor: Node): boolean
    {
       // instead of checking for it each time, just have IE<8 fall through to the catch block
       try
       {
-         return (this.asElement.compareDocumentPosition( ancestor ) & Node.DOCUMENT_POSITION_CONTAINED_BY) == Node.DOCUMENT_POSITION_CONTAINED_BY;
+         return (this.asElement().compareDocumentPosition( ancestor ) & Node.DOCUMENT_POSITION_CONTAINED_BY) == Node.DOCUMENT_POSITION_CONTAINED_BY;
       }
       catch(e)
       {
@@ -59,10 +64,15 @@ class EnhancedElement implements EnhancedElement.IElementEnhancements
       }
    }
 
+   static isAncestor(element: Element, ancestor: Node): boolean
+   {
+      return EnhancedElement.prototype.isAncestor.call( element, ancestor );
+   }
+
    getOuterHTML(escapeHtml: boolean = false): string
    {
       var div = document.createElement( "div" );
-      div.appendChild( this.asElement.cloneNode( true ) );
+      div.appendChild( this.asElement().cloneNode( true ) );
       return escapeHtml ? escapeHTML( div.innerHTML ) : div.innerHTML;
    }
 
@@ -79,14 +89,14 @@ class EnhancedElement implements EnhancedElement.IElementEnhancements
             var arg = params[x];
             if(isArrayLike( arg ))
             {
-               [].forEach( this.append, arg );
+               Array.prototype.forEach.call(arg, item => this.append(item), this);
             }
             else
             {
                switch(type( arg ))
                {
                   case Types.node:
-                     this.asElement.appendChild( <Node>arg );
+                     this.asElement().appendChild( <Node>arg );
                      break;
                   case Types.object:
                      for(var prop in arg)
@@ -99,80 +109,139 @@ class EnhancedElement implements EnhancedElement.IElementEnhancements
                         else
                         {
                            //TODO: handle style attribute
-                           this.asElement.setAttribute( prop, arg[prop] );
+                           this.asElement().setAttribute( prop, arg[prop] );
                         }
                      }
                      break;
                   default:
-                     this.asElement.appendChild( document.createTextNode( arg + "" ) );
+                     this.asElement().appendChild( document.createTextNode( arg + "" ) );
                      break;
                }
             }
          }
       }
-      return <IEnhancedElement>this.asElement;
+      return <IEnhancedElement>this.asElement();
    }
 
-   bind(eventName: string, func: (e: IEnhancedEvent) => void)
+   static append(element: Element, ...params: Array<Array<any>>): Element;
+   static append(element: Element, ...params: Array<Node>): Element;
+   static append(element: Element, ...params: Array<Object>): Element;
+   static append(element: Element, ...params: Array<any>): Element
+   {
+      return EnhancedElement.prototype.append.apply( element, params );
+   }
+
+   bind(eventName: string, func: (e: IEnhancedEvent) => void): void
    {
       var eventHandler = function(e)
       {
          func.call( this, new EnhancedEvent( e ) );
       };
 
-      if(type( this.asElement.addEventListener ) == Types.function)
+      if(type( this.asElement().addEventListener ) == Types.function)
       {
-         this.asElement.addEventListener( eventName, eventHandler, false );
+         this.asElement().addEventListener( eventName, eventHandler, false );
       }
       else
       {
-         (<HTMLElement>this.asElement).attachEvent( "on" + eventName, eventHandler );
+         (<HTMLElement>this.asElement()).attachEvent( "on" + eventName, eventHandler );
       }
 
       // store the handler on the element itself so we can look it up to remove it
-      var anyEl = (<any>this.asElement);
+      var anyEl = (<any>this.asElement());
       anyEl.events = anyEl.events || {};
       var events = (anyEl.events[eventName] = anyEl.events[eventName] || {});
 
       events[func] = eventHandler;
    }
 
-   unbind(event: string, func: (e: IEnhancedEvent) => void)
+   static bind(element: Element, eventName: string, func: (e: IEnhancedEvent) => void): void
    {
-      var anyEl = (<any>this.asElement);
+      return EnhancedElement.prototype.bind.call( element, eventName, func );
+   }
+
+   unbind(event: string, func: (e: IEnhancedEvent) => void): void
+   {
+      var anyEl = (<any>this.asElement());
       anyEl.events = anyEl.events || {};
       var events = (anyEl.events[event] = anyEl.events[event] || {});
 
-      if(type( this.asElement.removeEventListener ) == Types.function)
+      if(type( this.asElement().removeEventListener ) == Types.function)
       {
-         this.asElement.removeEventListener( event, events[func], false );
+         this.asElement().removeEventListener( event, events[func], false );
       }
       else
       {
-         (<HTMLElement>this.asElement).detachEvent( "on" + event, events[func] );
+         (<HTMLElement>this.asElement()).detachEvent( "on" + event, events[func] );
       }
 
       // remove the function from the dict on the element
       delete events[func];
    }
 
-   dispatchEvent(el: Element, type)
+   static unbind(element: Element, eventName: string, func: (e: IEnhancedEvent) => void): void
    {
+      return EnhancedElement.prototype.unbind.call( element, eventName, func );
+   }
+
+   trigger(eventName: string): void
+   {
+      var event: Event;
+      if((<any>window).initCustomEvent)
+      {
+         console.log( "initCustomEvent" );
+         event = (<any>window).initCustomEvent( eventName, true, true );
+      }
+      else if(document.createEvent)
+      {
+         console.log("document.createEvent");
+         event = document.createEvent( 'HTMLEvents' );
+         event.initEvent( eventName, true, true );
+      }
+      else if(document.createEventObject)
+      {
+         console.log("document.createEventObject");
+         event = document.createEventObject();
+         (<MSEventObj>event).type = eventName;
+      }
+      else
+      {
+         throw new Error( "Unable to create event \"" + eventName + "\"" );
+      }
+
+      //event.eventName = eventName;
+      var el = this.asElement();
+      if(el.dispatchEvent)
+      {
+         el.dispatchEvent( event );
+      }
+      else if(el.fireEvent)
+      {
+         el.fireEvent( 'on' + eventName, event );
+      }
+      else if(el[eventName])
+      {
+         el[eventName]();
+      }
+      else if(el['on' + eventName])
+      {
+         el['on' + eventName]();
+      }
    }
 }
 
 module EnhancedElement
 {
-   export interface IElementEnhancements
+   export interface IInternal
    {
       getAncestor(tagName: string): Node;
       isAncestor(ancestor: Node): boolean;
-      getOuterHTML(escapeHtml: boolean): string;
+      getOuterHTML(escapeHtml?: boolean): string;
       append(...params: Array<Array<any>>): IEnhancedElement;
       append(...params: Array<Node>): IEnhancedElement;
       append(...params: Array<Object>): IEnhancedElement;
-      append(...params: Array<any>): IEnhancedElement;
-      bind(eventName: string, func: (e: IEnhancedEvent) => void);
-      unbind(event: string, func: (e: IEnhancedEvent) => void);
+      bind(eventName: string, func: (e: IEnhancedEvent) => void): void;
+      unbind(eventName: string, func: (e: IEnhancedEvent) => void): void;
+      trigger(eventName: string): void;
    }
 }
