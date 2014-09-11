@@ -2,7 +2,7 @@
 
 require.config( {
    paths: {
-      nnet: '../src/nnet',
+      //nnet: '../src/nnet',
       debug: "../../debug"
    }
 } );

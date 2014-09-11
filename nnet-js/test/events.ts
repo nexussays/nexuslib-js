@@ -9,12 +9,8 @@ import Debug = require("debug");
 import webtest = require('./webtest');
 import benchmark = require("./benchmark");
 
-
 //Hoist up some methods to window and set local vars for others
 (<any>window).get = nnet.dom.getElement;
-
-var Element = nnet.dom.EnhancedElement;
-
 
 //window.HTML = nnet.html.HTML;
 //Make sure HTMLElements are extended
@@ -32,9 +28,7 @@ onInteractive( function()
    {
       x.onclick = detectevent_click;
       (<HTMLInputElement>(<any>x)).checked = false;
-      var evt = new MouseEvent();
-      evt.type = "click";
-      x.dispatchEvent(evt);
+      x.trigger( "click" );
    } );
 
    log.el = <HTMLInputElement>(<any>getElement.id( "log" ));
@@ -111,7 +105,7 @@ module log
       }
    }
 
-   export function write(val:any)
+   export function write(val: any)
    {
       var time = new Date();
       if(el)

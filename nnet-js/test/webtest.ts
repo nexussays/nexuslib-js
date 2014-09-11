@@ -1,9 +1,18 @@
-﻿import getElement = require("../src/nnet/dom/getElement");
-import Browser = require("../src/nnet/browser/BrowserUtils");
-import HTML = require("../src/nnet/dom/HTML");
-import type = require("../src/nnet/type");
-import Types = require("../src/nnet/Types");
-import escapeRegExp = require("../src/nnet/string/escapeRegExp");
+﻿
+///ts:import=_nnet,nnet
+import nnet = require('../src/_nnet'); ///ts:import:generated
+///ts:import=getElement
+import getElement = require('../src/nnet/dom/getElement'); ///ts:import:generated
+///ts:import=BrowserUtils,Browser
+import Browser = require('../src/nnet/browser/BrowserUtils'); ///ts:import:generated
+///ts:import=HTML
+import HTML = require('../src/nnet/dom/HTML'); ///ts:import:generated
+///ts:import=type
+import type = require('../src/nnet/type'); ///ts:import:generated
+///ts:import=Types
+import Types = require('../src/nnet/Types'); ///ts:import:generated
+///ts:import=escapeRegExp
+import escapeRegExp = require('../src/nnet/string/escapeRegExp'); ///ts:import:generated
 
 export function createMenu(id, buildFrom)
 {
@@ -11,16 +20,16 @@ export function createMenu(id, buildFrom)
    {
       function recurse(menu)
       {
-         var ul = HTML.ul();
+         var ul = <nnet.dom.IEnhancedHTMLElement>(<any>HTML.ul());
          for(var x = 0; x < menu.length; ++x)
          {
             var item = menu[x],
-                li = HTML.li(),
+                li = <nnet.dom.IEnhancedHTMLElement>(<any>HTML.li()),
                 match;
 
             if(type( item[1] ) == Types.array)
             {
-               (<any>li).append( HTML.span( { "class": "dropdown" }, item[0] ), recurse( item[1] ) );
+               li.append( HTML.span( { "class": "dropdown" }, item[0] ), recurse( item[1] ) );
             }
             else if(item[1])
             {
@@ -32,15 +41,15 @@ export function createMenu(id, buildFrom)
                }
                else
                {
-                  (<any>li).append( HTML.a( { "href": item[1] }, item[0] ) );
+                  li.append( HTML.a( { "href": item[1] }, item[0] ) );
                }
             }
             //no children, just something visible in the menu section
             else
             {
-               (<any>li).append( HTML.span( { "class": "text" }, item[0] ) );
+               li.append( HTML.span( { "class": "text" }, item[0] ) );
             }
-            (<any>ul).append( li );
+            ul.append( li );
          }
          return ul;
       }
