@@ -5,7 +5,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 ///ts:import=NNetError
-import NNetError = require('../error/NNetError'); ///ts:import:generated
+/// No file or directory matched name "NNetError" ///ts:import:generated
 ///ts:import=IHttpResponse
 import IHttpResponse = require('./IHttpResponse'); ///ts:import:generated
 

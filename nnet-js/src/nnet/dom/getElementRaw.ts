@@ -15,7 +15,7 @@ import flatten = require('../array/flatten'); ///ts:import:generated
 ///ts:import=isArrayLike
 import isArrayLike = require('../array/isArrayLike'); ///ts:import:generated
 ///ts:import=EnhancedElement
-import EnhancedElement = require('./EnhancedElement'); ///ts:import:generated
+/// No file or directory matched name "EnhancedElement" ///ts:import:generated
 ///ts:import=filterByNodeName
 import filterByNodeName = require('./selector/filterByNodeName'); ///ts:import:generated
 

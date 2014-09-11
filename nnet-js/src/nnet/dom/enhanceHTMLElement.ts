@@ -5,9 +5,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 ///ts:import=EnhancedHTMLElement
-import EnhancedHTMLElement = require('./EnhancedHTMLElement'); ///ts:import:generated
-///ts:import=applyEnhancementsToPrototype
-import applyEnhancementsToPrototype = require('./applyEnhancementsToPrototype'); ///ts:import:generated
+/// No file or directory matched name "EnhancedHTMLElement" ///ts:import:generated
 ///ts:import=IEnhancedHTMLElement
 import IEnhancedHTMLElement = require('./IEnhancedHTMLElement'); ///ts:import:generated
 ///ts:import=enhanceElement
@@ -18,7 +16,7 @@ export = enhanceHTMLElement;
 function enhanceHTMLElement(element: HTMLElement, force?: boolean): IEnhancedHTMLElement
 {
    enhanceElement( element, force );
-   if(!applyEnhancementsToPrototype.applied && (element && (force || element.nodeType == Node.ELEMENT_NODE)))
+   if(enhanceHTMLElement.enabled && (element && (force || element.nodeType == Node.ELEMENT_NODE)))
    {
       Object.getOwnPropertyNames(EnhancedHTMLElement.prototype).forEach(funcName =>
       {
@@ -26,4 +24,9 @@ function enhanceHTMLElement(element: HTMLElement, force?: boolean): IEnhancedHTM
       } );
    }
    return <IEnhancedHTMLElement>element;
+}
+
+module enhanceHTMLElement
+{
+   export var enabled: boolean = true;
 }

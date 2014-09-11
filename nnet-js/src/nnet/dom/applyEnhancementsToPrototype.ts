@@ -8,19 +8,17 @@
 import enhanceElement = require('./enhanceElement'); ///ts:import:generated
 /// ts:import=enhanceHTMLElement
 import enhanceHTMLElement = require('./enhanceHTMLElement'); ///ts:import:generated
+
 export = applyEnhancementsToPrototype;
 
 function applyEnhancementsToPrototype()
 {
-   if(!applyEnhancementsToPrototype.applied)
+   if(enhanceElement.enabled)
    {
-      enhanceElement( Element.prototype, true );
-      enhanceHTMLElement( HTMLElement.prototype, true );
-      applyEnhancementsToPrototype.applied = true;
-   }
-}
+      enhanceElement(Element.prototype, true);
+      enhanceElement.enabled = false;
 
-module applyEnhancementsToPrototype
-{
-   export var applied: boolean = false;
+      enhanceHTMLElement(HTMLElement.prototype, true);
+      enhanceHTMLElement.enabled = false;
+   }
 }
