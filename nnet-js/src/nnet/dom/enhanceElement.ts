@@ -6,21 +6,20 @@
 
 /// ts:import=EnhancedElement
 import EnhancedElement = require('./EnhancedElement'); ///ts:import:generated
-///ts:import=IEnhancedElement
-import IEnhancedElement = require('./IEnhancedElement'); ///ts:import:generated
 
 export = enhanceElement;
 
-function enhanceElement(element: Element, force?: boolean): IEnhancedElement
+function enhanceElement(element: Element, force?: boolean): EnhancedElement
 {
+   var E: typeof EnhancedElement = require('./EnhancedElement');
    if(enhanceElement.enabled && (element && (force || element.nodeType == Node.ELEMENT_NODE)))
    {
-      Object.getOwnPropertyNames( EnhancedElement.prototype ).forEach( funcName =>
+      Object.getOwnPropertyNames(E.IEnhancedElementImpl.prototype ).forEach( funcName =>
       {
-         element[funcName] = EnhancedElement.prototype[funcName];
+         element[funcName] = E.IEnhancedElementImpl.prototype[funcName];
       } );
    }
-   return <IEnhancedElement>element;
+   return <EnhancedElement>element;
 }
 
 module enhanceElement

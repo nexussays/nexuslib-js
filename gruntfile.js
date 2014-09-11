@@ -11,9 +11,10 @@ module.exports = function(grunt)
       {
          src:
          {
-            root: "nnet-js/src",
-            ts: ["<%= paths.src.root %>/**/*.ts", "!<%= paths.src.root %>/**/*.d.ts"],
-            js: "<%= paths.src.root %>/**/*.js"
+            main: "nnet-js/src",
+            test: "nnet-js/test",
+            ts: ["<%= paths.src.main %>/**/*.ts", "!<%= paths.src.main %>/**/*.d.ts"],
+            js: "<%= paths.src.main %>/**/*.js"
          },
          dest:
          {
@@ -37,7 +38,7 @@ module.exports = function(grunt)
          removeComments: true
       },
       default: {
-         src: ["<%= paths.src.root %>/**/*.ts", "nnet-js/test/*.ts"],
+         src: ["<%= paths.src.main %>/**/*.ts", "<%= paths.src.test %>/*.ts"],
          outDir: config.paths.dest.compiled
       },
       watch: {
@@ -50,11 +51,11 @@ module.exports = function(grunt)
          }
       },
       "main-only": {
-         src: ["<%= paths.src.root %>/**/*.ts"],
+         src: ["<%= paths.src.main %>/**/*.ts"],
          outDir: config.paths.dest.compiledMain,
       },
       "test-only": {
-         src: ["nnet-js/test/*.ts"],
+         src: ["<%= paths.src.test %>/*.ts"],
          outDir: config.paths.dest.compiledTest,
          options: {
             sourceMap: false,
@@ -94,18 +95,24 @@ module.exports = function(grunt)
 
    config.copy = {
       definitions: {
-         cwd: config.paths.dest.compiled, // set working folder / root to copy
+         cwd: config.paths.src.main, // set working folder / root to copy
          src: "**/*.d.ts", // copy all files and subfolders
-         dest: "<%= paths.dest.compiled %>.d", // destination folder
+         dest: config.paths.dest.compiledMain, // destination folder
          expand: true // required when using cwd
-      }
+      },
+      //definitions: {
+      //   cwd: config.paths.dest.compiled, // set working folder / root to copy
+      //   src: "**/*.d.ts", // copy all files and subfolders
+      //   dest: "<%= paths.dest.compiled %>.d", // destination folder
+      //   expand: true // required when using cwd
+      //}
    };
 
    config.gen =
    {
       "ts-index": {
          template: './build/module-index-ts.mustache',
-         root: config.paths.src.root,
+         root: config.paths.src.main,
          regex: (/\.ts$/),
          ext: ".ts",
          extArr: [".ts", ".d"]
@@ -159,13 +166,23 @@ module.exports = function(grunt)
       ]
    };
 
+   config.def = {
+      nnet:
+      {
+         name: "nnet",
+         out: "../../bundled/nnet.d.ts",
+         indent: '   ',
+         main: config.paths.dest.compiledMain + "/_nnet.d.ts"
+      }
+   };
+
    // copy settings from main to all other tasks unless their override
-   for( var targetName in config.ts )
+   for(var targetName in config.ts)
    {
       var target = config.ts[targetName];
-      for( var prop in config.ts.default )
+      for(var prop in config.ts.default)
       {
-         if( !target.hasOwnProperty( prop ) )
+         if(!target.hasOwnProperty( prop ))
          {
             target[prop] = config.ts.default[prop];
          }
@@ -198,16 +215,13 @@ module.exports = function(grunt)
       );
    } );
 
-   grunt.registerTask( "ts:def", function()
+   grunt.registerMultiTask( "def", function()
    {
       var dts = require( 'dts-bundle' );
-      dts.bundle( {
-         name: "nnet",
-         out: "../../bundled/nnet.d.ts",
-         indent: '   ',
-         main: config.paths.dest.compiled + "/_nnet.d.ts"
-      } );
-      _fs.writeFileSync( config.paths.dest.bundled + "/nnet.d.ts", _fs.readFileSync( config.paths.dest.bundled + "/nnet.d.ts" ).toString().replace( /__nnet\//g, "" ), 'utf-8' );
+      dts.bundle( this.data );
+      var path = require( "path" );
+      var file = path.resolve( this.data.main, "../", this.data.out );
+      _fs.writeFileSync( file, _fs.readFileSync( file ).toString().replace( /__nnet\//g, "" ), 'utf-8' );
    } );
 
    grunt.registerTask( "rjs", function()

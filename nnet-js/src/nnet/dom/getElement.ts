@@ -8,8 +8,8 @@
 import getElementRaw = require('./getElementRaw'); ///ts:import:generated
 ///ts:import=enhanceHTMLElement
 import enhanceHTMLElement = require('./enhanceHTMLElement'); ///ts:import:generated
-///ts:import=IEnhancedHTMLElement
-import IEnhancedHTMLElement = require('./IEnhancedHTMLElement'); ///ts:import:generated
+///ts:import=EnhancedHTMLElement
+import EnhancedHTMLElement = require('./EnhancedHTMLElement'); ///ts:import:generated
 ///ts:import=EnhancedHTMLElementCollection
 import EnhancedHTMLElementCollection = require('./EnhancedHTMLElementCollection'); ///ts:import:generated
 
@@ -25,9 +25,9 @@ function getElement(query?: any): EnhancedHTMLElementCollection
 
 module getElement
 {
-   export function id(id: Node): IEnhancedHTMLElement
-   export function id(id: string): IEnhancedHTMLElement
-   export function id(id: any): IEnhancedHTMLElement
+   export function id(id: Node): EnhancedHTMLElement
+   export function id(id: string): EnhancedHTMLElement
+   export function id(id: any): EnhancedHTMLElement
    {
       return enhanceHTMLElement( getElementRaw.id.call( this, id ) );
    }
@@ -45,5 +45,23 @@ module getElement
    export function tagName(name: string): EnhancedHTMLElementCollection
    {
       return new EnhancedHTMLElementCollection( getElementRaw.tagName.call( this, name ).map( enhanceHTMLElement ) );
+   }
+
+   export interface Interface
+   {
+      (query: Node): Array<Element>;
+      (query: Element): Array<Element>;
+      (query: string): Array<Element>;
+      (query?: any): Array<Element>;
+
+      id(id: Node): Element;
+      id(id: string): Element;
+      id(id: any): Element;
+
+      name(name: string, tag?: string): Array<Element>;
+
+      className(name: string, tag?: string): Array<Element>;
+
+      tagName(name: string): Array<Element>;
    }
 }

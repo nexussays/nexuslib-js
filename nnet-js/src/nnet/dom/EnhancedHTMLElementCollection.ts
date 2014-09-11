@@ -4,8 +4,8 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-/// ts:import=IEnhancedHTMLElement
-import IEnhancedHTMLElement = require('./IEnhancedHTMLElement'); ///ts:import:generated
+/// ts:import=EnhancedHTMLElement
+import EnhancedHTMLElement = require('./EnhancedHTMLElement'); ///ts:import:generated
 ///ts:import=IEnhancedEvent
 import IEnhancedEvent = require('../event/IEnhancedEvent'); ///ts:import:generated
 
@@ -13,35 +13,35 @@ export = EnhancedHTMLElementCollection;
 
 class EnhancedHTMLElementCollection
 {
-   private m_array: Array<IEnhancedHTMLElement>;
+   private m_array: Array<EnhancedHTMLElement>;
 
-   constructor(sourceArray: Array<IEnhancedHTMLElement>)
+   constructor(sourceArray: Array<EnhancedHTMLElement>)
    {
       this.m_array = sourceArray;
    }
 
-   get items(): Array<IEnhancedHTMLElement>
+   get items(): Array<EnhancedHTMLElement>
    {
       return this.m_array;
    }
 
-   forEach(callbackfn: (value: IEnhancedHTMLElement, index: number, array: IEnhancedHTMLElement[]) => void): EnhancedHTMLElementCollection
+   forEach(callbackfn: (value: EnhancedHTMLElement, index: number, array: EnhancedHTMLElement[]) => void): EnhancedHTMLElementCollection
    {
       this.m_array.forEach( callbackfn );
       return this;
    }
 
-   some(callbackfn: (value: IEnhancedHTMLElement, index: number, array: IEnhancedHTMLElement[]) => boolean): boolean
+   some(callbackfn: (value: EnhancedHTMLElement, index: number, array: EnhancedHTMLElement[]) => boolean): boolean
    {
       return this.m_array.some( callbackfn );
    }
 
-   every(callbackfn: (value: IEnhancedHTMLElement, index: number, array: IEnhancedHTMLElement[]) => boolean): boolean
+   every(callbackfn: (value: EnhancedHTMLElement, index: number, array: EnhancedHTMLElement[]) => boolean): boolean
    {
       return this.m_array.every( callbackfn );
    }
 
-   filter(callbackfn: (value: IEnhancedHTMLElement, index: number, array: IEnhancedHTMLElement[]) => boolean): EnhancedHTMLElementCollection
+   filter$(callbackfn: (value: EnhancedHTMLElement, index: number, array: EnhancedHTMLElement[]) => boolean): EnhancedHTMLElementCollection
    {
       this.m_array = this.m_array.filter( callbackfn );
       return this;

@@ -4,12 +4,10 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-///ts:import=contains
+/// ts:import=contains
 import contains = require('../string/contains'); ///ts:import:generated
 ///ts:import=EnhancedElement
 import EnhancedElement = require('./EnhancedElement'); ///ts:import:generated
-///ts:import=IEnhancedHTMLElement
-/// No file or directory matched name "IEnhancedHTMLElement" ///ts:import:generated
 ///ts:import=getElement
 import getElement = require('./getElement'); ///ts:import:generated
 ///ts:import=EnhancedHTMLElementCollection
@@ -17,61 +15,70 @@ import EnhancedHTMLElementCollection = require('./EnhancedHTMLElementCollection'
 ///ts:import=isAncestor
 import isAncestor = require('./isAncestor'); ///ts:import:generated
 
+
 export = EnhancedHTMLElement;
 
-class EnhancedHTMLElement extends EnhancedElement
+// combines EnhancedHTMLElement.IHTMLElementEnhancements which has our enhanced methods with HTMLElement so we 
+// can still access all the native element properties
+interface EnhancedHTMLElement extends HTMLElement, EnhancedHTMLElement.IEnhancedHTMLElementImpl
 {
-   private asHTMLElement(): HTMLElement
-   {
-      // this class should never be instantiated by itself, we just copy its prototype
-      // to objects or to other element protoypes
-      return (<HTMLElement>(<any>this));
-   }
+}
 
-   getAncestors(query: string): EnhancedHTMLElementCollection
+module EnhancedHTMLElement
+{
+   export class IEnhancedHTMLElementImpl extends EnhancedElement.IEnhancedElementImpl
    {
-      return getElement( query ).filter$( item => isAncestor( this.asHTMLElement(), item ) );
-   }
-
-   addClass(name: string, checkExistence: boolean= false): boolean
-   {
-      if(checkExistence === false || (!this.hasClass( name )))
+      private asHTMLElement(): HTMLElement
       {
-         this.asHTMLElement().className += " " + name;
-         //element.clasName = element.className.replace(/\s+$/gi, "") + " " + name;
+         // this class should never be instantiated by itself, we just copy its prototype
+         // to objects or to other element protoypes
+         return (<HTMLElement>(<any>this));
+      }
+
+      getAncestors(query: string): EnhancedHTMLElementCollection
+      {
+         return getElement( query ).filter$( item => isAncestor( this.asHTMLElement(), item ) );
+      }
+
+      addClass(name: string, checkExistence: boolean= false): boolean
+      {
+         if(checkExistence === false || (!this.hasClass( name )))
+         {
+            this.asHTMLElement().className += " " + name;
+            //element.clasName = element.className.replace(/\s+$/gi, "") + " " + name;
+            return true;
+         }
+         return false;
+      }
+
+      removeClass(name: string): boolean
+      {
+         //replace the name with an empty string
+         if(this.asHTMLElement().className)
+         {
+            this.asHTMLElement().className = this.asHTMLElement().className.replace( new RegExp( "(^|\\s)" + name + "(\\s|$)", "i" ), " " );
+            if(this.asHTMLElement().className == "")
+            {
+               this.asHTMLElement().removeAttribute( "class" );
+            }
+         }
          return true;
       }
-      return false;
-   }
 
-   removeClass(name: string): boolean
-   {
-      //replace the name with an empty string
-      if(this.asHTMLElement().className)
+      toggleClass(name: string)
       {
-         this.asHTMLElement().className = this.asHTMLElement().className.replace( new RegExp( "(^|\\s)" + name + "(\\s|$)", "i" ), " " );
-         if(this.asHTMLElement().className == "")
-         {
-            this.asHTMLElement().removeAttribute( "class" );
-         }
+         this.hasClass( name ) ? this.removeClass( name ) : this.addClass( name, true );
       }
-      return true;
-   }
 
-   toggleClass(name: string)
-   {
-      this.hasClass( name ) ? this.removeClass( name ) : this.addClass( name, true );
-   }
+      hasClass(name: string): boolean
+      {
+         //return (new RegExp("(?:^|\\s)" + name + "(?:\\s|$)", "i").test(element.className));
+         return (this.asHTMLElement().className && contains( this.asHTMLElement().className, name, " ", true ));
+      }
 
-   hasClass(name: string): boolean
-   {
-      //return (new RegExp("(?:^|\\s)" + name + "(?:\\s|$)", "i").test(element.className));
-      return (this.asHTMLElement().className && contains( this.asHTMLElement().className, name, " ", true ));
+      find(query: string): EnhancedHTMLElementCollection
+      {
+         return getElement.call( this, query );
+      }
    }
-
-   find(query: string): EnhancedHTMLElementCollection
-   {
-      return getElement.call( this, query );
-   }
-}
 }

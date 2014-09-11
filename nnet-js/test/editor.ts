@@ -12,8 +12,8 @@ import getElement = require('../src/nnet/dom/getElement'); ///ts:import:generate
 import Keys = require('../src/nnet/util/Keyboard'); ///ts:import:generated
 ///ts:import=BrowserUtils,Browser
 import Browser = require('../src/nnet/browser/BrowserUtils'); ///ts:import:generated
-///ts:import=Milliseconds
-import Milliseconds = require('../src/nnet/util/Milliseconds'); ///ts:import:generated
+///ts:import=Milliseconds,ms
+import ms = require('../src/nnet/util/Milliseconds'); ///ts:import:generated
 ///ts:import=Cookie
 import Cookie = require('../src/nnet/browser/Cookie'); ///ts:import:generated
 
@@ -99,7 +99,7 @@ function __updateTestingHTMLAndCookie()
    editorCookie.data.showoutput = showoutput.checked;
    editorCookie.data.catchtabs = catchtabs.checked;
    editorCookie.data.execute_text = escape( execute_text.value );
-   editorCookie.expireIn( Milliseconds.days( 30 ) ).save();
+   editorCookie.expireIn( ms.days( 30 ) ).save();
 }
 
 function execute_text_onkeydown(e)

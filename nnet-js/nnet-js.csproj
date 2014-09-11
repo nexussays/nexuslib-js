@@ -23,13 +23,11 @@
     <TypeScriptCompile Include="lib\require.d.ts" />
     <TypeScriptCompile Include="src\nnet\array\enhancePrototype.ts" />
     <TypeScriptCompile Include="src\nnet\dom\applyEnhancementsToPrototype.ts" />
-    <TypeScriptCompile Include="src\nnet\dom\EnhancedElement.ts" />
     <TypeScriptCompile Include="src\nnet\dom\EnhancedHTMLElementCollection.ts" />
-    <TypeScriptCompile Include="src\nnet\dom\EnhancedHTMLElement.ts" />
     <TypeScriptCompile Include="src\nnet\dom\enhanceHTMLElement.ts" />
     <TypeScriptCompile Include="src\nnet\dom\getElement.ts" />
-    <TypeScriptCompile Include="src\nnet\dom\IEnhancedHTMLElement.ts" />
-    <TypeScriptCompile Include="src\nnet\dom\IEnhancedElement.ts" />
+    <TypeScriptCompile Include="src\nnet\dom\EnhancedHTMLElement.ts" />
+    <TypeScriptCompile Include="src\nnet\dom\EnhancedElement.ts" />
     <TypeScriptCompile Include="src\nnet\dom\IGetElement.ts" />
     <TypeScriptCompile Include="src\nnet\dom\isAncestor.ts" />
     <TypeScriptCompile Include="src\nnet\dom\onLoaded.ts" />

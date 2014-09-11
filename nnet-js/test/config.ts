@@ -8,7 +8,7 @@ require.config( {
 } );
 require.onError = function(err)
 {
-   console.error( err.requireType + ', modules=' + err.requireModules );
+   console.error( err, err.requireType + ', modules=' + err.requireModules );
    throw err;
 };
 

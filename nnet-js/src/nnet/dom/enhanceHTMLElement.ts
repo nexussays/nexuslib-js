@@ -6,24 +6,23 @@
 
 ///ts:import=EnhancedHTMLElement
 import EnhancedHTMLElement = require('./EnhancedHTMLElement'); ///ts:import:generated
-///ts:import=IEnhancedHTMLElement
-import IEnhancedHTMLElement = require('./IEnhancedHTMLElement'); ///ts:import:generated
 ///ts:import=enhanceElement
 import enhanceElement = require('./enhanceElement'); ///ts:import:generated
 
 export = enhanceHTMLElement;
 
-function enhanceHTMLElement(element: HTMLElement, force?: boolean): IEnhancedHTMLElement
+function enhanceHTMLElement(element: HTMLElement, force?: boolean): EnhancedHTMLElement
 {
-   enhanceElement( element, force );
+   enhanceElement(element, force);
+   var E: typeof EnhancedHTMLElement = require('./EnhancedHTMLElement');
    if(enhanceHTMLElement.enabled && (element && (force || element.nodeType == Node.ELEMENT_NODE)))
    {
-      Object.getOwnPropertyNames(EnhancedHTMLElement.prototype).forEach(funcName =>
+      Object.getOwnPropertyNames(E.IEnhancedHTMLElementImpl.prototype).forEach(funcName =>
       {
-         element[funcName] = EnhancedHTMLElement.prototype[funcName];
+         element[funcName] = E.IEnhancedHTMLElementImpl.prototype[funcName];
       } );
    }
-   return <IEnhancedHTMLElement>element;
+   return <EnhancedHTMLElement>element;
 }
 
 module enhanceHTMLElement
