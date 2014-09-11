@@ -4,16 +4,22 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-///ts:import=enhanceHTMLElement
+/// ts:import=enhanceHTMLElement
 import enhanceHTMLElement = require('./enhanceHTMLElement'); ///ts:import:generated
 ///ts:import=IEnhancedHTMLElement
 import IEnhancedHTMLElement = require('./IEnhancedHTMLElement'); ///ts:import:generated
+///ts:import=EnhancedHTMLElement
+import EnhancedHTMLElement = require('./EnhancedHTMLElement'); ///ts:import:generated
 
 declare var exports;
 
 export declare function text(...params: any[]): Node;
 
-export declare function a(...params: any[]): HTMLAnchorElement;
+export declare function a(...params: any[]): IEnhancedHTMLAnchorElement;
+
+export interface IEnhancedHTMLAnchorElement extends HTMLAnchorElement, EnhancedHTMLElement
+{
+}
 
 export declare function abbr(...params: any[]): IEnhancedHTMLElement;
 
@@ -21,29 +27,65 @@ export declare function acronym(...params: any[]): IEnhancedHTMLElement;
 
 export declare function address(...params: any[]): IEnhancedHTMLElement;
 
-export declare function audio(...params: any[]): HTMLAudioElement;
+export declare function audio(...params: any[]): IEnhancedHTMLAudioElement;
 
-export declare function base(...params: any[]): HTMLBaseElement;
+export interface IEnhancedHTMLAudioElement extends HTMLAudioElement, EnhancedHTMLElement
+{
+}
 
-export declare function blockquote(...params: any[]): HTMLBlockElement;
+export declare function base(...params: any[]): IEnhancedHTMLBaseElement;
 
-export declare function br(...params: any[]): HTMLBRElement;
+export interface IEnhancedHTMLBaseElement extends HTMLBaseElement, EnhancedHTMLElement
+{
+}
 
-export declare function button(...params: any[]): HTMLButtonElement;
+export declare function blockquote(...params: any[]): IEnhancedHTMLBlockElement;
 
-export declare function canvas(...params: any[]): HTMLCanvasElement;
+export interface IEnhancedHTMLBlockElement extends HTMLBlockElement, EnhancedHTMLElement
+{
+}
 
-export declare function caption(...params: any[]): HTMLTableCaptionElement;
+export declare function br(...params: any[]): IEnhancedHTMLBRElement;
+
+export interface IEnhancedHTMLBRElement extends HTMLBRElement, EnhancedHTMLElement
+{
+}
+
+export declare function button(...params: any[]): IEnhancedHTMLButtonElement;
+
+export interface IEnhancedHTMLButtonElement extends HTMLButtonElement, EnhancedHTMLElement
+{
+}
+
+export declare function canvas(...params: any[]): IEnhancedHTMLCanvasElement;
+
+export interface IEnhancedHTMLCanvasElement extends HTMLCanvasElement, EnhancedHTMLElement
+{
+}
+
+export declare function caption(...params: any[]): IEnhancedHTMLTableCaptionElement;
+
+export interface IEnhancedHTMLTableCaptionElement extends HTMLTableCaptionElement, EnhancedHTMLElement
+{
+}
 
 export declare function cite(...params: any[]): IEnhancedHTMLElement;
 
 export declare function code(...params: any[]): IEnhancedHTMLElement;
 
-export declare function col(...params: any[]): HTMLTableColElement;
+export declare function col(...params: any[]): IEnhancedHTMLTableColElement;
+
+export interface IEnhancedHTMLTableColElement extends HTMLTableColElement, EnhancedHTMLElement
+{
+}
 
 export declare function colgroup(...params: any[]): IEnhancedHTMLElement;
 
-export declare function dd(...params: any[]): HTMLDDElement;
+export declare function dd(...params: any[]): IEnhancedHTMLDDElement;
+
+export interface IEnhancedHTMLDDElement extends HTMLDDElement, EnhancedHTMLElement
+{
+}
 
 export declare function del(...params: any[]): IEnhancedHTMLElement;
 
@@ -51,85 +93,197 @@ export declare function details(...params: any[]): IEnhancedHTMLElement;
 
 export declare function dfn(...params: any[]): IEnhancedHTMLElement;
 
-export declare function div(...params: any[]): HTMLDivElement;
+export declare function div(...params: any[]): IEnhancedHTMLDivElement;
 
-export declare function dl(...params: any[]): HTMLDListElement;
+export interface IEnhancedHTMLDivElement extends HTMLDivElement, EnhancedHTMLElement
+{
+}
 
-export declare function dt(...params: any[]): HTMLDTElement;
+export declare function dl(...params: any[]): IEnhancedHTMLDListElement;
+
+export interface IEnhancedHTMLDListElement extends HTMLDListElement, EnhancedHTMLElement
+{
+}
+
+export declare function dt(...params: any[]): IEnhancedHTMLDTElement;
+
+export interface IEnhancedHTMLDTElement extends HTMLDTElement, EnhancedHTMLElement
+{
+}
 
 export declare function em(...params: any[]): IEnhancedHTMLElement;
 
-export declare function embed(...params: any[]): HTMLEmbedElement;
+export declare function embed(...params: any[]): IEnhancedHTMLEmbedElement;
 
-export declare function fieldset(...params: any[]): HTMLFieldSetElement;
+export interface IEnhancedHTMLEmbedElement extends HTMLEmbedElement, EnhancedHTMLElement
+{
+}
+
+export declare function fieldset(...params: any[]): IEnhancedHTMLFieldSetElement;
+
+export interface IEnhancedHTMLFieldSetElement extends HTMLFieldSetElement, EnhancedHTMLElement
+{
+}
 
 export declare function figure(...params: any[]): IEnhancedHTMLElement;
 
-export declare function form(...params: any[]): HTMLFormElement;
+export declare function form(...params: any[]): IEnhancedHTMLFormElement;
 
-export declare function h1(...params: any[]): HTMLHeadingElement;
+export interface IEnhancedHTMLFormElement extends HTMLFormElement, EnhancedHTMLElement
+{
+}
 
-export declare function h2(...params: any[]): HTMLHeadingElement;
+export declare function h1(...params: any[]): IEnhancedHTMLHeadingElement;
 
-export declare function h3(...params: any[]): HTMLHeadingElement;
+export declare function h2(...params: any[]): IEnhancedHTMLHeadingElement;
 
-export declare function h4(...params: any[]): HTMLHeadingElement;
+export declare function h3(...params: any[]): IEnhancedHTMLHeadingElement;
 
-export declare function h5(...params: any[]): HTMLHeadingElement;
+export declare function h4(...params: any[]): IEnhancedHTMLHeadingElement;
 
-export declare function h6(...params: any[]): HTMLHeadingElement;
+export declare function h5(...params: any[]): IEnhancedHTMLHeadingElement;
 
-export declare function hr(...params: any[]): HTMLHRElement;
+export declare function h6(...params: any[]): IEnhancedHTMLHeadingElement;
 
-export declare function iframe(...params: any[]): HTMLIFrameElement;
+export interface IEnhancedHTMLHeadingElement extends HTMLHeadingElement, EnhancedHTMLElement
+{
+}
 
-export declare function img(...params: any[]): HTMLImageElement;
+export declare function hr(...params: any[]): IEnhancedHTMLHRElement;
 
-export declare function input(...params: any[]): HTMLInputElement;
+export interface IEnhancedHTMLHRElement extends HTMLHRElement, EnhancedHTMLElement
+{
+}
+
+export declare function iframe(...params: any[]): IEnhancedHTMLIFrameElement;
+
+export interface IEnhancedHTMLIFrameElement extends HTMLIFrameElement, EnhancedHTMLElement
+{
+}
+
+export declare function img(...params: any[]): IEnhancedHTMLImageElement;
+
+export interface IEnhancedHTMLImageElement extends HTMLImageElement, EnhancedHTMLElement
+{
+}
+
+export declare function input(...params: any[]): IEnhancedHTMLInputElement;
+
+export interface IEnhancedHTMLInputElement extends HTMLInputElement, EnhancedHTMLElement
+{
+}
 
 export declare function ins(...params: any[]): IEnhancedHTMLElement;
 
 export declare function kbd(...params: any[]): IEnhancedHTMLElement;
 
-export declare function label(...params: any[]): HTMLLabelElement;
+export declare function label(...params: any[]): IEnhancedHTMLLabelElement;
 
-export declare function legend(...params: any[]): HTMLLegendElement;
+export interface IEnhancedHTMLLabelElement extends HTMLLabelElement, EnhancedHTMLElement
+{
+}
 
-export declare function li(...params: any[]): HTMLLIElement;
+export declare function legend(...params: any[]): IEnhancedHTMLLegendElement;
 
-export declare function link(...params: any[]): HTMLLinkElement;
+export interface IEnhancedHTMLLegendElement extends HTMLLegendElement, EnhancedHTMLElement
+{
+}
+
+export declare function li(...params: any[]): IEnhancedHTMLLIElement;
+
+export interface IEnhancedHTMLLIElement extends HTMLLIElement, EnhancedHTMLElement
+{
+}
+
+export declare function link(...params: any[]): IEnhancedHTMLLinkElement;
+
+export interface IEnhancedHTMLLinkElement extends HTMLLinkElement, EnhancedHTMLElement
+{
+}
 
 export declare function math(...params: any[]): IEnhancedHTMLElement;
 
-export declare function object(...params: any[]): HTMLObjectElement;
+export declare function object(...params: any[]): IEnhancedHTMLObjectElement;
 
-export declare function ol(...params: any[]): HTMLOListElement;
+export interface IEnhancedHTMLObjectElement extends HTMLObjectElement, EnhancedHTMLElement
+{
+}
 
-export declare function optgroup(...params: any[]): HTMLOptGroupElement;
+export declare function ol(...params: any[]): IEnhancedHTMLOListElement;
 
-export declare function option(...params: any[]): HTMLOptionElement;
+export interface IEnhancedHTMLOListElement extends HTMLOListElement, EnhancedHTMLElement
+{
+}
 
-export declare function p(...params: any[]): HTMLParagraphElement;
+export declare function optgroup(...params: any[]): IEnhancedHTMLOptGroupElement;
 
-export declare function param(...params: any[]): HTMLParamElement;
+export interface IEnhancedHTMLOptGroupElement extends HTMLOptGroupElement, EnhancedHTMLElement
+{
+}
 
-export declare function pre(...params: any[]): HTMLPreElement;
+export declare function option(...params: any[]): IEnhancedHTMLOptionElement;
 
-export declare function progress(...params: any[]): HTMLProgressElement;
+export interface IEnhancedHTMLOptionElement extends HTMLOptionElement, EnhancedHTMLElement
+{
+}
 
-export declare function q(...params: any[]): HTMLQuoteElement;
+export declare function p(...params: any[]): IEnhancedHTMLParagraphElement;
+
+export interface IEnhancedHTMLParagraphElement extends HTMLParagraphElement, EnhancedHTMLElement
+{
+}
+
+export declare function param(...params: any[]): IEnhancedHTMLParamElement;
+
+export interface IEnhancedHTMLParamElement extends HTMLParamElement, EnhancedHTMLElement
+{
+}
+
+export declare function pre(...params: any[]): IEnhancedHTMLPreElement;
+
+export interface IEnhancedHTMLPreElement extends HTMLPreElement, EnhancedHTMLElement
+{
+}
+
+export declare function progress(...params: any[]): IEnhancedHTMLProgressElement;
+
+export interface IEnhancedHTMLProgressElement extends HTMLProgressElement, EnhancedHTMLElement
+{
+}
+
+export declare function q(...params: any[]): IEnhancedHTMLQuoteElement;
+
+export interface IEnhancedHTMLQuoteElement extends HTMLQuoteElement, EnhancedHTMLElement
+{
+}
 
 export declare function s(...params: any[]): IEnhancedHTMLElement;
 
 export declare function samp(...params: any[]): IEnhancedHTMLElement;
 
-export declare function script(...params: any[]): HTMLScriptElement;
+export declare function script(...params: any[]): IEnhancedHTMLScriptElement;
 
-export declare function select(...params: any[]): HTMLSelectElement;
+export interface IEnhancedHTMLScriptElement extends HTMLScriptElement, EnhancedHTMLElement
+{
+}
 
-export declare function source(...params: any[]): HTMLSourceElement;
+export declare function select(...params: any[]): IEnhancedHTMLSelectElement;
 
-export declare function span(...params: any[]): HTMLSpanElement;
+export interface IEnhancedHTMLSelectElement extends HTMLSelectElement, EnhancedHTMLElement
+{
+}
+
+export declare function source(...params: any[]): IEnhancedHTMLSourceElement;
+
+export interface IEnhancedHTMLSourceElement extends HTMLSourceElement, EnhancedHTMLElement
+{
+}
+
+export declare function span(...params: any[]): IEnhancedHTMLSpanElement;
+
+export interface IEnhancedHTMLSpanElement extends HTMLSpanElement, EnhancedHTMLElement
+{
+}
 
 export declare function strong(...params: any[]): IEnhancedHTMLElement;
 
@@ -141,35 +295,83 @@ export declare function sup(...params: any[]): IEnhancedHTMLElement;
 
 export declare function svg(...params: any[]): IEnhancedHTMLElement;
 
-export declare function table(...params: any[]): HTMLTableAlignment;
+export declare function table(...params: any[]): IEnhancedHTMLTableAlignment;
 
-export declare function tbody(...params: any[]): HTMLTableSectionElement;
+export interface IEnhancedHTMLTableAlignment extends HTMLTableAlignment, EnhancedHTMLElement
+{
+}
 
-export declare function td(...params: any[]): HTMLTableDataCellElement;
+export declare function tbody(...params: any[]): IEnhancedHTMLTableSectionElement;
 
-export declare function textarea(...params: any[]): HTMLTextAreaElement;
+export interface IEnhancedHTMLTableSectionElement extends HTMLTableSectionElement, EnhancedHTMLElement
+{
+}
 
-export declare function tfoot(...params: any[]): HTMLTableAlignment;
+export declare function td(...params: any[]): IEnhancedHTMLTableDataCellElement;
 
-export declare function th(...params: any[]): HTMLTableHeaderCellElement;
+export interface IEnhancedHTMLTableDataCellElement extends HTMLTableDataCellElement, EnhancedHTMLElement
+{
+}
 
-export declare function thead(...params: any[]): HTMLTableSectionElement;
+export declare function textarea(...params: any[]): IEnhancedHTMLTextAreaElement;
+
+export interface IEnhancedHTMLTextAreaElement extends HTMLTextAreaElement, EnhancedHTMLElement
+{
+}
+
+export declare function tfoot(...params: any[]): IEnhancedHTMLTableAlignment;
+
+export interface IEnhancedHTMLTableAlignment extends HTMLTableAlignment, EnhancedHTMLElement
+{
+}
+
+export declare function th(...params: any[]): IEnhancedHTMLTableHeaderCellElement;
+
+export interface IEnhancedHTMLTableHeaderCellElement extends HTMLTableHeaderCellElement, EnhancedHTMLElement
+{
+}
+
+export declare function thead(...params: any[]): IEnhancedHTMLTableSectionElement;
+
+export interface IEnhancedHTMLTableSectionElement extends HTMLTableSectionElement, EnhancedHTMLElement
+{
+}
 
 export declare function time(...params: any[]): IEnhancedHTMLElement;
 
-export declare function title(...params: any[]): HTMLTitleElement;
+export declare function title(...params: any[]): IEnhancedHTMLTitleElement;
 
-export declare function tr(...params: any[]): HTMLTableRowElement;
+export interface IEnhancedHTMLTitleElement extends HTMLTitleElement, EnhancedHTMLElement
+{
+}
 
-export declare function track(...params: any[]): HTMLTrackElement;
+export declare function tr(...params: any[]): IEnhancedHTMLTableRowElement;
+
+export interface IEnhancedHTMLTableRowElement extends HTMLTableRowElement, EnhancedHTMLElement
+{
+}
+
+export declare function track(...params: any[]): IEnhancedHTMLTrackElement;
+
+export interface IEnhancedHTMLTrackElement extends HTMLTrackElement, EnhancedHTMLElement
+{
+}
 
 export declare function u(...params: any[]): IEnhancedHTMLElement;
 
-export declare function ul(...params: any[]): HTMLUListElement;
+export declare function ul(...params: any[]): IEnhancedHTMLUListElement;
+
+export interface IEnhancedHTMLUListElement extends HTMLUListElement, EnhancedHTMLElement
+{
+}
 
 export declare function var$(...params: any[]): IEnhancedHTMLElement;
 
-export declare function video(...params: any[]): HTMLVideoElement;
+export declare function video(...params: any[]): IEnhancedHTMLVideoElement;
+
+export interface IEnhancedHTMLVideoElement extends HTMLVideoElement, EnhancedHTMLElement
+{
+}
 
 // create a method in the HTML object that will create an element of the same
 // name as the function
@@ -179,7 +381,7 @@ function defineTag(tag)
    exports[tag.toLowerCase()] = () => create.apply( tag.replace( "$", "" ), arguments );
 }
 
-function create():any
+function create(): any
 {
    var element: IEnhancedHTMLElement;
 
