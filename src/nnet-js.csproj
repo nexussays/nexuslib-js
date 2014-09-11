@@ -19,7 +19,9 @@
     <TsOutDir Condition="$(TsOutDir) == '' Or $(TsOutDir) == '*Undefined*'">$(SolutionDir)\bin\compiled</TsOutDir>
   </PropertyGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="nnet\dom\getWrapped.ts" />
     <TypeScriptCompile Include="nnet\dom\IEnhancedElement.ts" />
+    <TypeScriptCompile Include="nnet\dom\IGetElement.ts" />
     <TypeScriptCompile Include="nnet\dom\onLoaded.ts" />
     <TypeScriptCompile Include="nnet\dom\onInteractive.ts" />
     <TypeScriptCompile Include="nnet\dom\nodetype.ts" />
@@ -54,7 +56,7 @@
     <TypeScriptCompile Include="nnet\array\flatten.ts" />
     <TypeScriptCompile Include="nnet\event\EnhancedEvent.ts" />
     <TypeScriptCompile Include="nnet\dom\form\getDefaultValue.ts" />
-    <TypeScriptCompile Include="nnet\dom\get.ts" />
+    <TypeScriptCompile Include="nnet\dom\getElementRaw.ts" />
     <TypeScriptCompile Include="nnet\dom\HTML.ts" />
     <TypeScriptCompile Include="nnet\net\HttpRequest.ts" />
     <TypeScriptCompile Include="nnet\array\isArrayLike.ts" />

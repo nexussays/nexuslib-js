@@ -6,8 +6,6 @@
 
 export = ElementUtils;
 
-///ts:import=get
-import get = require('./get'); ///ts:import:generated
 ///ts:import=IEnhancedEvent
 import IEnhancedEvent = require('../event/IEnhancedEvent'); ///ts:import:generated
 ///ts:import=EnhancedEvent
@@ -24,14 +22,16 @@ import forEach = require('../object/forEach'); ///ts:import:generated
 import contains = require('../string/contains'); ///ts:import:generated
 ///ts:import=flatten
 import flatten = require('../array/flatten'); ///ts:import:generated
+///ts:import=IEnhancedElement
+import IEnhancedElement = require('./IEnhancedElement'); ///ts:import:generated
 
 /**
  * Utility methods for HTML elements.
- * Call Element.applyElementPrototypes() to extend HTMLElement.prototype
+ * Call Element.applyElementPrototypes() to extend Element.prototype
  */
 module ElementUtils
 {
-   export function getAncestor(element: HTMLElement, tagName: string): Node
+   export function getAncestor(element: Element, tagName: string): Node
    {
       var tag = tagName.toLowerCase(),
           iter: Node = element;
@@ -47,7 +47,7 @@ module ElementUtils
       return null;
    }
 
-   export function isAncestor(element: HTMLElement, ancestor: Node): boolean
+   export function isAncestor(element: Element, ancestor: Node): boolean
    {
       // instead of checking for it each time, just have IE<8 fall through to the catch block
       try
@@ -60,7 +60,7 @@ module ElementUtils
       }
    }
 
-   export function getOuterHTML(element: HTMLElement, escapeHtml: boolean = false): string
+   export function getOuterHTML(element: Element, escapeHtml: boolean = false): string
    {
       var div = document.createElement( "div" );
       div.appendChild( element.cloneNode( true ) );
@@ -103,10 +103,10 @@ module ElementUtils
       return (element.className && contains( element.className, name, " ", true ));
    }
 
-   export function append(element: HTMLElement, ...params: Array<Array<any>>): Element;
-   export function append(element: HTMLElement, ...params: Array<Node>): Element;
-   export function append(element: HTMLElement, ...params: Array<Object>): Element;
-   export function append(element: HTMLElement, ...params: Array<any>): Element
+   export function append(element: Element, ...params: Array<Array<any>>): Element;
+   export function append(element: Element, ...params: Array<Node>): Element;
+   export function append(element: Element, ...params: Array<Object>): Element;
+   export function append(element: Element, ...params: Array<any>): Element
    {
       if(params != null)
       {
@@ -153,11 +153,11 @@ module ElementUtils
       return element;
    }
 
-   export function bind(element: HTMLElement, eventName: string, func: (e: IEnhancedEvent) => void)
+   export function bind(element: Element, eventName: string, func: (e: IEnhancedEvent) => void)
    {
-      var eventHandler = (e) =>
+      var eventHandler = function(e)
       {
-         func.call( element, new EnhancedEvent( e ) );
+         func.call( this, new EnhancedEvent( e ) );
       };
 
       if(type( element.addEventListener ) == Types.function)
@@ -166,7 +166,7 @@ module ElementUtils
       }
       else
       {
-         element.attachEvent( "on" + eventName, eventHandler );
+         (<HTMLElement>element).attachEvent( "on" + eventName, eventHandler );
       }
 
       // store the handler on the element itself so we can look it up to remove it
@@ -177,7 +177,7 @@ module ElementUtils
       events[func] = eventHandler;
    }
 
-   export function unbind(element: HTMLElement, event: string, func: (e: IEnhancedEvent) => void)
+   export function unbind(element: Element, event: string, func: (e: IEnhancedEvent) => void)
    {
       var anyEl = (<any>element);
       anyEl.events = anyEl.events || {};
@@ -189,20 +189,20 @@ module ElementUtils
       }
       else
       {
-         element.detachEvent( "on" + event, events[func] );
+         (<HTMLElement>element).detachEvent( "on" + event, events[func] );
       }
 
       // remove the function from the dict on the element
       delete events[func];
    }
 
-   export function dispatchEvent(el: HTMLElement, type)
+   export function dispatchEvent(el: Element, type)
    {
    }
 
-   export function wrapElement(element: HTMLElement, force?: boolean): HTMLElement
+   export function wrapElement(element: Element, force?: boolean): IEnhancedElement
    {
-      if(element && (force || element.nodeType == Node.ELEMENT_NODE))
+      if(!m_appliedToPrototype && (element && (force || element.nodeType == Node.ELEMENT_NODE)))
       {
          forEach( ElementUtils, function(funcName, func)
          {
@@ -217,11 +217,16 @@ module ElementUtils
             };
          } );
       }
-      return element;
+      return <IEnhancedElement>element;
    }
 
+   var m_appliedToPrototype: boolean = false;
    export function applyElementPrototypes()
    {
-      ElementUtils.wrapElement( HTMLElement.prototype, true );
+      if(!m_appliedToPrototype)
+      {
+         ElementUtils.wrapElement(Element.prototype, true);
+         m_appliedToPrototype = true;
+      }
    }
 }

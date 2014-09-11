@@ -10,9 +10,11 @@
 export import ElementUtils = require('./dom/ElementUtils');
 export import HTML = require('./dom/HTML');
 export import IEnhancedElement = require('./dom/IEnhancedElement');
+export import IGetElement = require('./dom/IGetElement');
 export import form = require('./dom/_form');
 export import selector = require('./dom/_selector');
-export import get = require('./dom/get');
+export import getElementRaw = require('./dom/getElementRaw');
+export import getWrapped = require('./dom/getWrapped');
 export import nodetype = require('./dom/nodetype');
 export import onInteractive = require('./dom/onInteractive');
 export import onLoaded = require('./dom/onLoaded');

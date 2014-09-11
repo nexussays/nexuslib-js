@@ -4,8 +4,8 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-///ts:import=get
-import get = require('../get'); ///ts:import:generated
+///ts:import=getElementRaw,query
+import query = require('../getElementRaw'); ///ts:import:generated
 
 export = RadioCollection;
 class RadioCollection
@@ -17,7 +17,7 @@ class RadioCollection
 
    constructor(name)
    {
-      var elements = <HTMLInputElement[]>get.name( name );
+      var elements = <HTMLInputElement[]>query.name( name );
       if(elements)
       {
          for(var x = 0; x < elements.length; ++x)

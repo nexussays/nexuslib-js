@@ -4,8 +4,8 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-///ts:import=get
-import get = require('../get'); ///ts:import:generated
+///ts:import=getElementRaw,query
+import query = require('../getElementRaw'); ///ts:import:generated
 ///ts:import=first
 import first = require('../../array/first'); ///ts:import:generated
 
@@ -13,7 +13,7 @@ export = getDefaultValue;
 
 function getDefaultValue(elem: HTMLElement): string
 {
-   var el = first( get( elem ) );
+   var el = first( query( elem ) );
    if(el && "nodeName" in el)
    {
       var type = el.nodeName.toLowerCase();

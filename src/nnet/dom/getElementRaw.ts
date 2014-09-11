@@ -19,12 +19,12 @@ import ElementUtils = require('./ElementUtils'); ///ts:import:generated
 ///ts:import=filterByNodeName
 import filterByNodeName = require('./selector/filterByNodeName'); ///ts:import:generated
 
-export = get;
+export = getElementRaw;
 
-function get(query: Node): Array<Element>;
-function get(query: Element): Array<Element>;
-function get(query: string): Array<Element>;
-function get(query?: any): Array<Element>
+function getElementRaw(query: Node): Array<Element>;
+function getElementRaw(query: Element): Array<Element>;
+function getElementRaw(query: string): Array<Element>;
+function getElementRaw(query?: any): Array<Element>
 {
    var useDocumentAsRoot = type( this ) != Types.node;
    var root: Element = (useDocumentAsRoot ? document : this);
@@ -45,14 +45,14 @@ function get(query?: any): Array<Element>
    {
       return flatten( flatten( query ).map( (value) =>
       {
-         return get.call( this, value );
+         return getElementRaw.call( this, value );
       } ) );
    }
 
    return toArray<Element>( root.querySelectorAll( query ) );
 }
 
-module get
+module getElementRaw
 {
    export function id(id: Node): Element
    export function id(id: string): Element

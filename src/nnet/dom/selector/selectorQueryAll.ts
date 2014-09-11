@@ -5,16 +5,16 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 
-///ts:import=Types
+/// ts:import=Types
 import Types = require('../../Types'); ///ts:import:generated
 ///ts:import=type
 import type = require('../../type'); ///ts:import:generated
-///ts:import=get
-import get = require('../get'); ///ts:import:generated
 ///ts:import=filterByAttribute
 import filterByAttribute = require('./filterByAttribute'); ///ts:import:generated
 ///ts:import=toArray
 import toArray = require('../../array/toArray'); ///ts:import:generated
+///ts:import=IGetElement
+import IGetElement = require('../IGetElement'); ///ts:import:generated
 
 export = selectorQueryAll;
 
@@ -41,14 +41,14 @@ var tagid = /^(\*|\w*)?(?:#([\w-]+))?/i;
  * is returned directly (not as the zero index of an array).
  */
 //see: https://developer.mozilla.org/en-US/docs/Web/API/Node.compareDocumentPosition
-function selectorQueryAll(): Array<Node>;
-function selectorQueryAll(el: HTMLElement): HTMLElement;
-function selectorQueryAll(query: string): Array<Node>;
-function selectorQueryAll(...query): Array<Node>;
-function selectorQueryAll(query: string[]): Array<Node>;
+function selectorQueryAll(getEl: IGetElement): Array<Element>;
+function selectorQueryAll(getEl: IGetElement, query: string): Array<Element>;
+function selectorQueryAll(getEl: IGetElement, query: string[]): Array<Element>;
+function selectorQueryAll(getEl: IGetElement, ...query: string[]): Array<Element>;
+function selectorQueryAll(getEl: IGetElement, el: HTMLElement): Element;
 //TODO: Refine this so we don't need this catch-all
-function selectorQueryAll(query: any): any;
-function selectorQueryAll()
+function selectorQueryAll(getEl: IGetElement, query: any): any;
+function selectorQueryAll(getEl: IGetElement)
 {
    var self = (this == window || !("nodeType" in this)) ? document : this;
    var elements = [],
@@ -67,7 +67,7 @@ function selectorQueryAll()
    //if "x.SelectorQueryAll()" was called, return all the elements contained in "x"
    if(arglength === 0)
    {
-      return get.tagName( "*" );
+      return getEl.tagName( "*" );
    }
    else
    {
@@ -100,7 +100,7 @@ function selectorQueryAll()
                query = query.split( /\s+/ );
                //get the first item and then remove it and work on the next ones from here on out, null is passed as a second parameter to prevent single #id calls from returning an element instead of an array
                //eg - we now have all uls in the page
-               result = selectorQueryAll.call( self, query.shift(), null );
+               result = selectorQueryAll.call(self, getEl, query.shift(), null );
                //loop through each of the parameters given
                //eg - "li"
                while(query.length !== 0)
@@ -114,7 +114,7 @@ function selectorQueryAll()
                   for(i = 0, tempArray = [], queryItem = query.shift(); i < result.length; ++i)
                   {
                      //we are concatenating the array so all our results are combined
-                     tempArray = tempArray.concat( selectorQueryAll.call( result[i], queryItem, null ) );
+                     tempArray = tempArray.concat(selectorQueryAll.call(result[i], getEl, queryItem, null ) );
                   }
                   //then set result equal to this and continue on to the next item in split
                   result = tempArray;
