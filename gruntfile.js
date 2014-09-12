@@ -5,7 +5,11 @@ module.exports = function(grunt)
    grunt.loadNpmTasks( 'grunt-contrib-uglify' );
    grunt.loadNpmTasks( 'grunt-contrib-copy' );
 
-   grunt.registerTask( "default", ["ts:build"] );
+   grunt.registerTask( "default", ["build"] );
+
+   grunt.registerTask( "build", ["gen:ts-index", "ts:build", "gen:js-index"] );
+
+   grunt.registerTask( "optimize", ["def", "requirejs"] );
 
    grunt.registerMultiTask( "gen", function()
    {
@@ -33,8 +37,6 @@ module.exports = function(grunt)
       //console.log("Running require.js for " + this.target);
       r.optimize( this.data, console.out, console.err );
    } );
-
-   grunt.registerTask( "optimize", ["gen:js-index", "def", "requirejs"] );
 
    var config =
    {

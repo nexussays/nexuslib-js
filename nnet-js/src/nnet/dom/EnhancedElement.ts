@@ -23,7 +23,6 @@ export = EnhancedElement;
 
 interface EnhancedElement extends Element, EnhancedElement.IEnhancedElementImpl
 {
-   
 }
 
 module EnhancedElement
@@ -36,6 +35,9 @@ module EnhancedElement
          // to objects or to other element protoypes
          return (<Element>(<any>this));
       }
+
+      private s_booleanAttribute: RegExp = /^(?:async|autofocus|checked|compact|declare|default|defer|disabled|hidden|irrelevant|ismap|multiple|noresize|noshade|nowrap|readonly|required|selected)$/;
+      private s_enumBooleanAttribute: RegExp = /^(?:contenteditable|spellcheck)$/;
 
       isAncestor(ancestor: Node): boolean
       {
@@ -94,6 +96,34 @@ module EnhancedElement
             }
          }
          return <EnhancedElement>this.asElement();
+      }
+
+      getBooleanAttribute(name: string): boolean
+      {
+         name = name.toLowerCase();
+         var val = this.asElement().getAttribute( name );
+         return val === "" || val === name || (this.s_enumBooleanAttribute.test(name) && val === "true");
+      }
+
+      setBooleanAttribute(name: string, value: boolean): void
+      {
+         name = name.toLowerCase();
+         if(this.s_booleanAttribute.test( name ))
+         {
+            if(value)
+            {
+               this.asElement().setAttribute(name, "");
+            }
+            else
+            {
+               this.asElement().removeAttribute( name );
+            }
+         }
+         // contenteditable and spellcheck have true,false,inherit states
+         else if(this.s_enumBooleanAttribute.test(name))
+         {
+            this.asElement().setAttribute(name, value ? "true" : "false");
+         }
       }
 
       bind(eventName: string, func: (e: IEnhancedEvent) => void): void

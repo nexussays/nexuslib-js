@@ -97,11 +97,11 @@ class EnhancedHTMLElementCollection
 
    find(query: string): EnhancedHTMLElementCollection
    {
-      var find = require('./find');
+      var find = require( './find' );
       var results: Array<EnhancedHTMLElement> = [];
       for(var x = 0; x < this.m_array.length; ++x)
       {
-         results.push.apply(results, find.native.call(this.m_array[x], query).map(enhanceHTMLElement) );
+         results.push.apply( results, find.native.call( this.m_array[x], query ).map( enhanceHTMLElement ) );
       }
       return new EnhancedHTMLElementCollection( results );
    }

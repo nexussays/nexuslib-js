@@ -10,5 +10,5 @@
 export import Keyboard = require('./util/Keyboard');
 export import Milliseconds = require('./util/Milliseconds');
 export import Sort = require('./util/Sort');
-export import WindowUtils = require('./util/WindowUtils');
+export import window = require('./util/_window');
 export import isLeapYear = require('./util/isLeapYear');
