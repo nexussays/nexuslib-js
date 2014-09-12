@@ -18,74 +18,130 @@ import isArrayLike = require('../array/isArrayLike'); ///ts:import:generated
 import filterByNodeName = require('./selector/filterByNodeName'); ///ts:import:generated
 ///ts:import=isAncestor
 import isAncestor = require('./isAncestor'); ///ts:import:generated
+///ts:import=enhanceHTMLElement
+import enhanceHTMLElement = require('./enhanceHTMLElement'); ///ts:import:generated
+///ts:import=EnhancedHTMLElement
+import EnhancedHTMLElement = require('./EnhancedHTMLElement'); ///ts:import:generated
+///ts:import=EnhancedHTMLElementCollection
+import EnhancedHTMLElementCollection = require('./EnhancedHTMLElementCollection'); ///ts:import:generated
 
-export = getElementRaw;
+export = find;
 
-function getElementRaw(query: Node): Array<Element>;
-function getElementRaw(query: Element): Array<Element>;
-function getElementRaw(query: string): Array<Element>;
-function getElementRaw(query?: any): Array<Element>
+function find(query: Node): EnhancedHTMLElementCollection;
+function find(query: Element): EnhancedHTMLElementCollection;
+function find(query: string): EnhancedHTMLElementCollection;
+function find(query?: any): EnhancedHTMLElementCollection
 {
-   var useDocumentAsRoot = type( this ) != Types.node;
-   var root: Element = (useDocumentAsRoot ? document : this);
-
-   if(!root || !query)
-   {
-      return [];
-   }
-
-   // if an element was provided, either just return it, or, if there's a different root we're searching from, make sure the root is an ancestors of it
-   if(type( query ) === Types.node)
-   {
-      return (useDocumentAsRoot || query.nodeType == Node.DOCUMENT_NODE || isAncestor( query, root ) ? [query] : []);
-   }
-
-   // if query is an array, run get for each element of the array and flatten the results
-   if(isArrayLike( query ))
-   {
-      return flatten( flatten( query ).map( (value) =>
-      {
-         return getElementRaw.call( this, value );
-      } ) );
-   }
-
-   return toArray<Element>( root.querySelectorAll( query ) );
+   return new EnhancedHTMLElementCollection( find.native.call( this, query ).map( enhanceHTMLElement ) );
 }
 
-module getElementRaw
+module find
 {
-   export function id(id: Node): Element
-   export function id(id: string): Element
-   export function id(id: any): Element
+   export function id(id: Node): EnhancedHTMLElement
+   export function id(id: string): EnhancedHTMLElement
+   export function id(id: any): EnhancedHTMLElement
    {
-      //if id is null or doesn't match either of the below, return null
-      //if id is a string, return it from the DOM
-      //if id has a property called "id" assume it is an element (eg - redundant call to get()) and return it
-      var t = type( id );
-      return id && (t == Types.string ? document.getElementById( (<string>id)[0] == "#" ? (<string>id).substr( 1 ) : id ) : (t == Types.node ? id : null));
+      return enhanceHTMLElement( native.id.call( this, id ) );
    }
 
-   export function name(name: string, tag?: string): Array<Element>
+   export function name(name: string, tag?: string): EnhancedHTMLElementCollection
    {
-      var result = (type( this ) != Types.node ? document : this).getElementsByName( name );
-      if(tag)
+      return new EnhancedHTMLElementCollection( native.name.call( this, name, tag ).map( enhanceHTMLElement ) );
+   }
+
+   export function className(name: string, tag?: string): EnhancedHTMLElementCollection
+   {
+      return new EnhancedHTMLElementCollection( native.className.call( this, name, tag ).map( enhanceHTMLElement ) );
+   }
+
+   export function tagName(name: string): EnhancedHTMLElementCollection
+   {
+      return new EnhancedHTMLElementCollection( native.tagName.call( this, name ).map( enhanceHTMLElement ) );
+   }
+
+   export interface Interface
+   {
+      (query: Node): Array<Element>;
+      (query: Element): Array<Element>;
+      (query: string): Array<Element>;
+      (query?: any): Array<Element>;
+
+      id(id: Node): Element;
+      id(id: string): Element;
+      id(id: any): Element;
+
+      name(name: string, tag?: string): Array<Element>;
+
+      className(name: string, tag?: string): Array<Element>;
+
+      tagName(name: string): Array<Element>;
+   }
+
+   export function native(query: Node): Array<Element>;
+   export function native(query: Element): Array<Element>;
+   export function native(query: string): Array<Element>;
+   export function native(query?: any): Array<Element>
+   {
+      var useDocumentAsRoot = type( this ) != Types.node;
+      var root: Element = (useDocumentAsRoot ? document : this);
+
+      if(!root || !query)
       {
-         result = filterByNodeName( result, tag );
+         return [];
       }
-      return toArray<Element>( result );
-   }
 
-   export function className(name: string, tag?: string): Array<Element>
-   {
-      var result = (type( this ) != Types.node ? document : this).getElementsByClassName( name[0] == "." ? name.substr( 1 ) : name );
-      if(tag)
+      // if an element was provided, either just return it, or, if there's a different root we're searching from, make sure the root is an ancestors of it
+      if(type( query ) === Types.node)
       {
-         result = filterByNodeName( result, tag );
+         return (useDocumentAsRoot || query.nodeType == Node.DOCUMENT_NODE || isAncestor( query, root ) ? [query] : []);
       }
-      return toArray<Element>( result );
+
+      // if query is an array, run get for each element of the array and flatten the results
+      if(isArrayLike( query ))
+      {
+         return flatten( flatten( query ).map( (value) =>
+         {
+            return native.call( this, value );
+         } ) );
+      }
+
+      return toArray<Element>( root.querySelectorAll( query ) );
    }
 
-   /**
+   export module native
+   {
+      export function id(id: Node): Element
+      export function id(id: string): Element
+      export function id(id: any): Element
+      {
+         //if id is null or doesn't match either of the below, return null
+         //if id is a string, return it from the DOM
+         //if id has a property called "id" assume it is an element (eg - redundant call to get()) and return it
+         var t = type( id );
+         return id && (t == Types.string ? document.getElementById( (<string>id)[0] == "#" ? (<string>id).substr( 1 ) : id ) : (t == Types.node ? id : null));
+      }
+
+      export function name(name: string, tag?: string): Array<Element>
+      {
+         var result = (type( this ) != Types.node ? document : this).getElementsByName( name );
+         if(tag)
+         {
+            result = filterByNodeName( result, tag );
+         }
+         return toArray<Element>( result );
+      }
+
+      export function className(name: string, tag?: string): Array<Element>
+      {
+         var result = (type( this ) != Types.node ? document : this).getElementsByClassName( name[0] == "." ? name.substr( 1 ) : name );
+         if(tag)
+         {
+            result = filterByNodeName( result, tag );
+         }
+         return toArray<Element>( result );
+      }
+
+      /**
        * Gets an array of elements in the DOM with the specified attribute values
        * @param attr The name of the attribute to get
        * @param val The value of the attribute
@@ -100,9 +156,9 @@ module getElementRaw
          result["__get"] = true;
          return result;
       }
-      */
+      //*/
 
-   /*
+      /*
       export function tagName(name: "a"): Array<HTMLAnchorElement>;
       export function tagName(name: "abbr"): Array<HTMLElement>;
       export function tagName(name: "address"): Array<HTMLElement>;
@@ -207,8 +263,9 @@ module getElementRaw
       export function tagName(name: "video"): Array<HTMLVideoElement>;
       export function tagName(name: "wbr"): Array<HTMLElement>;
       //*/
-   export function tagName(name: string): Array<Element>
-   {
-      return toArray<Element>( (type( this ) != Types.node ? document : this).getElementsByTagName( name || "*" ) );
+      export function tagName(name: string): Array<Element>
+      {
+         return toArray<Element>( (type( this ) != Types.node ? document : this).getElementsByTagName( name || "*" ) );
+      }
    }
 }

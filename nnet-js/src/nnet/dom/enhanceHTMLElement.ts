@@ -14,9 +14,9 @@ export = enhanceHTMLElement;
 function enhanceHTMLElement(element: HTMLElement, force?: boolean): EnhancedHTMLElement
 {
    enhanceElement(element, force);
-   var E: typeof EnhancedHTMLElement = require('./EnhancedHTMLElement');
    if(enhanceHTMLElement.enabled && (element && (force || element.nodeType == Node.ELEMENT_NODE)))
    {
+      var E: typeof EnhancedHTMLElement = require('./EnhancedHTMLElement');
       Object.getOwnPropertyNames(E.IEnhancedHTMLElementImpl.prototype).forEach(funcName =>
       {
          element[funcName] = E.IEnhancedHTMLElementImpl.prototype[funcName];

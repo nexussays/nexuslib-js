@@ -13,8 +13,8 @@ import type = require('../../type'); ///ts:import:generated
 import filterByAttribute = require('./filterByAttribute'); ///ts:import:generated
 ///ts:import=toArray
 import toArray = require('../../array/toArray'); ///ts:import:generated
-///ts:import=getElement
-import getElement = require('../getElement'); ///ts:import:generated
+///ts:import=find
+import find = require('../find'); ///ts:import:generated
 
 export = selectorQueryAll;
 
@@ -41,14 +41,14 @@ var tagid = /^(\*|\w*)?(?:#([\w-]+))?/i;
  * is returned directly (not as the zero index of an array).
  */
 //see: https://developer.mozilla.org/en-US/docs/Web/API/Node.compareDocumentPosition
-function selectorQueryAll(getEl: getElement.Interface): Array<Element>;
-function selectorQueryAll(getEl: getElement.Interface, query: string): Array<Element>;
-function selectorQueryAll(getEl: getElement.Interface, query: string[]): Array<Element>;
-function selectorQueryAll(getEl: getElement.Interface, ...query: string[]): Array<Element>;
-function selectorQueryAll(getEl: getElement.Interface, el: HTMLElement): Element;
+function selectorQueryAll(getEl: find.Interface): Array<Element>;
+function selectorQueryAll(getEl: find.Interface, query: string): Array<Element>;
+function selectorQueryAll(getEl: find.Interface, query: string[]): Array<Element>;
+function selectorQueryAll(getEl: find.Interface, ...query: string[]): Array<Element>;
+function selectorQueryAll(getEl: find.Interface, el: HTMLElement): Element;
 //TODO: Refine this so we don't need this catch-all
-function selectorQueryAll(getEl: getElement.Interface, query: any): any;
-function selectorQueryAll(getEl: getElement.Interface)
+function selectorQueryAll(getEl: find.Interface, query: any): any;
+function selectorQueryAll(getEl: find.Interface)
 {
    var self = (this == window || !("nodeType" in this)) ? document : this;
    var elements = [],

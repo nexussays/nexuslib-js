@@ -6,8 +6,8 @@ import nnet = require('../src/_nnet'); ///ts:import:generated
 import applyEnhancementsToPrototype = require('../src/nnet/dom/applyEnhancementsToPrototype'); ///ts:import:generated
 ///ts:import=onInteractive
 import onInteractive = require('../src/nnet/dom/onInteractive'); ///ts:import:generated
-///ts:import=getElement
-import getElement = require('../src/nnet/dom/getElement'); ///ts:import:generated
+///ts:import=find
+import find = require('../src/nnet/dom/find'); ///ts:import:generated
 ///ts:import=Keyboard,Keys
 import Keys = require('../src/nnet/util/Keyboard'); ///ts:import:generated
 ///ts:import=BrowserUtils,Browser
@@ -24,12 +24,13 @@ import webtest = require('./webtest'); ///ts:import:generated
 import Benchmark = require('./benchmark'); ///ts:import:generated
 
 //Hoist up some methods to window and set local vars for others
-(<any>window).get = nnet.dom.getElement;
+(<any>window).find = nnet.dom.find;
 
 declare var unescape: any;
 declare var escape: any;
 
 //Make sure HTMLElements are extended
+nnet.array.enhancePrototype();
 applyEnhancementsToPrototype();
 
 var execute_text,
@@ -46,36 +47,36 @@ onInteractive( function()
    editorCookie = Cookie.retrieveOrCreate( "EditorPreferences" );
 
    //get the textarea with the code
-   execute_text = getElement.id( "#execute_text" );
+   execute_text = find.id( "#execute_text" );
    execute_text.bind( "keydown", execute_text_onkeydown );
    execute_text.value = editorCookie.data.execute_text ? unescape( editorCookie.data.execute_text ) : "";
    //wireup event handlers
-   getElement.id( "#execute_go" ).onclick = __go;
-   output_executiondetails = getElement.id( "output_executiondetails" );
+   find.id( "#execute_go" ).onclick = __go;
+   output_executiondetails = find.id( "output_executiondetails" );
 
    //setup options
    //default to verbose output (this value is actually checked in __go)
-   showmembers = getElement.id( "#showmembers" );
+   showmembers = find.id( "#showmembers" );
    showmembers.checked = editorCookie.data.showmembers;
    //show the output of the eval
-   showoutput = getElement.id( "#showoutput" );
+   showoutput = find.id( "#showoutput" );
    showoutput.checked = editorCookie.data.showoutput;
    //default to not capturing tabs (ie - tabbing will take you out of the textarea and to the next form element)
-   catchtabs = getElement.id( "#catchtabs" );
+   catchtabs = find.id( "#catchtabs" );
    catchtabs.checked = editorCookie.data.catchtabs;
 
    //set the output source for Debug results
-   Debug.outputSource = getElement.id( "#output" );
+   Debug.outputSource = find.id( "#output" );
    Debug.allowMultiple = true;
 
    //update the displayed HTML with the data actually on the page
    //update the cookie which stores preference values
    __updateTestingHTMLAndCookie();
 
-   var toggle = getElement.id( "#html_toggle_link" );
+   var toggle = find.id( "#html_toggle_link" );
    toggle.bind( "click", function()
    {
-      var html = getElement.id( "#testinghtml" );
+      var html = find.id( "#testinghtml" );
       if(html.style.display == "none")
       {
          html.style.display = "block";
@@ -92,8 +93,8 @@ onInteractive( function()
 
 function __updateTestingHTMLAndCookie()
 {
-   var testinghtml = getElement.id( "#testinghtml" );
-   testinghtml.innerHTML = getElement.id( "#extra" ).getOuterHTML( true ).replace( /\t/g, "   " );
+   var testinghtml = find.id( "#testinghtml" );
+   testinghtml.innerHTML = find.id( "#extra" ).getOuterHTML( true ).replace( /\t/g, "   " );
 
    editorCookie.data.showmembers = showmembers.checked;
    editorCookie.data.showoutput = showoutput.checked;
@@ -134,7 +135,7 @@ function execute_text_onkeydown(e)
       //prevent the default action
       e.preventDefault();
 
-      getElement.id( "#execute_go" ).trigger( "click" );
+      find.id( "#execute_go" ).trigger( "click" );
    }
 }
 
@@ -145,7 +146,7 @@ function __go()
    //Debug.allowMultiple = allowmultiple.checked;
 
    //display the waiting image
-   getElement.id( "#waiting" ).addClass( "hidden" );
+   find.id( "#waiting" ).addClass( "hidden" );
 
    //reset html of output area so that is not included in any code executed below
    //(eg - if the debug output element is called using get() in the debug code)
@@ -172,7 +173,7 @@ function __go()
       //end the timer and hide the waiting image
       end = Date.now();
 
-      getElement.id( "#waiting" ).addClass( "hidden" );
+      find.id( "#waiting" ).addClass( "hidden" );
 
       //update the testing HTML to reflect any changes
       //update the cookie with updated preferences

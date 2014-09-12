@@ -1,8 +1,8 @@
 ﻿
 ///ts:import=_nnet,nnet
 import nnet = require('../src/_nnet'); ///ts:import:generated
-///ts:import=getElement
-import getElement = require('../src/nnet/dom/getElement'); ///ts:import:generated
+///ts:import=find
+import find = require('../src/nnet/dom/find'); ///ts:import:generated
 ///ts:import=BrowserUtils,Browser
 import Browser = require('../src/nnet/browser/BrowserUtils'); ///ts:import:generated
 ///ts:import=HTML
@@ -54,10 +54,10 @@ export function createMenu(id, buildFrom)
          return ul;
       }
 
-      getElement.id( id ).append( recurse( buildFrom ) );
+      find.id( id ).append( recurse( buildFrom ) );
    }
 
-   getElement( "#" + id + " span.dropdown" ).forEach( function(x)
+   find( "#" + id + " span.dropdown" ).forEach( function(x)
    {
       (<any>x.parentNode).bind( "mouseover", createMenu.show );
       (<any>x.parentNode).bind( "mouseout", createMenu.show );

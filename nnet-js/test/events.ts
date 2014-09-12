@@ -3,14 +3,14 @@
 import nnet = require("../src/_nnet");
 import applyEnhancementsToPrototype = require("../src/nnet/dom/applyEnhancementsToPrototype");
 import onInteractive = require("../src/nnet/dom/onInteractive");
-import getElement = require("../src/nnet/dom/getElement");
+import find = require("../src/nnet/dom/find");
 
 import Debug = require("debug");
 import webtest = require('./webtest');
 import benchmark = require("./benchmark");
 
 //Hoist up some methods to window and set local vars for others
-(<any>window).get = nnet.dom.getElement;
+(<any>window).get = nnet.dom.find;
 
 //window.HTML = nnet.html.HTML;
 //Make sure HTMLElements are extended
@@ -21,26 +21,26 @@ onInteractive( function()
    //create the dropdown menu
    webtest.createMenu( "nav", webtest.sections.Javascript.Menu );
 
-   Debug.outputSource = getElement.id( "output" );
+   Debug.outputSource = find.id( "output" );
    Debug.allowMultiple = true;
 
-   getElement( "input[type='checkbox']" ).forEach( function(x)
+   find( "input[type='checkbox']" ).forEach( function(x)
    {
       x.onclick = detectevent_click;
       (<HTMLInputElement>(<any>x)).checked = false;
       x.trigger( "click" );
    } );
 
-   log.el = <HTMLInputElement>(<any>getElement.id( "log" ));
+   log.el = <HTMLInputElement>(<any>find.id( "log" ));
    log.clear();
-   getElement.id( "log_clear" ).onclick = log.clear;
+   find.id( "log_clear" ).onclick = log.clear;
 
-   var key = getElement.id( "keyevent" );
+   var key = find.id( "keyevent" );
    key.bind( "keyup", stopEvent );
    key.bind( "keydown", stopEvent );
    key.bind( "keypress", stopEvent );
 
-   var input = getElement.id( "inputevent" );
+   var input = find.id( "inputevent" );
    input.bind( "click", stopEvent );
    input.bind( "mouseup", stopEvent );
    input.bind( "mousedown", stopEvent );
@@ -82,11 +82,11 @@ function detectevent_click()
    var el;
    if(/^key/.test( this.id ))
    {
-      el = getElement.id( "keyevent" );
+      el = find.id( "keyevent" );
    }
    else
    {
-      el = getElement.id( "inputevent" );
+      el = find.id( "inputevent" );
    }
 
    log.write( this.id + (this.checked ? " ADDED" : " REMOVED") );
