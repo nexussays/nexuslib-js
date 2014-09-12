@@ -56,7 +56,7 @@ module.exports = function(grunt)
             compiledMain: "<%= paths.dest.compiled %>/src",
             compiledTest: "<%= paths.dest.compiled %>/test",
             bundled: "<%= paths.dest.root %>/bundled",
-            minified: "<%= paths.dest.root %>/bundled"
+            minified: "<%= paths.dest.root %>/compressed"
          }
       },
       package: grunt.file.readJSON( './package.json' ),
@@ -73,7 +73,7 @@ module.exports = function(grunt)
       options: {
          target: 'es5',
          module: 'amd',
-         sourceMap: true,
+         sourceMap: false,
          declaration: true,
          removeComments: true,
          default: {
@@ -118,19 +118,42 @@ module.exports = function(grunt)
    };
 
    config.uglify = {
-      /*
-         return gulp.src( [config.paths.dest.bundled + "/** /*.js", "!" + config.paths.dest.bundled + "/** /*.min.js"] )
-      .pipe( rename( { suffix: '.min' } ) )
-      .pipe( changed( config.paths.dest.minified ) )
-      .pipe( uglify() )
-      .pipe( gulp.dest( config.paths.dest.minified ) );
-   */
       options: {
-         banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
+         banner: "/** Copyright Malachi Griffie <malachi@nexussays.com> " +
+            "This Source Code Form is subject to the terms of the Mozilla Public License, " +
+            "v. 2.0. If a copy of the MPL was not distributed with this file, " +
+            "You can obtain one at http://mozilla.org/MPL/2.0/. **/",
+         mangle: true,
+         compress: true,
+         beautify: false,
+         preserveComments: false,
+         default: {
+            files: [
+               {
+                  expand: true,
+                  cwd: config.paths.dest.bundled,
+                  src: ["*.js", "!*.min.js"],
+                  dest: "<%= paths.dest.minified %>/"
+               }
+            ]
+         }
+         //can still remove define calls for interfaces after uglifying
+         //define\("(?:[A-Z0-9_/]+)",\s?\[\s?"require",\s?"exports"\s?],\s?function\(\)\s?\{\s?\}\),?\s?
       },
-      build: {
-         src: 'src/<%= pkg.name %>.js',
-         dest: 'build/<%= pkg.name %>.min.js'
+      pretty: {
+         options: {
+            mangle: false,
+            compress: true,
+            beautify: true
+         }
+      },
+      zip: {
+         options: {
+            report: "gzip"
+         }
+      },
+      all: {
+
       }
    };
 
@@ -218,23 +241,23 @@ module.exports = function(grunt)
       }
    };
 
-   function copyDefaults( taskObj )
+   function copyDefaults(taskObj)
    {
-      if( taskObj && taskObj.options && taskObj.options.default )
+      if(taskObj && taskObj.options && taskObj.options.default)
       {
          // copy settings from main to all other tasks unless their override
-         for( var targetName in taskObj )
+         for(var targetName in taskObj)
          {
-            if( targetName == "options" )
+            if(targetName == "options")
             {
                continue;
             }
             var target = taskObj[targetName];
-            if( target )
+            if(target)
             {
-               for( var prop in taskObj.options.default )
+               for(var prop in taskObj.options.default)
                {
-                  if( !target.hasOwnProperty( prop ) )
+                  if(!target.hasOwnProperty( prop ))
                   {
                      target[prop] = taskObj.options.default[prop];
                   }
@@ -256,6 +279,7 @@ module.exports = function(grunt)
          }
       }
    }
+
    config.copyDefaults();
    grunt.initConfig( config );
 

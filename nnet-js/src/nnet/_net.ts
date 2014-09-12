@@ -9,3 +9,4 @@
 
 export import HttpRequest = require('./net/HttpRequest');
 export import IHttpResponse = require('./net/IHttpResponse');
+export import generateQueryString = require('./net/generateQueryString');

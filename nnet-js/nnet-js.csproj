@@ -40,6 +40,7 @@
     <TypeScriptCompile Include="src\nnet\dom\_form.ts" />
     <TypeScriptCompile Include="src\nnet\dom\_selector.ts" />
     <TypeScriptCompile Include="src\nnet\event\IEnhancedEvent.ts" />
+    <TypeScriptCompile Include="src\nnet\net\generateQueryString.ts" />
     <TypeScriptCompile Include="src\nnet\string\trimChars.ts" />
     <TypeScriptCompile Include="src\nnet\util\Keyboard.ts" />
     <TypeScriptCompile Include="src\nnet\graphics\Color.ts" />
@@ -88,10 +89,15 @@
     <TypeScriptCompile Include="src\nnet\string\stripTags.ts" />
     <TypeScriptCompile Include="src\nnet\string\trim.ts" />
     <TypeScriptCompile Include="src\nnet\string\unescapeHTML.ts" />
-    <TypeScriptCompile Include="src\nnet\util\WindowUtils.ts" />
+    <TypeScriptCompile Include="src\nnet\util\window\parseQueryString.ts" />
+    <TypeScriptCompile Include="src\nnet\util\window\jump.ts" />
+    <TypeScriptCompile Include="src\nnet\util\window\getSize.ts" />
+    <TypeScriptCompile Include="src\nnet\util\window\replaceQueryString.ts" />
+    <TypeScriptCompile Include="src\nnet\util\window\origin.ts" />
     <TypeScriptCompile Include="src\nnet\math\IPRNG.ts" />
     <TypeScriptCompile Include="src\nnet\math\NativeRandomGenerator.ts" />
     <TypeScriptCompile Include="src\nnet\serialization\JsonParser.ts" />
+    <TypeScriptCompile Include="src\nnet\util\_window.ts" />
     <TypeScriptCompile Include="src\nnet\_array.ts" />
     <TypeScriptCompile Include="src\nnet\_browser.ts" />
     <TypeScriptCompile Include="src\nnet\_dom.ts" />
@@ -154,6 +160,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

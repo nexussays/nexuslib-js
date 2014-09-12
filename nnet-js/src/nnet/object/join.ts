@@ -11,8 +11,7 @@ export = join;
  */
 function join(obj: any, join: string=": "): Array<string>
 {
-   var result = [];
-   join = join || ": ";
+   var result: string[] = [];
    for(var x in obj)
    {
       result.push( x + join + obj[x] );
