@@ -25,7 +25,7 @@
     <TypeScriptCompile Include="src\nnet\dom\applyEnhancementsToPrototype.ts" />
     <TypeScriptCompile Include="src\nnet\dom\EnhancedHTMLElementCollection.ts" />
     <TypeScriptCompile Include="src\nnet\dom\enhanceHTMLElement.ts" />
-    <TypeScriptCompile Include="src\nnet\dom\getElement.ts" />
+    <TypeScriptCompile Include="src\nnet\dom\find.ts" />
     <TypeScriptCompile Include="src\nnet\dom\EnhancedHTMLElement.ts" />
     <TypeScriptCompile Include="src\nnet\dom\EnhancedElement.ts" />
     <TypeScriptCompile Include="src\nnet\dom\isAncestor.ts" />
@@ -62,7 +62,6 @@
     <TypeScriptCompile Include="src\nnet\array\flatten.ts" />
     <TypeScriptCompile Include="src\nnet\event\EnhancedEvent.ts" />
     <TypeScriptCompile Include="src\nnet\dom\form\getDefaultValue.ts" />
-    <TypeScriptCompile Include="src\nnet\dom\getElementRaw.ts" />
     <TypeScriptCompile Include="src\nnet\dom\HTML.ts" />
     <TypeScriptCompile Include="src\nnet\net\HttpRequest.ts" />
     <TypeScriptCompile Include="src\nnet\array\isArrayLike.ts" />
@@ -203,7 +202,7 @@
   </PropertyGroup>
   <Import Project="$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets')" />
   <PropertyGroup>
-    <PreBuildEvent>call grunt ts:imports</PreBuildEvent>
+    <PreBuildEvent>call grunt gen:ts-index ts:imports</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>call grunt copy:definitions

@@ -8,8 +8,8 @@
 import contains = require('../string/contains'); ///ts:import:generated
 ///ts:import=EnhancedElement
 import EnhancedElement = require('./EnhancedElement'); ///ts:import:generated
-///ts:import=getElement
-import getElement = require('./getElement'); ///ts:import:generated
+///ts:import=find
+import find = require('./find'); ///ts:import:generated
 ///ts:import=EnhancedHTMLElementCollection
 import EnhancedHTMLElementCollection = require('./EnhancedHTMLElementCollection'); ///ts:import:generated
 ///ts:import=isAncestor
@@ -37,7 +37,7 @@ module EnhancedHTMLElement
 
       getAncestors(query: string): EnhancedHTMLElementCollection
       {
-         return getElement( query ).filter$( item => isAncestor( this.asHTMLElement(), item ) );
+         return find( query ).filter$( item => isAncestor( this.asHTMLElement(), item ) );
       }
 
       addClass(name: string, checkExistence: boolean= false): boolean
@@ -78,7 +78,7 @@ module EnhancedHTMLElement
 
       find(query: string): EnhancedHTMLElementCollection
       {
-         return getElement.call( this, query );
+         return find.call( this, query );
       }
    }
 }

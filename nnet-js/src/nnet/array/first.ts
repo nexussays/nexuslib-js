@@ -6,7 +6,7 @@
 
 export = first;
 
-function first(source)
+function first<T>(source: Array<T>): T
 {
    return source != null && source.length > 0 ? source[0] : null;
 }

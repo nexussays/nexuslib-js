@@ -9,7 +9,7 @@ export = last;
 /**
  * Returns the last value of the array. Useful if you don't want to declare an additional variable, eg when using .split()
  */
-function last(source)
+function last<T>(source: Array<T>):T
 {
    return source != null && source.length > 0 ? source[source.length - 1] : null;
 }

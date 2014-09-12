@@ -8,6 +8,14 @@
 import EnhancedHTMLElement = require('./EnhancedHTMLElement'); ///ts:import:generated
 ///ts:import=IEnhancedEvent
 import IEnhancedEvent = require('../event/IEnhancedEvent'); ///ts:import:generated
+///ts:import=first
+import first = require('../array/first'); ///ts:import:generated
+///ts:import=last
+import last = require('../array/last'); ///ts:import:generated
+///ts:import=find
+import find = require('./find'); ///ts:import:generated
+///ts:import=enhanceHTMLElement
+import enhanceHTMLElement = require('./enhanceHTMLElement'); ///ts:import:generated
 
 export = EnhancedHTMLElementCollection;
 
@@ -23,6 +31,11 @@ class EnhancedHTMLElementCollection
    get items(): Array<EnhancedHTMLElement>
    {
       return this.m_array;
+   }
+
+   get length(): number
+   {
+      return this.m_array.length;
    }
 
    forEach(callbackfn: (value: EnhancedHTMLElement, index: number, array: EnhancedHTMLElement[]) => void): EnhancedHTMLElementCollection
@@ -80,5 +93,26 @@ class EnhancedHTMLElementCollection
    hasClass(name: string): boolean
    {
       return this.m_array.some( item => item.hasClass( name ) );
+   }
+
+   find(query: string): EnhancedHTMLElementCollection
+   {
+      var find = require('./find');
+      var results: Array<EnhancedHTMLElement> = [];
+      for(var x = 0; x < this.m_array.length; ++x)
+      {
+         results.push.apply(results, find.native.call(this.m_array[x], query).map(enhanceHTMLElement) );
+      }
+      return new EnhancedHTMLElementCollection( results );
+   }
+
+   first(): EnhancedHTMLElement
+   {
+      return first( this.m_array );
+   }
+
+   last(): EnhancedHTMLElement
+   {
+      return last( this.m_array );
    }
 }
