@@ -16,6 +16,8 @@ import Cookie = require('../src/nnet/browser/Cookie'); ///ts:import:generated
 import EnhancedHTMLElement = require('../src/nnet/dom/EnhancedHTMLElement'); ///ts:import:generated
 ///ts:import=EnhancedEvent
 import EnhancedEvent = require('../src/nnet/event/EnhancedEvent'); ///ts:import:generated
+///ts:import=enhancePrototype,enhanceArrayPrototype
+import enhanceArrayPrototype = require('../src/nnet/array/enhancePrototype'); ///ts:import:generated
 
 ///ts:import=debug,Debug
 import Debug = require('./debug'); ///ts:import:generated
@@ -32,7 +34,7 @@ declare var unescape: any;
 declare var escape: any;
 
 //Make sure HTMLElements are extended
-nnet.array.enhancePrototype();
+enhanceArrayPrototype();
 applyEnhancementsToPrototype();
 
 var editorTextarea,
@@ -55,7 +57,7 @@ onInteractive( function()
 
    // wireup execute button
    find.id( "#execute_go" ).bind( "click", __go );
-   executionOutputTextarea = find.id( "executionOutputTextarea" );
+   executionOutputTextarea = find.id( "output_executiondetails" );
 
    //setup options
    //default to verbose output (this value is actually checked in __go)
@@ -107,10 +109,9 @@ function __updateTestingHTMLAndCookie()
    editorCookie.save();
 }
 
-function editorTextarea_keydown(e:EnhancedEvent)
+function editorTextarea_keydown(e: EnhancedEvent)
 {
-   var tab = "   ",
-       start = editorTextarea.selectionStart,
+   var start = editorTextarea.selectionStart,
        end = editorTextarea.selectionEnd;
 
    //only catch tabs if the corresponding checkbox is checked
@@ -119,20 +120,40 @@ function editorTextarea_keydown(e:EnhancedEvent)
       //prevent the default action
       e.preventDefault();
 
+      var tab = "   ";
+      var startSelectionModifier: number;
+      var endSelectionModifier: number;
+      var pre: string = editorTextarea.value.substr( 0, start );
+      var selected: string = editorTextarea.value.substring( start, end );
+      var post: string = editorTextarea.value.substr( end, editorTextarea.value.length );
       if(e.keyInfo.shift)
       {
-         editorTextarea.value = editorTextarea.value.substr( 0, start ) + tab +
-            editorTextarea.value.substr( end, editorTextarea.value.length );
+         startSelectionModifier = 0;
+         endSelectionModifier = -tab.length;
+         editorTextarea.value = pre.replace( / ? ? ?$/, (val) =>
+         {
+            startSelectionModifier = -(val.length);
+            return "";
+         } ) + selected.replace( /\n ? ? ?/g, (val) =>
+         {
+            endSelectionModifier += -(val.length - 1);
+            return "\n";
+         } ) + post;
+         editorTextarea.focus();
       }
       else
       {
-         editorTextarea.value = editorTextarea.value.substr( 0, start ) + tab +
-            editorTextarea.value.substr( end, editorTextarea.value.length );
+         startSelectionModifier = tab.length;
+         endSelectionModifier = tab.length;
+         editorTextarea.value = pre + tab + selected.replace( /\n/g, (val) =>
+         {
+            endSelectionModifier += tab.length;
+            return val + tab;
+         } ) + post;
       }
 
       editorTextarea.focus();
-
-      editorTextarea.setSelectionRange( start + tab.length, start + tab.length );
+      editorTextarea.setSelectionRange( start + startSelectionModifier, end + endSelectionModifier );
    }
    if(e.keyInfo.ctrl && (e.keyInfo.code == Keys.Enter || e.keyInfo.stringValue == "S"))
    {
