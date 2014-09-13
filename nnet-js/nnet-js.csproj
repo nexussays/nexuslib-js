@@ -16,7 +16,7 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <TsOutDir Condition="$(TsOutDir) == '' Or $(TsOutDir) == '*Undefined*'">.\bin\compiled</TsOutDir>
+    <TsOutDir Condition="$(TsOutDir) == '' Or $(TsOutDir) == '*Undefined*'">.\bin\compiled-amd</TsOutDir>
   </PropertyGroup>
   <ItemGroup>
     <TypeScriptCompile Include="lib\modernizr.d.ts" />
@@ -30,9 +30,9 @@
     <TypeScriptCompile Include="src\nnet\dom\EnhancedElement.ts" />
     <TypeScriptCompile Include="src\nnet\dom\getOuterHTML.ts" />
     <TypeScriptCompile Include="src\nnet\dom\isAncestor.ts" />
+    <TypeScriptCompile Include="src\nnet\dom\nodeTypeToString.ts" />
     <TypeScriptCompile Include="src\nnet\dom\onLoaded.ts" />
     <TypeScriptCompile Include="src\nnet\dom\onInteractive.ts" />
-    <TypeScriptCompile Include="src\nnet\dom\nodetype.ts" />
     <TypeScriptCompile Include="src\nnet\dom\selector\filterByAttribute.ts" />
     <TypeScriptCompile Include="src\nnet\dom\selector\filterByNodeName.ts" />
     <TypeScriptCompile Include="src\nnet\dom\selector\selectorClassName.ts" />
@@ -112,13 +112,10 @@
     <TypeScriptCompile Include="src\nnet\_util.ts" />
     <TypeScriptCompile Include="src\_nnet.ts" />
     <TypeScriptCompile Include="test\benchmark.ts" />
-    <TypeScriptCompile Include="test\config.ts" />
-    <TypeScriptCompile Include="test\debug.d.ts">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </TypeScriptCompile>
+    <TypeScriptCompile Include="test\config-amd.ts" />
     <TypeScriptCompile Include="test\editor.ts" />
     <TypeScriptCompile Include="test\events.ts" />
-    <TypeScriptCompile Include="test\webtest.ts" />
+    <TypeScriptCompile Include="test\nav.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="editor.htm" />
@@ -148,9 +145,9 @@
     <Content Include="lib\require.js" />
     <Content Include="styles\editor.css" />
     <Content Include="styles\main.css" />
-    <Content Include="test\debug.js">
+    <TypeScriptCompile Include="test\debug.ts">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    </TypeScriptCompile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Web.config" />

@@ -19,5 +19,6 @@ export import enhanceHTMLElement = require('./dom/enhanceHTMLElement');
 export import find = require('./dom/find');
 export import getOuterHTML = require('./dom/getOuterHTML');
 export import isAncestor = require('./dom/isAncestor');
+export import nodeTypeToString = require('./dom/nodeTypeToString');
 export import onInteractive = require('./dom/onInteractive');
 export import onLoaded = require('./dom/onLoaded');

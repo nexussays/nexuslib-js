@@ -10,8 +10,8 @@ import type = require('../type'); ///ts:import:generated
 import Types = require('../Types'); ///ts:import:generated
 ///ts:import=JsonParser
 import JsonParser = require('../serialization/JsonParser'); ///ts:import:generated
-///ts:import=Milliseconds
-import Milliseconds = require('../util/Milliseconds'); ///ts:import:generated
+///ts:import=Milliseconds,ms
+import ms = require('../util/Milliseconds'); ///ts:import:generated
 
 export = Cookie;
 
@@ -22,9 +22,9 @@ class Cookie
 {
    expiresOn: Date;
 
-   constructor(key: string, data: Object, expiration?: Date, path?: string, domain?: string, isSecure?: boolean);
-   constructor(key: string, data: Object, expiration?: number, path?: string, domain?: string, isSecure?: boolean);
-   constructor(public key: string, public data: Object, expiration?: any, public path: string = "/", public domain?: string, public isSecure: boolean = false)
+   constructor(key: string, data: any, expiration?: Date, path?: string, domain?: string, isSecure?: boolean);
+   constructor(key: string, data: any, expiration?: number, path?: string, domain?: string, isSecure?: boolean);
+   constructor(public key: string, public data: any, expiration?: any, public path: string = "/", public domain?: string, public isSecure: boolean = false)
    {
       //path = path || "/";
       if(expiration)
@@ -52,7 +52,7 @@ class Cookie
    expire(): Cookie
    {
       // set expiration to the past
-      return this.expireIn( -(Milliseconds.days( 365 )) );
+      return this.expireIn( -(ms.days( 365 )) );
    }
 
    save(): void

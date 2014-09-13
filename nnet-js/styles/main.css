@@ -507,11 +507,11 @@ div#output textarea
 /********************************
 DEBUG SECTION
 ********************************/
-div.NNet_JSCore_DEBUG *
+div.nnet-debug *
 {
    font-family: Consolas, Courier New, Monospace;
 }
-div.NNet_JSCore_DEBUG > p
+div.nnet-debug > p
 {
    white-space: pre;
    overflow: auto;
@@ -520,28 +520,28 @@ div.NNet_JSCore_DEBUG > p
    font-weight: bold;
    max-height: 20em;
 }
-div.NNet_JSCore_DEBUG ul.tests
+div.nnet-debug ul.nnet-debug-tests
 {
    padding: 0;
    margin: 0;
    list-style-type: none;
 }
-div.NNet_JSCore_DEBUG ul.tests p:after
+div.nnet-debug ul.nnet-debug-tests p:after
 {
    content: ": ";
 }
-div.NNet_JSCore_DEBUG ul.tests p,
-div.NNet_JSCore_DEBUG ul.tests div
+div.nnet-debug ul.nnet-debug-tests p,
+div.nnet-debug ul.nnet-debug-tests div
 {
    display: inline;
 }
-div.NNet_JSCore_DEBUG dl.members dt,
-div.NNet_JSCore_DEBUG ul.tests p
+div.nnet-debug dl.nnet-debug-members dt,
+div.nnet-debug ul.nnet-debug-tests p
 {
    font-weight: bold;
    margin-top: 1em;
 }
-div.NNet_JSCore_DEBUG dl.members dt
+div.nnet-debug dl.nnet-debug-members dt
 {
    background-color: #ececec;
    color: #6495ed;
@@ -550,7 +550,7 @@ div.NNet_JSCore_DEBUG dl.members dt
    border-bottom: solid 1px #e0e0e0;
    padding: .1em;
 }
-div.NNet_JSCore_DEBUG dl.members dd
+div.nnet-debug dl.nnet-debug-members dd
 {
    margin: 0;
    padding: .1em;
@@ -560,11 +560,11 @@ div.NNet_JSCore_DEBUG dl.members dd
    border-bottom: solid 1px #f0f0f0;
    border-right: solid 1px #f0f0f0;
 }
-div.NNet_JSCore_DEBUG span.type
+div.nnet-debug span.nnet-debug-type
 {
    color: #999;
 }
-hr.NNet_JSCore_DEBUG
+hr.nnet-debug
 {
    border-top-width: 2px;
    height: 4px;
