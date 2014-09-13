@@ -5,7 +5,7 @@
 <title>Javascript Editor</title>
 <link href="./styles/main.css" rel="stylesheet" type="text/css" />
 <link href="./styles/editor.css" rel="stylesheet" type="text/css" />
-<script src="./lib/require.js" data-main="./bin/compiled/test/config.js"></script>
+<script src="./lib/require.js" data-main="./bin/compiled-amd/test/config-amd.js"></script>
 <!--<script src="./bin/bundled/nnet-browserify.js"></script>-->
 </head>
 <body>
@@ -27,10 +27,10 @@
    <div>
       <ul class="inline">
          <li>
-            <label for="showmembers"><input type="checkbox" id="showmembers" />show detailed debugging</label>
+            <label for="showmembers"><input type="checkbox" id="showmembers" />show object properties</label>
          </li>
          <li>
-            <label for="showoutput"><input type="checkbox" id="showoutput" />show results of code execution</label>
+            <label for="showoutput"><input type="checkbox" id="showoutput" />show return value of execution</label>
          </li>
          <li>
             <label for="catchtabs"><input type="checkbox" id="catchtabs" />allow tabs in textarea</label>
@@ -38,9 +38,9 @@
       </ul>
       <textarea rows="13" cols="20" spellcheck="false" id="execute_text"></textarea>
       <ul class="notes">
-         <li>el(x) == Debug.Element(x)</li>
-         <li>obj(x) == Debug.Object(x)</li>
-         <li>simp(x) == Debug.Simple(x)</li>
+         <li>el(x) == Debug.element(x)</li>
+         <li>obj(x) == Debug.object(x)</li>
+         <li>simp(x) == Debug.objectSimple(x)</li>
          <li>out(x, x+1, &#0133, x+n) == Debug.write([x, x+1, &#0133, x+n].join("&lt;br /&gt;"), false)</li>
       </ul>
    </div>
@@ -52,46 +52,46 @@
    </div>
 </fieldset>
 <div>
-<span id="html_toggle_link" class="link"></span>
-<pre id="testinghtml"></pre>
-<div id="extra" style="display:none;">
-   <ul id="extra_ul" class="class_3 otherclass">
-      <li>foo</li>
-      <li class="class"><span id="extra_span">bar</span></li>
-      <li class="class2">foobar</li>
-   </ul>
-   <form id="form" action="../httptest.aspx?query=string" method="post">
-      <fieldset>
-         <a href="http://www.example.com/file.pdf" rel=".pdf">testing</a>
-         <a href="http://www.example.com/file.exe" rel="dpdf">testing</a>
-         <input type="text" name="extra_text" value="foobar" />
-         <input type="text" name="extra_select" value="samename" />
-         <select name="no_default">
-            <option value="one">one</option>
-            <option value="two">two</option>
-         </select>
-         <input type="hidden" name="extra_radio" value="messStuffUp" />
-         <textarea cols="10" rows="2">testing text</textarea>
-         <div>
-            <!-- comment -->
-            <input type="radio" name="extra_radio" value="first radio" id="extra_radio_1" />
-            <input type="radio" name="extra_radio" value="second radio" checked="checked" />
-            <input type="radio" name="extra_radio" value="third radio" />
-            <select name="extra_select">
-               <optgroup label="items">
-                  <option value="">I</option>
-                  <option value="II">II</option>
-                  <option value="III" selected="selected">III</option>
-               </optgroup>
+   <span id="html_toggle_link" class="link"></span>
+   <pre id="testinghtml"></pre>
+   <div id="extra" style="display:none;">
+      <ul id="extra_ul" class="class_3 otherclass">
+         <li>foo</li>
+         <li class="class"><span id="extra_span">bar</span></li>
+         <li class="class2">foobar</li>
+      </ul>
+      <form id="form" action="../httptest.aspx?query=string" method="post">
+         <fieldset>
+            <a href="http://www.example.com/file.pdf" rel=".pdf">testing</a>
+            <a href="http://www.example.com/file.exe" rel="dpdf">testing</a>
+            <input type="text" name="extra_text" value="foobar" />
+            <input type="text" name="extra_select" value="samename" />
+            <select name="no_default">
+               <option value="one">one</option>
+               <option value="two">two</option>
             </select>
-         </div>
-         <input type="checkbox" name="extra_check" value="ValueIsTrue" />
-         <input type="checkbox" name="extra_check" />
-      </fieldset>
-   </form>
-   <span id="extra_span1" class="class2 class-3">this is span 1</span>
-   <span id="extra_span2" class="class-3">this is span 2</span>
-</div>
+            <input type="hidden" name="extra_radio" value="messStuffUp" />
+            <textarea cols="10" rows="2">testing text</textarea>
+            <div>
+               <!-- comment -->
+               <input type="radio" name="extra_radio" value="first radio" id="extra_radio_1" />
+               <input type="radio" name="extra_radio" value="second radio" checked="checked" />
+               <input type="radio" name="extra_radio" value="third radio" />
+               <select name="extra_select">
+                  <optgroup label="items">
+                     <option value="">I</option>
+                     <option value="II">II</option>
+                     <option value="III" selected="selected">III</option>
+                  </optgroup>
+               </select>
+            </div>
+            <input type="checkbox" name="extra_check" value="ValueIsTrue" />
+            <input type="checkbox" name="extra_check" />
+         </fieldset>
+      </form>
+      <span id="extra_span1" class="class2 class-3">this is span 1</span>
+      <span id="extra_span2" class="class-3">this is span 2</span>
+   </div>
 </div>
 <hr />
 <h4>Output: <span id="output_executiondetails"></span></h4>

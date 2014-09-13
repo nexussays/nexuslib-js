@@ -75,21 +75,18 @@ export module createMenu
 export var sections =
 {
    Javascript:
-   {
-      Menu:
+   [
+      ["..up", "./"],
       [
-         ["..up", "./"],
+         "Javascript",
          [
-            "Javascript",
-            [
-               ["Editor", "./editor.htm"],
-               ["Event", "./events.htm"],
-               ["Information", "./information.htm"],
-               ["Regular Expressions", "./regexp.htm"],
-               ["Testing", "./tests/index.htm"]
-            ]
-         ],
-         ["[Browser in " + (Browser.strictMode ? "StrictMode" : Browser.quirksMode ? "QuirksMode" : "Unknown Rendering Mode") + "]"]
-      ]
-   }
+            ["Editor", "./editor.htm"],
+            ["Event", "./events.htm"],
+            ["Information", "./information.htm"],
+            ["Regular Expressions", "./regexp.htm"],
+            ["Testing", "./tests/index.htm"]
+         ]
+      ],
+      ["[Browser in " + (Browser.strictMode ? "StrictMode" : Browser.quirksMode ? "QuirksMode" : "Unknown Rendering Mode") + "]"]
+   ]
 };

@@ -1,13 +1,20 @@
-﻿/// <reference path="debug.d.ts" />
+﻿///ts:import=_nnet,nnet
+import nnet = require('../src/_nnet'); ///ts:import:generated
+///ts:import=applyEnhancementsToPrototype
+import applyEnhancementsToPrototype = require('../src/nnet/dom/applyEnhancementsToPrototype'); ///ts:import:generated
+///ts:import=onInteractive
+import onInteractive = require('../src/nnet/dom/onInteractive'); ///ts:import:generated
+///ts:import=find
+import find = require('../src/nnet/dom/find'); ///ts:import:generated
+///ts:import=EnhancedEvent
+import EnhancedEvent = require('../src/nnet/event/EnhancedEvent'); ///ts:import:generated
 
-import nnet = require("../src/_nnet");
-import applyEnhancementsToPrototype = require("../src/nnet/dom/applyEnhancementsToPrototype");
-import onInteractive = require("../src/nnet/dom/onInteractive");
-import find = require("../src/nnet/dom/find");
-
-import Debug = require("debug");
-import webtest = require('./webtest');
-import benchmark = require("./benchmark");
+///ts:import=debug,Debug
+import Debug = require('./debug'); ///ts:import:generated
+///ts:import=nav
+import nav = require('./nav'); ///ts:import:generated
+///ts:import=benchmark,Benchmark
+import Benchmark = require('./benchmark'); ///ts:import:generated
 
 //Hoist up some methods to window and set local vars for others
 (<any>window).get = nnet.dom.find;
@@ -19,9 +26,9 @@ applyEnhancementsToPrototype();
 onInteractive( function()
 {
    //create the dropdown menu
-   webtest.createMenu( "nav", webtest.sections.Javascript.Menu );
+   nav.createMenu( "nav", nav.sections.Javascript );
 
-   Debug.outputSource = find.id( "output" );
+   Debug.setOutputSource( find.id( "output" ) );
    Debug.allowMultiple = true;
 
    find( "input[type='checkbox']" ).forEach( function(x)
@@ -60,13 +67,13 @@ function stopEvent(e)
    e.preventDefault();
 }
 
-function logEvent(e)
+function logEvent(e:EnhancedEvent)
 {
    Debug.clear();
    //output our custom information on the event
-   Debug.Simple( e, ["type", "pageX", "pageY", "screenX", "screenY", "clientX", "clientY", "target", "relatedTarget", "mouse", "key", "isMouseEvent()", "isKeyboardEvent()", "isTouchEvent()"] );
+   Debug.objectSimple( e, ["type", "pageX", "pageY", "screenX", "screenY", "clientX", "clientY", "target", "relatedTarget", "mouse", "key", "isMouseEvent()", "isKeyboardEvent()", "isTouchEvent()"] );
    //output information on the entire event
-   Debug.Event( e.originalEvent );
+   Debug.event( e.originalEvent );
    //add to list of events and scroll the textbox
    log.write( e.type + " " + this + " (" + e.pageX + ", " + e.pageY + ")" );
 
