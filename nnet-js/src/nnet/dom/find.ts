@@ -4,9 +4,7 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-/// ts:import=Types
-import Types = require('../Types'); ///ts:import:generated
-///ts:import=type
+/// ts:import=type
 import type = require('../type'); ///ts:import:generated
 ///ts:import=toArray
 import toArray = require('../array/toArray'); ///ts:import:generated
@@ -82,7 +80,7 @@ module find
    export function native(query: string): Array<Element>;
    export function native(query?: any): Array<Element>
    {
-      var useDocumentAsRoot = type( this ) != Types.node;
+      var useDocumentAsRoot = type.of( this ) != type.node;
       var root: Element = (useDocumentAsRoot ? document : this);
 
       if(!root || !query)
@@ -91,7 +89,7 @@ module find
       }
 
       // if an element was provided, either just return it, or, if there's a different root we're searching from, make sure the root is an ancestors of it
-      if(type( query ) === Types.node)
+      if(type.of( query ) === type.node)
       {
          return (useDocumentAsRoot || query.nodeType == Node.DOCUMENT_NODE || isAncestor( query, root ) ? [query] : []);
       }
@@ -117,13 +115,13 @@ module find
          //if id is null or doesn't match either of the below, return null
          //if id is a string, return it from the DOM
          //if id has a property called "id" assume it is an element (eg - redundant call to get()) and return it
-         var t = type( id );
-         return id && (t == Types.string ? document.getElementById( (<string>id)[0] == "#" ? (<string>id).substr( 1 ) : id ) : (t == Types.node ? id : null));
+         var t = type.of( id );
+         return id && (t == type.string ? document.getElementById( (<string>id)[0] == "#" ? (<string>id).substr( 1 ) : id ) : (t == type.node ? id : null));
       }
 
       export function name(name: string, tag?: string): Array<Element>
       {
-         var result = (type( this ) != Types.node ? document : this).getElementsByName( name );
+         var result = (type.of( this ) != type.node ? document : this).getElementsByName( name );
          if(tag)
          {
             result = filterByNodeName( result, tag );
@@ -133,7 +131,7 @@ module find
 
       export function className(name: string, tag?: string): Array<Element>
       {
-         var result = (type( this ) != Types.node ? document : this).getElementsByClassName( name[0] == "." ? name.substr( 1 ) : name );
+         var result = (type.of( this ) != type.node ? document : this).getElementsByClassName( name[0] == "." ? name.substr( 1 ) : name );
          if(tag)
          {
             result = filterByNodeName( result, tag );
@@ -265,7 +263,7 @@ module find
       //*/
       export function tagName(name: string): Array<Element>
       {
-         return toArray<Element>( (type( this ) != Types.node ? document : this).getElementsByTagName( name || "*" ) );
+         return toArray<Element>( (type.of( this ) != type.node ? document : this).getElementsByTagName( name || "*" ) );
       }
    }
 }

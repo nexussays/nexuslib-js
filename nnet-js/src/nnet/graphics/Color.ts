@@ -6,8 +6,6 @@
 
 ///ts:import=type
 import type = require('../type'); ///ts:import:generated
-///ts:import=Types
-import Types = require('../Types'); ///ts:import:generated
 ///ts:import=clamp
 import clamp = require('../math/clamp'); ///ts:import:generated
 
@@ -69,7 +67,7 @@ class Color
    static fromHex(color: number): Color;
    static fromHex(color: any): Color
    {
-      if(type( color ) != Types.number)
+      if(type.of( color ) != type.number)
       {
          color = parseInt( (color + "").replace( /^\#/, "" ), 16 );
       }

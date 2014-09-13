@@ -6,14 +6,12 @@
 
 /// ts:import=type
 import type = require('../type'); ///ts:import:generated
-///ts:import=Types
-import Types = require('../Types'); ///ts:import:generated
 
 export = nodeTypeToString;
 
 function nodeTypeToString(el: Node): string
 {
-   if(el != null && type( el ) === Types.node)
+   if(el != null && type.of( el ) === type.node)
    {
       //IE does not define window.Node, so use magic numbers instead
       switch(el.nodeType)

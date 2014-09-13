@@ -4,32 +4,70 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-///ts:import=Types
-import Types = require('./Types'); ///ts:import:generated
-
 export = type;
 
-function type(obj: any): Types
+enum type
 {
-   var objtype = typeof obj;
-   var result = Types[objtype];
-   if(objtype === "object")
-   {
-      result = obj === null ? Types.null :
-                  obj instanceof Array ? Types.array :
-                     obj instanceof RegExp ? Types.regexp :
-                        //this fails to capture the document node
-                        //obj instanceof HTMLElement ? "element" :
-                        "nodeType" in obj ? Types.node :
-                           obj === window ? Types.window :
-                              obj instanceof Date ? Types.date :
-                                 //highly unlikely that a string was created from the constructor, so it is last
-                                 obj instanceof String ? Types.string :
-                                    result;
-   }
-   else if(objtype === "function" && obj instanceof RegExp)
-   {
-      result = Types.regexp;
-   }
-   return result;
+   // ReSharper disable InconsistentNaming
+   "undefined",
+   "null",
+   "object",
+   "array",
+   // ReSharper disable once UsingOfReservedWord
+   "boolean",
+   "node",
+   "window",
+   "date",
+   "string",
+   "function",
+   "number",
+   "regexp"
+   // ReSharper restore InconsistentNaming
 }
+
+module type
+{
+   export function of(obj: any): type
+   {
+      var objtype = typeof obj;
+      var result = type[objtype];
+      if(objtype === "object")
+      {
+         result = obj === null ? type.null :
+                     obj instanceof Array ? type.array :
+                        obj instanceof RegExp ? type.regexp :
+                           //this fails to capture the document node
+                           //obj instanceof HTMLElement ? "element" :
+                           "nodeType" in obj ? type.node :
+                              obj === window ? type.window :
+                                 obj instanceof Date ? type.date :
+                                    //highly unlikely that a string was created from the constructor, so it is last
+                                    obj instanceof String ? type.string :
+                                       result;
+      }
+      else if(objtype === "function" && obj instanceof RegExp)
+      {
+         result = type.regexp;
+      }
+      return result;
+   }
+}
+
+/* alt
+var TYPES = {
+    'undefined'        : 'undefined',
+    'number'           : 'number',
+    'boolean'          : 'boolean',
+    'string'           : 'string',
+    '[object Function]': 'function',
+    '[object RegExp]'  : 'regexp',
+    '[object Array]'   : 'array',
+    '[object Date]'    : 'date',
+    '[object Error]'   : 'error'
+},
+TOSTRING = Object.prototype.toString;
+
+function type.of(o) {
+    return TYPES[typeof o] || TYPES[TOSTRING.call(o)] || (o ? 'object' : 'null');
+};
+*/

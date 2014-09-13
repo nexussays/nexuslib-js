@@ -10,8 +10,6 @@ import EnhancedEvent = require('../event/EnhancedEvent'); ///ts:import:generated
 import enhanceEvent = require('../event/enhanceEvent'); ///ts:import:generated
 ///ts:import=escapeHTML
 import escapeHTML = require('../string/escapeHTML'); ///ts:import:generated
-///ts:import=Types
-import Types = require('../Types'); ///ts:import:generated
 ///ts:import=type
 import type = require('../type'); ///ts:import:generated
 ///ts:import=isArrayLike
@@ -68,12 +66,12 @@ module EnhancedElement
                }
                else
                {
-                  switch(type( arg ))
+                  switch(type.of( arg ))
                   {
-                     case Types.node:
+                     case type.node:
                         this.asElement().appendChild( <Node>arg );
                         break;
-                     case Types.object:
+                     case type.object:
                         for(var prop in arg)
                         {
                            //account for event handlers
@@ -133,7 +131,7 @@ module EnhancedElement
             func.call(this, enhanceEvent( e ) );
          };
 
-         if(type( this.asElement().addEventListener ) == Types.function)
+         if(type.of( this.asElement().addEventListener ) == type.function)
          {
             this.asElement().addEventListener( eventName, eventHandler, false );
          }
@@ -155,7 +153,7 @@ module EnhancedElement
          anyEl.events = anyEl.events || {};
          var events = (anyEl.events[event] = anyEl.events[event] || {});
 
-         if(type( this.asElement().removeEventListener ) == Types.function)
+         if(type.of( this.asElement().removeEventListener ) == type.function)
          {
             this.asElement().removeEventListener( event, events[func], false );
          }

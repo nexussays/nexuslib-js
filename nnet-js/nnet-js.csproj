@@ -41,7 +41,7 @@
     <TypeScriptCompile Include="src\nnet\dom\enhanceElement.ts" />
     <TypeScriptCompile Include="src\nnet\dom\_form.ts" />
     <TypeScriptCompile Include="src\nnet\dom\_selector.ts" />
-    <TypeScriptCompile Include="src\nnet\event\IEnhancedEvent.ts" />
+    <TypeScriptCompile Include="src\nnet\event\EnhancedEvent.ts" />
     <TypeScriptCompile Include="src\nnet\net\generateQueryString.ts" />
     <TypeScriptCompile Include="src\nnet\string\trimChars.ts" />
     <TypeScriptCompile Include="src\nnet\util\Key.ts" />
@@ -71,7 +71,6 @@
     <TypeScriptCompile Include="src\nnet\array\last.ts" />
     <TypeScriptCompile Include="src\nnet\util\isLeapYear.ts" />
     <TypeScriptCompile Include="src\nnet\object\extendPrototype.ts" />
-    <TypeScriptCompile Include="src\nnet\Types.ts" />
     <TypeScriptCompile Include="src\nnet\util\Sort.ts" />
     <TypeScriptCompile Include="src\nnet\array\shuffle.ts" />
     <TypeScriptCompile Include="src\nnet\array\map%24.ts" />

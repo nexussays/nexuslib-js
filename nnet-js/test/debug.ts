@@ -1,7 +1,5 @@
 /// ts:import=type
 import type = require('../src/nnet/type'); ///ts:import:generated
-///ts:import=Types
-import Types = require('../src/nnet/Types'); ///ts:import:generated
 ///ts:import=getOuterHTML
 import getOuterHTML = require('../src/nnet/dom/getOuterHTML'); ///ts:import:generated
 ///ts:import=escapeHTML
@@ -102,12 +100,12 @@ module Debug
       //first ensure that outputSource is valid
       if(m_outputSource !== null)
       {
-         switch(type( m_outputSource ))
+         switch(type.of( m_outputSource ))
          {
-            case Types.array:
+            case type.array:
                writeToOutputSource.array( m_outputSource, text, clearExisting );
                break;
-            case Types.node:
+            case type.node:
                if("value" in m_outputSource)
                {
                   writeToOutputSource.input( m_outputSource, text, clearExisting );
@@ -184,13 +182,13 @@ module Debug
    function toString(obj: any): string
    {
       var result: string;
-      if(type( obj ) == Types.node && (<Node>obj).nodeType == Node.ELEMENT_NODE)
+      if(type.of( obj ) == type.node && (<Node>obj).nodeType == Node.ELEMENT_NODE)
       {
          result = getOuterHTML( obj, false, false );
       }
       else
       {
-         result = (obj != null && type( obj.toString ) == Types.function ? obj.toString() : obj + "");
+         result = (obj != null && type.of( obj.toString ) == type.function ? obj.toString() : obj + "");
       }
       return result;
    }
@@ -200,7 +198,7 @@ module Debug
       var result = null;
       try
       {
-         result = (type( code ) == Types.function ? code() : eval( code ));
+         result = (type.of( code ) == type.function ? code() : eval( code ));
       }
       catch(e)
       {
@@ -221,7 +219,7 @@ module Debug
       // default to showAllMembersByDefault
       var selectedMembers: Array<string> = showAllMembersByDefault ? undefined : [];
       // if properties is an array, only show the members in said array
-      if(type( properties ) == Types.array)
+      if(type.of( properties ) == type.array)
       {
          selectedMembers = properties;
       }
@@ -310,8 +308,8 @@ module Debug
          default:
             tests = [
                {
-                  name: "typeof / type()",
-                  value: () => typeof obj + ' / ' + type( obj ) + ' (' + Types[type( obj )] + ')'
+                  name: "typeof / type.of()",
+                  value: () => typeof obj + ' / ' + type.of( obj ) + ' (' + type[type.of( obj )] + ')'
                },
                {
                   name: "constructor",
@@ -355,7 +353,7 @@ module Debug
       if(selectedMembers === undefined || selectedMembers.length > 0)
       {
          params = html.startList;
-         var objType = type( obj );
+         var objType = type.of( obj );
          for(var property in obj)
          {
             if(!obj.hasOwnProperty( property ))
@@ -363,15 +361,15 @@ module Debug
                continue;
             }
             var item = obj[property];
-            var itemType = type( item );
+            var itemType = type.of( item );
             // if we are iterating over all elements, check executeAllFunctions
             var executeItem = selectedMembers === undefined && executeAllFunctions === true;
             // check executeItem again here since it could have been passed manually in the properties array as "property()"
             if(executeItem || selectedMembers === undefined || selectedMembers.indexOf( property ) != -1 ||
-            (executeItem = (itemType == Types.function && selectedMembers.indexOf( property + "()" ) != -1)))
+            (executeItem = (itemType == type.function && selectedMembers.indexOf( property + "()" ) != -1)))
             {
                // special handling for strings so we don't enumerate over every single character in it
-               if(objType == Types.string && (property >= 0 && property < obj.length))
+               if(objType == type.string && (property >= 0 && property < obj.length))
                {
                   continue;
                }
@@ -380,7 +378,7 @@ module Debug
                params += property;
                // add type information
                params += ' <span class="nnet-debug-type">';
-               params += "[" + Types[itemType] + (itemType == Types.node ? ": " + nodeTypeToString( item ) : "") + "]";
+               params += "[" + type[itemType] + (itemType == type.node ? ": " + nodeTypeToString( item ) : "") + "]";
                params += "</span>";
                params += html.endHead;
 
@@ -388,7 +386,7 @@ module Debug
                try
                {
                   // debug properties one level deep in a more simplistic manner
-                  if(itemType == Types.object && item !== window)
+                  if(itemType == type.object && item !== window)
                   {
                      // TODO: Just output JSON?
                      //params += JsonParser.encode( item, null, 3 );

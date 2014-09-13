@@ -4,8 +4,6 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-///ts:import=Error
-/// No file or directory matched name "Error" ///ts:import:generated
 ///ts:import=IHttpResponse
 import IHttpResponse = require('./IHttpResponse'); ///ts:import:generated
 

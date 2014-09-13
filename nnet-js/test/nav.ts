@@ -1,14 +1,11 @@
-﻿
+﻿///ts:import=type
+import type = require('../src/nnet/type'); ///ts:import:generated
 ///ts:import=_nnet,nnet
 import nnet = require('../src/_nnet'); ///ts:import:generated
 ///ts:import=find
 import find = require('../src/nnet/dom/find'); ///ts:import:generated
 ///ts:import=HTML
 import HTML = require('../src/nnet/dom/HTML'); ///ts:import:generated
-///ts:import=type
-import type = require('../src/nnet/type'); ///ts:import:generated
-///ts:import=Types
-import Types = require('../src/nnet/Types'); ///ts:import:generated
 ///ts:import=escapeRegExp
 import escapeRegExp = require('../src/nnet/string/escapeRegExp'); ///ts:import:generated
 
@@ -25,7 +22,7 @@ export function createMenu(id, buildFrom)
                 li = HTML.li(),
                 match;
 
-            if(type( item[1] ) == Types.array)
+            if(type.of( item[1] ) == type.array)
             {
                li.append( HTML.span( { "class": "dropdown" }, item[0] ), recurse( item[1] ) );
             }

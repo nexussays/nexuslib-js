@@ -6,8 +6,6 @@
 
 /// ts:import=type
 import type = require('../type'); ///ts:import:generated
-///ts:import=Types
-import Types = require('../Types'); ///ts:import:generated
 ///ts:import=JsonParser
 import JsonParser = require('../serialization/JsonParser'); ///ts:import:generated
 ///ts:import=Milliseconds,ms
@@ -29,7 +27,7 @@ class Cookie
       //path = path || "/";
       if(expiration)
       {
-         if(type( expiration ) == Types.date)
+         if(type.of( expiration ) == type.date)
          {
             this.expiresOn = expiration;
          }

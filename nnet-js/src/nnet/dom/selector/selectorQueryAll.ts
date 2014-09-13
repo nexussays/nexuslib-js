@@ -5,9 +5,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 
-/// ts:import=Types
-import Types = require('../../Types'); ///ts:import:generated
-///ts:import=type
+/// ts:import=type
 import type = require('../../type'); ///ts:import:generated
 ///ts:import=filterByAttribute
 import filterByAttribute = require('./filterByAttribute'); ///ts:import:generated
@@ -84,7 +82,7 @@ function selectorQueryAll(getEl: find.Interface)
             continue;
          }
          //otherwise if it is not null and is a string, search for it
-         else if(type( argument ) == Types.string)
+         else if(type.of( argument ) == type.string)
          {
             //split the current argument by commas
             //if there is more than one result, then get each individually

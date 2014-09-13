@@ -5,8 +5,6 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 
-///ts:import=Types
-import Types = require('../../Types'); ///ts:import:generated
 ///ts:import=type
 import type = require('../../type'); ///ts:import:generated
 ///ts:import=filterByAttribute
@@ -16,7 +14,7 @@ export = selectorClassName;
 
 function selectorClassName(name: string, tag?: string): Array<Node>
 {
-   var allElements = (type( this ) != Types.node ? document : this).getElementsByTagName( tag || "*" );
+   var allElements = (type.of( this ) != type.node ? document : this).getElementsByTagName( tag || "*" );
    var result = filterByAttribute( allElements, "class", name.replace( /^\./, '' ), "~" );
    return result;
 }
