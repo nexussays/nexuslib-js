@@ -6,7 +6,7 @@
 
 export = first;
 
-function first<T>(source: Array<T>): T
+function first<T>(source: Array<T>, defaultValue:any=null): T
 {
-   return source != null && source.length > 0 ? source[0] : null;
+   return source != null && source.length > 0 ? source[0] : defaultValue;
 }

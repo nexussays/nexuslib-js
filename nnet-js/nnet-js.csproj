@@ -28,6 +28,7 @@
     <TypeScriptCompile Include="src\nnet\dom\find.ts" />
     <TypeScriptCompile Include="src\nnet\dom\EnhancedHTMLElement.ts" />
     <TypeScriptCompile Include="src\nnet\dom\EnhancedElement.ts" />
+    <TypeScriptCompile Include="src\nnet\dom\getOuterHTML.ts" />
     <TypeScriptCompile Include="src\nnet\dom\isAncestor.ts" />
     <TypeScriptCompile Include="src\nnet\dom\onLoaded.ts" />
     <TypeScriptCompile Include="src\nnet\dom\onInteractive.ts" />
@@ -209,10 +210,10 @@
   </PropertyGroup>
   <Import Project="$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets')" />
   <PropertyGroup>
-    <PreBuildEvent>call grunt gen:ts-index ts:imports</PreBuildEvent>
+    <PreBuildEvent>call grunt gen-index:ts ts:imports</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>call grunt copy:definitions
-call grunt gen:js-index</PostBuildEvent>
+call grunt gen-index:js-amd gen-index:js-commonjs</PostBuildEvent>
   </PropertyGroup>
 </Project>

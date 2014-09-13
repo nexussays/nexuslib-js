@@ -17,22 +17,22 @@ export = enhancePrototype;
 
 interface Array<T>
 {
-   first(): T;
-   last(): T;
+   first(defaultValue?: any): T;
+   last(defaultValue?: any): T;
    flatten(): Array<T>;
    map$(mapFunc: (item: T, index: number, array: Array<T>) => any, scope: Array<T>): void;
 }
 
 function enhancePrototype()
 {
-   (<any>Array.prototype).first = function()
+   (<any>Array.prototype).first = function(defaultValue: any)
    {
-      return _first( this );
+      return _first( this, defaultValue );
    };
 
-   (<any>Array.prototype).last = function()
+   (<any>Array.prototype).last = function(defaultValue: any)
    {
-      return _last( this );
+      return _last( this, defaultValue );
    };
 
    (<any>Array.prototype).flatten = function()
