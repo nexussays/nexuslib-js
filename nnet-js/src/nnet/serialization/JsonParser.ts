@@ -7,11 +7,11 @@
 export = JsonParser;
 module JsonParser
 {
-   export var decode: (text: string, reviver?: (key: any, value: any) => any) => any = JSON.parse;
+   export var deserialize: (text: string, reviver?: (key: any, value: any) => any) => any = JSON.parse;
 
-   export function encode(value: any, replacer?: (key: string, value: any) => any, space?: any): string;
-   export function encode(value: any, replacer?: any[], space?: any):string;
-   export function encode(value: any, replacer?: any, space?: any): string
+   export function serialize(value: any, replacer?: (key: string, value: any) => any, space?: any): string;
+   export function serialize(value: any, replacer?: any[], space?: any):string;
+   export function serialize(value: any, replacer?: any, space?: any): string
    {
       return JSON.stringify( value, replacer, space );
    }

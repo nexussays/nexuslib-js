@@ -76,7 +76,7 @@ class Cookie
    toString(): string
    {
       var key = encodeURIComponent( this.key + "" );
-      var value = encodeURIComponent( JsonParser.encode( this.data ) );
+      var value = encodeURIComponent( JsonParser.serialize( this.data ) );
       return key + "=" + value +
       (this.expiresOn ? ";expires=" + this.expiresOn.toUTCString() : "") +
       (this.path ? ";path=" + this.path : "") +
@@ -109,7 +109,7 @@ module Cookie
                var value: any;
                try
                {
-                  value = encodedValue && JsonParser.decode( encodedValue );
+                  value = encodedValue && JsonParser.deserialize( encodedValue );
                }
                catch(ex)
                {
