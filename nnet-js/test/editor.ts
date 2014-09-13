@@ -6,8 +6,8 @@ import applyEnhancementsToPrototype = require('../src/nnet/dom/applyEnhancements
 import onInteractive = require('../src/nnet/dom/onInteractive'); ///ts:import:generated
 ///ts:import=find
 import find = require('../src/nnet/dom/find'); ///ts:import:generated
-///ts:import=Key,Keys
-import Keys = require('../src/nnet/util/Key'); ///ts:import:generated
+///ts:import=Key,Key
+import Key = require('../src/nnet/util/Key'); ///ts:import:generated
 ///ts:import=Milliseconds,ms
 import ms = require('../src/nnet/util/Milliseconds'); ///ts:import:generated
 ///ts:import=Cookie
@@ -111,51 +111,77 @@ function __updateTestingHTMLAndCookie()
 
 function editorTextarea_keydown(e: EnhancedEvent)
 {
-   var start = editorTextarea.selectionStart,
-       end = editorTextarea.selectionEnd;
-
    //only catch tabs if the corresponding checkbox is checked
-   if(catchTabs.checked && e.keyInfo.code == Keys.Tab)
+   if(catchTabs.checked && (e.keyInfo.code == Key.Enter || e.keyInfo.code == Key.Tab || e.keyInfo.code == Key.Rightbracket))
    {
-      //prevent the default action
+      // if the character remains, it is manually added
       e.preventDefault();
 
       var tab = "   ";
-      var startSelectionModifier: number;
-      var endSelectionModifier: number;
+      var start: number = editorTextarea.selectionStart,
+          end: number = editorTextarea.selectionEnd;
+      var startMod: number = 0;
+      var endMod: number = 0;
       var pre: string = editorTextarea.value.substr( 0, start );
       var selected: string = editorTextarea.value.substring( start, end );
       var post: string = editorTextarea.value.substr( end, editorTextarea.value.length );
-      if(e.keyInfo.shift)
+      // tab appropriately on enter
+      if(e.keyInfo.code == Key.Enter)
       {
-         startSelectionModifier = 0;
-         endSelectionModifier = -tab.length;
-         editorTextarea.value = pre.replace( / ? ? ?$/, (val) =>
+         // get the tab amount of the current line by grabbing the final newline and counting the spaces before any chars
+         var spaceCount: number = pre.substring( pre.lastIndexOf( "\n" ) + 1 ).match( /^( +)/ )[1].length;
+         if(pre.charAt( pre.length - 1 ) == "{")
          {
-            startSelectionModifier = -(val.length);
+            spaceCount += tab.length;
+         }
+         startMod = spaceCount + 1;
+         endMod = spaceCount + 1;
+         editorTextarea.value = pre + "\n" + nnet.string.charTimes( " ", spaceCount ) + selected + post;
+      }
+      else if(e.keyInfo.code == Key.Tab)
+      {
+         if(e.keyInfo.shift)
+         {
+            startMod = 0;
+            endMod = -tab.length;
+            editorTextarea.value = pre.replace( / ? ? ?$/, (val) =>
+            {
+               startMod = -(val.length);
+               return "";
+            } ) + selected.replace( /\n ? ? ?/g, (val) =>
+            {
+               endMod += -(val.length - 1);
+               return "\n";
+            } ) + post;
+            editorTextarea.focus();
+         }
+         else
+         {
+            startMod = tab.length;
+            endMod = tab.length;
+            editorTextarea.value = pre + tab + selected.replace( /\n/g, (val) =>
+            {
+               endMod += tab.length;
+               return val + tab;
+            } ) + post;
+         }
+      }
+      // tab back
+      else if(e.keyInfo.code == Key.Rightbracket)
+      {
+         startMod = 1;
+         editorTextarea.value = pre.replace(/ ? ? ?$/, (val) =>
+         {
+            startMod += -(val.length);
             return "";
-         } ) + selected.replace( /\n ? ? ?/g, (val) =>
-         {
-            endSelectionModifier += -(val.length - 1);
-            return "\n";
-         } ) + post;
-         editorTextarea.focus();
+         }) + "}" + selected + post;
+         endMod = startMod;
       }
-      else
-      {
-         startSelectionModifier = tab.length;
-         endSelectionModifier = tab.length;
-         editorTextarea.value = pre + tab + selected.replace( /\n/g, (val) =>
-         {
-            endSelectionModifier += tab.length;
-            return val + tab;
-         } ) + post;
-      }
-
       editorTextarea.focus();
-      editorTextarea.setSelectionRange( start + startSelectionModifier, end + endSelectionModifier );
+      editorTextarea.setSelectionRange( start + startMod, end + endMod );
    }
-   if(e.keyInfo.ctrl && (e.keyInfo.code == Keys.Enter || e.keyInfo.stringValue == "S"))
+   // execute on ctrl+enter or ctrl+s
+   else if(e.keyInfo.ctrl && (e.keyInfo.code == Key.Enter || e.keyInfo.stringValue == "S"))
    {
       //prevent the default action
       e.preventDefault();
