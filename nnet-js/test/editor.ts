@@ -68,7 +68,7 @@ onInteractive( function()
    showReturnValue.checked = editorCookie.data.showReturnValue;
    //default to not capturing tabs (ie - tabbing will take you out of the textarea and to the next form element)
    catchTabs = find.id( "#catchtabs" );
-   catchTabs.checked = editorCookie.data.catchTabs;
+   catchTabs.checked = editorCookie.data.catchTabs !== false;
 
    //set the output source for Debug results
    Debug.setOutputSource( find.id( "#output" ) );
@@ -114,9 +114,6 @@ function editorTextarea_keydown(e: EnhancedEvent)
    //only catch tabs if the corresponding checkbox is checked
    if(catchTabs.checked && (e.keyInfo.code == Key.Enter || e.keyInfo.code == Key.Tab || e.keyInfo.code == Key.Rightbracket))
    {
-      // if the character remains, it is manually added
-      e.preventDefault();
-
       var tab = "   ";
       var start: number = editorTextarea.selectionStart,
           end: number = editorTextarea.selectionEnd;
@@ -128,18 +125,21 @@ function editorTextarea_keydown(e: EnhancedEvent)
       // tab appropriately on enter
       if(e.keyInfo.code == Key.Enter)
       {
+         e.preventDefault(); // we manually add the newline
          // get the tab amount of the current line by grabbing the final newline and counting the spaces before any chars
-         var spaceCount: number = pre.substring( pre.lastIndexOf( "\n" ) + 1 ).match( /^( +)/ )[1].length;
+         var match = pre.substring( pre.lastIndexOf( "\n" ) + 1 ).match( /^( +)/ );
+         var spaceCount: number = +(match && match[1].length);
          if(pre.charAt( pre.length - 1 ) == "{")
          {
             spaceCount += tab.length;
          }
          startMod = spaceCount + 1;
          endMod = spaceCount + 1;
-         editorTextarea.value = pre + "\n" + nnet.string.charTimes( " ", spaceCount ) + selected + post;
+         editorTextarea.value = pre + "\n" + nnet.string.charTimes(" ", spaceCount) + selected + post;
       }
       else if(e.keyInfo.code == Key.Tab)
       {
+         e.preventDefault();
          if(e.keyInfo.shift)
          {
             startMod = 0;
@@ -167,8 +167,9 @@ function editorTextarea_keydown(e: EnhancedEvent)
          }
       }
       // tab back
-      else if(e.keyInfo.code == Key.Rightbracket)
+      else if(e.keyInfo.code == Key.Rightbracket && e.keyInfo.shift)
       {
+         e.preventDefault();
          startMod = 1;
          editorTextarea.value = pre.replace(/ ? ? ?$/, (val) =>
          {
@@ -181,7 +182,7 @@ function editorTextarea_keydown(e: EnhancedEvent)
       editorTextarea.setSelectionRange( start + startMod, end + endMod );
    }
    // execute on ctrl+enter or ctrl+s
-   else if(e.keyInfo.ctrl && (e.keyInfo.code == Key.Enter || e.keyInfo.stringValue == "S"))
+   else if(e.keyInfo.ctrl && (e.keyInfo.code == Key.Enter || e.keyInfo.char == "S"))
    {
       //prevent the default action
       e.preventDefault();
