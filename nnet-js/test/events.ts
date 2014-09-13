@@ -17,7 +17,7 @@ import nav = require('./nav'); ///ts:import:generated
 import Benchmark = require('./benchmark'); ///ts:import:generated
 
 //Hoist up some methods to window and set local vars for others
-(<any>window).get = nnet.dom.find;
+(<any>window).find = nnet.dom.find;
 
 //window.HTML = nnet.html.HTML;
 //Make sure HTMLElements are extended

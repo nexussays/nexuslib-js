@@ -130,14 +130,15 @@ module.exports = function(grunt)
          src: ["<%= paths.dest.compiledCommonJSMain %>/**/*.js"],
          dest: "<%= paths.dest.bundledMain %>/nnet-browserify.js",
          options: {
-            standalone: "nnet"
+            browserifyOptions: {
+               standalone: 'nnet'
+            }
          }
       },
       test: {
          src: ["<%= paths.dest.compiledCommonJSTest %>/**/*.js", "!<%= paths.dest.compiledCommonJSTest %>/**/*-amd.js"],
          dest: "<%= paths.dest.bundledTest %>/test.js",
          options: {
-            standalone: "nnet"
          }
       }
    };
@@ -159,9 +160,9 @@ module.exports = function(grunt)
                   cwd: config.paths.dest.bundledMain,
                   src: ["*.js", "!*.min.js"],
                   dest: config.paths.dest.minified,
-                  rename: function( path, name )
+                  rename: function(path, name)
                   {
-                     return require('path').join(path, name.replace( '.js', '.min.js' ));
+                     return require( 'path' ).join( path, name.replace( '.js', '.min.js' ) );
                   }
                }
             ]
@@ -219,7 +220,7 @@ module.exports = function(grunt)
       "js-commonjs": {
          template: './build/module-index-js-commonjs.mustache',
          root: config.paths.dest.compiledCommonJSMain,
-         regex: ( /\.js$/ ),
+         regex: (/\.js$/),
          ext: ".js"
       }
    };
