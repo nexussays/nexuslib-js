@@ -3,8 +3,6 @@
 import nnet = require('../src/_nnet'); ///ts:import:generated
 ///ts:import=find
 import find = require('../src/nnet/dom/find'); ///ts:import:generated
-///ts:import=BrowserUtils,Browser
-import Browser = require('../src/nnet/browser/BrowserUtils'); ///ts:import:generated
 ///ts:import=HTML
 import HTML = require('../src/nnet/dom/HTML'); ///ts:import:generated
 ///ts:import=type
@@ -87,6 +85,6 @@ export var sections =
             ["Testing", "./tests/index.htm"]
          ]
       ],
-      ["[Browser in " + (Browser.strictMode ? "StrictMode" : Browser.quirksMode ? "QuirksMode" : "Unknown Rendering Mode") + "]"]
+      //["[Browser in " + (Browser.strictMode ? "StrictMode" : Browser.quirksMode ? "QuirksMode" : "Unknown Rendering Mode") + "]"]
    ]
 };
