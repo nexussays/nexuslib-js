@@ -21,32 +21,25 @@ import _getOuterHTML = require('./getOuterHTML'); ///ts:import:generated
 
 export = EnhancedElement;
 
-interface EnhancedElement extends Element, EnhancedElement.IEnhancedElementImpl
+interface EnhancedElement extends Element, EnhancedElement.Impl
 {
 }
 
 module EnhancedElement
 {
-   export class IEnhancedElementImpl
+   export class Impl
    {
-      private asElement(): Element
-      {
-         // this class should never be instantiated by itself, we just copy its prototype
-         // to objects or to other element protoypes
-         return (<Element>(<any>this));
-      }
-
       private s_booleanAttribute: RegExp = /^(?:async|autofocus|checked|compact|declare|default|defer|disabled|hidden|irrelevant|ismap|multiple|noresize|noshade|nowrap|readonly|required|selected)$/;
       private s_enumBooleanAttribute: RegExp = /^(?:contenteditable|spellcheck)$/;
 
       isAncestor(ancestor: Node): boolean
       {
-         return _isAncestor( this.asElement(), ancestor );
+         return _isAncestor( (<Element><any>this), ancestor );
       }
 
       getOuterHTML(includeChildren?: boolean, escapeHtml?: boolean): string
       {
-         return _getOuterHTML( this.asElement(), includeChildren, escapeHtml );
+         return _getOuterHTML( (<Element><any>this), includeChildren, escapeHtml );
       }
 
       append(...params: Array<Array<any>>): EnhancedElement;
@@ -69,7 +62,7 @@ module EnhancedElement
                   switch(type.of( arg ))
                   {
                      case type.node:
-                        this.asElement().appendChild( <Node>arg );
+                        (<Element><any>this).appendChild( <Node>arg );
                         break;
                      case type.object:
                         for(var prop in arg)
@@ -82,24 +75,24 @@ module EnhancedElement
                            else
                            {
                               //TODO: handle style attribute
-                              this.asElement().setAttribute( prop, arg[prop] );
+                              (<Element><any>this).setAttribute( prop, arg[prop] );
                            }
                         }
                         break;
                      default:
-                        this.asElement().appendChild( document.createTextNode( arg + "" ) );
+                        (<Element><any>this).appendChild( document.createTextNode( arg + "" ) );
                         break;
                   }
                }
             }
          }
-         return <EnhancedElement>this.asElement();
+         return <EnhancedElement>(<Element><any>this);
       }
 
       getBooleanAttribute(name: string): boolean
       {
          name = name.toLowerCase();
-         var val = this.asElement().getAttribute( name );
+         var val = (<Element><any>this).getAttribute( name );
          return val === "" || val === name || (this.s_enumBooleanAttribute.test( name ) && val === "true");
       }
 
@@ -110,17 +103,17 @@ module EnhancedElement
          {
             if(value)
             {
-               this.asElement().setAttribute( name, "" );
+               (<Element><any>this).setAttribute( name, "" );
             }
             else
             {
-               this.asElement().removeAttribute( name );
+               (<Element><any>this).removeAttribute( name );
             }
          }
          // contenteditable and spellcheck have true,false,inherit states
          else if(this.s_enumBooleanAttribute.test( name ))
          {
-            this.asElement().setAttribute( name, value ? "true" : "false" );
+            (<Element><any>this).setAttribute( name, value ? "true" : "false" );
          }
       }
 
@@ -128,20 +121,20 @@ module EnhancedElement
       {
          var eventHandler = function(e)
          {
-            func.call(this, enhanceEvent( e ) );
+            func.call(this, enhanceEvent( e, this ) );
          };
 
-         if(type.of( this.asElement().addEventListener ) == type.function)
+         if(type.of( (<Element><any>this).addEventListener ) == type.function)
          {
-            this.asElement().addEventListener( eventName, eventHandler, false );
+            (<Element><any>this).addEventListener( eventName, eventHandler, false );
          }
          else
          {
-            (<HTMLElement>this.asElement()).attachEvent( "on" + eventName, eventHandler );
+            (<HTMLElement>(<Element><any>this)).attachEvent( "on" + eventName, eventHandler );
          }
 
          // store the handler on the element itself so we can look it up to remove it
-         var anyEl = (<any>this.asElement());
+         var anyEl = (<any>(<Element><any>this));
          anyEl.events = anyEl.events || {};
          var events = (anyEl.events[eventName] = anyEl.events[eventName] || {});
          events[func] = eventHandler;
@@ -149,17 +142,17 @@ module EnhancedElement
 
       unbind(event: string, func: (e: EnhancedEvent) => void): void
       {
-         var anyEl = (<any>this.asElement());
+         var anyEl = (<any>(<Element><any>this));
          anyEl.events = anyEl.events || {};
          var events = (anyEl.events[event] = anyEl.events[event] || {});
 
-         if(type.of( this.asElement().removeEventListener ) == type.function)
+         if(type.of( (<Element><any>this).removeEventListener ) == type.function)
          {
-            this.asElement().removeEventListener( event, events[func], false );
+            (<Element><any>this).removeEventListener( event, events[func], false );
          }
          else
          {
-            (<HTMLElement>this.asElement()).detachEvent( "on" + event, events[func] );
+            (<HTMLElement>(<Element><any>this)).detachEvent( "on" + event, events[func] );
          }
 
          // remove the function from the dict on the element
@@ -192,7 +185,7 @@ module EnhancedElement
          }
 
          //event.eventName = eventName;
-         var el = this.asElement();
+         var el = (<Element><any>this);
          if(el.dispatchEvent)
          {
             el.dispatchEvent( event );

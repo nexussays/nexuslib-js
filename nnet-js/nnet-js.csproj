@@ -24,7 +24,7 @@
     <TypeScriptCompile Include="src\nnet\array\enhancePrototype.ts" />
     <TypeScriptCompile Include="src\nnet\browser\_window.ts" />
     <TypeScriptCompile Include="src\nnet\dom\applyEnhancementsToPrototype.ts" />
-    <TypeScriptCompile Include="src\nnet\dom\EnhancedHTMLElementCollection.ts" />
+    <TypeScriptCompile Include="src\nnet\dom\ElementGroup.ts" />
     <TypeScriptCompile Include="src\nnet\dom\enhanceHTMLElement.ts" />
     <TypeScriptCompile Include="src\nnet\dom\find.ts" />
     <TypeScriptCompile Include="src\nnet\dom\EnhancedHTMLElement.ts" />
@@ -43,6 +43,7 @@
     <TypeScriptCompile Include="src\nnet\dom\_selector.ts" />
     <TypeScriptCompile Include="src\nnet\event\EnhancedEvent.ts" />
     <TypeScriptCompile Include="src\nnet\net\generateQueryString.ts" />
+    <TypeScriptCompile Include="src\nnet\string\charTimes.ts" />
     <TypeScriptCompile Include="src\nnet\string\trimChars.ts" />
     <TypeScriptCompile Include="src\nnet\util\Key.ts" />
     <TypeScriptCompile Include="src\nnet\graphics\Color.ts" />
