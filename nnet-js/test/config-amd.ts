@@ -3,7 +3,7 @@
 require.config( {
    paths: {
       //nnet: '../src/nnet',
-      debug: "../../debug"
+      //debug: "../../debug"
    }
 } );
 require.onError = function(err)
