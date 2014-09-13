@@ -4,8 +4,8 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-export = Keyboard;
-enum Keyboard
+export = Key;
+enum Key
 {
    /**
      * Constant associated with the key code value for the A key (65).
