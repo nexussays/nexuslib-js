@@ -7,11 +7,19 @@ module.exports = function(grunt)
 
    grunt.registerTask( "default", ["build"] );
 
-   grunt.registerTask( "build", ["gen:ts-index", "ts:build", "gen:js-index"] );
+   // build
+   grunt.registerTask( "build", ["gen-index:ts", "build-amd", "build-commonjs"] );
+   grunt.registerTask( "build-amd", ["ts:build-amd", "gen-index:js-amd"] );
+   grunt.registerTask( "build-commonjs", ["ts:build-commonjs", "gen-index:js-commonjs"] );
 
-   grunt.registerTask( "optimize", ["def", "requirejs"] );
+   // merge individual files and minify
+   grunt.registerTask( "optimize", ["def", "requirejs", "browserify"] );
 
-   grunt.registerMultiTask( "gen", function()
+   // do all of the above and then minify
+   grunt.registerTask( "complete", ["build", "optimize", "uglify:all"] );
+
+   // generate index files
+   grunt.registerMultiTask( "gen-index", function()
    {
       generateModuleRoots(
          this.data.template,
@@ -52,11 +60,15 @@ module.exports = function(grunt)
          dest:
          {
             root: "nnet-js/bin",
-            compiled: "<%= paths.dest.root %>/compiled",
-            compiledMain: "<%= paths.dest.compiled %>/src",
-            compiledTest: "<%= paths.dest.compiled %>/test",
-            bundled: "<%= paths.dest.root %>/bundled",
-            minified: "<%= paths.dest.root %>/compressed"
+            compiledCommonJS: "<%= paths.dest.root %>/compiled-commonjs",
+            compiledCommonJSMain: "<%= paths.dest.compiledCommonJS %>/src",
+            compiledCommonJSTest: "<%= paths.dest.compiledCommonJS %>/test",
+            compiledAMD: "<%= paths.dest.root %>/compiled-amd",
+            compiledAMDMain: "<%= paths.dest.compiledAMD %>/src",
+            compiledAMDTest: "<%= paths.dest.compiledAMD %>/test",
+            bundledMain: "<%= paths.dest.root %>/dist",
+            bundledTest: "<%= paths.dest.root %>/test",
+            minified: "<%= paths.dest.root %>/dist"
          }
       },
       package: grunt.file.readJSON( './package.json' ),
@@ -71,19 +83,26 @@ module.exports = function(grunt)
 
    config.ts = {
       options: {
-         target: 'es5',
-         module: 'amd',
+         target: "es5",
+         module: "amd",
          sourceMap: false,
          declaration: true,
          removeComments: true,
          default: {
             src: ["<%= paths.src.main %>/**/*.ts", "<%= paths.src.test %>/*.ts"],
-            outDir: config.paths.dest.compiled
+            outDir: config.paths.dest.compiledAMD
          }
       },
-      build: {},
+      "build-amd": {},
+      "build-commonjs": {
+         //src: ["<%= paths.src.main %>/**/*.ts", "<%= paths.src.test %>/*.ts", "!<%= paths.src.test %>/*-amd.ts"],
+         outDir: config.paths.dest.compiledCommonJS,
+         options: {
+            module: "commonjs"
+         }
+      },
       watch: {
-         watch: "src"
+         watch: config.paths.src.main
       },
       imports: {
          options:
@@ -91,13 +110,13 @@ module.exports = function(grunt)
             compile: false
          }
       },
-      "main-only": {
+      "main-amd": {
          src: ["<%= paths.src.main %>/**/*.ts"],
-         outDir: config.paths.dest.compiledMain,
+         outDir: config.paths.dest.compiledAMDMain,
       },
-      "test-only": {
+      "test-amd": {
          src: ["<%= paths.src.test %>/*.ts"],
-         outDir: config.paths.dest.compiledTest,
+         outDir: config.paths.dest.compiledAMDTest,
          options: {
             sourceMap: false,
             declaration: false,
@@ -108,10 +127,16 @@ module.exports = function(grunt)
 
    config.browserify = {
       dist: {
-         src: ["<%= paths.dest.compiled %>/src/**/*.js"],
-         dest: "<%= paths.dest.bundled %>/nnet-browserify.js",
+         src: ["<%= paths.dest.compiledCommonJSMain %>/**/*.js"],
+         dest: "<%= paths.dest.bundledMain %>/nnet-browserify.js",
          options: {
-            transform: ['deamdify'],
+            standalone: "nnet"
+         }
+      },
+      test: {
+         src: ["<%= paths.dest.compiledCommonJSTest %>/**/*.js"],
+         dest: "<%= paths.dest.bundledTest %>/test.js",
+         options: {
             standalone: "nnet"
          }
       }
@@ -124,16 +149,20 @@ module.exports = function(grunt)
             "v. 2.0. If a copy of the MPL was not distributed with this file, " +
             "You can obtain one at http://mozilla.org/MPL/2.0/. **/",
          mangle: true,
-         compress: true,
+         compress: false,
          beautify: false,
          preserveComments: false,
          default: {
             files: [
                {
                   expand: true,
-                  cwd: config.paths.dest.bundled,
+                  cwd: config.paths.dest.bundledMain,
                   src: ["*.js", "!*.min.js"],
-                  dest: "<%= paths.dest.minified %>/"
+                  dest: config.paths.dest.minified,
+                  rename: function( path, name )
+                  {
+                     return require('path').join(path, name.replace( '.js', '.min.js' ));
+                  }
                }
             ]
          }
@@ -161,30 +190,36 @@ module.exports = function(grunt)
       definitions: {
          cwd: config.paths.src.main, // set working folder / root to copy
          src: "**/*.d.ts", // copy all files and subfolders
-         dest: config.paths.dest.compiledMain, // destination folder
+         dest: config.paths.dest.compiledAMDMain, // destination folder
          expand: true // required when using cwd
       },
       //definitions: {
-      //   cwd: config.paths.dest.compiled, // set working folder / root to copy
+      //   cwd: config.paths.dest.compiledAMD, // set working folder / root to copy
       //   src: "**/*.d.ts", // copy all files and subfolders
-      //   dest: "<%= paths.dest.compiled %>.d", // destination folder
+      //   dest: "<%= paths.dest.compiledAMD %>.d", // destination folder
       //   expand: true // required when using cwd
       //}
    };
 
-   config.gen =
+   config["gen-index"] =
    {
-      "ts-index": {
+      "ts": {
          template: './build/module-index-ts.mustache',
          root: config.paths.src.main,
          regex: (/\.ts$/),
          ext: ".ts",
          extArr: [".ts", ".d"]
       },
-      "js-index": {
-         template: './build/module-index-js.mustache',
-         root: config.paths.dest.compiledMain,
+      "js-amd": {
+         template: './build/module-index-js-amd.mustache',
+         root: config.paths.dest.compiledAMDMain,
          regex: (/\.js$/),
+         ext: ".js"
+      },
+      "js-commonjs": {
+         template: './build/module-index-js-commonjs.mustache',
+         root: config.paths.dest.compiledCommonJSMain,
+         regex: ( /\.js$/ ),
          ext: ".js"
       }
    };
@@ -197,12 +232,12 @@ module.exports = function(grunt)
          //r.js.cmd -o build.js optimize=none
          default:
          {
-            out: config.paths.dest.bundled + "/nnet-amd.js",
-            //appDir: config.paths.dest.compiledMain,
-            baseUrl: config.paths.dest.compiledMain,
+            out: config.paths.dest.bundledMain + "/nnet-amd.js",
+            //appDir: config.paths.dest.compiledAMDMain,
+            baseUrl: config.paths.dest.compiledAMDMain,
             //dir: "./bin",
             //exclude: [],
-            //mainConfigFile: config.paths.dest.compiledMain + "/nnet_.js",
+            //mainConfigFile: config.paths.dest.compiledAMDMain + "/nnet_.js",
             name: "_nnet",
             generateSourceMaps: false,
             optimize: "none"
@@ -213,31 +248,30 @@ module.exports = function(grunt)
       //r.js.cmd -o build.js optimize=none paths.requireLib=../node_modules/requirejs/require include=requireLib
       almond:
       {
-         out: config.paths.dest.bundled + "/nnet-amd-with-almond.js",
+         out: config.paths.dest.bundledMain + "/nnet-amd-embedded-almond.js",
          include: ["../../../lib/almond"],
-         //TODO: turn this back on once everything is properly wrapped
-         //wrap: true
+         wrap: true
       },
-      //*
+      /*
       require:
       {
-         out: config.paths.dest.bundled + "/nnet-amd-with-require.js",
+         out: config.paths.dest.bundledMain + "/nnet-amd-embedded-require.js",
          paths:
          {
             "requireLib": "../../../../node_modules/requirejs/require"
          },
          include: ["requireLib"]
       }
-
+      */
    };
 
    config.def = {
       nnet:
       {
          name: "nnet",
-         out: "../../bundled/nnet.d.ts",
+         out: "../../dist/nnet.d.ts",
          indent: '   ',
-         main: config.paths.dest.compiledMain + "/_nnet.d.ts"
+         main: config.paths.dest.compiledAMDMain + "/_nnet.d.ts"
       }
    };
 

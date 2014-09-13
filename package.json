@@ -2,20 +2,24 @@
   "name": "nnet-js",
   "version": "0.11.0",
   "description": "Javascript utilities",
-  "main": "./bin/compiled/nnet_.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "author": "Malachi Griffie <malachi@nexussays.com>",
+  "license": "MPL 2.0",
+  "homepage": "https://github.com/nexussays/nnet-js",
   "repository": {
     "type": "git",
     "url": "https://github.com/nexussays/nnet-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nexussays/nnet-js/issues"
   },
   "keywords": [
     "javascript",
     "typescript"
   ],
-  "author": "Malachi Griffie <malachi@nexussays.com>",
-  "license": "MPL 2.0",
+  "main": "nnet.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "devDependencies": {
     "browserify": ">=5.10.1",
     "deamdify": ">=0.1.1",
