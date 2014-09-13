@@ -6,8 +6,8 @@
 
 /// ts:import=EnhancedHTMLElement
 import EnhancedHTMLElement = require('./EnhancedHTMLElement'); ///ts:import:generated
-///ts:import=IEnhancedEvent
-import IEnhancedEvent = require('../event/IEnhancedEvent'); ///ts:import:generated
+///ts:import=EnhancedEvent
+import EnhancedEvent = require('../event/EnhancedEvent'); ///ts:import:generated
 ///ts:import=first
 import first = require('../array/first'); ///ts:import:generated
 ///ts:import=last
@@ -60,13 +60,13 @@ class EnhancedHTMLElementCollection
       return this;
    }
 
-   bind(eventName: string, func: (e: IEnhancedEvent) => void): EnhancedHTMLElementCollection
+   bind(eventName: string, func: (e: EnhancedEvent) => void): EnhancedHTMLElementCollection
    {
       this.m_array.forEach( item => item.bind( eventName, func ) );
       return this;
    }
 
-   unbind(eventName: string, func: (e: IEnhancedEvent) => void): EnhancedHTMLElementCollection
+   unbind(eventName: string, func: (e: EnhancedEvent) => void): EnhancedHTMLElementCollection
    {
       this.m_array.forEach( item => item.unbind( eventName, func ) );
       return this;

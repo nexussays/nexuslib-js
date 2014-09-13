@@ -67,13 +67,13 @@ function stopEvent(e)
    e.preventDefault();
 }
 
-function logEvent(e:EnhancedEvent)
+function logEvent(e: EnhancedEvent)
 {
    Debug.clear();
    //output our custom information on the event
    Debug.objectSimple( e, ["type", "pageX", "pageY", "screenX", "screenY", "clientX", "clientY", "target", "relatedTarget", "mouse", "key", "isMouseEvent()", "isKeyboardEvent()", "isTouchEvent()"] );
    //output information on the entire event
-   Debug.event( e.originalEvent );
+   Debug.event( e );
    //add to list of events and scroll the textbox
    log.write( e.type + " " + this + " (" + e.pageX + ", " + e.pageY + ")" );
 

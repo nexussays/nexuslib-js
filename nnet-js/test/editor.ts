@@ -14,6 +14,8 @@ import ms = require('../src/nnet/util/Milliseconds'); ///ts:import:generated
 import Cookie = require('../src/nnet/browser/Cookie'); ///ts:import:generated
 ///ts:import=EnhancedHTMLElement
 import EnhancedHTMLElement = require('../src/nnet/dom/EnhancedHTMLElement'); ///ts:import:generated
+///ts:import=EnhancedEvent
+import EnhancedEvent = require('../src/nnet/event/EnhancedEvent'); ///ts:import:generated
 
 ///ts:import=debug,Debug
 import Debug = require('./debug'); ///ts:import:generated
@@ -33,11 +35,11 @@ declare var escape: any;
 nnet.array.enhancePrototype();
 applyEnhancementsToPrototype();
 
-var execute_text,
-    showmembers,
-    showoutput,
-    catchtabs,
-    output_executiondetails: EnhancedHTMLElement;
+var editorTextarea,
+    showAllMembers,
+    showReturnValue,
+    catchTabs,
+    executionOutputTextarea: EnhancedHTMLElement;
 var editorCookie: Cookie;
 onInteractive( function()
 {
@@ -47,24 +49,24 @@ onInteractive( function()
    editorCookie = Cookie.retrieveOrCreate( "EditorPreferences" );
 
    //get the textarea with the code
-   execute_text = find.id( "#execute_text" );
-   execute_text.bind( "keydown", execute_text_onkeydown );
-   execute_text.value = editorCookie.data.execute_text ? unescape( editorCookie.data.execute_text ) : "";
+   editorTextarea = find.id( "#execute_text" );
+   editorTextarea.bind( "keydown", editorTextarea_keydown );
+   editorTextarea.value = editorCookie.data.editorTextarea ? unescape( editorCookie.data.editorTextarea ) : "";
 
    // wireup execute button
    find.id( "#execute_go" ).bind( "click", __go );
-   output_executiondetails = find.id( "output_executiondetails" );
+   executionOutputTextarea = find.id( "executionOutputTextarea" );
 
    //setup options
    //default to verbose output (this value is actually checked in __go)
-   showmembers = find.id( "#showmembers" );
-   showmembers.checked = editorCookie.data.showmembers;
+   showAllMembers = find.id( "#showmembers" );
+   showAllMembers.checked = editorCookie.data.showAllMembers;
    //show the output of the eval
-   showoutput = find.id( "#showoutput" );
-   showoutput.checked = editorCookie.data.showoutput;
+   showReturnValue = find.id( "#showoutput" );
+   showReturnValue.checked = editorCookie.data.showReturnValue;
    //default to not capturing tabs (ie - tabbing will take you out of the textarea and to the next form element)
-   catchtabs = find.id( "#catchtabs" );
-   catchtabs.checked = editorCookie.data.catchtabs;
+   catchTabs = find.id( "#catchtabs" );
+   catchTabs.checked = editorCookie.data.catchTabs;
 
    //set the output source for Debug results
    Debug.setOutputSource( find.id( "#output" ) );
@@ -97,42 +99,42 @@ function __updateTestingHTMLAndCookie()
    var testinghtml = find.id( "#testinghtml" );
    testinghtml.innerHTML = find.id( "#extra" ).getOuterHTML( true, true ).replace( /\t/g, "   " );
 
-   editorCookie.data.showmembers = showmembers.checked;
-   editorCookie.data.showoutput = showoutput.checked;
-   editorCookie.data.catchtabs = catchtabs.checked;
-   editorCookie.data.execute_text = escape( execute_text.value );
+   editorCookie.data.showAllMembers = showAllMembers.checked;
+   editorCookie.data.showReturnValue = showReturnValue.checked;
+   editorCookie.data.catchTabs = catchTabs.checked;
+   editorCookie.data.editorTextarea = escape( editorTextarea.value );
    editorCookie.expireIn( ms.days( 90 ) );
    editorCookie.save();
 }
 
-function execute_text_onkeydown(e)
+function editorTextarea_keydown(e:EnhancedEvent)
 {
    var tab = "   ",
-       start = execute_text.selectionStart,
-       end = execute_text.selectionEnd;
+       start = editorTextarea.selectionStart,
+       end = editorTextarea.selectionEnd;
 
    //only catch tabs if the corresponding checkbox is checked
-   if(catchtabs.checked && e.key.code == Keys.Tab)
+   if(catchTabs.checked && e.keyInfo.code == Keys.Tab)
    {
       //prevent the default action
       e.preventDefault();
 
-      if(e.key.shift)
+      if(e.keyInfo.shift)
       {
-         execute_text.value = execute_text.value.substr( 0, start ) + tab +
-            execute_text.value.substr( end, execute_text.value.length );
+         editorTextarea.value = editorTextarea.value.substr( 0, start ) + tab +
+            editorTextarea.value.substr( end, editorTextarea.value.length );
       }
       else
       {
-         execute_text.value = execute_text.value.substr( 0, start ) + tab +
-            execute_text.value.substr( end, execute_text.value.length );
+         editorTextarea.value = editorTextarea.value.substr( 0, start ) + tab +
+            editorTextarea.value.substr( end, editorTextarea.value.length );
       }
 
-      execute_text.focus();
+      editorTextarea.focus();
 
-      execute_text.setSelectionRange( start + tab.length, start + tab.length );
+      editorTextarea.setSelectionRange( start + tab.length, start + tab.length );
    }
-   if(e.key.ctrl && (e.key.code == Keys.Enter || e.key.value == "S"))
+   if(e.keyInfo.ctrl && (e.keyInfo.code == Keys.Enter || e.keyInfo.stringValue == "S"))
    {
       //prevent the default action
       e.preventDefault();
@@ -144,7 +146,7 @@ function execute_text_onkeydown(e)
 function __go()
 {
    //determine properties
-   Debug.showAllMembersByDefault = showmembers.checked;
+   Debug.showAllMembersByDefault = showAllMembers.checked;
    //Debug.allowMultiple = allowmultiple.checked;
 
    //display the waiting image
@@ -162,8 +164,8 @@ function __go()
       try
       {
          //execute the code in the textarea
-         result = eval( execute_text.value );
-         if(showoutput.checked)
+         result = eval( editorTextarea.value );
+         if(showReturnValue.checked)
          {
             out( "<textarea id=\"eval_results\" readonly=\"readonly\" rows=\"3\" cols=\"10\">" + result + "</textarea>" );
          }
@@ -181,7 +183,7 @@ function __go()
       //update the cookie with updated preferences
       __updateTestingHTMLAndCookie();
 
-      output_executiondetails.innerHTML = (end - start) / 1000 + " seconds; " + execute_text.value.length + " characters";
+      executionOutputTextarea.innerHTML = (end - start) / 1000 + " seconds; " + editorTextarea.value.length + " characters";
    }, 1 );
 }
 

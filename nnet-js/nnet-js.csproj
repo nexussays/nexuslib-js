@@ -44,7 +44,7 @@
     <TypeScriptCompile Include="src\nnet\event\IEnhancedEvent.ts" />
     <TypeScriptCompile Include="src\nnet\net\generateQueryString.ts" />
     <TypeScriptCompile Include="src\nnet\string\trimChars.ts" />
-    <TypeScriptCompile Include="src\nnet\util\Keyboard.ts" />
+    <TypeScriptCompile Include="src\nnet\util\Key.ts" />
     <TypeScriptCompile Include="src\nnet\graphics\Color.ts" />
     <TypeScriptCompile Include="src\nnet\dom\form\RadioCollection.ts" />
     <TypeScriptCompile Include="src\nnet\dom\form\fieldChanged.ts" />
@@ -62,7 +62,7 @@
     <TypeScriptCompile Include="src\nnet\net\IHttpResponse.ts" />
     <TypeScriptCompile Include="src\nnet\browser\Cookie.ts" />
     <TypeScriptCompile Include="src\nnet\array\flatten.ts" />
-    <TypeScriptCompile Include="src\nnet\event\EnhancedEvent.ts" />
+    <TypeScriptCompile Include="src\nnet\event\enhanceEvent.ts" />
     <TypeScriptCompile Include="src\nnet\dom\form\getDefaultValue.ts" />
     <TypeScriptCompile Include="src\nnet\dom\HTML.ts" />
     <TypeScriptCompile Include="src\nnet\net\HttpRequest.ts" />

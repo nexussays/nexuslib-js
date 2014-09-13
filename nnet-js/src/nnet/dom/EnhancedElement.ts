@@ -4,10 +4,10 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-/// ts:import=IEnhancedEvent
-import IEnhancedEvent = require('../event/IEnhancedEvent'); ///ts:import:generated
-///ts:import=EnhancedEvent
+/// ts:import=EnhancedEvent
 import EnhancedEvent = require('../event/EnhancedEvent'); ///ts:import:generated
+///ts:import=enhanceEvent
+import enhanceEvent = require('../event/enhanceEvent'); ///ts:import:generated
 ///ts:import=escapeHTML
 import escapeHTML = require('../string/escapeHTML'); ///ts:import:generated
 ///ts:import=Types
@@ -126,11 +126,11 @@ module EnhancedElement
          }
       }
 
-      bind(eventName: string, func: (e: IEnhancedEvent) => void): void
+      bind(eventName: string, func: (e: EnhancedEvent) => void): void
       {
          var eventHandler = function(e)
          {
-            func.call( this, new EnhancedEvent( e ) );
+            func.call(this, enhanceEvent( e ) );
          };
 
          if(type( this.asElement().addEventListener ) == Types.function)
@@ -146,11 +146,10 @@ module EnhancedElement
          var anyEl = (<any>this.asElement());
          anyEl.events = anyEl.events || {};
          var events = (anyEl.events[eventName] = anyEl.events[eventName] || {});
-
          events[func] = eventHandler;
       }
 
-      unbind(event: string, func: (e: IEnhancedEvent) => void): void
+      unbind(event: string, func: (e: EnhancedEvent) => void): void
       {
          var anyEl = (<any>this.asElement());
          anyEl.events = anyEl.events || {};

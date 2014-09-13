@@ -6,6 +6,8 @@
 
 ///ts:import=EnhancedEvent
 import EnhancedEvent = require('../event/EnhancedEvent'); ///ts:import:generated
+///ts:import=enhanceEvent
+import enhanceEvent = require('../event/enhanceEvent'); ///ts:import:generated
 
 export = onInteractive;
 
@@ -20,11 +22,7 @@ var domReadyHandler = (e?: Event) =>
       console.debug("DOM Ready: " + (e || document.readyState));
       isDomReady = true;
 
-      var evt: EnhancedEvent = null;
-      if(e)
-      {
-         evt = new EnhancedEvent(e);
-      }
+      var evt = enhanceEvent(e);
 
       var callback: (e?: EnhancedEvent) => void;
       while(callback = callbacks.shift())

@@ -4,6 +4,8 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+///ts:import=enhanceEvent
+import enhanceEvent = require('../event/enhanceEvent'); ///ts:import:generated
 ///ts:import=EnhancedEvent
 import EnhancedEvent = require('../event/EnhancedEvent'); ///ts:import:generated
 
@@ -30,11 +32,7 @@ var windowReadyHandler = (e?: Event) =>
       console.debug( "Window Ready: " + (e || document.readyState) );
       isContentLoaded = true;
 
-      var evt: EnhancedEvent = null;
-      if(e)
-      {
-         evt = new EnhancedEvent( e );
-      }
+      var evt = enhanceEvent( e );
 
       var callback: (e?: EnhancedEvent) => void;
       while(callback = callbacks.shift())
