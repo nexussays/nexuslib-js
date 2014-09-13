@@ -11,25 +11,25 @@ import Key = require('../util/Key'); ///ts:import:generated
 
 export = enhanceEvent;
 
-function enhanceEvent(evt: Event): EnhancedEvent
+function enhanceEvent(evt: Event, origin?: HTMLElement): EnhancedEvent
 {
-   var event = <EnhancedEvent>(evt || window.event);
-   if(!event)
+   var e = <EnhancedEvent>(evt || ((origin && origin.ownerDocument.parentWindow) || window).event);
+   if(!e)
    {
       return null;
    }
 
    // make sure we're not recursively passing one of our Event instances to this constructor
-   if((<any>event).__enhanced === true)
+   if((<any>e).isEnhanced === true)
    {
-      return <EnhancedEvent>event;
+      return <EnhancedEvent>e;
    }
 
-   (<any>event).__enhanced = true;
+   (<any>e).isEnhanced = true;
 
-   var button = (<any>event).button;
-   var w3cButton = (typeof (<KeyboardEvent><any>event).which !== "undefined");
-   var keycode = (<KeyboardEvent><any>event).charCode || (<KeyboardEvent><any>event).keyCode || null;
+   var button = (<any>e).button;
+   var w3cButton = (typeof (<KeyboardEvent><any>e).which !== "undefined");
+   var keycode = (<KeyboardEvent><any>e).charCode || (<KeyboardEvent><any>e).keyCode || null;
    var ucase = (keycode >= 65 && keycode <= 90);
    var lcase = (keycode >= 97 && keycode <= 122);
 
@@ -37,7 +37,7 @@ function enhanceEvent(evt: Event): EnhancedEvent
    // and they follow the W3C spec for the numbering scheme; so we use the existence
    // of the "which" property to determine if we are running Firefox and therefore
    // using the W3C model vs the Microsoft model
-   event.mouseInfo =
+   e.mouseInfo =
    {
       //W3C.button: 0; Microsoft.button: 1; Gecko.which: 1
       left: ((w3cButton && button === 0) || (!w3cButton && (button & 1) === 1)),
@@ -49,76 +49,80 @@ function enhanceEvent(evt: Event): EnhancedEvent
 
    //up arrow: 38 | down arrow: 40 | left arrow: 37 | right arrow: 39
    //For more information, see: <http://unixpapa.com/js/key.html>
-   var isKeypress = event.type == "keypress";
-   var isKeyUpOrDown = /keyup|keydown/.test( event.type );
-   event.keyInfo =
+   var isKeypress = e.type == "keypress";
+   var isKeyUpOrDown = /keyup|keydown/.test( e.type );
+   e.keyInfo =
    {
       code: keycode,
-      stringValue: (isKeypress || (isKeyUpOrDown && (keycode >= 48 && keycode <= 90))) ?
-                String.fromCharCode( keycode ) :
-                ((isKeyUpOrDown && (keycode - 96 >= 0 && keycode - 96 <= 9)) ?
-                    String.fromCharCode( keycode - 48 ) : Key[keycode]),
-      shift: ((<KeyboardEvent><any>event).shiftKey || keycode == Key.Shift),
-      ctrl: ((<KeyboardEvent><any>event).ctrlKey || keycode == Key.Control),
-      alt: ((<KeyboardEvent><any>event).altKey || keycode == Key.Alternate),
-      meta: ((<KeyboardEvent><any>event).metaKey), // || keycode == ???),
+      char: (isKeypress || (isKeyUpOrDown && (keycode >= 48 && keycode <= 90))) ?
+               String.fromCharCode( keycode ) :
+               ((isKeyUpOrDown && (keycode >= 96 && keycode <= 105)) ?
+                   String.fromCharCode( keycode - 48 ) : Key[keycode]),
+      shift: ((<KeyboardEvent><any>e).shiftKey || keycode == Key.Shift),
+      ctrl: ((<KeyboardEvent><any>e).ctrlKey || keycode == Key.Control),
+      alt: ((<KeyboardEvent><any>e).altKey || keycode == Key.Alternate),
+      meta: ((<KeyboardEvent><any>e).metaKey), // || keycode == ???),
       //If the key pressed is not an alpha character, then we cannot determine if caps lock is on so instead we set it to null.
       //If the key is uppercase without shift or lowercase with shift, then caps lock is on.
       capsLock: (!isKeypress || (!ucase && !lcase) ?
                     undefined :
-                    ((ucase && !(<KeyboardEvent><any>event).shiftKey) || (lcase && (<KeyboardEvent><any>event).shiftKey) ?
+                    ((ucase && !(<KeyboardEvent><any>e).shiftKey) || (lcase && (<KeyboardEvent><any>e).shiftKey) ?
                         true : false))
    };
 
    //The element the event originated from
-   event.target = <HTMLElement>(typeof event.target == "undefined" ? event.srcElement : event.target);
+   e.target = <HTMLElement>(typeof e.target == "undefined" ? e.srcElement : e.target);
+   if(e.target && e.target.nodeType === Node.TEXT_NODE)
+   {
+      e.target = <HTMLElement>e.target.parentNode;
+   }
 
    //the related target, ie if a mouseover it is the element the mouse came from and if a mouseout
    //it is the element the mouse has gone to
-   event.relatedTarget = (typeof (<any>event).relatedTarget == "undefined") ?
-                            (event.type == "mouseover" ? (<any>event).fromElement : (event.type == "mouseout" ? (<any>event).toElement : null)) :
-                            (<any>event).relatedTarget;
+   e.relatedTarget = (typeof (<any>e).relatedTarget == "undefined") ?
+                        (e.type == "mouseover" ? (<any>e).fromElement : (e.type == "mouseout" ? (<any>e).toElement : null)) :
+                        (<any>e).relatedTarget;
 
    //pageX/Y are the values relative to the document itself
    //clientX/Y are the values relative to the viewport (browser window)
    //screenX/Y are the values relative to the entire screen (eg, if the browser window is positioned so 0,0 is at
    //the middle of a 1024x768 screen then screenX/Y will be 512/384)
-   if(typeof (<any>event).pageX == "undefined" && typeof (<any>event).clientX !== "undefined")
+   if(typeof (<any>e).pageX == "undefined" && typeof (<any>e).clientX !== "undefined")
    {
       //console.log(event.clientY, document.body.scrollTop, document.documentElement.scrollTop);
       //document.body for quirksmode, document.documentElement for strict mode
-      event.pageX = (<any>event).clientX + document.body.scrollLeft +
+      e.pageX = (<any>e).clientX + document.body.scrollLeft +
          document.documentElement.scrollLeft;
-      event.pageY = (<any>event).clientY + document.body.scrollTop +
+      e.pageY = (<any>e).clientY + document.body.scrollTop +
          document.documentElement.scrollTop;
    }
    else
    {
-      event.pageX = (<any>event).pageX;
-      event.pageY = (<any>event).pageY;
+      e.pageX = (<any>e).pageX;
+      e.pageY = (<any>e).pageY;
    }
 
-   event.clientX = (<any>event).clientX;
-   event.clientY = (<any>event).clientY;
-   event.screenX = (<any>event).screenX;
-   event.screenY = (<any>event).screenY;
+   e.clientX = (<any>e).clientX;
+   e.clientY = (<any>e).clientY;
+   e.screenX = (<any>e).screenX;
+   e.screenY = (<any>e).screenY;
 
-   event.isMouseEvent = function(): boolean
+   e.isMouseEvent = function(): boolean
    {
       return /^mouse|^(?:show|contextmenu|DOMMouseScroll)$|click$/.test( this.type );
    };
 
-   event.isKeyboardEvent = function(): boolean
+   e.isKeyboardEvent = function(): boolean
    {
       return /^key/.test( this.type );
    };
 
-   event.isTouchEvent = function(): boolean
+   e.isTouchEvent = function(): boolean
    {
       return /^touch/.test( this.type );;
    };
 
-   event.kill = function()
+   e.kill = function()
    {
       if("preventDefault" in this)
       {
@@ -144,5 +148,5 @@ function enhanceEvent(evt: Event): EnhancedEvent
       }
    };
 
-   return event;
+   return e;
 }

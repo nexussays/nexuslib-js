@@ -17,9 +17,9 @@ function enhanceHTMLElement(element: HTMLElement, force?: boolean): EnhancedHTML
    if(enhanceHTMLElement.enabled && (element && (force || element.nodeType == Node.ELEMENT_NODE)))
    {
       var E: typeof EnhancedHTMLElement = require('./EnhancedHTMLElement');
-      Object.getOwnPropertyNames(E.IEnhancedHTMLElementImpl.prototype).forEach(funcName =>
+      Object.getOwnPropertyNames(E.Impl.prototype).forEach(funcName =>
       {
-         element[funcName] = E.IEnhancedHTMLElementImpl.prototype[funcName];
+         element[funcName] = E.Impl.prototype[funcName];
       } );
    }
    return <EnhancedHTMLElement>element;

@@ -14,9 +14,9 @@ function enhanceElement(element: Element, force?: boolean): EnhancedElement
    if(enhanceElement.enabled && (element && (force || element.nodeType == Node.ELEMENT_NODE)))
    {
       var E: typeof EnhancedElement = require('./EnhancedElement');
-      Object.getOwnPropertyNames(E.IEnhancedElementImpl.prototype ).forEach( funcName =>
+      Object.getOwnPropertyNames(E.Impl.prototype ).forEach( funcName =>
       {
-         element[funcName] = E.IEnhancedElementImpl.prototype[funcName];
+         element[funcName] = E.Impl.prototype[funcName];
       } );
    }
    return <EnhancedElement>element;

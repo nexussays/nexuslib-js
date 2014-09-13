@@ -11,6 +11,11 @@ export = charTimes;
  */
 function charTimes(char: string, times:number):string
 {
+   if(char == null || char == "" || times == null)
+   {
+      return "";
+   }
+
    var result = "";
    for(var x = 0; x < times; ++x)
    {

@@ -12,14 +12,14 @@ import EnhancedEvent = require('../event/EnhancedEvent'); ///ts:import:generated
 import first = require('../array/first'); ///ts:import:generated
 ///ts:import=last
 import last = require('../array/last'); ///ts:import:generated
-///ts:import=find
-import find = require('./find'); ///ts:import:generated
+///ts:import=find,_find
+import _find = require('./find'); ///ts:import:generated
 ///ts:import=enhanceHTMLElement
 import enhanceHTMLElement = require('./enhanceHTMLElement'); ///ts:import:generated
 
-export = EnhancedHTMLElementCollection;
+export = ElementGroup;
 
-class EnhancedHTMLElementCollection
+class ElementGroup
 {
    private m_array: Array<EnhancedHTMLElement>;
 
@@ -38,7 +38,7 @@ class EnhancedHTMLElementCollection
       return this.m_array.length;
    }
 
-   forEach(callbackfn: (value: EnhancedHTMLElement, index: number, array: EnhancedHTMLElement[]) => void): EnhancedHTMLElementCollection
+   forEach(callbackfn: (value: EnhancedHTMLElement, index: number, array: EnhancedHTMLElement[]) => void): ElementGroup
    {
       this.m_array.forEach( callbackfn );
       return this;
@@ -54,37 +54,37 @@ class EnhancedHTMLElementCollection
       return this.m_array.every( callbackfn );
    }
 
-   filter$(callbackfn: (value: EnhancedHTMLElement, index: number, array: EnhancedHTMLElement[]) => boolean): EnhancedHTMLElementCollection
+   filter$(callbackfn: (value: EnhancedHTMLElement, index: number, array: EnhancedHTMLElement[]) => boolean): ElementGroup
    {
       this.m_array = this.m_array.filter( callbackfn );
       return this;
    }
 
-   bind(eventName: string, func: (e: EnhancedEvent) => void): EnhancedHTMLElementCollection
+   bind(eventName: string, func: (e: EnhancedEvent) => void): ElementGroup
    {
       this.m_array.forEach( item => item.bind( eventName, func ) );
       return this;
    }
 
-   unbind(eventName: string, func: (e: EnhancedEvent) => void): EnhancedHTMLElementCollection
+   unbind(eventName: string, func: (e: EnhancedEvent) => void): ElementGroup
    {
       this.m_array.forEach( item => item.unbind( eventName, func ) );
       return this;
    }
 
-   addClass(name: string, checkExistence?: boolean): EnhancedHTMLElementCollection
+   addClass(name: string, checkExistence?: boolean): ElementGroup
    {
       this.m_array.forEach( item => item.addClass( name, checkExistence ) );
       return this;
    }
 
-   removeClass(name: string): EnhancedHTMLElementCollection
+   removeClass(name: string): ElementGroup
    {
       this.m_array.forEach( item => item.removeClass( name ) );
       return this;
    }
 
-   toggleClass(name: string): EnhancedHTMLElementCollection
+   toggleClass(name: string): ElementGroup
    {
       this.m_array.forEach( item => item.toggleClass( name ) );
       return this;
@@ -95,15 +95,15 @@ class EnhancedHTMLElementCollection
       return this.m_array.some( item => item.hasClass( name ) );
    }
 
-   find(query: string): EnhancedHTMLElementCollection
+   find(query: string): ElementGroup
    {
-      var find = require( './find' );
+      var f : typeof _find = require( './find' );
       var results: Array<EnhancedHTMLElement> = [];
       for(var x = 0; x < this.m_array.length; ++x)
       {
-         results.push.apply( results, find.native.call( this.m_array[x], query ).map( enhanceHTMLElement ) );
+         results.push.apply( results, f.native( query, this.m_array[x] ).map( el => enhanceHTMLElement( el ) ) );
       }
-      return new EnhancedHTMLElementCollection( results );
+      return new ElementGroup( results );
    }
 
    first(): EnhancedHTMLElement

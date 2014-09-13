@@ -17,7 +17,7 @@ interface EnhancedEvent extends Event, KeyboardEvent, MouseEvent
    isTouchEvent(): boolean;
 
    mouseInfo: { left: boolean; right: boolean; middle: boolean };
-   keyInfo: { code: Key; stringValue: string; shift: boolean; ctrl: boolean; alt: boolean; capsLock: boolean; meta: boolean };
+   keyInfo: { code: Key; char: string; shift: boolean; ctrl: boolean; alt: boolean; capsLock: boolean; meta: boolean };
 
    pageX: number;
    pageY: number;
