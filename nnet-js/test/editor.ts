@@ -45,55 +45,58 @@ var editorTextarea,
 var editorCookie: Cookie;
 onInteractive( function()
 {
-   console.log( "dom init" );
-   //create the dropdown menu
-   nav.createMenu( "nav", nav.sections.Javascript );
-   editorCookie = Cookie.retrieveOrCreate( "EditorPreferences" );
-
-   //get the textarea with the code
-   editorTextarea = find.id( "#execute_text" );
-   editorTextarea.bind( "keydown", editorTextarea_keydown );
-   editorTextarea.value = editorCookie.data.editorTextarea ? unescape( editorCookie.data.editorTextarea ) : "";
-
-   // wireup execute button
-   find.id( "#execute_go" ).bind( "click", __go );
-   executionOutputTextarea = find.id( "output_executiondetails" );
-
-   //setup options
-   //default to verbose output (this value is actually checked in __go)
-   showAllMembers = find.id( "#showmembers" );
-   showAllMembers.checked = editorCookie.data.showAllMembers;
-   //show the output of the eval
-   showReturnValue = find.id( "#showoutput" );
-   showReturnValue.checked = editorCookie.data.showReturnValue;
-   //default to not capturing tabs (ie - tabbing will take you out of the textarea and to the next form element)
-   catchTabs = find.id( "#catchtabs" );
-   catchTabs.checked = editorCookie.data.catchTabs !== false;
-
-   //set the output source for Debug results
-   Debug.setOutputSource( find.id( "#output" ) );
-   Debug.allowMultiple = true;
-
-   //update the displayed HTML with the data actually on the page
-   //update the cookie which stores preference values
-   __updateTestingHTMLAndCookie();
-
-   var toggle = find.id( "#html_toggle_link" );
-   toggle.bind( "click", function()
+   if(find.id( "page-editor" ))
    {
-      var html = find.id( "#testinghtml" );
-      if(html.style.display == "none")
+      console.log( "dom init" );
+      //create the dropdown menu
+      nav.createMenu( "nav", nav.sections.Javascript );
+      editorCookie = Cookie.retrieveOrCreate( "EditorPreferences" );
+
+      //get the textarea with the code
+      editorTextarea = find.id( "#execute_text" );
+      editorTextarea.bind( "keydown", editorTextarea_keydown );
+      editorTextarea.value = editorCookie.data.editorTextarea ? unescape( editorCookie.data.editorTextarea ) : "";
+
+      // wireup execute button
+      find.id( "#execute_go" ).bind( "click", __go );
+      executionOutputTextarea = find.id( "output_executiondetails" );
+
+      //setup options
+      //default to verbose output (this value is actually checked in __go)
+      showAllMembers = find.id( "#showmembers" );
+      showAllMembers.checked = editorCookie.data.showAllMembers;
+      //show the output of the eval
+      showReturnValue = find.id( "#showoutput" );
+      showReturnValue.checked = editorCookie.data.showReturnValue;
+      //default to not capturing tabs (ie - tabbing will take you out of the textarea and to the next form element)
+      catchTabs = find.id( "#catchtabs" );
+      catchTabs.checked = editorCookie.data.catchTabs !== false;
+
+      //set the output source for Debug results
+      Debug.setOutputSource( find.id( "#output" ) );
+      Debug.allowMultiple = true;
+
+      //update the displayed HTML with the data actually on the page
+      //update the cookie which stores preference values
+      __updateTestingHTMLAndCookie();
+
+      var toggle = find.id( "#html_toggle_link" );
+      toggle.bind( "click", function()
       {
-         html.style.display = "block";
-         this.innerHTML = "Hide available testing HTML&#8682;";
-      }
-      else
-      {
-         html.style.display = "none";
-         this.innerHTML = "Show available testing HTML&#8681;";
-      }
-   } );
-   toggle.trigger( "click" );
+         var html = find.id( "#testinghtml" );
+         if(html.style.display == "none")
+         {
+            html.style.display = "block";
+            this.innerHTML = "Hide available testing HTML&#8682;";
+         }
+         else
+         {
+            html.style.display = "none";
+            this.innerHTML = "Show available testing HTML&#8681;";
+         }
+      } );
+      toggle.trigger( "click" );
+   }
 } );
 
 function __updateTestingHTMLAndCookie()

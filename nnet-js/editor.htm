@@ -5,10 +5,10 @@
 <title>Javascript Editor</title>
 <link href="./styles/main.css" rel="stylesheet" type="text/css" />
 <link href="./styles/editor.css" rel="stylesheet" type="text/css" />
-<script src="./lib/require.js" data-main="./bin/compiled-amd/test/config-amd.js"></script>
-<!--<script src="./bin/bundled/nnet-browserify.js"></script>-->
+<!--<script src="./lib/require.js" data-main="./bin/compiled-amd/test/config-amd.js"></script>-->
+<script src="./bin/test/test.js"></script>
 </head>
-<body>
+<body id="page-editor">
 <div id="nojavascript_error">
    <p>Javascript must be enabled for this page to function properly.</p>
    <p>Javascript has either been disabled or is not properly supported in your browser.</p>
@@ -33,7 +33,7 @@
             <label for="showoutput"><input type="checkbox" id="showoutput" />show return value of execution</label>
          </li>
          <li>
-            <label for="catchtabs"><input type="checkbox" id="catchtabs" />allow tabs in textarea</label>
+            <label for="catchtabs"><input type="checkbox" id="catchtabs" checked="checked" />allow tabs in textarea</label>
          </li>
       </ul>
       <textarea rows="13" cols="20" spellcheck="false" id="execute_text"></textarea>

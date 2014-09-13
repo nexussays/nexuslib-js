@@ -1,4 +1,4 @@
-﻿///ts:import=type
+﻿/// ts:import=type
 import type = require('../src/nnet/type'); ///ts:import:generated
 ///ts:import=_nnet,nnet
 import nnet = require('../src/_nnet'); ///ts:import:generated
@@ -72,14 +72,14 @@ export var sections =
    Javascript:
    [
       ["..up", "./"],
+      ["Editor", "./editor.htm"],
+      ["Event", "./events.htm"],
       [
          "Javascript",
          [
-            ["Editor", "./editor.htm"],
-            ["Event", "./events.htm"],
-            ["Information", "./information.htm"],
-            ["Regular Expressions", "./regexp.htm"],
-            ["Testing", "./tests/index.htm"]
+            ["Information", "#"],
+            ["RegEx", "#"],
+            ["Testing", "#"]
          ]
       ],
       //["[Browser in " + (Browser.strictMode ? "StrictMode" : Browser.quirksMode ? "QuirksMode" : "Unknown Rendering Mode") + "]"]

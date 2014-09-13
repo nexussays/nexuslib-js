@@ -25,41 +25,44 @@ applyEnhancementsToPrototype();
 
 onInteractive( function()
 {
-   //create the dropdown menu
-   nav.createMenu( "nav", nav.sections.Javascript );
-
-   Debug.setOutputSource( find.id( "output" ) );
-   Debug.allowMultiple = true;
-
-   find( "input[type='checkbox']" ).forEach( function(x)
+   if(find.id( "page-events" ))
    {
-      x.onclick = detectevent_click;
-      (<HTMLInputElement>(<any>x)).checked = false;
-      x.trigger( "click" );
-   } );
+      //create the dropdown menu
+      nav.createMenu( "nav", nav.sections.Javascript );
 
-   log.el = <HTMLInputElement>(<any>find.id( "log" ));
-   log.clear();
-   find.id( "log_clear" ).onclick = log.clear;
+      Debug.setOutputSource( find.id( "output" ) );
+      Debug.allowMultiple = true;
 
-   var key = find.id( "keyevent" );
-   key.bind( "keyup", stopEvent );
-   key.bind( "keydown", stopEvent );
-   key.bind( "keypress", stopEvent );
+      find( "input[type='checkbox']" ).forEach( function(x)
+      {
+         x.onclick = detectevent_click;
+         (<HTMLInputElement>(<any>x)).checked = false;
+         x.trigger( "click" );
+      } );
 
-   var input = find.id( "inputevent" );
-   input.bind( "click", stopEvent );
-   input.bind( "mouseup", stopEvent );
-   input.bind( "mousedown", stopEvent );
-   input.bind( "contextmenu", stopEvent );
-   input.bind( "mousemove", stopEvent );
-   input.bind( "mouseout", stopEvent );
-   input.bind( "mouseover", stopEvent );
-   input.bind( "touchstart", stopEvent );
-   input.bind( "touchend", stopEvent );
-   input.bind( "touchcancel", stopEvent );
-   input.bind( "touchleave", stopEvent );
-   input.bind( "touchmove", stopEvent );
+      log.el = <HTMLInputElement>(<any>find.id( "log" ));
+      log.clear();
+      find.id( "log_clear" ).onclick = log.clear;
+
+      var key = find.id( "keyevent" );
+      key.bind( "keyup", stopEvent );
+      key.bind( "keydown", stopEvent );
+      key.bind( "keypress", stopEvent );
+
+      var input = find.id( "inputevent" );
+      input.bind( "click", stopEvent );
+      input.bind( "mouseup", stopEvent );
+      input.bind( "mousedown", stopEvent );
+      input.bind( "contextmenu", stopEvent );
+      input.bind( "mousemove", stopEvent );
+      input.bind( "mouseout", stopEvent );
+      input.bind( "mouseover", stopEvent );
+      input.bind( "touchstart", stopEvent );
+      input.bind( "touchend", stopEvent );
+      input.bind( "touchcancel", stopEvent );
+      input.bind( "touchleave", stopEvent );
+      input.bind( "touchmove", stopEvent );
+   }
 } );
 
 function stopEvent(e)

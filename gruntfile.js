@@ -134,7 +134,7 @@ module.exports = function(grunt)
          }
       },
       test: {
-         src: ["<%= paths.dest.compiledCommonJSTest %>/**/*.js"],
+         src: ["<%= paths.dest.compiledCommonJSTest %>/**/*.js", "!<%= paths.dest.compiledCommonJSTest %>/**/*-amd.js"],
          dest: "<%= paths.dest.bundledTest %>/test.js",
          options: {
             standalone: "nnet"
