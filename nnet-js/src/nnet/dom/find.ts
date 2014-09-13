@@ -20,17 +20,17 @@ import isAncestor = require('./isAncestor'); ///ts:import:generated
 import enhanceHTMLElement = require('./enhanceHTMLElement'); ///ts:import:generated
 ///ts:import=EnhancedHTMLElement
 import EnhancedHTMLElement = require('./EnhancedHTMLElement'); ///ts:import:generated
-///ts:import=EnhancedHTMLElementCollection
-import EnhancedHTMLElementCollection = require('./EnhancedHTMLElementCollection'); ///ts:import:generated
+///ts:import=ElementGroup
+import ElementGroup = require('./ElementGroup'); ///ts:import:generated
 
 export = find;
 
-function find(query: Node): EnhancedHTMLElementCollection;
-function find(query: Element): EnhancedHTMLElementCollection;
-function find(query: string): EnhancedHTMLElementCollection;
-function find(query?: any): EnhancedHTMLElementCollection
+function find(query: Node, root?: Element): ElementGroup;
+function find(query: Element, root?: Element): ElementGroup;
+function find(query: string, root?: Element): ElementGroup;
+function find(query: any, root?: Element): ElementGroup
 {
-   return new EnhancedHTMLElementCollection( find.native.call( this, query ).map( enhanceHTMLElement ) );
+   return new ElementGroup( find.native( query, root ).map( el => enhanceHTMLElement( el ) ) );
 }
 
 module find
@@ -39,49 +39,46 @@ module find
    export function id(id: string): EnhancedHTMLElement
    export function id(id: any): EnhancedHTMLElement
    {
-      return enhanceHTMLElement( native.id.call( this, id ) );
+      return enhanceHTMLElement( native.id( id ) );
    }
 
-   export function name(name: string, tag?: string): EnhancedHTMLElementCollection
+   export function name(name: string, tag?: string, root?: Element): ElementGroup
    {
-      return new EnhancedHTMLElementCollection( native.name.call( this, name, tag ).map( enhanceHTMLElement ) );
+      return new ElementGroup( native.name( name, tag, root ).map( el => enhanceHTMLElement( el ) ) );
    }
 
-   export function className(name: string, tag?: string): EnhancedHTMLElementCollection
+   export function className(name: string, tag?: string, root?: Element): ElementGroup
    {
-      return new EnhancedHTMLElementCollection( native.className.call( this, name, tag ).map( enhanceHTMLElement ) );
+      return new ElementGroup( native.className( name, tag, root ).map( el => enhanceHTMLElement( el ) ) );
    }
 
-   export function tagName(name: string): EnhancedHTMLElementCollection
+   export function tagName(name: string, root?: Element): ElementGroup
    {
-      return new EnhancedHTMLElementCollection( native.tagName.call( this, name ).map( enhanceHTMLElement ) );
+      return new ElementGroup( native.tagName( name, root ).map( el => enhanceHTMLElement( el ) ) );
    }
 
    export interface Interface
    {
-      (query: Node): Array<Element>;
-      (query: Element): Array<Element>;
-      (query: string): Array<Element>;
-      (query?: any): Array<Element>;
+      (query: Node, root?: Element): Array<HTMLElement>;
+      (query: Element, root?: Element): Array<HTMLElement>;
+      (query: string, root?: Element): Array<HTMLElement>;
 
-      id(id: Node): Element;
-      id(id: string): Element;
-      id(id: any): Element;
+      id(id: Node): HTMLElement;
+      id(id: string): HTMLElement;
 
-      name(name: string, tag?: string): Array<Element>;
+      name(name: string, tag?: string, root?: Element): Array<HTMLElement>;
 
-      className(name: string, tag?: string): Array<Element>;
+      className(name: string, tag?: string, root?: Element): Array<HTMLElement>;
 
-      tagName(name: string): Array<Element>;
+      tagName(name: string, root?: Element): Array<HTMLElement>;
    }
 
-   export function native(query: Node): Array<Element>;
-   export function native(query: Element): Array<Element>;
-   export function native(query: string): Array<Element>;
-   export function native(query?: any): Array<Element>
+   export function native(query: Node, root?: Element): Array<HTMLElement>;
+   export function native(query: Element, root?: Element): Array<HTMLElement>;
+   export function native(query: string, root?: Element): Array<HTMLElement>;
+   export function native(query: any, root?: Element): Array<HTMLElement>
    {
-      var useDocumentAsRoot = type.of( this ) != type.node;
-      var root: Element = (useDocumentAsRoot ? document : this);
+      root = root === undefined || type.of( root ) != type.node ? <any>document : root;
 
       if(!root || !query)
       {
@@ -91,7 +88,7 @@ module find
       // if an element was provided, either just return it, or, if there's a different root we're searching from, make sure the root is an ancestors of it
       if(type.of( query ) === type.node)
       {
-         return (useDocumentAsRoot || query.nodeType == Node.DOCUMENT_NODE || isAncestor( query, root ) ? [query] : []);
+         return (query.nodeType == Node.DOCUMENT_NODE || isAncestor( query, root ) ? [query] : []);
       }
 
       // if query is an array, run get for each element of the array and flatten the results
@@ -99,18 +96,18 @@ module find
       {
          return flatten( flatten( query ).map( (value) =>
          {
-            return native.call( this, value );
+            return native( value, root );
          } ) );
       }
 
-      return toArray<Element>( root.querySelectorAll( query ) );
+      return toArray<HTMLElement>( root.querySelectorAll( query ) );
    }
 
    export module native
    {
-      export function id(id: Node): Element
-      export function id(id: string): Element
-      export function id(id: any): Element
+      export function id(id: Node): HTMLElement
+      export function id(id: string): HTMLElement
+      export function id(id: any): HTMLElement
       {
          //if id is null or doesn't match either of the below, return null
          //if id is a string, return it from the DOM
@@ -119,24 +116,24 @@ module find
          return id && (t == type.string ? document.getElementById( (<string>id)[0] == "#" ? (<string>id).substr( 1 ) : id ) : (t == type.node ? id : null));
       }
 
-      export function name(name: string, tag?: string): Array<Element>
+      export function name(name: string, tag?: string, root?: Element): Array<HTMLElement>
       {
-         var result = (type.of( this ) != type.node ? document : this).getElementsByName( name );
+         var result = (root === undefined || type.of( root ) != type.node ? <any>document : root).getElementsByName( name );
          if(tag)
          {
             result = filterByNodeName( result, tag );
          }
-         return toArray<Element>( result );
+         return toArray<HTMLElement>( result );
       }
 
-      export function className(name: string, tag?: string): Array<Element>
+      export function className(name: string, tag?: string, root?: Element): Array<HTMLElement>
       {
-         var result = (type.of( this ) != type.node ? document : this).getElementsByClassName( name[0] == "." ? name.substr( 1 ) : name );
+         var result = (root === undefined || type.of( root ) != type.node ? <any>document : root).getElementsByClassName( name[0] == "." ? name.substr( 1 ) : name );
          if(tag)
          {
             result = filterByNodeName( result, tag );
          }
-         return toArray<Element>( result );
+         return toArray<HTMLElement>( result );
       }
 
       /**
@@ -261,9 +258,9 @@ module find
       export function tagName(name: "video"): Array<HTMLVideoElement>;
       export function tagName(name: "wbr"): Array<HTMLElement>;
       //*/
-      export function tagName(name: string): Array<Element>
+      export function tagName(name: string, root?: Element): Array<HTMLElement>
       {
-         return toArray<Element>( (type.of( this ) != type.node ? document : this).getElementsByTagName( name || "*" ) );
+         return toArray<HTMLElement>( (root === undefined || type.of( root ) != type.node ? <any>document : root).getElementsByTagName( name || "*" ) );
       }
    }
 }
