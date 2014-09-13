@@ -16,8 +16,10 @@ import Types = require('../Types'); ///ts:import:generated
 import type = require('../type'); ///ts:import:generated
 ///ts:import=isArrayLike
 import isArrayLike = require('../array/isArrayLike'); ///ts:import:generated
-///ts:import=isAncestor
-import isAncestor = require('./isAncestor'); ///ts:import:generated
+///ts:import=isAncestor,_isAncestor
+import _isAncestor = require('./isAncestor'); ///ts:import:generated
+///ts:import=getOuterHTML,_getOuterHTML
+import _getOuterHTML = require('./getOuterHTML'); ///ts:import:generated
 
 export = EnhancedElement;
 
@@ -41,14 +43,12 @@ module EnhancedElement
 
       isAncestor(ancestor: Node): boolean
       {
-         return isAncestor( this.asElement(), ancestor );
+         return _isAncestor( this.asElement(), ancestor );
       }
 
-      getOuterHTML(escapeHtml: boolean = false): string
+      getOuterHTML(includeChildren?: boolean, escapeHtml?: boolean): string
       {
-         var div = document.createElement( "div" );
-         div.appendChild( this.asElement().cloneNode( true ) );
-         return escapeHtml ? escapeHTML( div.innerHTML ) : div.innerHTML;
+         return _getOuterHTML( this.asElement(), includeChildren, escapeHtml );
       }
 
       append(...params: Array<Array<any>>): EnhancedElement;
@@ -102,7 +102,7 @@ module EnhancedElement
       {
          name = name.toLowerCase();
          var val = this.asElement().getAttribute( name );
-         return val === "" || val === name || (this.s_enumBooleanAttribute.test(name) && val === "true");
+         return val === "" || val === name || (this.s_enumBooleanAttribute.test( name ) && val === "true");
       }
 
       setBooleanAttribute(name: string, value: boolean): void
@@ -112,7 +112,7 @@ module EnhancedElement
          {
             if(value)
             {
-               this.asElement().setAttribute(name, "");
+               this.asElement().setAttribute( name, "" );
             }
             else
             {
@@ -120,9 +120,9 @@ module EnhancedElement
             }
          }
          // contenteditable and spellcheck have true,false,inherit states
-         else if(this.s_enumBooleanAttribute.test(name))
+         else if(this.s_enumBooleanAttribute.test( name ))
          {
-            this.asElement().setAttribute(name, value ? "true" : "false");
+            this.asElement().setAttribute( name, value ? "true" : "false" );
          }
       }
 

@@ -8,6 +8,10 @@ export = escapeHTML;
 
 function escapeHTML(str: string): string
 {
+   if(!str)
+   {
+      return "";
+   }
    var div = document.createElement( "div" );
    div.appendChild( document.createTextNode( str ) );
    return div.innerHTML;
