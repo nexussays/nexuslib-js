@@ -1,4 +1,4 @@
-declare module 'nnet'
+declare module "nnet"
 {
    export = nnet;
 
@@ -159,7 +159,7 @@ declare module 'nnet'
          {
             class Impl extends EnhancedElement.Impl
             {
-               getAncestors(query: string): ElementGroup;
+               getAncestors(query: string): nnet.dom.ElementGroup;
 
                addClass(name: string, checkExistence?: boolean): boolean;
 
@@ -169,7 +169,7 @@ declare module 'nnet'
 
                hasClass(name: string): boolean;
 
-               find(query: string): ElementGroup;
+               find(query: string): nnet.dom.ElementGroup;
             }
          }
 
@@ -183,11 +183,11 @@ declare module 'nnet'
             {
             }
 
-            function abbr(...params: any[]): EnhancedHTMLElement;
+            function abbr(...params: any[]): nnet.dom.EnhancedHTMLElement;
 
-            function acronym(...params: any[]): EnhancedHTMLElement;
+            function acronym(...params: any[]): nnet.dom.EnhancedHTMLElement;
 
-            function address(...params: any[]): EnhancedHTMLElement;
+            function address(...params: any[]): nnet.dom.EnhancedHTMLElement;
 
             function audio(...params: any[]): IEnhancedHTMLAudioElement;
 
@@ -231,9 +231,9 @@ declare module 'nnet'
             {
             }
 
-            function cite(...params: any[]): EnhancedHTMLElement;
+            function cite(...params: any[]): nnet.dom.EnhancedHTMLElement;
 
-            function code(...params: any[]): EnhancedHTMLElement;
+            function code(...params: any[]): nnet.dom.EnhancedHTMLElement;
 
             function col(...params: any[]): IEnhancedHTMLTableColElement;
 
@@ -241,7 +241,7 @@ declare module 'nnet'
             {
             }
 
-            function colgroup(...params: any[]): EnhancedHTMLElement;
+            function colgroup(...params: any[]): nnet.dom.EnhancedHTMLElement;
 
             function dd(...params: any[]): IEnhancedHTMLDDElement;
 
@@ -249,11 +249,11 @@ declare module 'nnet'
             {
             }
 
-            function del(...params: any[]): EnhancedHTMLElement;
+            function del(...params: any[]): nnet.dom.EnhancedHTMLElement;
 
-            function details(...params: any[]): EnhancedHTMLElement;
+            function details(...params: any[]): nnet.dom.EnhancedHTMLElement;
 
-            function dfn(...params: any[]): EnhancedHTMLElement;
+            function dfn(...params: any[]): nnet.dom.EnhancedHTMLElement;
 
             function div(...params: any[]): IEnhancedHTMLDivElement;
 
@@ -273,7 +273,7 @@ declare module 'nnet'
             {
             }
 
-            function em(...params: any[]): EnhancedHTMLElement;
+            function em(...params: any[]): nnet.dom.EnhancedHTMLElement;
 
             function embed(...params: any[]): IEnhancedHTMLEmbedElement;
 
@@ -287,7 +287,7 @@ declare module 'nnet'
             {
             }
 
-            function figure(...params: any[]): EnhancedHTMLElement;
+            function figure(...params: any[]): nnet.dom.EnhancedHTMLElement;
 
             function form(...params: any[]): IEnhancedHTMLFormElement;
 
@@ -335,9 +335,9 @@ declare module 'nnet'
             {
             }
 
-            function ins(...params: any[]): EnhancedHTMLElement;
+            function ins(...params: any[]): nnet.dom.EnhancedHTMLElement;
 
-            function kbd(...params: any[]): EnhancedHTMLElement;
+            function kbd(...params: any[]): nnet.dom.EnhancedHTMLElement;
 
             function label(...params: any[]): IEnhancedHTMLLabelElement;
 
@@ -363,7 +363,7 @@ declare module 'nnet'
             {
             }
 
-            function math(...params: any[]): EnhancedHTMLElement;
+            function math(...params: any[]): nnet.dom.EnhancedHTMLElement;
 
             function object(...params: any[]): IEnhancedHTMLObjectElement;
 
@@ -419,9 +419,9 @@ declare module 'nnet'
             {
             }
 
-            function s(...params: any[]): EnhancedHTMLElement;
+            function s(...params: any[]): nnet.dom.EnhancedHTMLElement;
 
-            function samp(...params: any[]): EnhancedHTMLElement;
+            function samp(...params: any[]): nnet.dom.EnhancedHTMLElement;
 
             function script(...params: any[]): IEnhancedHTMLScriptElement;
 
@@ -447,15 +447,15 @@ declare module 'nnet'
             {
             }
 
-            function strong(...params: any[]): EnhancedHTMLElement;
+            function strong(...params: any[]): nnet.dom.EnhancedHTMLElement;
 
-            function sub(...params: any[]): EnhancedHTMLElement;
+            function sub(...params: any[]): nnet.dom.EnhancedHTMLElement;
 
-            function summary(...params: any[]): EnhancedHTMLElement;
+            function summary(...params: any[]): nnet.dom.EnhancedHTMLElement;
 
-            function sup(...params: any[]): EnhancedHTMLElement;
+            function sup(...params: any[]): nnet.dom.EnhancedHTMLElement;
 
-            function svg(...params: any[]): EnhancedHTMLElement;
+            function svg(...params: any[]): nnet.dom.EnhancedHTMLElement;
 
             function table(...params: any[]): IEnhancedHTMLTableAlignment;
 
@@ -499,7 +499,7 @@ declare module 'nnet'
             {
             }
 
-            function time(...params: any[]): EnhancedHTMLElement;
+            function time(...params: any[]): nnet.dom.EnhancedHTMLElement;
 
             function title(...params: any[]): IEnhancedHTMLTitleElement;
 
@@ -519,7 +519,7 @@ declare module 'nnet'
             {
             }
 
-            function u(...params: any[]): EnhancedHTMLElement;
+            function u(...params: any[]): nnet.dom.EnhancedHTMLElement;
 
             function ul(...params: any[]): IEnhancedHTMLUListElement;
 
@@ -527,7 +527,7 @@ declare module 'nnet'
             {
             }
 
-            function var$(...params: any[]): EnhancedHTMLElement;
+            function var$(...params: any[]): nnet.dom.EnhancedHTMLElement;
 
             function video(...params: any[]): IEnhancedHTMLVideoElement;
 
@@ -535,82 +535,6 @@ declare module 'nnet'
             {
             }
          }
-
-         function applyEnhancementsToPrototype(): void;
-
-         function enhanceElement(element: Element, force?: boolean): EnhancedElement;
-
-         module enhanceElement
-         {
-            var enabled: boolean;
-         }
-
-         function enhanceHTMLElement(element: HTMLElement, force?: boolean): EnhancedHTMLElement;
-
-         module enhanceHTMLElement
-         {
-            var enabled: boolean;
-         }
-
-         function find(query: Node, root?: Element): ElementGroup;
-
-         function find(query: Element, root?: Element): ElementGroup;
-
-         function find(query: string, root?: Element): ElementGroup;
-
-         module find
-         {
-            function id(id: Node): EnhancedHTMLElement;
-
-            function id(id: string): EnhancedHTMLElement;
-
-            function name(name: string, tag?: string, root?: Element): ElementGroup;
-
-            function className(name: string, tag?: string, root?: Element): ElementGroup;
-
-            function tagName(name: string, root?: Element): ElementGroup;
-
-            interface Interface
-            {
-               (query: Node, root?: Element): HTMLElement[];
-               (query: Element, root?: Element): HTMLElement[];
-               (query: string, root?: Element): HTMLElement[];
-               id(id: Node): HTMLElement;
-               id(id: string): HTMLElement;
-               name(name: string, tag?: string, root?: Element): HTMLElement[];
-               className(name: string, tag?: string, root?: Element): HTMLElement[];
-               tagName(name: string, root?: Element): HTMLElement[];
-            }
-
-            function native(query: Node, root?: Element): HTMLElement[];
-
-            function native(query: Element, root?: Element): HTMLElement[];
-
-            function native(query: string, root?: Element): HTMLElement[];
-
-            module native
-            {
-               function id(id: Node): HTMLElement;
-
-               function id(id: string): HTMLElement;
-
-               function name(name: string, tag?: string, root?: Element): HTMLElement[];
-
-               function className(name: string, tag?: string, root?: Element): HTMLElement[];
-
-               function tagName(name: string, root?: Element): HTMLElement[];
-            }
-         }
-
-         function getOuterHTML(node: Node, includeChildren?: boolean, escapeHtml?: boolean): string;
-
-         function isAncestor(node: Node, ancestor: Node): boolean;
-
-         function nodeTypeToString(el: Node): string;
-
-         function onInteractive(callback: (e?: nnet.event.EnhancedEvent) => void): void;
-
-         function onLoaded(callback: (e?: nnet.event.EnhancedEvent) => void): void;
 
          module form
          {
@@ -655,6 +579,82 @@ declare module 'nnet'
 
             function selectorQueryAll(getEl: find.Interface, query: any): any;
          }
+
+         function applyEnhancementsToPrototype(): void;
+
+         function enhanceElement(element: Element, force?: boolean): nnet.dom.EnhancedElement;
+
+         module enhanceElement
+         {
+            var enabled: boolean;
+         }
+
+         function enhanceHTMLElement(element: HTMLElement, force?: boolean): nnet.dom.EnhancedHTMLElement;
+
+         module enhanceHTMLElement
+         {
+            var enabled: boolean;
+         }
+
+         function find(query: Node, root?: Element): nnet.dom.ElementGroup;
+
+         function find(query: Element, root?: Element): nnet.dom.ElementGroup;
+
+         function find(query: string, root?: Element): nnet.dom.ElementGroup;
+
+         module find
+         {
+            function id(id: Node): nnet.dom.EnhancedHTMLElement;
+
+            function id(id: string): nnet.dom.EnhancedHTMLElement;
+
+            function name(name: string, tag?: string, root?: Element): nnet.dom.ElementGroup;
+
+            function className(name: string, tag?: string, root?: Element): nnet.dom.ElementGroup;
+
+            function tagName(name: string, root?: Element): nnet.dom.ElementGroup;
+
+            interface Interface
+            {
+               (query: Node, root?: Element): HTMLElement[];
+               (query: Element, root?: Element): HTMLElement[];
+               (query: string, root?: Element): HTMLElement[];
+               id(id: Node): HTMLElement;
+               id(id: string): HTMLElement;
+               name(name: string, tag?: string, root?: Element): HTMLElement[];
+               className(name: string, tag?: string, root?: Element): HTMLElement[];
+               tagName(name: string, root?: Element): HTMLElement[];
+            }
+
+            function native(query: Node, root?: Element): HTMLElement[];
+
+            function native(query: Element, root?: Element): HTMLElement[];
+
+            function native(query: string, root?: Element): HTMLElement[];
+
+            module native
+            {
+               function id(id: Node): HTMLElement;
+
+               function id(id: string): HTMLElement;
+
+               function name(name: string, tag?: string, root?: Element): HTMLElement[];
+
+               function className(name: string, tag?: string, root?: Element): HTMLElement[];
+
+               function tagName(name: string, root?: Element): HTMLElement[];
+            }
+         }
+
+         function getOuterHTML(node: Node, includeChildren?: boolean, escapeHtml?: boolean): string;
+
+         function isAncestor(node: Node, ancestor: Node): boolean;
+
+         function nodeTypeToString(el: Node): string;
+
+         function onInteractive(callback: (e?: nnet.event.EnhancedEvent) => void): void;
+
+         function onLoaded(callback: (e?: nnet.event.EnhancedEvent) => void): void;
       }
 
       module event
@@ -693,7 +693,7 @@ declare module 'nnet'
             stopImmediatePropagation(): void;
          }
 
-         function enhanceEvent(evt: Event, origin?: HTMLElement): EnhancedEvent;
+         function enhanceEvent(evt: Event, origin?: HTMLElement): nnet.event.EnhancedEvent;
       }
 
       module graphics
@@ -737,7 +737,7 @@ declare module 'nnet'
             next(): number;
          }
 
-         class NativeRandomGenerator implements IPRNG
+         class NativeRandomGenerator implements nnet.math.IPRNG
          {
             period: number;
             currentState: number;
@@ -747,10 +747,10 @@ declare module 'nnet'
 
          class Random
          {
-            generator: IPRNG;
+            generator: nnet.math.IPRNG;
             static instance: Random;
 
-            constructor(generator: IPRNG);
+            constructor(generator: nnet.math.IPRNG);
 
             float(min?: number, max?: number): number;
 
@@ -797,7 +797,7 @@ declare module 'nnet'
             body: any;
             headers: any;
             url: string;
-            response: IHttpResponse;
+            response: nnet.net.IHttpResponse;
             onComplete: (...args: any[]) => void;
 
             constructor(url: any, params: any);
@@ -1016,10 +1016,7 @@ declare module 'nnet'
          function isLeapYear(year: number): boolean;
       }
 
-      module parseBool
-      {
-         function parseBool(value: any): boolean;
-      }
+      function parseBool(value: any): boolean;
 
       enum type
       {
