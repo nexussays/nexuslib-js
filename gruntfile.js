@@ -58,9 +58,9 @@ module.exports = function(grunt)
          src:
          {
             main: "nnet-js/src",
+            mainRoot: "nnet-js/src/_nnet.ts",
             test: "nnet-js/test",
-            ts: ["<%= paths.src.main %>/**/*.ts", "!<%= paths.src.main %>/**/*.d.ts"],
-            js: "<%= paths.src.main %>/**/*.js"
+            ts: ["<%= paths.src.main %>/**/*.ts", "<%= paths.src.test %>/*.ts", "!*.d.ts"],
          },
          dest:
          {
@@ -90,40 +90,37 @@ module.exports = function(grunt)
    config.ts = {
       options: {
          target: "es5",
-         module: "amd",
+         module: "commonjs",
          sourceMap: false,
          declaration: true,
          removeComments: true,
          default: {
-            src: ["<%= paths.src.main %>/**/*.ts", "<%= paths.src.test %>/*.ts"],
-            outDir: config.paths.dest.compiledAMD,
+            src: config.paths.src.ts,
+            outDir: config.paths.dest.compiledCommonJS,
             //reference: "<%= paths.src.main %>/references.ts"
          }
       },
-      "build-amd": {},
-      "build-commonjs": {
-         //src: ["<%= paths.src.main %>/**/*.ts", "<%= paths.src.test %>/*.ts", "!<%= paths.src.test %>/*-amd.ts"],
-         outDir: config.paths.dest.compiledCommonJS,
+      "build-amd": {
+         outDir: config.paths.dest.compiledAMD,
          options: {
-            module: "commonjs"
+            module: "amd"
          }
       },
+      "build-commonjs": {
+      },
       watch: {
-         watch: config.paths.src.main
+         watch: [ config.paths.src.main, config.paths.src.test ]
       },
       imports: {
-         options:
-         {
+         options: {
             compile: false
          }
       },
-      "main-amd": {
-         src: ["<%= paths.src.main %>/**/*.ts"],
-         outDir: config.paths.dest.compiledAMDMain,
+      "main-only": {
+         src: [ config.paths.src.mainRoot ]
       },
-      "test-amd": {
+      "test-only": {
          src: ["<%= paths.src.test %>/*.ts"],
-         outDir: config.paths.dest.compiledAMDTest,
          options: {
             sourceMap: false,
             declaration: false,
