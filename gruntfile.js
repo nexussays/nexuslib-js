@@ -48,14 +48,14 @@ module.exports = function(grunt)
    //
    // build
    //
-   grunt.registerTask( "build", ["gen-index:ts", "ts:imports", "build:commonjs", "build:editor"] );
-   grunt.registerTask( "build:commonjs", ["ts:commonjs", "gen-index:js-commonjs"] );
+   grunt.registerTask( "build", ["gen-index:ts", "ts:imports", "build:commonjs", "build:editor", "copy:declarations"] );
+   grunt.registerTask( "build:commonjs", ["ts:commonjs", "deleteempty", "gen-index:js-commonjs"] );
    grunt.registerTask( "build:editor", ["ts:editor"] );
 
    //
    // merge individual files and minify
    //
-   grunt.registerTask( "package", ["dts", "copy:declaration", "browserify"] );
+   grunt.registerTask( "package", ["dts", "browserify"] );
 
    //
    // do all of the above and then minify
@@ -94,7 +94,7 @@ module.exports = function(grunt)
          watch: [config.paths.main.srcDir, config.paths.editor.srcDir]
       },
       imports: {
-         src: "<%= paths.main.srcDir %>/**/*.ts",
+         src: ["<%= paths.main.srcDir %>/**/*.ts"],
          options: {
             compile: false
          }
@@ -198,13 +198,13 @@ module.exports = function(grunt)
       var path = require( "path" );
       var file = path.resolve( this.data.main, "../", this.data.out );
       _fs.writeFileSync( file, _fs.readFileSync( file ).toString().replace( /__nnet\//g, "" ), 'utf-8' );
-      convertExternalDeclarationToInternal( file, file.replace(/\-gen\.d\.ts$/, ".d.ts"), "nnet", "nnet" );
+      convertExternalDeclarationToInternal( file, file, "nnet", "nnet" );
    } );
    config.dts = {
       nnet:
       {
          name: "nnet",
-         out: "../../../typings/nnet-gen.d.ts",
+         out: "../../../typings/nnet.d.ts",
          indent: '   ',
          main: config.paths.main.dest.commonjs + "/_nnet.d.ts"
       }
@@ -263,12 +263,12 @@ module.exports = function(grunt)
    //
    grunt.loadNpmTasks( 'grunt-contrib-copy' );
    config.copy = {
-      //definitions: {
-      //   cwd: config.paths.main.srcDir, // set working folder / root to copy
-      //   src: "**/*.d.ts", // copy all files and subfolders
-      //   dest: config.paths.main.dest.commonjs, // destination folder
-      //   expand: true // required when using cwd
-      //},
+      declarations: {
+         cwd: config.paths.main.srcDir, // set working folder / root to copy
+         src: "**/*.d.ts", // copy all files and subfolders
+         dest: config.paths.main.dest.commonjs, // destination folder
+         expand: true // required when using cwd
+      },
       declaration: {
          src: config.paths.declaration.srcFile,
          dest: config.paths.declaration.destFile
@@ -288,10 +288,8 @@ module.exports = function(grunt)
                config.paths.dest.root,
                "<%= paths.main.srcDir %>/**/*.js.map",
                "<%= paths.main.srcDir %>/**/*.js",
-               "<%= paths.main.srcDir %>/**/*.d.ts",
                "<%= paths.editor.srcDir %>/**/*.js.map",
-               "<%= paths.editor.srcDir %>/**/*.js",
-               "<%= paths.editor.srcDir %>/**/*.d.ts"
+               "<%= paths.editor.srcDir %>/**/*.js"
             ]
          }
       },
@@ -342,6 +340,58 @@ module.exports = function(grunt)
          include: ["../../../lib/almond"],
          wrap: true
       },
+   };
+
+   //
+   // delete empty files (eg interfaces that are in their own file)
+   //
+   grunt.registerMultiTask( "deleteempty", "Clean empty files and folders.", function()
+   {
+      var fs = require( 'fs' );
+      // Task options
+      var force = grunt.option( "force" ) === true;
+      var noWrite = grunt.option( "no-write" ) === true;
+      // Target options
+      var options = this.options();
+      var options = this.options(
+      {
+         force: (options.force === undefined ? force : options.force),
+         threshold: (options.threshold === undefined ? 0 : options.threshold),
+         "no-write": (options["no-write"] === undefined ? noWrite : options["no-write"])
+      } );
+      grunt.verbose.writeflags( options, "Options" );
+      var deleteOptions = { force: options.force, "no-write": options["no-write"] };
+      for(var i = this.filesSrc.length - 1; i >= 0; i--)
+      {
+         var filepath = this.filesSrc[i];
+         if(!grunt.file.isDir( filepath ))
+         {
+            if(fs.readFileSync( filepath ).length > options.threshold)
+            {
+               continue;
+            }
+         }
+         else
+         {
+            if(fs.readdirSync( filepath ).length > options.threshold)
+            {
+               continue;
+            }
+         }
+         grunt.log.write( (options["no-write"] ? "Not actually cleaning " : "Cleaning ") + filepath + "..." );
+         grunt.file.delete( filepath, deleteOptions );
+         grunt.log.ok();
+      }
+   } );
+   config.deleteempty = {
+      all: {
+         src: config.paths.dest.root + "/**/*.js",
+         options:
+         {
+            // for some reason these empty files are 3 bytes. No idea. Maybe BOM?
+            threshold: 4
+         }
+      }
    };
 
    function copyDefaults(taskObj)
@@ -507,10 +557,10 @@ module.exports = function(grunt)
             while(i < lines.length)
             {
                ++i;
-               if(/^\s*$/.test( lines[i] ))
+               if(/^\}$/.test( lines[i] ))
                {
                   // remove final brace
-                  moduleLines.pop();
+                  //moduleLines.pop();
                   break;
                }
                moduleLines.push( lines[i] );
@@ -538,6 +588,12 @@ module.exports = function(grunt)
             var mLine = moduleLines[x];
             try
             {
+               if(/^\s*\/\//.test( mLine ))
+               {
+                  moduleLines.splice( x, 1 );
+                  x--;
+                  continue;
+               }
                var isExportImport = mLine.match( exportImportMatch );
                var isImport = mLine.match( importMatch );
                var isExportEquals = mLine.match( exportEqualsMatch );
@@ -614,14 +670,14 @@ module.exports = function(grunt)
          if(content instanceof Array)
          {
             return pad( depth ) + "module " + name + " {\n" +
-               pad( depth ) + ( content.join( "" ).replace( /\n/g, "\n" + pad( depth ) ) ) +
+               pad( depth ) + (content.join( "" ).replace( /\n/g, "\n" + pad( depth ) )) +
                "\n" + pad( depth ) + "}\n\n";
          }
 
          var val = pad( depth ) + "module " + name + " {\n";
          for(var n in content)
          {
-            val += parseModule( n, content[n], depth + 1);
+            val += parseModule( n, content[n], depth + 1 );
          }
          val += pad( depth ) + "}\n\n";
          return val;
