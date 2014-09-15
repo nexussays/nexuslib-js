@@ -1,92 +1,68 @@
 module.exports = function(grunt)
 {
-   grunt.loadNpmTasks( "grunt-browserify" );
-   grunt.loadNpmTasks( "grunt-ts" );
-   grunt.loadNpmTasks( 'grunt-contrib-uglify' );
-   grunt.loadNpmTasks( 'grunt-contrib-copy' );
-
    grunt.registerTask( "default", ["build"] );
-
-   // build
-   grunt.registerTask( "build", ["gen-index:ts", "build:amd", "build:commonjs"] );
-   grunt.registerTask( "build:amd", ["ts:build-amd", "gen-index:js-amd"] );
-   grunt.registerTask( "build:commonjs", ["ts:build-commonjs", "gen-index:js-commonjs"] );
-
-   // merge individual files and minify
-   grunt.registerTask( "optimize", ["dts", "requirejs", "browserify"] );
-
-   // do all of the above and then minify
-   grunt.registerTask( "complete", ["build", "optimize", "uglify:all"] );
-
-   // generate index files
-   grunt.registerMultiTask( "gen-index", function()
-   {
-      try {
-         generateModuleRoots(
-            this.data.template,
-            this.data.root,
-            this.data.regex,
-            this.data.ext,
-            this.data.extArr
-         );
-      }
-      catch(e) {
-         console.log( e.message );
-      }
-   } );
-
-   grunt.registerMultiTask( "dts", function()
-   {
-      var dts = require( 'dts-bundle' );
-      dts.bundle( this.data );
-      var path = require( "path" );
-      var file = path.resolve( this.data.main, "../", this.data.out );
-      _fs.writeFileSync( file, _fs.readFileSync( file ).toString().replace( /__nnet\//g, "" ), 'utf-8' );
-   } );
-
-   grunt.registerMultiTask( "requirejs", function()
-   {
-      var r = require( "requirejs" );
-      //console.log("Running require.js for " + this.target);
-      r.optimize( this.data, console.out, console.err );
-   } );
 
    var config =
    {
       paths:
       {
-         src:
-         {
-            main: "nnet-js/src",
-            mainRoot: "nnet-js/src/_nnet.ts",
-            test: "nnet-js/test",
-            ts: ["<%= paths.src.main %>/**/*.ts", "<%= paths.src.test %>/*.ts", "!*.d.ts"],
-         },
          dest:
          {
             root: "nnet-js/bin",
-            compiledCommonJS: "<%= paths.dest.root %>/compiled-commonjs",
-            compiledCommonJSMain: "<%= paths.dest.compiledCommonJS %>/src",
-            compiledCommonJSMainFile: "<%= paths.dest.compiledCommonJS %>/src/_nnet.js",
-            compiledCommonJSTest: "<%= paths.dest.compiledCommonJS %>/test",
-            compiledAMD: "<%= paths.dest.root %>/compiled-amd",
-            compiledAMDMain: "<%= paths.dest.compiledAMD %>/src",
-            compiledAMDTest: "<%= paths.dest.compiledAMD %>/test",
-            bundledMain: "<%= paths.dest.root %>/dist",
-            bundledTest: "<%= paths.dest.root %>/test",
-            minified: "<%= paths.dest.root %>/dist"
+            commonjs: "<%= paths.dest.root %>/compiled-commonjs",
+            amd: "<%= paths.dest.root %>/compiled-amd"
+         },
+         editor:
+         {
+            srcDir: "nnet-js/test",
+            srcFile: ["<%= paths.editor.srcDir %>/editor.ts", "<%= paths.editor.srcDir %>/events.ts"],
+            srcBrowserify: "<%= paths.editor.dest.commonjs %>/editor.js",
+            dest:
+            {
+               commonjs: "<%= paths.dest.commonjs %>/editor",
+               bundled: "<%= paths.dest.root %>/editor",
+            }
+         },
+         main:
+         {
+            srcDir: "nnet-js/src",
+            srcFile: "<%= paths.main.srcDir %>/_nnet.ts",
+            srcBrowserify: "<%= paths.main.dest.commonjs %>/_nnet.js",
+            dest:
+            {
+               amd: "<%= paths.dest.amd %>/src",
+               commonjs: "<%= paths.dest.commonjs %>/src",
+               bundled: "<%= paths.dest.root %>/dist",
+               minified: "<%= paths.dest.root %>/dist"
+            }
          }
       },
-      package: grunt.file.readJSON( './package.json' ),
-      copyDefaults: function()
-      {
-         for(var taskName in config)
-         {
-            copyDefaults( config[taskName] );
-         }
-      }
+      package: grunt.file.readJSON( './package.json' )
    };
 
+   //
+   // build
+   //
+   grunt.registerTask( "build", ["gen-index:ts", "ts:imports", "build:commonjs", "build:editor"] );
+   grunt.registerTask( "build:commonjs", ["ts:commonjs", "gen-index:js-commonjs"] );
+   grunt.registerTask( "build:editor", ["ts:editor"] );
+
+   //
+   // merge individual files and minify
+   //
+   grunt.registerTask( "optimize", ["dts", "requirejs", "browserify"] );
+
+   //
+   // do all of the above and then minify
+   //
+   grunt.registerTask( "complete", ["build", "build:amd", "optimize", "uglify:all"] );
+   // amd build is only for distribution
+   grunt.registerTask( "build:amd", ["ts:amd", "gen-index:js-amd"] );
+
+   //
+   // typescript build using external module
+   //
+   grunt.loadNpmTasks( "grunt-ts" );
    config.ts = {
       options: {
          target: "es5",
@@ -95,32 +71,32 @@ module.exports = function(grunt)
          declaration: true,
          removeComments: true,
          default: {
-            src: config.paths.src.ts,
-            outDir: config.paths.dest.compiledCommonJS,
-            //reference: "<%= paths.src.main %>/references.ts"
+            src: config.paths.main.srcFile,
+            outDir: config.paths.main.dest.commonjs,
+            //reference: "<%= paths.main.srcDir %>/references.ts"
          }
       },
-      "build-amd": {
-         outDir: config.paths.dest.compiledAMD,
+      amd: {
+         outDir: config.paths.main.dest.amd,
          options: {
             module: "amd"
          }
       },
-      "build-commonjs": {
+      commonjs: {
+
       },
       watch: {
-         watch: [ config.paths.src.main, config.paths.src.test ]
+         watch: [config.paths.main.srcDir, config.paths.editor.srcDir]
       },
       imports: {
+         src: "<%= paths.main.srcDir %>/**/*.ts",
          options: {
             compile: false
          }
       },
-      "main-only": {
-         src: [ config.paths.src.mainRoot ]
-      },
-      "test-only": {
-         src: ["<%= paths.src.test %>/*.ts"],
+      editor: {
+         src: config.paths.editor.srcFile,
+         outDir: config.paths.editor.dest.commonjs,
          options: {
             sourceMap: false,
             declaration: false,
@@ -129,13 +105,17 @@ module.exports = function(grunt)
       }
    };
 
+   //
+   // browserify to bundle the commonjs versions
+   //
+   grunt.loadNpmTasks( "grunt-browserify" );
    config.browserify = {
       dist: {
-         src: [config.paths.dest.compiledCommonJSMainFile],
-         dest: "<%= paths.dest.bundledMain %>/nnet-browserify.js",
+         src: config.paths.main.srcBrowserify,
+         dest: "<%= paths.main.dest.bundled %>/nnet-browserify.js",
          options: {
             browserifyOptions: {
-               standalone: 'nnet',
+               standalone: "nnet",
                //paths: ["./src/nnet"]
             },
             //aliasMappings: {
@@ -144,16 +124,91 @@ module.exports = function(grunt)
             //}
          }
       },
-      test: {
-         src: ["<%= paths.dest.compiledCommonJSTest %>/editor.js", "<%= paths.dest.compiledCommonJSTest %>/events.js"],
-         dest: "<%= paths.dest.bundledTest %>/test.js",
+      editor: {
+         src: config.paths.editor.srcBrowserify,
+         dest: "<%= paths.editor.dest.bundled %>/editor.js",
          options: {
-            exclude: ["../src/nnet"],
+            transform: ["browserify-shim"],
+            external: ["nnet"],
+            shim: {
+               nnet: {
+                  path: "foo/bar/path/nnet-browserify.js"
+               }
+            }
             //alias: ["../src/nnet/**/*.js:nnet"]
          }
       }
    };
 
+   //
+   // generate index files
+   //
+   grunt.registerMultiTask( "gen-index", function()
+   {
+      try
+      {
+         generateModuleRoots(
+            this.data.template,
+            this.data.root,
+            this.data.regex,
+            this.data.ext,
+            this.data.extArr
+         );
+      }
+      catch(e)
+      {
+         console.log( e.message.red );
+      }
+   } );
+   config["gen-index"] =
+   {
+      "ts": {
+         template: './build/module-index-ts.mustache',
+         root: config.paths.main.srcDir,
+         regex: (/\.ts$/),
+         ext: ".ts",
+         extArr: [".ts", ".d"]
+      },
+      "js-amd": {
+         template: './build/module-index-js-amd.mustache',
+         root: config.paths.main.dest.amd,
+         regex: (/\.js$/),
+         ext: ".js"
+      },
+      "js-commonjs": {
+         template: './build/module-index-js-commonjs.mustache',
+         root: config.paths.main.dest.commonjs,
+         regex: (/\.js$/),
+         ext: ".js"
+      }
+   };
+
+
+   //
+   // merge .d.ts files into a single file
+   //
+   grunt.registerMultiTask( "dts", function()
+   {
+      var dts = require( 'dts-bundle' );
+      dts.bundle( this.data );
+      var path = require( "path" );
+      var file = path.resolve( this.data.main, "../", this.data.out );
+      _fs.writeFileSync( file, _fs.readFileSync( file ).toString().replace( /__nnet\//g, "" ), 'utf-8' );
+   } );
+   config.dts = {
+      nnet:
+      {
+         name: "nnet",
+         out: "../../dist/nnet.d.ts",
+         indent: '   ',
+         main: config.paths.main.dest.amd + "/_nnet.d.ts"
+      }
+   };
+
+   //
+   // minify the generated javascript
+   //
+   grunt.loadNpmTasks( 'grunt-contrib-uglify' );
    config.uglify = {
       options: {
          banner: "/** Copyright Malachi Griffie <malachi@nexussays.com> " +
@@ -168,7 +223,7 @@ module.exports = function(grunt)
             files: [
                {
                   expand: true,
-                  cwd: config.paths.dest.bundledMain,
+                  cwd: config.paths.main.dest.bundled,
                   src: ["*.js", "!*.min.js"],
                   dest: config.paths.dest.minified,
                   rename: function(path, name)
@@ -198,45 +253,59 @@ module.exports = function(grunt)
       }
    };
 
-   config.copy = {
-      definitions: {
-         cwd: config.paths.src.main, // set working folder / root to copy
-         src: "**/*.d.ts", // copy all files and subfolders
-         dest: config.paths.dest.compiledAMDMain, // destination folder
-         expand: true // required when using cwd
+   //
+   // Copy any .d.ts files from src to dest
+   //
+   //grunt.loadNpmTasks( 'grunt-contrib-copy' );
+   //config.copy = {
+   //   definitions: {
+   //      cwd: config.paths.main.srcDir, // set working folder / root to copy
+   //      src: "**/*.d.ts", // copy all files and subfolders
+   //      dest: config.paths.main.dest.commonjs, // destination folder
+   //      expand: true // required when using cwd
+   //   },
+   //};
+
+   //
+   // clean
+   //
+   grunt.loadNpmTasks( 'grunt-contrib-clean' );
+   config.clean = {
+      options: {
+         default: {
+            src: [
+               "./.tscache",
+               "./**/.baseDir.ts",
+               config.paths.dest.root,
+               "<%= paths.main.srcDir %>/**/*.js.map",
+               "<%= paths.main.srcDir %>/**/*.js",
+               "<%= paths.main.srcDir %>/**/*.d.ts",
+               "<%= paths.editor.srcDir %>/**/*.js.map",
+               "<%= paths.editor.srcDir %>/**/*.js",
+               "<%= paths.editor.srcDir %>/**/*.d.ts"
+            ]
+         }
       },
-      //definitions: {
-      //   cwd: config.paths.dest.compiledAMD, // set working folder / root to copy
-      //   src: "**/*.d.ts", // copy all files and subfolders
-      //   dest: "<%= paths.dest.compiledAMD %>.d", // destination folder
-      //   expand: true // required when using cwd
+      build: {
+
+      },
+      // this isn't working
+      //test: {
+      //   options: {
+      //      'no-write': true
+      //   }
       //}
    };
 
-   config["gen-index"] =
+   //
+   // bundle amd generated js
+   //
+   grunt.registerMultiTask( "requirejs", function()
    {
-      "ts": {
-         template: './build/module-index-ts.mustache',
-         root: config.paths.src.main,
-         regex: (/\.ts$/),
-         ext: ".ts",
-         extArr: [".ts", ".d"]
-      },
-      "js-amd": {
-         template: './build/module-index-js-amd.mustache',
-         root: config.paths.dest.compiledAMDMain,
-         regex: (/\.js$/),
-         ext: ".js"
-      },
-      "js-commonjs": {
-         template: './build/module-index-js-commonjs.mustache',
-         root: config.paths.dest.compiledCommonJSMain,
-         regex: (/\.js$/),
-         ext: ".js"
-      }
-   };
-
-   // define after setting config initially so we can use existing config values
+      var r = require( "requirejs" );
+      //console.log("Running require.js for " + this.target);
+      r.optimize( this.data, console.out, console.err );
+   } );
    config.requirejs =
    {
       options:
@@ -244,12 +313,12 @@ module.exports = function(grunt)
          //r.js.cmd -o build.js optimize=none
          default:
          {
-            out: config.paths.dest.bundledMain + "/nnet-amd.js",
-            //appDir: config.paths.dest.compiledAMDMain,
-            baseUrl: config.paths.dest.compiledAMDMain,
+            out: config.paths.main.dest.bundled + "/nnet-amd.js",
+            //appDir: config.paths.main.dest.amd,
+            baseUrl: config.paths.main.dest.amd,
             //dir: "./bin",
             //exclude: [],
-            //mainConfigFile: config.paths.dest.compiledAMDMain + "/nnet_.js",
+            //mainConfigFile: config.paths.main.dest.amd + "/nnet_.js",
             name: "_nnet",
             generateSourceMaps: false,
             optimize: "none"
@@ -260,31 +329,10 @@ module.exports = function(grunt)
       //r.js.cmd -o build.js optimize=none paths.requireLib=../node_modules/requirejs/require include=requireLib
       almond:
       {
-         out: config.paths.dest.bundledMain + "/nnet-amd-embedded-almond.js",
+         out: config.paths.main.dest.bundled + "/nnet-amd-embedded-almond.js",
          include: ["../../../lib/almond"],
          wrap: true
       },
-      /*
-      require:
-      {
-         out: config.paths.dest.bundledMain + "/nnet-amd-embedded-require.js",
-         paths:
-         {
-            "requireLib": "../../../../node_modules/requirejs/require"
-         },
-         include: ["requireLib"]
-      }
-      */
-   };
-
-   config.dts = {
-      nnet:
-      {
-         name: "nnet",
-         out: "../../dist/nnet.d.ts",
-         indent: '   ',
-         main: config.paths.dest.compiledAMDMain + "/_nnet.d.ts"
-      }
    };
 
    function copyDefaults(taskObj)
@@ -307,26 +355,18 @@ module.exports = function(grunt)
                   {
                      target[prop] = taskObj.options.default[prop];
                   }
-                  /*
-                  else if(prop == "options")
-                  {
-                     var options = task.default[prop];
-                     for(var optProp in options)
-                     {
-                        if(target.options.hasOwnProperty( optProp ))
-                        {
-                           target.options[optProp] = options[optProp];
-                        }
-                     }
-                  }
-                  //*/
                }
             }
          }
       }
    }
 
-   config.copyDefaults();
+   // copy defaults to other tasks
+   for(var taskName in config)
+   {
+      copyDefaults( config[taskName] );
+   }
+
    grunt.initConfig( config );
 
    //
