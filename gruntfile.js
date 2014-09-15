@@ -8,9 +8,9 @@ module.exports = function(grunt)
    grunt.registerTask( "default", ["build"] );
 
    // build
-   grunt.registerTask( "build", ["gen-index:ts", "build-amd", "build-commonjs"] );
-   grunt.registerTask( "build-amd", ["ts:build-amd", "gen-index:js-amd"] );
-   grunt.registerTask( "build-commonjs", ["ts:build-commonjs", "gen-index:js-commonjs"] );
+   grunt.registerTask( "build", ["gen-index:ts", "build:amd", "build:commonjs"] );
+   grunt.registerTask( "build:amd", ["ts:build-amd", "gen-index:js-amd"] );
+   grunt.registerTask( "build:commonjs", ["ts:build-commonjs", "gen-index:js-commonjs"] );
 
    // merge individual files and minify
    grunt.registerTask( "optimize", ["dts", "requirejs", "browserify"] );
@@ -21,13 +21,18 @@ module.exports = function(grunt)
    // generate index files
    grunt.registerMultiTask( "gen-index", function()
    {
-      generateModuleRoots(
-         this.data.template,
-         this.data.root,
-         this.data.regex,
-         this.data.ext,
-         this.data.extArr
-      );
+      try {
+         generateModuleRoots(
+            this.data.template,
+            this.data.root,
+            this.data.regex,
+            this.data.ext,
+            this.data.extArr
+         );
+      }
+      catch(e) {
+         console.log( e.message );
+      }
    } );
 
    grunt.registerMultiTask( "dts", function()
@@ -129,7 +134,7 @@ module.exports = function(grunt)
 
    config.browserify = {
       dist: {
-         src: ["<%= paths.dest.compiledCommonJSMainFile %>"],
+         src: [config.paths.dest.compiledCommonJSMainFile],
          dest: "<%= paths.dest.bundledMain %>/nnet-browserify.js",
          options: {
             browserifyOptions: {
