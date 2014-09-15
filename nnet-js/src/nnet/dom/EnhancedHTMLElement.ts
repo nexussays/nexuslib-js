@@ -1,11 +1,11 @@
-﻿// Copyright Malachi Griffie <malachi@nexussays.com>
+// Copyright Malachi Griffie <malachi@nexussays.com>
 //
 // This Source Code Form is subject to the terms of the Mozilla Public
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 /// ts:import=contains
-import contains = require('../string/contains'); ///ts:import:generated
+import contains = require('../stringutil/contains'); ///ts:import:generated
 ///ts:import=EnhancedElement
 import EnhancedElement = require('./EnhancedElement'); ///ts:import:generated
 ///ts:import=find

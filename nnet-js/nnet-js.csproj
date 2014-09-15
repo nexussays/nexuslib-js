@@ -16,7 +16,7 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <TsOutDir Condition="$(TsOutDir) == '' Or $(TsOutDir) == '*Undefined*'">.\bin\compiled-amd</TsOutDir>
+    <TsOutDir Condition="$(TsOutDir) == '' Or $(TsOutDir) == '*Undefined*'">.\bin\compiled-commonjs</TsOutDir>
   </PropertyGroup>
   <ItemGroup>
     <TypeScriptCompile Include="lib\modernizr.d.ts" />
@@ -42,8 +42,8 @@
     <TypeScriptCompile Include="src\nnet\dom\_selector.ts" />
     <TypeScriptCompile Include="src\nnet\event\EnhancedEvent.ts" />
     <TypeScriptCompile Include="src\nnet\net\generateQueryString.ts" />
-    <TypeScriptCompile Include="src\nnet\string\charTimes.ts" />
-    <TypeScriptCompile Include="src\nnet\string\trimChars.ts" />
+    <TypeScriptCompile Include="src\nnet\stringutil\charTimes.ts" />
+    <TypeScriptCompile Include="src\nnet\stringutil\trimChars.ts" />
     <TypeScriptCompile Include="src\nnet\util\Key.ts" />
     <TypeScriptCompile Include="src\nnet\graphics\Color.ts" />
     <TypeScriptCompile Include="src\nnet\dom\form\RadioCollection.ts" />
@@ -83,12 +83,12 @@
     <TypeScriptCompile Include="src\nnet\parseBool.ts" />
     <TypeScriptCompile Include="src\nnet\type.ts" />
     <TypeScriptCompile Include="src\nnet\util\Milliseconds.ts" />
-    <TypeScriptCompile Include="src\nnet\string\contains.ts" />
-    <TypeScriptCompile Include="src\nnet\string\escapeHTML.ts" />
-    <TypeScriptCompile Include="src\nnet\string\escapeRegExp.ts" />
-    <TypeScriptCompile Include="src\nnet\string\stripTags.ts" />
-    <TypeScriptCompile Include="src\nnet\string\trim.ts" />
-    <TypeScriptCompile Include="src\nnet\string\unescapeHTML.ts" />
+    <TypeScriptCompile Include="src\nnet\stringutil\contains.ts" />
+    <TypeScriptCompile Include="src\nnet\stringutil\escapeHTML.ts" />
+    <TypeScriptCompile Include="src\nnet\stringutil\escapeRegExp.ts" />
+    <TypeScriptCompile Include="src\nnet\stringutil\stripTags.ts" />
+    <TypeScriptCompile Include="src\nnet\stringutil\trim.ts" />
+    <TypeScriptCompile Include="src\nnet\stringutil\unescapeHTML.ts" />
     <TypeScriptCompile Include="src\nnet\browser\window\parseQueryString.ts" />
     <TypeScriptCompile Include="src\nnet\browser\window\jump.ts" />
     <TypeScriptCompile Include="src\nnet\browser\window\getSize.ts" />
@@ -106,17 +106,18 @@
     <TypeScriptCompile Include="src\nnet\_net.ts" />
     <TypeScriptCompile Include="src\nnet\_object.ts" />
     <TypeScriptCompile Include="src\nnet\_serialization.ts" />
-    <TypeScriptCompile Include="src\nnet\_string.ts" />
+    <TypeScriptCompile Include="src\nnet\_stringutil.ts" />
     <TypeScriptCompile Include="src\nnet\_util.ts" />
     <TypeScriptCompile Include="src\_nnet.ts" />
     <TypeScriptCompile Include="test\benchmark.ts" />
     <TypeScriptCompile Include="test\editor.ts" />
     <TypeScriptCompile Include="test\events.ts" />
     <TypeScriptCompile Include="test\nav.ts" />
+    <TypeScriptCompile Include="typings\nnet.d.ts" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="editor.htm" />
-    <Content Include="events.htm" />
+    <Content Include="test\editor.htm" />
+    <Content Include="test\events.htm" />
     <Content Include="images\bkgd.png" />
     <Content Include="images\block.png" />
     <Content Include="images\silk\accept.png" />

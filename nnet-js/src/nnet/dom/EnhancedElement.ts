@@ -1,4 +1,4 @@
-﻿// Copyright Malachi Griffie <malachi@nexussays.com>
+// Copyright Malachi Griffie <malachi@nexussays.com>
 //
 // This Source Code Form is subject to the terms of the Mozilla Public
 // License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -9,7 +9,7 @@ import EnhancedEvent = require('../event/EnhancedEvent'); ///ts:import:generated
 ///ts:import=enhanceEvent
 import enhanceEvent = require('../event/enhanceEvent'); ///ts:import:generated
 ///ts:import=escapeHTML
-import escapeHTML = require('../string/escapeHTML'); ///ts:import:generated
+import escapeHTML = require('../stringutil/escapeHTML'); ///ts:import:generated
 ///ts:import=type
 import type = require('../type'); ///ts:import:generated
 ///ts:import=isArrayLike

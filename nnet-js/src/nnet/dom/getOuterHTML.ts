@@ -1,11 +1,11 @@
-﻿// Copyright Malachi Griffie <malachi@nexussays.com>
+// Copyright Malachi Griffie <malachi@nexussays.com>
 //
 // This Source Code Form is subject to the terms of the Mozilla Public
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 /// ts:import=escapeHTML
-import escapeHTML = require('../string/escapeHTML'); ///ts:import:generated
+import escapeHTML = require('../stringutil/escapeHTML'); ///ts:import:generated
 
 export = getOuterHTML;
 

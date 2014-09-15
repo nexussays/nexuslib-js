@@ -1,4 +1,4 @@
-﻿// Copyright Malachi Griffie <malachi@nexussays.com>
+// Copyright Malachi Griffie <malachi@nexussays.com>
 //
 // This Source Code Form is subject to the terms of the Mozilla Public
 // License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -6,7 +6,7 @@
 
 
 ///ts:import=escapeRegExp
-import escapeRegExp = require('../../string/escapeRegExp'); ///ts:import:generated
+import escapeRegExp = require('../../stringutil/escapeRegExp'); ///ts:import:generated
 
 var regexCache = {};
 
