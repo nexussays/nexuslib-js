@@ -11,6 +11,9 @@ import enhanceElement = require('./enhanceElement'); ///ts:import:generated
 
 export = enhanceHTMLElement;
 
+// so we can use require in the method and break the circular dependency
+declare var require;
+
 function enhanceHTMLElement(element: HTMLElement, force?: boolean): EnhancedHTMLElement
 {
    enhanceElement(element, force);

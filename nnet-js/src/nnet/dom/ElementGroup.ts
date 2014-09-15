@@ -19,6 +19,9 @@ import enhanceHTMLElement = require('./enhanceHTMLElement'); ///ts:import:genera
 
 export = ElementGroup;
 
+// so we can break the circular dependency on the find method
+declare var require;
+
 class ElementGroup
 {
    private m_array: Array<EnhancedHTMLElement>;

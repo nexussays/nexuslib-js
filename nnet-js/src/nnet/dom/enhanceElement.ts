@@ -9,6 +9,9 @@ import EnhancedElement = require('./EnhancedElement'); ///ts:import:generated
 
 export = enhanceElement;
 
+// so we can use require in the method and break the circular dependency
+declare var require;
+
 function enhanceElement(element: Element, force?: boolean): EnhancedElement
 {
    if(enhanceElement.enabled && (element && (force || element.nodeType == Node.ELEMENT_NODE)))

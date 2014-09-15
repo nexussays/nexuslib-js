@@ -20,7 +20,6 @@
   </PropertyGroup>
   <ItemGroup>
     <TypeScriptCompile Include="lib\modernizr.d.ts" />
-    <TypeScriptCompile Include="lib\require.d.ts" />
     <TypeScriptCompile Include="src\nnet\array\enhancePrototype.ts" />
     <TypeScriptCompile Include="src\nnet\browser\_window.ts" />
     <TypeScriptCompile Include="src\nnet\dom\applyEnhancementsToPrototype.ts" />
@@ -111,11 +110,9 @@
     <TypeScriptCompile Include="src\nnet\_util.ts" />
     <TypeScriptCompile Include="src\_nnet.ts" />
     <TypeScriptCompile Include="test\benchmark.ts" />
-    <TypeScriptCompile Include="test\config-amd.ts" />
     <TypeScriptCompile Include="test\editor.ts" />
     <TypeScriptCompile Include="test\events.ts" />
     <TypeScriptCompile Include="test\nav.ts" />
-    <TypeScriptCompile Include="typings\nnet.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="editor.htm" />
@@ -193,7 +190,7 @@
     <TypeScriptTarget>ES5</TypeScriptTarget>
     <TypeScriptRemoveComments>True</TypeScriptRemoveComments>
     <TypeScriptSourceMap>true</TypeScriptSourceMap>
-    <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
+    <TypeScriptModuleKind>commonjs</TypeScriptModuleKind>
     <TypeScriptGeneratesDeclarations>True</TypeScriptGeneratesDeclarations>
     <TypeScriptOutDir>$(TsOutDir)</TypeScriptOutDir>
     <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
