@@ -1,13 +1,8 @@
-﻿/// ts:import=type
-import type = require('../src/nnet/type'); ///ts:import:generated
-///ts:import=_nnet,nnet
-import nnet = require('../src/_nnet'); ///ts:import:generated
-///ts:import=find
-import find = require('../src/nnet/dom/find'); ///ts:import:generated
-///ts:import=HTML
-import HTML = require('../src/nnet/dom/HTML'); ///ts:import:generated
-///ts:import=escapeRegExp
-import escapeRegExp = require('../src/nnet/string/escapeRegExp'); ///ts:import:generated
+﻿/// <reference path="../typings/nnet.d.ts"/>
+import nnet = require("nnet");
+import type = nnet.type;
+import HTML = nnet.dom.HTML;
+import find = nnet.dom.find;
 
 export function createMenu(id, buildFrom)
 {
@@ -28,7 +23,7 @@ export function createMenu(id, buildFrom)
             }
             else if(item[1])
             {
-               match = escapeRegExp( item[1].replace( /\.?\.\/ ?/, "" ).trim() );
+               match = nnet.stringutil.escapeRegExp( item[1].replace( /\.?\.\/ ?/, "" ).trim() );
                if(match && window.location.href.match( match ))
                {
                   li.addClass( "selected" );

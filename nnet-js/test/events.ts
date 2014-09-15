@@ -1,29 +1,24 @@
-﻿///ts:import=_nnet,nnet
-import nnet = require('../src/_nnet'); ///ts:import:generated
-///ts:import=applyEnhancementsToPrototype
-import applyEnhancementsToPrototype = require('../src/nnet/dom/applyEnhancementsToPrototype'); ///ts:import:generated
-///ts:import=onInteractive
-import onInteractive = require('../src/nnet/dom/onInteractive'); ///ts:import:generated
-///ts:import=find
-import find = require('../src/nnet/dom/find'); ///ts:import:generated
-///ts:import=EnhancedEvent
-import EnhancedEvent = require('../src/nnet/event/EnhancedEvent'); ///ts:import:generated
+/// <reference path="../typings/nnet.d.ts"/>
+import nnet = require("nnet");
+import EnhancedHTMLElement = nnet.dom.EnhancedHTMLElement;
+import Cookie = nnet.browser.Cookie;
+import find = nnet.dom.find;
+import EnhancedEvent = nnet.event.EnhancedEvent;
+import Key = nnet.util.Key;
 
-///ts:import=debug,Debug
-import Debug = require('./debug'); ///ts:import:generated
-///ts:import=nav
-import nav = require('./nav'); ///ts:import:generated
-///ts:import=benchmark,Benchmark
-import Benchmark = require('./benchmark'); ///ts:import:generated
+import Debug = require("./debug");
+import nav = require("./nav");
+import Benchmark = require("./benchmark");
 
 //Hoist up some methods to window and set local vars for others
 (<any>window).find = nnet.dom.find;
 
 //window.HTML = nnet.html.HTML;
 //Make sure HTMLElements are extended
-applyEnhancementsToPrototype();
+nnet.array.enhancePrototype();
+nnet.dom.applyEnhancementsToPrototype();
 
-onInteractive( function()
+nnet.dom.onInteractive( function()
 {
    if(find.id( "page-events" ))
    {

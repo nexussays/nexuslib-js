@@ -1,41 +1,25 @@
-/// ts:import=_nnet,nnet
-import nnet = require('../src/_nnet'); ///ts:import:generated
-///ts:import=applyEnhancementsToPrototype
-import applyEnhancementsToPrototype = require('../src/nnet/dom/applyEnhancementsToPrototype'); ///ts:import:generated
-///ts:import=onInteractive
-import onInteractive = require('../src/nnet/dom/onInteractive'); ///ts:import:generated
-///ts:import=find
-import find = require('../src/nnet/dom/find'); ///ts:import:generated
-///ts:import=Key,Key
-import Key = require('../src/nnet/util/Key'); ///ts:import:generated
-///ts:import=Milliseconds,ms
-import ms = require('../src/nnet/util/Milliseconds'); ///ts:import:generated
-///ts:import=Cookie
-import Cookie = require('../src/nnet/browser/Cookie'); ///ts:import:generated
-///ts:import=EnhancedHTMLElement
-import EnhancedHTMLElement = require('../src/nnet/dom/EnhancedHTMLElement'); ///ts:import:generated
-///ts:import=EnhancedEvent
-import EnhancedEvent = require('../src/nnet/event/EnhancedEvent'); ///ts:import:generated
-///ts:import=enhancePrototype,enhanceArrayPrototype
-import enhanceArrayPrototype = require('../src/nnet/array/enhancePrototype'); ///ts:import:generated
+/// <reference path="../typings/nnet.d.ts"/>
+import nnet = require("nnet");
+import EnhancedHTMLElement = nnet.dom.EnhancedHTMLElement;
+import Cookie = nnet.browser.Cookie;
+import find = nnet.dom.find;
+import EnhancedEvent = nnet.event.EnhancedEvent;
+import Key = nnet.util.Key;
 
-///ts:import=debug,Debug
-import Debug = require('./debug'); ///ts:import:generated
-///ts:import=nav
-import nav = require('./nav'); ///ts:import:generated
-///ts:import=benchmark,Benchmark
-import Benchmark = require('./benchmark'); ///ts:import:generated
+import Debug = require("./debug");
+import nav = require("./nav");
+import Benchmark = require("./benchmark");
 
 //Hoist up some methods to window and set local vars for others
-(<any>window).find = nnet.dom.find;
+(<any>window).find = find;
 
 // not sure why but compiler isn't liking these not being defined
 declare var unescape: any;
 declare var escape: any;
 
 //Make sure HTMLElements are extended
-enhanceArrayPrototype();
-applyEnhancementsToPrototype();
+nnet.array.enhancePrototype();
+nnet.dom.applyEnhancementsToPrototype();
 
 var editorTextarea,
     showAllMembers,
@@ -43,7 +27,7 @@ var editorTextarea,
     catchTabs,
     executionOutputTextarea: EnhancedHTMLElement;
 var editorCookie: Cookie;
-onInteractive( function()
+nnet.dom.onInteractive( function()
 {
    if(find.id( "page-editor" ))
    {
@@ -108,7 +92,7 @@ function __updateTestingHTMLAndCookie()
    editorCookie.data.showReturnValue = showReturnValue.checked;
    editorCookie.data.catchTabs = catchTabs.checked;
    editorCookie.data.editorTextarea = escape( editorTextarea.value );
-   editorCookie.expireIn( ms.days( 90 ) );
+   editorCookie.expireIn( nnet.util.Milliseconds.days( 90 ) );
    editorCookie.save();
 }
 
@@ -138,7 +122,7 @@ function editorTextarea_keydown(e: EnhancedEvent)
          }
          startMod = spaceCount + 1;
          endMod = spaceCount + 1;
-         editorTextarea.value = pre + "\n" + nnet.string.charTimes(" ", spaceCount) + selected + post;
+         editorTextarea.value = pre + "\n" + nnet.stringutil.charTimes(" ", spaceCount) + selected + post;
       }
       else if(e.keyInfo.code == Key.Tab)
       {

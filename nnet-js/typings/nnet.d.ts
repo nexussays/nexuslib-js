@@ -863,7 +863,7 @@ declare module 'nnet'
          }
       }
 
-      module $string
+      module stringutil
       {
          function charTimes(char: string, times: number): string;
 

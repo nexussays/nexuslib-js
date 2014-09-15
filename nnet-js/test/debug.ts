@@ -1,15 +1,10 @@
-/// ts:import=type
-import type = require('../src/nnet/type'); ///ts:import:generated
-///ts:import=getOuterHTML
-import getOuterHTML = require('../src/nnet/dom/getOuterHTML'); ///ts:import:generated
-///ts:import=escapeHTML
-import escapeHTML = require('../src/nnet/string/escapeHTML'); ///ts:import:generated
-///ts:import=nodeTypeToString
-import nodeTypeToString = require('../src/nnet/dom/nodeTypeToString'); ///ts:import:generated
-///ts:import=map
-import map = require('../src/nnet/object/map'); ///ts:import:generated
-///ts:import=JsonParser
-import JsonParser = require('../src/nnet/serialization/JsonParser'); ///ts:import:generated
+/// <reference path="../typings/nnet.d.ts"/>
+import nnet = require("nnet");
+
+import type = nnet.type;
+import node = nnet.dom.nodeTypeToString;
+import escapeHTML = nnet.stringutil.escapeHTML;
+import getOuterHTML = nnet.dom.getOuterHTML;
 
 export = Debug;
 
@@ -238,7 +233,7 @@ module Debug
                //[".nodeName / .id / .className", "obj.nodeName + ' / ' + obj.id + ' / ' + obj.className"],
                {
                   name: "nodeType",
-                  value: () => obj.nodeType + " (" + nodeTypeToString( obj ) + ")"
+                  value: () => obj.nodeType + " (" + node( obj ) + ")"
                },
                {
                   name: "constructor",
@@ -378,7 +373,7 @@ module Debug
                params += property;
                // add type information
                params += ' <span class="nnet-debug-type">';
-               params += "[" + type[itemType] + (itemType == type.node ? ": " + nodeTypeToString( item ) : "") + "]";
+               params += "[" + type[itemType] + (itemType == type.node ? ": " + node( item ) : "") + "]";
                params += "</span>";
                params += html.endHead;
 
@@ -389,7 +384,7 @@ module Debug
                   if(itemType == type.object && item !== window)
                   {
                      // TODO: Just output JSON?
-                     //params += JsonParser.encode( item, null, 3 );
+                     //params += nnet.serialization.JsonParser.encode( item, null, 3 );
                      var k: string[] = [];
                      for(var subProp in item)
                      {
