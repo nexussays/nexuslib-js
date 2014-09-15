@@ -115,6 +115,7 @@
     <TypeScriptCompile Include="test\editor.ts" />
     <TypeScriptCompile Include="test\events.ts" />
     <TypeScriptCompile Include="test\nav.ts" />
+    <TypeScriptCompile Include="typings\nnet.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="editor.htm" />

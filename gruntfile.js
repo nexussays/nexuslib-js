@@ -13,7 +13,7 @@ module.exports = function(grunt)
    grunt.registerTask( "build-commonjs", ["ts:build-commonjs", "gen-index:js-commonjs"] );
 
    // merge individual files and minify
-   grunt.registerTask( "optimize", ["def", "requirejs", "browserify"] );
+   grunt.registerTask( "optimize", ["dts", "requirejs", "browserify"] );
 
    // do all of the above and then minify
    grunt.registerTask( "complete", ["build", "optimize", "uglify:all"] );
@@ -30,7 +30,7 @@ module.exports = function(grunt)
       );
    } );
 
-   grunt.registerMultiTask( "def", function()
+   grunt.registerMultiTask( "dts", function()
    {
       var dts = require( 'dts-bundle' );
       dts.bundle( this.data );
@@ -62,6 +62,7 @@ module.exports = function(grunt)
             root: "nnet-js/bin",
             compiledCommonJS: "<%= paths.dest.root %>/compiled-commonjs",
             compiledCommonJSMain: "<%= paths.dest.compiledCommonJS %>/src",
+            compiledCommonJSMainFile: "<%= paths.dest.compiledCommonJS %>/src/_nnet.js",
             compiledCommonJSTest: "<%= paths.dest.compiledCommonJS %>/test",
             compiledAMD: "<%= paths.dest.root %>/compiled-amd",
             compiledAMDMain: "<%= paths.dest.compiledAMD %>/src",
@@ -90,7 +91,8 @@ module.exports = function(grunt)
          removeComments: true,
          default: {
             src: ["<%= paths.src.main %>/**/*.ts", "<%= paths.src.test %>/*.ts"],
-            outDir: config.paths.dest.compiledAMD
+            outDir: config.paths.dest.compiledAMD,
+            //reference: "<%= paths.src.main %>/references.ts"
          }
       },
       "build-amd": {},
@@ -127,18 +129,25 @@ module.exports = function(grunt)
 
    config.browserify = {
       dist: {
-         src: ["<%= paths.dest.compiledCommonJSMain %>/**/*.js"],
+         src: ["<%= paths.dest.compiledCommonJSMainFile %>"],
          dest: "<%= paths.dest.bundledMain %>/nnet-browserify.js",
          options: {
             browserifyOptions: {
-               standalone: 'nnet'
-            }
+               standalone: 'nnet',
+               //paths: ["./src/nnet"]
+            },
+            //aliasMappings: {
+            //   cwd: "src",
+            //   src: ["nnet/**/*.js"]
+            //}
          }
       },
       test: {
-         src: ["<%= paths.dest.compiledCommonJSTest %>/**/*.js", "!<%= paths.dest.compiledCommonJSTest %>/**/*-amd.js"],
+         src: ["<%= paths.dest.compiledCommonJSTest %>/editor.js", "<%= paths.dest.compiledCommonJSTest %>/events.js"],
          dest: "<%= paths.dest.bundledTest %>/test.js",
          options: {
+            exclude: ["../src/nnet"],
+            //alias: ["../src/nnet/**/*.js:nnet"]
          }
       }
    };
@@ -266,7 +275,7 @@ module.exports = function(grunt)
       */
    };
 
-   config.def = {
+   config.dts = {
       nnet:
       {
          name: "nnet",
