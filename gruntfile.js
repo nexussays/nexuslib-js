@@ -35,6 +35,11 @@ module.exports = function(grunt)
                bundled: "<%= paths.dest.root %>/dist",
                minified: "<%= paths.dest.root %>/dist"
             }
+         },
+         declaration:
+         {
+            srcFile: "nnet-js/typings/nnet.d.ts",
+            destFile: "<%= paths.main.dest.bundled %>/nnet.d.ts"
          }
       },
       package: grunt.file.readJSON( './package.json' )
@@ -50,12 +55,12 @@ module.exports = function(grunt)
    //
    // merge individual files and minify
    //
-   grunt.registerTask( "optimize", ["dts", "requirejs", "browserify"] );
+   grunt.registerTask( "package", ["dts", "copy:declaration", "browserify"] );
 
    //
    // do all of the above and then minify
    //
-   grunt.registerTask( "complete", ["build", "build:amd", "optimize", "uglify:all"] );
+   grunt.registerTask( "complete", ["clean", "build", "package" /*, "build:amd", "requirejs"*/, "uglify:all"] );
    // amd build is only for distribution
    grunt.registerTask( "build:amd", ["ts:amd", "gen-index:js-amd"] );
 
@@ -183,7 +188,6 @@ module.exports = function(grunt)
       }
    };
 
-
    //
    // merge .d.ts files into a single file
    //
@@ -194,14 +198,15 @@ module.exports = function(grunt)
       var path = require( "path" );
       var file = path.resolve( this.data.main, "../", this.data.out );
       _fs.writeFileSync( file, _fs.readFileSync( file ).toString().replace( /__nnet\//g, "" ), 'utf-8' );
+      convertExternalDeclarationToInternal( file, file.replace(/\-gen\.d\.ts$/, ".d.ts"), "nnet", "nnet" );
    } );
    config.dts = {
       nnet:
       {
          name: "nnet",
-         out: "../../dist/nnet.d.ts",
+         out: "../../../typings/nnet-gen.d.ts",
          indent: '   ',
-         main: config.paths.main.dest.amd + "/_nnet.d.ts"
+         main: config.paths.main.dest.commonjs + "/_nnet.d.ts"
       }
    };
 
@@ -225,7 +230,7 @@ module.exports = function(grunt)
                   expand: true,
                   cwd: config.paths.main.dest.bundled,
                   src: ["*.js", "!*.min.js"],
-                  dest: config.paths.dest.minified,
+                  dest: config.paths.main.dest.minified,
                   rename: function(path, name)
                   {
                      return require( 'path' ).join( path, name.replace( '.js', '.min.js' ) );
@@ -256,15 +261,19 @@ module.exports = function(grunt)
    //
    // Copy any .d.ts files from src to dest
    //
-   //grunt.loadNpmTasks( 'grunt-contrib-copy' );
-   //config.copy = {
-   //   definitions: {
-   //      cwd: config.paths.main.srcDir, // set working folder / root to copy
-   //      src: "**/*.d.ts", // copy all files and subfolders
-   //      dest: config.paths.main.dest.commonjs, // destination folder
-   //      expand: true // required when using cwd
-   //   },
-   //};
+   grunt.loadNpmTasks( 'grunt-contrib-copy' );
+   config.copy = {
+      //definitions: {
+      //   cwd: config.paths.main.srcDir, // set working folder / root to copy
+      //   src: "**/*.d.ts", // copy all files and subfolders
+      //   dest: config.paths.main.dest.commonjs, // destination folder
+      //   expand: true // required when using cwd
+      //},
+      declaration: {
+         src: config.paths.declaration.srcFile,
+         dest: config.paths.declaration.destFile
+      },
+   };
 
    //
    // clean
@@ -473,4 +482,168 @@ module.exports = function(grunt)
    {
       return this.length > 0 ? this[this.length - 1] : null;
    };
+
+   function convertExternalDeclarationToInternal(file, outFile, name, exportedName)
+   {
+      exportedName = exportedName || name;
+      var contents = _fs.readFileSync( file ).toString();
+      var lines = contents.split( /\r\n|\r|\n/ );
+      var allExportedModules = {};
+      var modulesToParse = [];
+      var isModule = /declare module \'([^']+)\'/;
+      var importMatch = /\s\simport ([^\s]+) \= require\(\'([^']+)\'\);/;
+      var exportImportMatch = /export import ([^\s]+) \= require\(\'([^']+)\'\);/;
+      var exportEqualsMatch = /export \= ([^\s]+);/;
+      var exportMatch = /export [function|interface|var]/;
+      // parse out all modules. *everything* is a module in an external declaration file
+      for(var i = 0; i < lines.length; i++)
+      {
+         var line = lines[i];
+         var match = line.match( isModule );
+         if(match)
+         {
+            //console.log( match[1] );
+            var moduleLines = [];
+            while(i < lines.length)
+            {
+               ++i;
+               if(/^\s*$/.test( lines[i] ))
+               {
+                  // remove final brace
+                  moduleLines.pop();
+                  break;
+               }
+               moduleLines.push( lines[i] );
+            }
+            allExportedModules[match[1]] = moduleLines;
+            moduleLines.exportedModuleName = match[1];
+            moduleLines.parentExportedModuleName = null;
+            //modulesToParse.push( moduleContents );
+         }
+      }
+      var result = {};
+      // start at root module
+      modulesToParse.push( [allExportedModules[name], exportedName, result] );
+      while(modulesToParse.length)
+      {
+         var arr = modulesToParse.shift();
+         var moduleLines = arr[0];
+         //moduleLines = moduleLines.reverse();
+         var parent = {};
+         var isExternal = false;
+         var mergeString = false;
+         var findReplace = {};
+         for(var x = 0; x < moduleLines.length; ++x)
+         {
+            var mLine = moduleLines[x];
+            try
+            {
+               var isExportImport = mLine.match( exportImportMatch );
+               var isImport = mLine.match( importMatch );
+               var isExportEquals = mLine.match( exportEqualsMatch );
+               var hasExports = mLine.match( exportMatch );
+               if(!isExternal && isExportImport)
+               {
+                  //console.log( "export import " + isExportImport[2] );
+                  var properName = isExportImport[1];
+                  var origName = isExportImport[2];
+                  parent[properName] = allExportedModules[origName];
+                  // now add this content to the list to parse
+                  modulesToParse.push( [allExportedModules[origName], properName, parent] );
+               }
+               else if(!isExternal && hasExports)
+               {
+                  mergeString = true;
+                  for(var replace in findReplace)
+                  {
+                     mLine = mLine.replace( findReplace[replace], replace );
+                  }
+                  moduleLines[x] = mLine.replace( /export /, "" );
+               }
+               else if(isImport)
+               {
+                  moduleLines.splice( x, 1 );
+                  x--;
+                  //console.log(arr[ isImport[2].replace( /\//g, "." ) );
+                  // do a find/replace for these two when done
+                  findReplace["$1" + isImport[2].replace( /\//g, "." ) + "$2"] = new RegExp( "([: ])" + isImport[1] + "([ ;\[<,\)])", 'g' );
+               }
+               else if(isExportEquals)
+               {
+                  moduleLines.splice( x, 1 );
+                  x--;
+                  // finish processing any imports or whatever
+                  isExternal = true;
+                  mergeString = true;
+               }
+            }
+            catch(e)
+            {
+               //console.log( JSON.stringify( allExportedModules[name], 1, "   " ) );
+               console.log( e );
+               console.log( JSON.stringify( mLine, null, "   " ) );
+               throw e;
+            }
+         }
+
+         if(mergeString)
+         {
+            parent = moduleLines.join( "\n" );
+            for(var replace in findReplace)
+            {
+               parent = parent.replace( findReplace[replace], replace );
+            }
+            if(!isExternal)
+            {
+               parent = [parent];
+            }
+         }
+
+         arr[2][arr[1]] = parent;
+      }
+
+      // ok now parse through our structure and generate output
+      function parseModule(name, content, depth)
+      {
+         //console.log( name );
+         if(typeof content == "string")
+         {
+            return pad( depth - 1 ) + content.replace( /\n/g, "\n" + pad( depth - 1 ) ) + "\n\n";
+         }
+
+         if(content instanceof Array)
+         {
+            return pad( depth ) + "module " + name + " {\n" +
+               pad( depth ) + ( content.join( "" ).replace( /\n/g, "\n" + pad( depth ) ) ) +
+               "\n" + pad( depth ) + "}\n\n";
+         }
+
+         var val = pad( depth ) + "module " + name + " {\n";
+         for(var n in content)
+         {
+            val += parseModule( n, content[n], depth + 1);
+         }
+         val += pad( depth ) + "}\n\n";
+         return val;
+      }
+
+      function pad(depth, space)
+      {
+         space = space || "   ";
+         var result = "";
+         for(var x = 0; x < depth; ++x)
+         {
+            result += space;
+         }
+         return result;
+      }
+
+      var result2 = "declare module \"" + exportedName + "\" {\n" +
+         "   export = " + exportedName + ";\n\n" +
+         parseModule( exportedName, result[exportedName], 1 ) +
+         "}";
+
+      _fs.writeFileSync( outFile, result2, 'utf-8' );
+      //_fs.writeFileSync( file + ".json", JSON.stringify( result, null, "   " ), 'utf-8' );
+   }
 }

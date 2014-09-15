@@ -133,11 +133,11 @@ declare module "nnet"
 
                getOuterHTML(includeChildren?: boolean, escapeHtml?: boolean): string;
 
-               append(...params: any[][]): nnet.dom.EnhancedElement;
+               append(...params: any[][]): EnhancedElement;
 
-               append(...params: Node[]): nnet.dom.EnhancedElement;
+               append(...params: Node[]): EnhancedElement;
 
-               append(...params: Object[]): nnet.dom.EnhancedElement;
+               append(...params: Object[]): EnhancedElement;
 
                getBooleanAttribute(name: string): boolean;
 
