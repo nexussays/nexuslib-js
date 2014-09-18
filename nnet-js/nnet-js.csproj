@@ -20,6 +20,7 @@
   </PropertyGroup>
   <ItemGroup>
     <TypeScriptCompile Include="lib\modernizr.d.ts" />
+    <TypeScriptCompile Include="src\load.ts" />
     <TypeScriptCompile Include="src\nnet\array\enhancePrototype.ts" />
     <TypeScriptCompile Include="src\nnet\browser\_window.ts" />
     <TypeScriptCompile Include="src\nnet\dom\applyEnhancementsToPrototype.ts" />
