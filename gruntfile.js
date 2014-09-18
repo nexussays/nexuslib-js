@@ -40,10 +40,10 @@ module.exports = function(grunt)
          {
             srcDir: "nnet-js/src/",
             srcFile: "<%= paths.main.srcDir %>load.ts",
-            srcBrowserify: "<%= paths.main.dest.commonjs %>load.js",
+            srcBrowserify: "<%= paths.dest.commonjs %>load.js",
             dest:
             {
-               compiled: "<%= paths.dest.root %>dist/",//"<%= paths.dest.commonjs %>",
+               compiled: "<%= paths.dest.commonjs %>",
                bundled: "<%= paths.dest.root %>dist/",
                minified: "<%= paths.dest.root %>dist/"
             }
@@ -61,14 +61,14 @@ module.exports = function(grunt)
    // build
    //
    grunt.registerTask( "build:all", ["build", "build:editor", "build:loader", "copy:declarations"] );
-   grunt.registerTask( "build", ["gen-index:ts", "ts:imports", "ts:commonjs", "deleteempty", "gen-index:js-commonjs"] );
-   grunt.registerTask( "build:editor", ["ts:editor"] );
-   grunt.registerTask( "build:loader", ["ts:loader"] );
+   grunt.registerTask( "build", ["gen-index:ts", "ts:imports", "ts:lib", "deleteempty", "gen-index:js-commonjs", "browserify:lib"] );
+   grunt.registerTask( "build:editor", ["ts:editor", "browserify:editor"] );
+   grunt.registerTask( "build:loader", ["ts:loader", "copy:loader", "browserify:loader"] );
 
    //
    // merge individual files and minify
    //
-   grunt.registerTask( "package", ["dts", "browserify", "uglify:all"] );
+   grunt.registerTask( "package", ["dts", "uglify:all"] );
    // also include build tasks since we don't build amd by default anymore
    grunt.registerTask( "package:amd", ["ts:amd", "gen-index:js-amd", "build:amd", "requirejs"] );
 
@@ -101,7 +101,7 @@ module.exports = function(grunt)
             module: "amd"
          }
       },
-      commonjs: {
+      lib: {
 
       },
       watch: {
@@ -148,13 +148,15 @@ module.exports = function(grunt)
             //}
          }
       },
-      // don't browserify loader, it should be combined in source app
-      //loader: {
-      //   src: config.paths.main.srcBrowserify,
-      //   dest: "<%= paths.main.dest.bundled %>/load.js",
-      //   options: {
-      //   }
-      //},
+      loader: {
+         src: config.paths.load.srcBrowserify,
+         dest: "<%= paths.main.dest.bundled %>/load.js",
+         options: {
+            browserifyOptions: {
+               standalone: "load"
+            }
+         }
+      },
       editor: {
          src: config.paths.editor.srcBrowserify,
          dest: "<%= paths.editor.dest.bundled %>/editor.js",
@@ -223,10 +225,10 @@ module.exports = function(grunt)
       dts.bundle( this.data );
       var path = require( "path" );
       var file = path.resolve( this.data.main, "../", this.data.out );
-      _fs.writeFileSync( file, _fs.readFileSync( file ).toString().replace( /__nnet\//g, "" ), 'utf-8' );
+      _fs.writeFileSync( file, _fs.readFileSync( file ).toString().replace( new RegExp( "__?" + this.data.name + "\\/", "g" ), "" ), 'utf-8' );
       if(this.data.convertToInternal !== false)
       {
-         convertExternalDeclarationToInternal( file, file, "nnet", "nnet" );
+         convertExternalDeclarationToInternal( file, file, this.data.name, this.data.name );
       }
    } );
    config.dts = {
@@ -234,15 +236,14 @@ module.exports = function(grunt)
          name: "nnet",
          out: "../../../typings/nnet.d.ts",
          indent: '   ',
-         main: config.paths.main.dest.commonjs + "_nnet.d.ts"
+         main: config.paths.main.dest.commonjs + "_nnet.d.ts",
       },
-      loader: {
-         name: "load",
-         out: "../dist/load.d.ts", 
-         indent: '   ',
-         main: config.paths.load.dest.compiled + "load.d.ts",
-         convertToInternal: false
-      }
+      //loader: {
+      //   name: "load",
+      //   out: "../dist/load.d.ts",
+      //   indent: '   ',
+      //   main: config.paths.load.dest.compiled + "load.d.ts",
+      //}
    };
 
    //
@@ -276,18 +277,18 @@ module.exports = function(grunt)
          //can still remove define calls for interfaces after uglifying
          //define\("(?:[A-Z0-9_/]+)",\s?\[\s?"require",\s?"exports"\s?],\s?function\(\)\s?\{\s?\}\),?\s?
       },
-      pretty: {
-         options: {
-            mangle: false,
-            compress: true,
-            beautify: true
-         }
-      },
-      zip: {
-         options: {
-            report: "gzip"
-         }
-      },
+      //pretty: {
+      //   options: {
+      //      mangle: false,
+      //      compress: true,
+      //      beautify: true
+      //   }
+      //},
+      //zip: {
+      //   options: {
+      //      report: "gzip"
+      //   }
+      //},
       all: {
 
       }
@@ -308,10 +309,10 @@ module.exports = function(grunt)
          src: config.paths.declaration.srcFile,
          dest: config.paths.declaration.destFile
       },
-      //loader: {
-      //   src: config.paths.load.dest.compiled + "load.d.ts",
-      //   dest: config.paths.load.dest.bundled + "load.d.ts"
-      //},
+      loader: {
+         src: config.paths.load.dest.compiled + "load.d.ts",
+         dest: config.paths.load.dest.bundled + "load.d.ts"
+      },
    };
 
    //
