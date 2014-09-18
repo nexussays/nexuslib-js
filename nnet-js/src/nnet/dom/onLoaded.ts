@@ -29,7 +29,7 @@ var windowReadyHandler = (e?: Event) =>
 {
    if(!isContentLoaded)
    {
-      console.debug( "Window Ready: " + (e || document.readyState) );
+      //console.debug( "Window Ready: " + (e || document.readyState) );
       isContentLoaded = true;
 
       var evt = enhanceEvent( e );
@@ -48,12 +48,12 @@ if(document.readyState != "complete")
 {
    if(typeof window.addEventListener == "function")
    {
-      console.debug( "window.addEventListener" );
+      //console.debug( "window.addEventListener" );
       window.addEventListener( "load", windowReadyHandler, false );
    }
    else if(typeof window.attachEvent == "function")
    {
-      console.debug( "window.attachEvent" );
+      //console.debug( "window.attachEvent" );
       window.attachEvent( "onload", windowReadyHandler );
    }
 
@@ -61,7 +61,7 @@ if(document.readyState != "complete")
    var existingWindowLoad = window.onload;
    window.onload = (e: Event) =>
    {
-      console.debug( "window.onload" );
+      //console.debug( "window.onload" );
       if(existingWindowLoad)
       {
          existingWindowLoad( e );

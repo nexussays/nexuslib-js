@@ -19,7 +19,7 @@ var domReadyHandler = (e?: Event) =>
 {
    if(!isDomReady && /loaded|complete|interactive/.test(document.readyState))
    {
-      console.debug("DOM Ready: " + (e || document.readyState));
+      //console.debug("DOM Ready: " + (e || document.readyState));
       isDomReady = true;
 
       var evt = enhanceEvent(e);
@@ -43,12 +43,12 @@ if(!isDomReady)
 {
    if(typeof document.addEventListener == "function")
    {
-      console.debug("document.DOMContentLoaded");
+      //console.debug("document.DOMContentLoaded");
       document.addEventListener("DOMContentLoaded", domReadyHandler, false);
    }
    else if(typeof document.attachEvent == "function")
    {
-      console.debug( "document.onreadystatechange" );
+      //console.debug( "document.onreadystatechange" );
       document.attachEvent( "onreadystatechange", domReadyHandler );
    }
    else
