@@ -8,32 +8,44 @@ module.exports = function(grunt)
       {
          dest:
          {
-            root: "nnet-js/bin",
-            commonjs: "<%= paths.dest.root %>/compiled-commonjs",
-            amd: "<%= paths.dest.root %>/compiled-amd"
+            root: "nnet-js/bin/",
+            commonjs: "<%= paths.dest.root %>compiled-commonjs/",
+            amd: "<%= paths.dest.root %>compiled-amd/"
          },
          editor:
          {
-            srcDir: "nnet-js/test",
-            srcFile: ["<%= paths.editor.srcDir %>/editor.ts", "<%= paths.editor.srcDir %>/events.ts"],
-            srcBrowserify: "<%= paths.editor.dest.commonjs %>/editor.js",
+            srcDir: "nnet-js/test/",
+            srcFile: ["<%= paths.editor.srcDir %>editor.ts", "<%= paths.editor.srcDir %>events.ts"],
+            srcBrowserify: "<%= paths.editor.dest.commonjs %>editor.js",
             dest:
             {
-               commonjs: "<%= paths.dest.commonjs %>/editor",
-               bundled: "<%= paths.dest.root %>/editor",
+               commonjs: "<%= paths.dest.commonjs %>editor/",
+               bundled: "<%= paths.dest.root %>editor/",
             }
          },
          main:
          {
-            srcDir: "nnet-js/src",
+            srcDir: "nnet-js/src/",
             srcFile: "<%= paths.main.srcDir %>/_nnet.ts",
             srcBrowserify: "<%= paths.main.dest.commonjs %>/_nnet.js",
             dest:
             {
-               amd: "<%= paths.dest.amd %>/src",
-               commonjs: "<%= paths.dest.commonjs %>/src",
-               bundled: "<%= paths.dest.root %>/dist",
-               minified: "<%= paths.dest.root %>/dist"
+               amd: "<%= paths.dest.amd %>src/",
+               commonjs: "<%= paths.dest.commonjs %>src/",
+               bundled: "<%= paths.dest.root %>dist/",
+               minified: "<%= paths.dest.root %>dist/"
+            }
+         },
+         load:
+         {
+            srcDir: "nnet-js/src/",
+            srcFile: "<%= paths.main.srcDir %>load.ts",
+            srcBrowserify: "<%= paths.main.dest.commonjs %>load.js",
+            dest:
+            {
+               compiled: "<%= paths.dest.root %>dist/",//"<%= paths.dest.commonjs %>",
+               bundled: "<%= paths.dest.root %>dist/",
+               minified: "<%= paths.dest.root %>dist/"
             }
          },
          declaration:
@@ -48,21 +60,23 @@ module.exports = function(grunt)
    //
    // build
    //
-   grunt.registerTask( "build", ["gen-index:ts", "ts:imports", "build:commonjs", "build:editor", "copy:declarations"] );
-   grunt.registerTask( "build:commonjs", ["ts:commonjs", "deleteempty", "gen-index:js-commonjs"] );
+   grunt.registerTask( "build:all", ["build", "build:editor", "build:loader", "copy:declarations"] );
+   grunt.registerTask( "build", ["gen-index:ts", "ts:imports", "ts:commonjs", "deleteempty", "gen-index:js-commonjs"] );
    grunt.registerTask( "build:editor", ["ts:editor"] );
+   grunt.registerTask( "build:loader", ["ts:loader"] );
 
    //
    // merge individual files and minify
    //
-   grunt.registerTask( "package", ["dts", "browserify"] );
+   grunt.registerTask( "package", ["dts", "browserify", "uglify:all"] );
+   // also include build tasks since we don't build amd by default anymore
+   grunt.registerTask( "package:amd", ["ts:amd", "gen-index:js-amd", "build:amd", "requirejs"] );
 
    //
    // do all of the above and then minify
    //
-   grunt.registerTask( "complete", ["clean", "build", "package" /*, "build:amd", "requirejs"*/, "uglify:all"] );
+   grunt.registerTask( "complete", ["clean", "build:all", "package"] );
    // amd build is only for distribution
-   grunt.registerTask( "build:amd", ["ts:amd", "gen-index:js-amd"] );
 
    //
    // typescript build using external module
@@ -99,6 +113,11 @@ module.exports = function(grunt)
             compile: false
          }
       },
+      // build load.ts
+      loader: {
+         src: config.paths.load.srcFile,
+         outDir: config.paths.load.dest.compiled,
+      },
       editor: {
          src: config.paths.editor.srcFile,
          outDir: config.paths.editor.dest.commonjs,
@@ -115,7 +134,7 @@ module.exports = function(grunt)
    //
    grunt.loadNpmTasks( "grunt-browserify" );
    config.browserify = {
-      dist: {
+      lib: {
          src: config.paths.main.srcBrowserify,
          dest: "<%= paths.main.dest.bundled %>/nnet-browserify.js",
          options: {
@@ -129,6 +148,13 @@ module.exports = function(grunt)
             //}
          }
       },
+      // don't browserify loader, it should be combined in source app
+      //loader: {
+      //   src: config.paths.main.srcBrowserify,
+      //   dest: "<%= paths.main.dest.bundled %>/load.js",
+      //   options: {
+      //   }
+      //},
       editor: {
          src: config.paths.editor.srcBrowserify,
          dest: "<%= paths.editor.dest.bundled %>/editor.js",
@@ -198,15 +224,24 @@ module.exports = function(grunt)
       var path = require( "path" );
       var file = path.resolve( this.data.main, "../", this.data.out );
       _fs.writeFileSync( file, _fs.readFileSync( file ).toString().replace( /__nnet\//g, "" ), 'utf-8' );
-      convertExternalDeclarationToInternal( file, file, "nnet", "nnet" );
+      if(this.data.convertToInternal !== false)
+      {
+         convertExternalDeclarationToInternal( file, file, "nnet", "nnet" );
+      }
    } );
    config.dts = {
-      nnet:
-      {
+      nnet: {
          name: "nnet",
          out: "../../../typings/nnet.d.ts",
          indent: '   ',
-         main: config.paths.main.dest.commonjs + "/_nnet.d.ts"
+         main: config.paths.main.dest.commonjs + "_nnet.d.ts"
+      },
+      loader: {
+         name: "load",
+         out: "../dist/load.d.ts", 
+         indent: '   ',
+         main: config.paths.load.dest.compiled + "load.d.ts",
+         convertToInternal: false
       }
    };
 
@@ -273,6 +308,10 @@ module.exports = function(grunt)
          src: config.paths.declaration.srcFile,
          dest: config.paths.declaration.destFile
       },
+      //loader: {
+      //   src: config.paths.load.dest.compiled + "load.d.ts",
+      //   dest: config.paths.load.dest.bundled + "load.d.ts"
+      //},
    };
 
    //
@@ -286,10 +325,10 @@ module.exports = function(grunt)
                "./.tscache",
                "./**/.baseDir.ts",
                config.paths.dest.root,
-               "<%= paths.main.srcDir %>/**/*.js.map",
-               "<%= paths.main.srcDir %>/**/*.js",
-               "<%= paths.editor.srcDir %>/**/*.js.map",
-               "<%= paths.editor.srcDir %>/**/*.js"
+               "<%= paths.main.srcDir %>**/*.js.map",
+               "<%= paths.main.srcDir %>**/*.js",
+               "<%= paths.editor.srcDir %>**/*.js.map",
+               "<%= paths.editor.srcDir %>**/*.js"
             ]
          }
       },
@@ -320,7 +359,7 @@ module.exports = function(grunt)
          //r.js.cmd -o build.js optimize=none
          default:
          {
-            out: config.paths.main.dest.bundled + "/nnet-amd.js",
+            out: config.paths.main.dest.bundled + "nnet-amd.js",
             //appDir: config.paths.main.dest.amd,
             baseUrl: config.paths.main.dest.amd,
             //dir: "./bin",
@@ -336,7 +375,7 @@ module.exports = function(grunt)
       //r.js.cmd -o build.js optimize=none paths.requireLib=../node_modules/requirejs/require include=requireLib
       almond:
       {
-         out: config.paths.main.dest.bundled + "/nnet-amd-embedded-almond.js",
+         out: config.paths.main.dest.bundled + "nnet-amd-embedded-almond.js",
          include: ["../../../lib/almond"],
          wrap: true
       },
