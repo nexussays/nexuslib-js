@@ -1,6 +1,6 @@
 module.exports = function(grunt)
 {
-   grunt.registerTask( "default", ["build"] );
+   grunt.registerTask( "default", ["build:lib"] );
 
    var config =
    {
@@ -48,8 +48,8 @@ module.exports = function(grunt)
    //
    // build
    //
-   grunt.registerTask( "build:all", ["build", "build:editor", "copy:declarations"] );
-   grunt.registerTask( "build", ["gen-index:ts", "ts:imports", "ts:lib", "deleteempty", "gen-index:js-commonjs", "browserify:lib"] );
+   grunt.registerTask( "build", ["build:lib", "build:editor", "copy:declarations"] );
+   grunt.registerTask( "build:lib", ["gen-index:ts", "ts:imports", "ts:lib", "deleteempty", "gen-index:js-commonjs", "browserify:lib"] );
    grunt.registerTask( "build:editor", ["ts:editor", "browserify:editor"] );
 
    //
@@ -143,6 +143,17 @@ module.exports = function(grunt)
             }
             //alias: ["../src/nnet/**/*.js:nnet"]
          }
+      }
+   };
+
+   //
+   //
+   //
+   grunt.loadNpmTasks( 'grunt-contrib-watch' );
+   config.watch = {
+      build: {
+         files: config.ts.imports.src,
+         tasks: ["build:lib"]
       }
    };
 
