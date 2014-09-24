@@ -36,18 +36,6 @@ module.exports = function(grunt)
                minified: "<%= paths.dest.root %>dist/"
             }
          },
-         load:
-         {
-            srcDir: "nnet-js/src/",
-            srcFile: "<%= paths.main.srcDir %>load.ts",
-            srcBrowserify: "<%= paths.dest.commonjs %>load.js",
-            dest:
-            {
-               compiled: "<%= paths.dest.commonjs %>",
-               bundled: "<%= paths.dest.root %>dist/",
-               minified: "<%= paths.dest.root %>dist/"
-            }
-         },
          declaration:
          {
             srcFile: "nnet-js/typings/nnet.d.ts",
@@ -60,10 +48,9 @@ module.exports = function(grunt)
    //
    // build
    //
-   grunt.registerTask( "build:all", ["build", "build:editor", "build:loader", "copy:declarations"] );
+   grunt.registerTask( "build:all", ["build", "build:editor", "copy:declarations"] );
    grunt.registerTask( "build", ["gen-index:ts", "ts:imports", "ts:lib", "deleteempty", "gen-index:js-commonjs", "browserify:lib"] );
    grunt.registerTask( "build:editor", ["ts:editor", "browserify:editor"] );
-   grunt.registerTask( "build:loader", ["ts:loader", "copy:loader", "browserify:loader"] );
 
    //
    // merge individual files and minify
@@ -113,11 +100,6 @@ module.exports = function(grunt)
             compile: false
          }
       },
-      // build load.ts
-      loader: {
-         src: config.paths.load.srcFile,
-         outDir: config.paths.load.dest.compiled,
-      },
       editor: {
          src: config.paths.editor.srcFile,
          outDir: config.paths.editor.dest.commonjs,
@@ -146,15 +128,6 @@ module.exports = function(grunt)
             //   cwd: "src",
             //   src: ["nnet/**/*.js"]
             //}
-         }
-      },
-      loader: {
-         src: config.paths.load.srcBrowserify,
-         dest: "<%= paths.main.dest.bundled %>/load.js",
-         options: {
-            browserifyOptions: {
-               standalone: "load"
-            }
          }
       },
       editor: {
@@ -237,13 +210,7 @@ module.exports = function(grunt)
          out: "../../../typings/nnet.d.ts",
          indent: '   ',
          main: config.paths.main.dest.commonjs + "_nnet.d.ts",
-      },
-      //loader: {
-      //   name: "load",
-      //   out: "../dist/load.d.ts",
-      //   indent: '   ',
-      //   main: config.paths.load.dest.compiled + "load.d.ts",
-      //}
+      }
    };
 
    //
@@ -308,11 +275,7 @@ module.exports = function(grunt)
       declaration: {
          src: config.paths.declaration.srcFile,
          dest: config.paths.declaration.destFile
-      },
-      loader: {
-         src: config.paths.load.dest.compiled + "load.d.ts",
-         dest: config.paths.load.dest.bundled + "load.d.ts"
-      },
+      }
    };
 
    //
