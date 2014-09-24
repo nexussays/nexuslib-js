@@ -368,6 +368,8 @@ declare module "nnet"
 
                hasClass(name: string): boolean;
 
+               css(value: any): string;
+
                find(query: string): nnet.dom.ElementGroup;
             }
          }
@@ -864,6 +866,8 @@ declare module "nnet"
 
       module stringutil
       {
+         function camelCase(str: string): string;
+
          function charTimes(char: string, times: number): string;
 
          function contains(source: string, value: string, boundary?: string, caseInsensitive?: boolean): boolean;
@@ -871,6 +875,8 @@ declare module "nnet"
          function escapeHTML(str: string): string;
 
          function escapeRegExp(str: string): string;
+
+         function hyphenate(str: string): string;
 
          function stripTags(str: string): string;
 

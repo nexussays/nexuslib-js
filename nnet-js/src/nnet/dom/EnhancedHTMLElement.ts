@@ -4,8 +4,8 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-/// ts:import=contains
-import contains = require('../stringutil/contains'); ///ts:import:generated
+/// ts:import=stringutil
+import stringutil = require('../_stringutil'); ///ts:import:generated
 ///ts:import=EnhancedElement
 import EnhancedElement = require('./EnhancedElement'); ///ts:import:generated
 ///ts:import=find
@@ -269,7 +269,26 @@ module EnhancedHTMLElement
       hasClass(name: string): boolean
       {
          //return (new RegExp("(?:^|\\s)" + name + "(?:\\s|$)", "i").test(element.className));
-         return ((<HTMLElement><any>this).className && contains( (<HTMLElement><any>this).className, name, " ", true ));
+         return ((<HTMLElement><any>this).className && stringutil.contains( (<HTMLElement><any>this).className, name, " ", true ));
+      }
+
+      css(value: any): string
+      {
+         var style: string[] = [];
+         for(var key in value)
+         {
+            if(!value[key] && value[key] !== 0)
+            {
+               (<HTMLElement><any>this).style.removeProperty( stringutil.hyphenate( key ) );
+            }
+            else
+            {
+               style.push( stringutil.hyphenate( key ) + ':' + value[key] );
+            }
+         }
+
+         (<HTMLElement><any>this).style.cssText += ";" + style.join( ";" );
+         return (<HTMLElement><any>this).style.cssText;
       }
 
       find(query: string): ElementGroup
