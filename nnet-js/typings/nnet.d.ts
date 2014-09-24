@@ -157,6 +157,205 @@ declare module "nnet"
 
          module EnhancedHTMLElement
          {
+            interface Anchor extends HTMLAnchorElement, Impl
+            {
+            }
+
+            interface Audio extends HTMLAudioElement, Impl
+            {
+            }
+
+            interface Base extends HTMLBaseElement, Impl
+            {
+            }
+
+            interface BR extends HTMLBRElement, Impl
+            {
+            }
+
+            interface Block extends HTMLBlockElement, Impl
+            {
+            }
+
+            interface Button extends HTMLButtonElement, Impl
+            {
+            }
+
+            interface Canvas extends HTMLCanvasElement, Impl
+            {
+            }
+
+            interface TableCaption extends HTMLTableCaptionElement, Impl
+            {
+            }
+
+            interface TableCol extends HTMLTableColElement, Impl
+            {
+            }
+
+            interface DD extends HTMLDDElement, Impl
+            {
+            }
+
+            interface Div extends HTMLDivElement, Impl
+            {
+            }
+
+            interface DList extends HTMLDListElement, Impl
+            {
+            }
+
+            interface DT extends HTMLDTElement, Impl
+            {
+            }
+
+            interface Embed extends HTMLEmbedElement, Impl
+            {
+            }
+
+            interface FieldSet extends HTMLFieldSetElement, Impl
+            {
+            }
+
+            interface Form extends HTMLFormElement, Impl
+            {
+            }
+
+            interface Heading extends HTMLHeadingElement, Impl
+            {
+            }
+
+            interface HR extends HTMLHRElement, Impl
+            {
+            }
+
+            interface IFrame extends HTMLIFrameElement, Impl
+            {
+            }
+
+            interface Image extends HTMLImageElement, Impl
+            {
+            }
+
+            interface Input extends HTMLInputElement, Impl
+            {
+            }
+
+            interface Label extends HTMLLabelElement, Impl
+            {
+            }
+
+            interface Legend extends HTMLLegendElement, Impl
+            {
+            }
+
+            interface LI extends HTMLLIElement, Impl
+            {
+            }
+
+            interface Link extends HTMLLinkElement, Impl
+            {
+            }
+
+            interface Object extends HTMLObjectElement, Impl
+            {
+            }
+
+            interface OList extends HTMLOListElement, Impl
+            {
+            }
+
+            interface OptGroup extends HTMLOptGroupElement, Impl
+            {
+            }
+
+            interface Paragraph extends HTMLParagraphElement, Impl
+            {
+            }
+
+            interface Param extends HTMLParamElement, Impl
+            {
+            }
+
+            interface Option extends HTMLOptionElement, Impl
+            {
+            }
+
+            interface Pre extends HTMLPreElement, Impl
+            {
+            }
+
+            interface Progress extends HTMLProgressElement, Impl
+            {
+            }
+
+            interface Quote extends HTMLQuoteElement, Impl
+            {
+            }
+
+            interface Script extends HTMLScriptElement, Impl
+            {
+            }
+
+            interface Select extends HTMLSelectElement, Impl
+            {
+            }
+
+            interface Source extends HTMLSourceElement, Impl
+            {
+            }
+
+            interface Span extends HTMLSpanElement, Impl
+            {
+            }
+
+            interface Table extends HTMLTableElement, Impl
+            {
+            }
+
+            interface TableSection extends HTMLTableSectionElement, Impl
+            {
+            }
+
+            interface TableDataCell extends HTMLTableDataCellElement, Impl
+            {
+            }
+
+            interface TextArea extends HTMLTextAreaElement, Impl
+            {
+            }
+
+            interface TableHeaderCell extends HTMLTableHeaderCellElement, Impl
+            {
+            }
+
+            interface TableSection extends HTMLTableSectionElement, Impl
+            {
+            }
+
+            interface Title extends HTMLTitleElement, Impl
+            {
+            }
+
+            interface TableRow extends HTMLTableRowElement, Impl
+            {
+            }
+
+            interface Track extends HTMLTrackElement, Impl
+            {
+            }
+
+            interface UList extends HTMLUListElement, Impl
+            {
+            }
+
+            interface Video extends HTMLVideoElement, Impl
+            {
+            }
+         }
+
+         module EnhancedHTMLElement
+         {
             class Impl extends EnhancedElement.Impl
             {
                getAncestors(query: string): nnet.dom.ElementGroup;
@@ -177,11 +376,7 @@ declare module "nnet"
          {
             function text(...params: any[]): Node;
 
-            function a(...params: any[]): IEnhancedHTMLAnchorElement;
-
-            interface IEnhancedHTMLAnchorElement extends HTMLAnchorElement, EnhancedHTMLElement.Impl
-            {
-            }
+            function a(...params: any[]): EnhancedHTMLElement.Anchor;
 
             function abbr(...params: any[]): nnet.dom.EnhancedHTMLElement;
 
@@ -189,65 +384,29 @@ declare module "nnet"
 
             function address(...params: any[]): nnet.dom.EnhancedHTMLElement;
 
-            function audio(...params: any[]): IEnhancedHTMLAudioElement;
+            function audio(...params: any[]): EnhancedHTMLElement.Audio;
 
-            interface IEnhancedHTMLAudioElement extends HTMLAudioElement, EnhancedHTMLElement.Impl
-            {
-            }
+            function base(...params: any[]): EnhancedHTMLElement.Base;
 
-            function base(...params: any[]): IEnhancedHTMLBaseElement;
+            function blockquote(...params: any[]): EnhancedHTMLElement.Block;
 
-            interface IEnhancedHTMLBaseElement extends HTMLBaseElement, EnhancedHTMLElement.Impl
-            {
-            }
+            function br(...params: any[]): EnhancedHTMLElement.BR;
 
-            function blockquote(...params: any[]): IEnhancedHTMLBlockElement;
+            function button(...params: any[]): EnhancedHTMLElement.Button;
 
-            interface IEnhancedHTMLBlockElement extends HTMLBlockElement, EnhancedHTMLElement.Impl
-            {
-            }
+            function canvas(...params: any[]): EnhancedHTMLElement.Canvas;
 
-            function br(...params: any[]): IEnhancedHTMLBRElement;
-
-            interface IEnhancedHTMLBRElement extends HTMLBRElement, EnhancedHTMLElement.Impl
-            {
-            }
-
-            function button(...params: any[]): IEnhancedHTMLButtonElement;
-
-            interface IEnhancedHTMLButtonElement extends HTMLButtonElement, EnhancedHTMLElement.Impl
-            {
-            }
-
-            function canvas(...params: any[]): IEnhancedHTMLCanvasElement;
-
-            interface IEnhancedHTMLCanvasElement extends HTMLCanvasElement, EnhancedHTMLElement.Impl
-            {
-            }
-
-            function caption(...params: any[]): IEnhancedHTMLTableCaptionElement;
-
-            interface IEnhancedHTMLTableCaptionElement extends HTMLTableCaptionElement, EnhancedHTMLElement.Impl
-            {
-            }
+            function caption(...params: any[]): EnhancedHTMLElement.TableCaption;
 
             function cite(...params: any[]): nnet.dom.EnhancedHTMLElement;
 
             function code(...params: any[]): nnet.dom.EnhancedHTMLElement;
 
-            function col(...params: any[]): IEnhancedHTMLTableColElement;
-
-            interface IEnhancedHTMLTableColElement extends HTMLTableColElement, EnhancedHTMLElement.Impl
-            {
-            }
+            function col(...params: any[]): EnhancedHTMLElement.TableCol;
 
             function colgroup(...params: any[]): nnet.dom.EnhancedHTMLElement;
 
-            function dd(...params: any[]): IEnhancedHTMLDDElement;
-
-            interface IEnhancedHTMLDDElement extends HTMLDDElement, EnhancedHTMLElement.Impl
-            {
-            }
+            function dd(...params: any[]): EnhancedHTMLElement.DD;
 
             function del(...params: any[]): nnet.dom.EnhancedHTMLElement;
 
@@ -255,197 +414,85 @@ declare module "nnet"
 
             function dfn(...params: any[]): nnet.dom.EnhancedHTMLElement;
 
-            function div(...params: any[]): IEnhancedHTMLDivElement;
+            function div(...params: any[]): EnhancedHTMLElement.Div;
 
-            interface IEnhancedHTMLDivElement extends HTMLDivElement, EnhancedHTMLElement.Impl
-            {
-            }
+            function dl(...params: any[]): EnhancedHTMLElement.DList;
 
-            function dl(...params: any[]): IEnhancedHTMLDListElement;
-
-            interface IEnhancedHTMLDListElement extends HTMLDListElement, EnhancedHTMLElement.Impl
-            {
-            }
-
-            function dt(...params: any[]): IEnhancedHTMLDTElement;
-
-            interface IEnhancedHTMLDTElement extends HTMLDTElement, EnhancedHTMLElement.Impl
-            {
-            }
+            function dt(...params: any[]): EnhancedHTMLElement.DT;
 
             function em(...params: any[]): nnet.dom.EnhancedHTMLElement;
 
-            function embed(...params: any[]): IEnhancedHTMLEmbedElement;
+            function embed(...params: any[]): EnhancedHTMLElement.Embed;
 
-            interface IEnhancedHTMLEmbedElement extends HTMLEmbedElement, EnhancedHTMLElement.Impl
-            {
-            }
-
-            function fieldset(...params: any[]): IEnhancedHTMLFieldSetElement;
-
-            interface IEnhancedHTMLFieldSetElement extends HTMLFieldSetElement, EnhancedHTMLElement.Impl
-            {
-            }
+            function fieldset(...params: any[]): EnhancedHTMLElement.FieldSet;
 
             function figure(...params: any[]): nnet.dom.EnhancedHTMLElement;
 
-            function form(...params: any[]): IEnhancedHTMLFormElement;
+            function form(...params: any[]): EnhancedHTMLElement.Form;
 
-            interface IEnhancedHTMLFormElement extends HTMLFormElement, EnhancedHTMLElement.Impl
-            {
-            }
+            function h1(...params: any[]): EnhancedHTMLElement.Heading;
 
-            function h1(...params: any[]): IEnhancedHTMLHeadingElement;
+            function h2(...params: any[]): EnhancedHTMLElement.Heading;
 
-            function h2(...params: any[]): IEnhancedHTMLHeadingElement;
+            function h3(...params: any[]): EnhancedHTMLElement.Heading;
 
-            function h3(...params: any[]): IEnhancedHTMLHeadingElement;
+            function h4(...params: any[]): EnhancedHTMLElement.Heading;
 
-            function h4(...params: any[]): IEnhancedHTMLHeadingElement;
+            function h5(...params: any[]): EnhancedHTMLElement.Heading;
 
-            function h5(...params: any[]): IEnhancedHTMLHeadingElement;
+            function h6(...params: any[]): EnhancedHTMLElement.Heading;
 
-            function h6(...params: any[]): IEnhancedHTMLHeadingElement;
+            function hr(...params: any[]): EnhancedHTMLElement.HR;
 
-            interface IEnhancedHTMLHeadingElement extends HTMLHeadingElement, EnhancedHTMLElement.Impl
-            {
-            }
+            function iframe(...params: any[]): EnhancedHTMLElement.IFrame;
 
-            function hr(...params: any[]): IEnhancedHTMLHRElement;
+            function img(...params: any[]): EnhancedHTMLElement.Image;
 
-            interface IEnhancedHTMLHRElement extends HTMLHRElement, EnhancedHTMLElement.Impl
-            {
-            }
-
-            function iframe(...params: any[]): IEnhancedHTMLIFrameElement;
-
-            interface IEnhancedHTMLIFrameElement extends HTMLIFrameElement, EnhancedHTMLElement.Impl
-            {
-            }
-
-            function img(...params: any[]): IEnhancedHTMLImageElement;
-
-            interface IEnhancedHTMLImageElement extends HTMLImageElement, EnhancedHTMLElement.Impl
-            {
-            }
-
-            function input(...params: any[]): IEnhancedHTMLInputElement;
-
-            interface IEnhancedHTMLInputElement extends HTMLInputElement, EnhancedHTMLElement.Impl
-            {
-            }
+            function input(...params: any[]): EnhancedHTMLElement.Input;
 
             function ins(...params: any[]): nnet.dom.EnhancedHTMLElement;
 
             function kbd(...params: any[]): nnet.dom.EnhancedHTMLElement;
 
-            function label(...params: any[]): IEnhancedHTMLLabelElement;
+            function label(...params: any[]): EnhancedHTMLElement.Label;
 
-            interface IEnhancedHTMLLabelElement extends HTMLLabelElement, EnhancedHTMLElement.Impl
-            {
-            }
+            function legend(...params: any[]): EnhancedHTMLElement.Legend;
 
-            function legend(...params: any[]): IEnhancedHTMLLegendElement;
+            function li(...params: any[]): EnhancedHTMLElement.LI;
 
-            interface IEnhancedHTMLLegendElement extends HTMLLegendElement, EnhancedHTMLElement.Impl
-            {
-            }
-
-            function li(...params: any[]): IEnhancedHTMLLIElement;
-
-            interface IEnhancedHTMLLIElement extends HTMLLIElement, EnhancedHTMLElement.Impl
-            {
-            }
-
-            function link(...params: any[]): IEnhancedHTMLLinkElement;
-
-            interface IEnhancedHTMLLinkElement extends HTMLLinkElement, EnhancedHTMLElement.Impl
-            {
-            }
+            function link(...params: any[]): EnhancedHTMLElement.Link;
 
             function math(...params: any[]): nnet.dom.EnhancedHTMLElement;
 
-            function object(...params: any[]): IEnhancedHTMLObjectElement;
+            function object(...params: any[]): EnhancedHTMLElement.Object;
 
-            interface IEnhancedHTMLObjectElement extends HTMLObjectElement, EnhancedHTMLElement.Impl
-            {
-            }
+            function ol(...params: any[]): EnhancedHTMLElement.OList;
 
-            function ol(...params: any[]): IEnhancedHTMLOListElement;
+            function optgroup(...params: any[]): EnhancedHTMLElement.OptGroup;
 
-            interface IEnhancedHTMLOListElement extends HTMLOListElement, EnhancedHTMLElement.Impl
-            {
-            }
+            function option(...params: any[]): EnhancedHTMLElement.Option;
 
-            function optgroup(...params: any[]): IEnhancedHTMLOptGroupElement;
+            function p(...params: any[]): EnhancedHTMLElement.Paragraph;
 
-            interface IEnhancedHTMLOptGroupElement extends HTMLOptGroupElement, EnhancedHTMLElement.Impl
-            {
-            }
+            function param(...params: any[]): EnhancedHTMLElement.Param;
 
-            function option(...params: any[]): IEnhancedHTMLOptionElement;
+            function pre(...params: any[]): EnhancedHTMLElement.Pre;
 
-            interface IEnhancedHTMLOptionElement extends HTMLOptionElement, EnhancedHTMLElement.Impl
-            {
-            }
+            function progress(...params: any[]): EnhancedHTMLElement.Progress;
 
-            function p(...params: any[]): IEnhancedHTMLParagraphElement;
-
-            interface IEnhancedHTMLParagraphElement extends HTMLParagraphElement, EnhancedHTMLElement.Impl
-            {
-            }
-
-            function param(...params: any[]): IEnhancedHTMLParamElement;
-
-            interface IEnhancedHTMLParamElement extends HTMLParamElement, EnhancedHTMLElement.Impl
-            {
-            }
-
-            function pre(...params: any[]): IEnhancedHTMLPreElement;
-
-            interface IEnhancedHTMLPreElement extends HTMLPreElement, EnhancedHTMLElement.Impl
-            {
-            }
-
-            function progress(...params: any[]): IEnhancedHTMLProgressElement;
-
-            interface IEnhancedHTMLProgressElement extends HTMLProgressElement, EnhancedHTMLElement.Impl
-            {
-            }
-
-            function q(...params: any[]): IEnhancedHTMLQuoteElement;
-
-            interface IEnhancedHTMLQuoteElement extends HTMLQuoteElement, EnhancedHTMLElement.Impl
-            {
-            }
+            function q(...params: any[]): EnhancedHTMLElement.Quote;
 
             function s(...params: any[]): nnet.dom.EnhancedHTMLElement;
 
             function samp(...params: any[]): nnet.dom.EnhancedHTMLElement;
 
-            function script(...params: any[]): IEnhancedHTMLScriptElement;
+            function script(...params: any[]): EnhancedHTMLElement.Script;
 
-            interface IEnhancedHTMLScriptElement extends HTMLScriptElement, EnhancedHTMLElement.Impl
-            {
-            }
+            function select(...params: any[]): EnhancedHTMLElement.Select;
 
-            function select(...params: any[]): IEnhancedHTMLSelectElement;
+            function source(...params: any[]): EnhancedHTMLElement.Source;
 
-            interface IEnhancedHTMLSelectElement extends HTMLSelectElement, EnhancedHTMLElement.Impl
-            {
-            }
-
-            function source(...params: any[]): IEnhancedHTMLSourceElement;
-
-            interface IEnhancedHTMLSourceElement extends HTMLSourceElement, EnhancedHTMLElement.Impl
-            {
-            }
-
-            function span(...params: any[]): IEnhancedHTMLSpanElement;
-
-            interface IEnhancedHTMLSpanElement extends HTMLSpanElement, EnhancedHTMLElement.Impl
-            {
-            }
+            function span(...params: any[]): EnhancedHTMLElement.Span;
 
             function strong(...params: any[]): nnet.dom.EnhancedHTMLElement;
 
@@ -457,83 +504,35 @@ declare module "nnet"
 
             function svg(...params: any[]): nnet.dom.EnhancedHTMLElement;
 
-            function table(...params: any[]): IEnhancedHTMLTableAlignment;
+            function table(...params: any[]): EnhancedHTMLElement.Table;
 
-            interface IEnhancedHTMLTableAlignment extends HTMLTableAlignment, EnhancedHTMLElement.Impl
-            {
-            }
+            function tbody(...params: any[]): EnhancedHTMLElement.TableSection;
 
-            function tbody(...params: any[]): IEnhancedHTMLTableSectionElement;
+            function td(...params: any[]): EnhancedHTMLElement.TableDataCell;
 
-            interface IEnhancedHTMLTableSectionElement extends HTMLTableSectionElement, EnhancedHTMLElement.Impl
-            {
-            }
+            function textarea(...params: any[]): EnhancedHTMLElement.TextArea;
 
-            function td(...params: any[]): IEnhancedHTMLTableDataCellElement;
+            function tfoot(...params: any[]): EnhancedHTMLElement.TableSection;
 
-            interface IEnhancedHTMLTableDataCellElement extends HTMLTableDataCellElement, EnhancedHTMLElement.Impl
-            {
-            }
+            function th(...params: any[]): EnhancedHTMLElement.TableHeaderCell;
 
-            function textarea(...params: any[]): IEnhancedHTMLTextAreaElement;
-
-            interface IEnhancedHTMLTextAreaElement extends HTMLTextAreaElement, EnhancedHTMLElement.Impl
-            {
-            }
-
-            function tfoot(...params: any[]): IEnhancedHTMLTableAlignment;
-
-            interface IEnhancedHTMLTableAlignment extends HTMLTableAlignment, EnhancedHTMLElement.Impl
-            {
-            }
-
-            function th(...params: any[]): IEnhancedHTMLTableHeaderCellElement;
-
-            interface IEnhancedHTMLTableHeaderCellElement extends HTMLTableHeaderCellElement, EnhancedHTMLElement.Impl
-            {
-            }
-
-            function thead(...params: any[]): IEnhancedHTMLTableSectionElement;
-
-            interface IEnhancedHTMLTableSectionElement extends HTMLTableSectionElement, EnhancedHTMLElement.Impl
-            {
-            }
+            function thead(...params: any[]): EnhancedHTMLElement.TableSection;
 
             function time(...params: any[]): nnet.dom.EnhancedHTMLElement;
 
-            function title(...params: any[]): IEnhancedHTMLTitleElement;
+            function title(...params: any[]): EnhancedHTMLElement.Title;
 
-            interface IEnhancedHTMLTitleElement extends HTMLTitleElement, EnhancedHTMLElement.Impl
-            {
-            }
+            function tr(...params: any[]): EnhancedHTMLElement.TableRow;
 
-            function tr(...params: any[]): IEnhancedHTMLTableRowElement;
-
-            interface IEnhancedHTMLTableRowElement extends HTMLTableRowElement, EnhancedHTMLElement.Impl
-            {
-            }
-
-            function track(...params: any[]): IEnhancedHTMLTrackElement;
-
-            interface IEnhancedHTMLTrackElement extends HTMLTrackElement, EnhancedHTMLElement.Impl
-            {
-            }
+            function track(...params: any[]): EnhancedHTMLElement.Track;
 
             function u(...params: any[]): nnet.dom.EnhancedHTMLElement;
 
-            function ul(...params: any[]): IEnhancedHTMLUListElement;
-
-            interface IEnhancedHTMLUListElement extends HTMLUListElement, EnhancedHTMLElement.Impl
-            {
-            }
+            function ul(...params: any[]): EnhancedHTMLElement.UList;
 
             function var$(...params: any[]): nnet.dom.EnhancedHTMLElement;
 
-            function video(...params: any[]): IEnhancedHTMLVideoElement;
-
-            interface IEnhancedHTMLVideoElement extends HTMLVideoElement, EnhancedHTMLElement.Impl
-            {
-            }
+            function video(...params: any[]): EnhancedHTMLElement.Video;
          }
 
          module form
