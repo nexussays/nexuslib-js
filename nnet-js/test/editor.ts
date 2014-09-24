@@ -19,7 +19,7 @@ declare var escape: any;
 
 //Make sure HTMLElements are extended
 nnet.array.enhancePrototype();
-nnet.dom.applyEnhancementsToPrototype();
+nnet.dom.enhancePrototype();
 
 var editorTextarea,
     showAllMembers,

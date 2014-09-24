@@ -9,9 +9,9 @@ import enhanceElement = require('./enhanceElement'); ///ts:import:generated
 /// ts:import=enhanceHTMLElement
 import enhanceHTMLElement = require('./enhanceHTMLElement'); ///ts:import:generated
 
-export = applyEnhancementsToPrototype;
+export = enhancePrototype;
 
-function applyEnhancementsToPrototype()
+function enhancePrototype()
 {
    if(enhanceElement.enabled)
    {

@@ -581,7 +581,7 @@ declare module "nnet"
             function selectorQueryAll(getEl: find.Interface, query: any): any;
          }
 
-         function applyEnhancementsToPrototype(): void;
+         function enhancePrototype(): void;
 
          function enhanceElement(element: Element, force?: boolean): nnet.dom.EnhancedElement;
 

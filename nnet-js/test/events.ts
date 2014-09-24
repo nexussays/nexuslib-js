@@ -16,7 +16,7 @@ import Benchmark = require("./benchmark");
 //window.HTML = nnet.html.HTML;
 //Make sure HTMLElements are extended
 nnet.array.enhancePrototype();
-nnet.dom.applyEnhancementsToPrototype();
+nnet.dom.enhancePrototype();
 
 nnet.dom.onInteractive( function()
 {
