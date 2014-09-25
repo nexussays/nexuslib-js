@@ -1,10 +1,10 @@
-/// <reference path="../typings/nnet.d.ts"/>
-import nnet = require("nnet");
-import EnhancedHTMLElement = nnet.dom.EnhancedHTMLElement;
-import Cookie = nnet.browser.Cookie;
-import find = nnet.dom.find;
-import EnhancedEvent = nnet.event.EnhancedEvent;
-import Key = nnet.util.Key;
+/// <reference path="../typings/nexuslib.d.ts"/>
+import nexus = require("nexus");
+import EnhancedHTMLElement = nexus.dom.EnhancedHTMLElement;
+import Cookie = nexus.browser.Cookie;
+import find = nexus.dom.find;
+import EnhancedEvent = nexus.event.EnhancedEvent;
+import Key = nexus.util.Key;
 
 import Debug = require("./debug");
 import nav = require("./nav");
@@ -18,8 +18,8 @@ declare var unescape: any;
 declare var escape: any;
 
 //Make sure HTMLElements are extended
-nnet.array.enhancePrototype();
-nnet.dom.enhancePrototype();
+nexus.array.enhancePrototype();
+nexus.dom.enhancePrototype();
 
 var editorTextarea,
     showAllMembers,
@@ -27,7 +27,7 @@ var editorTextarea,
     catchTabs,
     executionOutputTextarea: EnhancedHTMLElement;
 var editorCookie: Cookie;
-nnet.dom.onInteractive( function()
+nexus.dom.onInteractive( function()
 {
    if(find.id( "page-editor" ))
    {
@@ -92,7 +92,7 @@ function __updateTestingHTMLAndCookie()
    editorCookie.data.showReturnValue = showReturnValue.checked;
    editorCookie.data.catchTabs = catchTabs.checked;
    editorCookie.data.editorTextarea = escape( editorTextarea.value );
-   editorCookie.expireIn( nnet.util.Milliseconds.days( 90 ) );
+   editorCookie.expireIn( nexus.util.Milliseconds.days( 90 ) );
    editorCookie.save();
 }
 
@@ -122,7 +122,7 @@ function editorTextarea_keydown(e: EnhancedEvent)
          }
          startMod = spaceCount + 1;
          endMod = spaceCount + 1;
-         editorTextarea.value = pre + "\n" + nnet.stringutil.charTimes(" ", spaceCount) + selected + post;
+         editorTextarea.value = pre + "\n" + nexus.stringutil.charTimes(" ", spaceCount) + selected + post;
       }
       else if(e.keyInfo.code == Key.Tab)
       {

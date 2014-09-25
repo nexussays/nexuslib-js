@@ -8,13 +8,13 @@ module.exports = function(grunt)
       {
          dest:
          {
-            root: "nnet-js/bin/",
+            root: "./bin/",
             commonjs: "<%= paths.dest.root %>compiled-commonjs/",
             amd: "<%= paths.dest.root %>compiled-amd/"
          },
          editor:
          {
-            srcDir: "nnet-js/test/",
+            srcDir: "./test/",
             srcFile: ["<%= paths.editor.srcDir %>editor.ts", "<%= paths.editor.srcDir %>events.ts"],
             srcBrowserify: "<%= paths.editor.dest.commonjs %>editor.js",
             dest:
@@ -25,21 +25,21 @@ module.exports = function(grunt)
          },
          main:
          {
-            srcDir: "nnet-js/src/",
-            srcFile: "<%= paths.main.srcDir %>/_nnet.ts",
-            srcBrowserify: "<%= paths.main.dest.commonjs %>/_nnet.js",
+            srcDir: "./src/",
+            srcFile: "<%= paths.main.srcDir %>/_nexus.ts",
+            srcBrowserify: "<%= paths.main.dest.commonjs %>/_nexus.js",
             dest:
             {
                amd: "<%= paths.dest.amd %>src/",
                commonjs: "<%= paths.dest.commonjs %>src/",
-               bundled: "<%= paths.dest.root %>dist/",
-               minified: "<%= paths.dest.root %>dist/"
+               bundled: "./dist/",
+               minified: "./dist/"
             }
          },
          declaration:
          {
-            srcFile: "nnet-js/typings/nnet.d.ts",
-            destFile: "<%= paths.main.dest.bundled %>/nnet.d.ts"
+            srcFile: "./typings/nexuslib.d.ts",
+            destFile: "<%= paths.main.dest.bundled %>/nexuslib.d.ts"
          }
       },
       package: grunt.file.readJSON( './package.json' )
@@ -118,15 +118,15 @@ module.exports = function(grunt)
    config.browserify = {
       lib: {
          src: config.paths.main.srcBrowserify,
-         dest: "<%= paths.main.dest.bundled %>/nnet-browserify.js",
+         dest: "<%= paths.main.dest.bundled %>/browserify/nexuslib.js",
          options: {
             browserifyOptions: {
-               standalone: "nnet",
-               //paths: ["./src/nnet"]
+               standalone: "nexus",
+               //paths: ["./src/nexuslib"]
             },
             //aliasMappings: {
             //   cwd: "src",
-            //   src: ["nnet/**/*.js"]
+            //   src: ["nexuslib/**/*.js"]
             //}
          }
       },
@@ -135,13 +135,7 @@ module.exports = function(grunt)
          dest: "<%= paths.editor.dest.bundled %>/editor.js",
          options: {
             transform: ["browserify-shim"],
-            external: ["nnet"],
-            shim: {
-               nnet: {
-                  path: "foo/bar/path/nnet-browserify.js"
-               }
-            }
-            //alias: ["../src/nnet/**/*.js:nnet"]
+            external: ["nexus"]
          }
       }
    };
@@ -167,6 +161,7 @@ module.exports = function(grunt)
          generateModuleRoots(
             this.data.template,
             this.data.root,
+            this.data.name,
             this.data.regex,
             this.data.ext,
             this.data.extArr
@@ -174,7 +169,7 @@ module.exports = function(grunt)
       }
       catch(e)
       {
-         console.log( e.message.red );
+         grunt.fail.warn( e.message );
       }
    } );
    config["gen-index"] =
@@ -182,6 +177,7 @@ module.exports = function(grunt)
       "ts": {
          template: './build/module-index-ts.mustache',
          root: config.paths.main.srcDir,
+         name: "nexus",
          regex: (/\.ts$/),
          ext: ".ts",
          extArr: [".ts", ".d"]
@@ -189,12 +185,14 @@ module.exports = function(grunt)
       "js-amd": {
          template: './build/module-index-js-amd.mustache',
          root: config.paths.main.dest.amd,
+         name: "nexus",
          regex: (/\.js$/),
          ext: ".js"
       },
       "js-commonjs": {
          template: './build/module-index-js-commonjs.mustache',
          root: config.paths.main.dest.commonjs,
+         name: "nexus",
          regex: (/\.js$/),
          ext: ".js"
       }
@@ -212,15 +210,16 @@ module.exports = function(grunt)
       _fs.writeFileSync( file, _fs.readFileSync( file ).toString().replace( new RegExp( "__?" + this.data.name + "\\/", "g" ), "" ), 'utf-8' );
       if(this.data.convertToInternal !== false)
       {
-         convertExternalDeclarationToInternal( file, file, this.data.name, this.data.name );
+         convertExternalDeclarationToInternal( file, file, this.data.name, this.data.export );
       }
    } );
    config.dts = {
-      nnet: {
-         name: "nnet",
-         out: "../../../typings/nnet.d.ts",
+      lib: {
+         name: "nexuslib",
+         export: "nexus",
+         out: "../../../typings/nexuslib.d.ts",
          indent: '   ',
-         main: config.paths.main.dest.commonjs + "_nnet.d.ts",
+         main: config.paths.main.dest.commonjs + "_nexus.d.ts",
       }
    };
 
@@ -334,13 +333,13 @@ module.exports = function(grunt)
          //r.js.cmd -o build.js optimize=none
          default:
          {
-            out: config.paths.main.dest.bundled + "nnet-amd.js",
+            out: config.paths.main.dest.bundled + "nexuslib-amd.js",
             //appDir: config.paths.main.dest.amd,
             baseUrl: config.paths.main.dest.amd,
             //dir: "./bin",
             //exclude: [],
-            //mainConfigFile: config.paths.main.dest.amd + "/nnet_.js",
-            name: "_nnet",
+            //mainConfigFile: config.paths.main.dest.amd + "/_nexus.js",
+            name: "_nexus",
             generateSourceMaps: false,
             optimize: "none"
          }
@@ -350,7 +349,7 @@ module.exports = function(grunt)
       //r.js.cmd -o build.js optimize=none paths.requireLib=../node_modules/requirejs/require include=requireLib
       almond:
       {
-         out: config.paths.main.dest.bundled + "nnet-amd-embedded-almond.js",
+         out: config.paths.main.dest.bundled + "nexuslib-amd-embedded-almond.js",
          include: ["../../../lib/almond"],
          wrap: true
       },
@@ -450,18 +449,18 @@ module.exports = function(grunt)
    var _path = require( 'path' );
    var _mustache = require( 'mustache' );
 
-   function generateModuleRoots(template, root, fileFilter, ext, basename)
+   function generateModuleRoots(template, rootExclude, rootInclude, fileFilter, ext, basename)
    {
       basename = basename || ext;
 
       var template = _fs.readFileSync( template ).toString();
       _mustache.parse( template );
 
-      var src = getDirs( root, "nnet" );
+      var src = getDirs( rootExclude, rootInclude );
       src.forEach( function(item)
       {
-         var dir = _path.join( root, item );
-         var files = getFiles( root, item, fileFilter );
+         var dir = _path.join( rootExclude, item );
+         var files = getFiles( rootExclude, item, fileFilter );
          //get parent directory and create js file with name of the current dir
          var newFileName = "_" + _path.basename( item ) + ext;
          var newFile = _path.join( _path.resolve( dir, ".." ), newFileName );

@@ -1,24 +1,24 @@
-/// <reference path="../typings/nnet.d.ts"/>
-import nnet = require("nnet");
-import EnhancedHTMLElement = nnet.dom.EnhancedHTMLElement;
-import Cookie = nnet.browser.Cookie;
-import find = nnet.dom.find;
-import EnhancedEvent = nnet.event.EnhancedEvent;
-import Key = nnet.util.Key;
+/// <reference path="../typings/nexuslib.d.ts"/>
+import nexus = require("nexus");
+import EnhancedHTMLElement = nexus.dom.EnhancedHTMLElement;
+import Cookie = nexus.browser.Cookie;
+import find = nexus.dom.find;
+import EnhancedEvent = nexus.event.EnhancedEvent;
+import Key = nexus.util.Key;
 
 import Debug = require("./debug");
 import nav = require("./nav");
 import Benchmark = require("./benchmark");
 
 //Hoist up some methods to window and set local vars for others
-(<any>window).find = nnet.dom.find;
+(<any>window).find = nexus.dom.find;
 
-//window.HTML = nnet.html.HTML;
+//window.HTML = nexus.html.HTML;
 //Make sure HTMLElements are extended
-nnet.array.enhancePrototype();
-nnet.dom.enhancePrototype();
+nexus.array.enhancePrototype();
+nexus.dom.enhancePrototype();
 
-nnet.dom.onInteractive( function()
+nexus.dom.onInteractive( function()
 {
    if(find.id( "page-events" ))
    {

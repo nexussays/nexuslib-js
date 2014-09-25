@@ -1,8 +1,8 @@
-declare module "nnet"
+declare module "nexus"
 {
-   export = nnet;
+   export = nexus;
 
-   module nnet
+   module nexus
    {
       module array
       {
@@ -100,22 +100,22 @@ declare module "nnet"
       {
          class ElementGroup
          {
-            constructor(sourceArray: nnet.dom.EnhancedHTMLElement[]);
+            constructor(sourceArray: nexus.dom.EnhancedHTMLElement[]);
 
-            items: nnet.dom.EnhancedHTMLElement[];
+            items: nexus.dom.EnhancedHTMLElement[];
             length: number;
 
-            forEach(callbackfn: (value: nnet.dom.EnhancedHTMLElement, index: number, array: nnet.dom.EnhancedHTMLElement[]) => void): ElementGroup;
+            forEach(callbackfn: (value: nexus.dom.EnhancedHTMLElement, index: number, array: nexus.dom.EnhancedHTMLElement[]) => void): ElementGroup;
 
-            some(callbackfn: (value: nnet.dom.EnhancedHTMLElement, index: number, array: nnet.dom.EnhancedHTMLElement[]) => boolean): boolean;
+            some(callbackfn: (value: nexus.dom.EnhancedHTMLElement, index: number, array: nexus.dom.EnhancedHTMLElement[]) => boolean): boolean;
 
-            every(callbackfn: (value: nnet.dom.EnhancedHTMLElement, index: number, array: nnet.dom.EnhancedHTMLElement[]) => boolean): boolean;
+            every(callbackfn: (value: nexus.dom.EnhancedHTMLElement, index: number, array: nexus.dom.EnhancedHTMLElement[]) => boolean): boolean;
 
-            filter$(callbackfn: (value: nnet.dom.EnhancedHTMLElement, index: number, array: nnet.dom.EnhancedHTMLElement[]) => boolean): ElementGroup;
+            filter$(callbackfn: (value: nexus.dom.EnhancedHTMLElement, index: number, array: nexus.dom.EnhancedHTMLElement[]) => boolean): ElementGroup;
 
-            bind(eventName: string, func: (e: nnet.event.EnhancedEvent) => void): ElementGroup;
+            bind(eventName: string, func: (e: nexus.event.EnhancedEvent) => void): ElementGroup;
 
-            unbind(eventName: string, func: (e: nnet.event.EnhancedEvent) => void): ElementGroup;
+            unbind(eventName: string, func: (e: nexus.event.EnhancedEvent) => void): ElementGroup;
 
             addClass(name: string, checkExistence?: boolean): ElementGroup;
 
@@ -127,9 +127,9 @@ declare module "nnet"
 
             find(query: string): ElementGroup;
 
-            first(): nnet.dom.EnhancedHTMLElement;
+            first(): nexus.dom.EnhancedHTMLElement;
 
-            last(): nnet.dom.EnhancedHTMLElement;
+            last(): nexus.dom.EnhancedHTMLElement;
          }
 
          interface EnhancedHTMLElement extends HTMLElement, EnhancedHTMLElement.Impl
@@ -353,13 +353,13 @@ declare module "nnet"
 
                setBooleanAttribute(name: string, value: boolean): void;
 
-               bind(eventName: string, func: (e: nnet.event.EnhancedEvent, context: EnhancedHTMLElement) => void): void;
+               bind(eventName: string, func: (e: nexus.event.EnhancedEvent, context: EnhancedHTMLElement) => void): void;
 
-               unbind(event: string, func: (e: nnet.event.EnhancedEvent) => void): void;
+               unbind(event: string, func: (e: nexus.event.EnhancedEvent) => void): void;
 
                trigger(eventName: string): void;
 
-               getAncestors(query: string): nnet.dom.ElementGroup;
+               getAncestors(query: string): nexus.dom.ElementGroup;
 
                addClass(name: string, checkExistence?: boolean): boolean;
 
@@ -371,7 +371,7 @@ declare module "nnet"
 
                css(value: any): string;
 
-               find(query: string): nnet.dom.ElementGroup;
+               find(query: string): nexus.dom.ElementGroup;
             }
          }
 
@@ -381,11 +381,11 @@ declare module "nnet"
 
             function a(...params: any[]): EnhancedHTMLElement.Anchor;
 
-            function abbr(...params: any[]): nnet.dom.EnhancedHTMLElement;
+            function abbr(...params: any[]): nexus.dom.EnhancedHTMLElement;
 
-            function acronym(...params: any[]): nnet.dom.EnhancedHTMLElement;
+            function acronym(...params: any[]): nexus.dom.EnhancedHTMLElement;
 
-            function address(...params: any[]): nnet.dom.EnhancedHTMLElement;
+            function address(...params: any[]): nexus.dom.EnhancedHTMLElement;
 
             function audio(...params: any[]): EnhancedHTMLElement.Audio;
 
@@ -401,21 +401,21 @@ declare module "nnet"
 
             function caption(...params: any[]): EnhancedHTMLElement.TableCaption;
 
-            function cite(...params: any[]): nnet.dom.EnhancedHTMLElement;
+            function cite(...params: any[]): nexus.dom.EnhancedHTMLElement;
 
-            function code(...params: any[]): nnet.dom.EnhancedHTMLElement;
+            function code(...params: any[]): nexus.dom.EnhancedHTMLElement;
 
             function col(...params: any[]): EnhancedHTMLElement.TableCol;
 
-            function colgroup(...params: any[]): nnet.dom.EnhancedHTMLElement;
+            function colgroup(...params: any[]): nexus.dom.EnhancedHTMLElement;
 
             function dd(...params: any[]): EnhancedHTMLElement.DD;
 
-            function del(...params: any[]): nnet.dom.EnhancedHTMLElement;
+            function del(...params: any[]): nexus.dom.EnhancedHTMLElement;
 
-            function details(...params: any[]): nnet.dom.EnhancedHTMLElement;
+            function details(...params: any[]): nexus.dom.EnhancedHTMLElement;
 
-            function dfn(...params: any[]): nnet.dom.EnhancedHTMLElement;
+            function dfn(...params: any[]): nexus.dom.EnhancedHTMLElement;
 
             function div(...params: any[]): EnhancedHTMLElement.Div;
 
@@ -423,13 +423,13 @@ declare module "nnet"
 
             function dt(...params: any[]): EnhancedHTMLElement.DT;
 
-            function em(...params: any[]): nnet.dom.EnhancedHTMLElement;
+            function em(...params: any[]): nexus.dom.EnhancedHTMLElement;
 
             function embed(...params: any[]): EnhancedHTMLElement.Embed;
 
             function fieldset(...params: any[]): EnhancedHTMLElement.FieldSet;
 
-            function figure(...params: any[]): nnet.dom.EnhancedHTMLElement;
+            function figure(...params: any[]): nexus.dom.EnhancedHTMLElement;
 
             function form(...params: any[]): EnhancedHTMLElement.Form;
 
@@ -453,9 +453,9 @@ declare module "nnet"
 
             function input(...params: any[]): EnhancedHTMLElement.Input;
 
-            function ins(...params: any[]): nnet.dom.EnhancedHTMLElement;
+            function ins(...params: any[]): nexus.dom.EnhancedHTMLElement;
 
-            function kbd(...params: any[]): nnet.dom.EnhancedHTMLElement;
+            function kbd(...params: any[]): nexus.dom.EnhancedHTMLElement;
 
             function label(...params: any[]): EnhancedHTMLElement.Label;
 
@@ -465,7 +465,7 @@ declare module "nnet"
 
             function link(...params: any[]): EnhancedHTMLElement.Link;
 
-            function math(...params: any[]): nnet.dom.EnhancedHTMLElement;
+            function math(...params: any[]): nexus.dom.EnhancedHTMLElement;
 
             function object(...params: any[]): EnhancedHTMLElement.Object;
 
@@ -485,9 +485,9 @@ declare module "nnet"
 
             function q(...params: any[]): EnhancedHTMLElement.Quote;
 
-            function s(...params: any[]): nnet.dom.EnhancedHTMLElement;
+            function s(...params: any[]): nexus.dom.EnhancedHTMLElement;
 
-            function samp(...params: any[]): nnet.dom.EnhancedHTMLElement;
+            function samp(...params: any[]): nexus.dom.EnhancedHTMLElement;
 
             function script(...params: any[]): EnhancedHTMLElement.Script;
 
@@ -497,15 +497,15 @@ declare module "nnet"
 
             function span(...params: any[]): EnhancedHTMLElement.Span;
 
-            function strong(...params: any[]): nnet.dom.EnhancedHTMLElement;
+            function strong(...params: any[]): nexus.dom.EnhancedHTMLElement;
 
-            function sub(...params: any[]): nnet.dom.EnhancedHTMLElement;
+            function sub(...params: any[]): nexus.dom.EnhancedHTMLElement;
 
-            function summary(...params: any[]): nnet.dom.EnhancedHTMLElement;
+            function summary(...params: any[]): nexus.dom.EnhancedHTMLElement;
 
-            function sup(...params: any[]): nnet.dom.EnhancedHTMLElement;
+            function sup(...params: any[]): nexus.dom.EnhancedHTMLElement;
 
-            function svg(...params: any[]): nnet.dom.EnhancedHTMLElement;
+            function svg(...params: any[]): nexus.dom.EnhancedHTMLElement;
 
             function table(...params: any[]): EnhancedHTMLElement.Table;
 
@@ -521,7 +521,7 @@ declare module "nnet"
 
             function thead(...params: any[]): EnhancedHTMLElement.TableSection;
 
-            function time(...params: any[]): nnet.dom.EnhancedHTMLElement;
+            function time(...params: any[]): nexus.dom.EnhancedHTMLElement;
 
             function title(...params: any[]): EnhancedHTMLElement.Title;
 
@@ -529,11 +529,11 @@ declare module "nnet"
 
             function track(...params: any[]): EnhancedHTMLElement.Track;
 
-            function u(...params: any[]): nnet.dom.EnhancedHTMLElement;
+            function u(...params: any[]): nexus.dom.EnhancedHTMLElement;
 
             function ul(...params: any[]): EnhancedHTMLElement.UList;
 
-            function var$(...params: any[]): nnet.dom.EnhancedHTMLElement;
+            function var$(...params: any[]): nexus.dom.EnhancedHTMLElement;
 
             function video(...params: any[]): EnhancedHTMLElement.Video;
          }
@@ -582,7 +582,7 @@ declare module "nnet"
             function selectorQueryAll(getEl: find.Interface, query: any): any;
          }
 
-         function enhanceHTMLElement(element: HTMLElement, force?: boolean): nnet.dom.EnhancedHTMLElement;
+         function enhanceHTMLElement(element: HTMLElement, force?: boolean): nexus.dom.EnhancedHTMLElement;
 
          module enhanceHTMLElement
          {
@@ -591,25 +591,25 @@ declare module "nnet"
 
          function enhancePrototype(): void;
 
-         function find(query: Node, root?: Element): nnet.dom.ElementGroup;
+         function find(query: Node, root?: Element): nexus.dom.ElementGroup;
 
-         function find(query: Element, root?: Element): nnet.dom.ElementGroup;
+         function find(query: Element, root?: Element): nexus.dom.ElementGroup;
 
-         function find(query: string, root?: Element): nnet.dom.ElementGroup;
+         function find(query: string, root?: Element): nexus.dom.ElementGroup;
 
          module find
          {
-            function id(id: Node): nnet.dom.EnhancedHTMLElement;
+            function id(id: Node): nexus.dom.EnhancedHTMLElement;
 
-            function id(id: string): nnet.dom.EnhancedHTMLElement;
+            function id(id: string): nexus.dom.EnhancedHTMLElement;
 
             function id<T extends EnhancedHTMLElement>(id: string): T;
 
-            function name(name: string, tag?: string, root?: Element): nnet.dom.ElementGroup;
+            function name(name: string, tag?: string, root?: Element): nexus.dom.ElementGroup;
 
-            function className(name: string, tag?: string, root?: Element): nnet.dom.ElementGroup;
+            function className(name: string, tag?: string, root?: Element): nexus.dom.ElementGroup;
 
-            function tagName(name: string, root?: Element): nnet.dom.ElementGroup;
+            function tagName(name: string, root?: Element): nexus.dom.ElementGroup;
 
             interface Interface
             {
@@ -649,9 +649,9 @@ declare module "nnet"
 
          function nodeTypeToString(el: Node): string;
 
-         function onInteractive(callback: (e?: nnet.event.EnhancedEvent) => void): void;
+         function onInteractive(callback: (e?: nexus.event.EnhancedEvent) => void): void;
 
-         function onLoaded(callback: (e?: nnet.event.EnhancedEvent) => void): void;
+         function onLoaded(callback: (e?: nexus.event.EnhancedEvent) => void): void;
       }
 
       module event
@@ -668,7 +668,7 @@ declare module "nnet"
                middle: boolean;
             };
             keyInfo: {
-               code: nnet.util.Key;
+               code: nexus.util.Key;
                char: string;
                shift: boolean;
                ctrl: boolean;
@@ -690,7 +690,7 @@ declare module "nnet"
             stopImmediatePropagation(): void;
          }
 
-         function enhanceEvent(evt: Event, origin?: HTMLElement): nnet.event.EnhancedEvent;
+         function enhanceEvent(evt: Event, origin?: HTMLElement): nexus.event.EnhancedEvent;
       }
 
       module graphics
@@ -734,7 +734,7 @@ declare module "nnet"
             next(): number;
          }
 
-         class NativeRandomGenerator implements nnet.math.IPRNG
+         class NativeRandomGenerator implements nexus.math.IPRNG
          {
             period: number;
             currentState: number;
@@ -744,10 +744,10 @@ declare module "nnet"
 
          class Random
          {
-            generator: nnet.math.IPRNG;
+            generator: nexus.math.IPRNG;
             static instance: Random;
 
-            constructor(generator: nnet.math.IPRNG);
+            constructor(generator: nexus.math.IPRNG);
 
             float(min?: number, max?: number): number;
 
@@ -798,7 +798,7 @@ declare module "nnet"
 
             cancel(): void;
 
-            send(completeCallback: (response: nnet.net.HttpResponse) => void): boolean;
+            send(completeCallback: (response: nexus.net.HttpResponse) => void): boolean;
          }
 
          module HttpRequest

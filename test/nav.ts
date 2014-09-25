@@ -1,8 +1,8 @@
-﻿/// <reference path="../typings/nnet.d.ts"/>
-import nnet = require("nnet");
-import type = nnet.type;
-import HTML = nnet.dom.HTML;
-import find = nnet.dom.find;
+﻿/// <reference path="../typings/nexuslib.d.ts"/>
+import nexus = require("nexus");
+import type = nexus.type;
+import HTML = nexus.dom.HTML;
+import find = nexus.dom.find;
 
 export function createMenu(id, buildFrom)
 {
@@ -23,7 +23,7 @@ export function createMenu(id, buildFrom)
             }
             else if(item[1])
             {
-               match = nnet.stringutil.escapeRegExp( item[1].replace( /\.?\.\/ ?/, "" ).trim() );
+               match = nexus.stringutil.escapeRegExp( item[1].replace( /\.?\.\/ ?/, "" ).trim() );
                if(match && window.location.href.match( match ))
                {
                   li.addClass( "selected" );

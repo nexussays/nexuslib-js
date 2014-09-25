@@ -1,10 +1,10 @@
-/// <reference path="../typings/nnet.d.ts"/>
-import nnet = require("nnet");
+/// <reference path="../typings/nexuslib.d.ts"/>
+import nexus = require("nexus");
 
-import type = nnet.type;
-import node = nnet.dom.nodeTypeToString;
-import escapeHTML = nnet.stringutil.escapeHTML;
-import getOuterHTML = nnet.dom.getOuterHTML;
+import type = nexus.type;
+import node = nexus.dom.nodeTypeToString;
+import escapeHTML = nexus.stringutil.escapeHTML;
+import getOuterHTML = nexus.dom.getOuterHTML;
 
 export = Debug;
 
@@ -153,7 +153,7 @@ module Debug
          //if we are allowing multiple debug outputs and there is currently content in the output, then add an hr
          if(source.innerHTML !== "" && allowMultiple)
          {
-            source.innerHTML += '<hr class="nnet-debug-separator" />';
+            source.innerHTML += '<hr class="nexus-debug-separator" />';
          }
          source.innerHTML += text;
       }
@@ -322,7 +322,7 @@ module Debug
       if(tests.length > 0)
       {
          //run the tests and get the results
-         testResults = "<ul class=\"nnet-debug-tests\">\n" +
+         testResults = "<ul class=\"nexus-debug-tests\">\n" +
             "\t<li>\n" + tests.map( x => "\t\t<p>" + x.name + "</p>\n\t\t<div>" + exec( x.value ) + "</div>" ).join( "\n</li>\n\t<li>\n" ) +
             "\n\t</li>\n" +
             "</ul>\n";
@@ -330,14 +330,14 @@ module Debug
 
       var html = debugType == DebugType.ObjectSimple ?
                     {
-                       startList: "<ul class=\"nnet-debug-tests\">\n",
+                       startList: "<ul class=\"nexus-debug-tests\">\n",
                        startHead: "\t<li>\n\t\t<p>",
                        endHead: "</p>\n",
                        startBody: "\t\t<div style=\"white-space:pre\">",
                        endBody: "</div>\n\t</li>\n",
                        endList: "</ul>\n"
                     } : {
-                       startList: "<dl class=\"nnet-debug-members\">\n",
+                       startList: "<dl class=\"nexus-debug-members\">\n",
                        startHead: "\t<dt>",
                        endHead: "</dt>\n",
                        startBody: "\t<dd>",
@@ -372,7 +372,7 @@ module Debug
                params += html.startHead;
                params += property;
                // add type information
-               params += ' <span class="nnet-debug-type">';
+               params += ' <span class="nexus-debug-type">';
                params += "[" + type[itemType] + (itemType == type.node ? ": " + node( item ) : "") + "]";
                params += "</span>";
                params += html.endHead;
@@ -384,7 +384,7 @@ module Debug
                   if(itemType == type.object && item !== window)
                   {
                      // TODO: Just output JSON?
-                     //params += nnet.serialization.JsonSerializer.encode( item, null, 3 );
+                     //params += nexus.serialization.JsonSerializer.encode( item, null, 3 );
                      var k: string[] = [];
                      for(var subProp in item)
                      {
@@ -412,7 +412,7 @@ module Debug
          params += html.endList;
       }
 
-      var resultSet = "<div class=\"nnet-debug\">\n";
+      var resultSet = "<div class=\"nexus-debug\">\n";
       resultSet += "<p>" + objToString + "</p>\n";
       resultSet += testResults;
       resultSet += params + "</div>";

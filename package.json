@@ -1,22 +1,22 @@
 {
-    "name": "nnet-js",
+    "name": "nexuslib-js",
     "version": "0.11.0",
     "description": "Javascript utilities",
     "author": "Malachi Griffie <malachi@nexussays.com>",
     "license": "MPL 2.0",
-    "homepage": "https://github.com/nexussays/nnet-js",
+    "homepage": "https://github.com/nexussays/nexuslib-js",
     "repository": {
         "type": "git",
-        "url": "https://github.com/nexussays/nnet-js.git"
+        "url": "https://github.com/nexussays/nexuslib-js.git"
     },
     "bugs": {
-        "url": "https://github.com/nexussays/nnet-js/issues"
+        "url": "https://github.com/nexussays/nexuslib-js/issues"
     },
     "keywords": [
         "javascript",
         "typescript"
     ],
-    "main": "nnet.js",
+    "main": "nexuslib.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },
@@ -39,6 +39,6 @@
         "typescript": ">=1.0.1"
     },
     "browserify-shim": {
-        "nnet": "global:nnet"
+        "nexus": "global:nexus"
     }
 }
