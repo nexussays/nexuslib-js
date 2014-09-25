@@ -6,8 +6,8 @@
 
 /// ts:import=EnhancedHTMLElement
 import EnhancedHTMLElement = require('./EnhancedHTMLElement'); ///ts:import:generated
-///ts:import=EnhancedEvent
-import EnhancedEvent = require('../event/EnhancedEvent'); ///ts:import:generated
+///ts:import=EventHandler
+import EventHandler = require('../event/EventHandler'); ///ts:import:generated
 ///ts:import=first
 import first = require('../array/first'); ///ts:import:generated
 ///ts:import=last
@@ -63,13 +63,13 @@ class ElementGroup
       return this;
    }
 
-   bind(eventName: string, func: (e: EnhancedEvent) => void): ElementGroup
+   bind(eventName: string, func: EventHandler): ElementGroup
    {
       this.m_array.forEach( item => item.bind( eventName, func ) );
       return this;
    }
 
-   unbind(eventName: string, func: (e: EnhancedEvent) => void): ElementGroup
+   unbind(eventName: string, func: EventHandler): ElementGroup
    {
       this.m_array.forEach( item => item.unbind( eventName, func ) );
       return this;
@@ -100,7 +100,7 @@ class ElementGroup
 
    find(query: string): ElementGroup
    {
-      var f : typeof _find = require( './find' );
+      var f: typeof _find = require( './find' );
       var results: Array<EnhancedHTMLElement> = [];
       for(var x = 0; x < this.m_array.length; ++x)
       {

@@ -113,9 +113,9 @@ declare module "nexus"
 
             filter$(callbackfn: (value: nexus.dom.EnhancedHTMLElement, index: number, array: nexus.dom.EnhancedHTMLElement[]) => boolean): ElementGroup;
 
-            bind(eventName: string, func: (e: nexus.event.EnhancedEvent) => void): ElementGroup;
+            bind(eventName: string, func: nexus.event.EventHandler): ElementGroup;
 
-            unbind(eventName: string, func: (e: nexus.event.EnhancedEvent) => void): ElementGroup;
+            unbind(eventName: string, func: nexus.event.EventHandler): ElementGroup;
 
             addClass(name: string, checkExistence?: boolean): ElementGroup;
 
