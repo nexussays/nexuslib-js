@@ -796,16 +796,22 @@ declare module "nexus"
       {
          class HttpRequest
          {
-            url: string;
             method: HttpRequest.Method;
             data: any;
             headers: any;
+            url: string;
 
-            constructor(url?: string, method?: HttpRequest.Method, data?: any);
+            constructor(obj: HttpRequest.Arguments);
+
+            constructor(url?: string, method?: HttpRequest.Method, data?: any, contentType?: HttpRequest.ContentType);
+
+            setContentType(type: HttpRequest.ContentType): void;
 
             cancel(): void;
 
-            send(completeCallback: (response: nexus.net.HttpResponse) => void): boolean;
+            send(completeCallback: (response: nexus.net.HttpResponse) => void): void;
+
+            static send(obj: HttpRequest.ArgumentsWithCallback): void;
          }
 
          module HttpRequest
@@ -818,6 +824,32 @@ declare module "nexus"
                DELETE = 3,
                HEAD = 4,
                OPTIONS = 5,
+            }
+
+            class ContentType
+            {
+               mimeTypes: string;
+               static Form: ContentType;
+               static Json: ContentType;
+               static Xml: ContentType;
+               static Text: ContentType;
+               static Html: ContentType;
+               static Binary: ContentType;
+
+               constructor(mimeTypes: string);
+            }
+
+            interface Arguments
+            {
+               url: string;
+               method?: Method;
+               data?: any;
+               type?: ContentType;
+            }
+
+            interface ArgumentsWithCallback extends Arguments
+            {
+               complete: (response: nexus.net.HttpResponse) => void;
             }
          }
 

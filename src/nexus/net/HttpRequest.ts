@@ -10,6 +10,8 @@ import HttpResponse = require('./HttpResponse'); ///ts:import:generated
 import generateQueryString = require('./generateQueryString'); ///ts:import:generated
 ///ts:import=JsonSerializer
 import JsonSerializer = require('../serialization/JsonSerializer'); ///ts:import:generated
+///ts:import=type
+import type = require('../type'); ///ts:import:generated
 
 export = HttpRequest;
 
@@ -21,18 +23,34 @@ class HttpRequest
    // appended to URL if GET, send as body otherwise
    data: any;
    headers: any;
+   url: string;
    private request: XMLHttpRequest;
 
-   constructor(public url?: string, public method?: HttpRequest.Method, data?: any)
+   constructor(obj: HttpRequest.Arguments);
+   constructor(url?: string, method?: HttpRequest.Method, data?: any, contentType?: HttpRequest.ContentType);
+   constructor(info?: any, public method?: HttpRequest.Method, data?: any, contentType?: HttpRequest.ContentType)
    {
-      this.url = url || "";
-      this.method = method || HttpRequest.Method.GET;
       this.headers = {
-         "Content-Type": "application/x-www-form-urlencoded",
          //"Connection": "close",
          //"Cache-Control": "no-cache",
          //"Pragma": "no-cache"
+
       };
+
+      if(type.of( info ) == type.string)
+      {
+         this.url = <string>info;
+         this.data = data;
+         this.method = method || HttpRequest.Method.GET;
+         this.setContentType( contentType || HttpRequest.ContentType.Form );
+      }
+      else
+      {
+         this.url = (<HttpRequest.Arguments>info).url;
+         this.data = (<HttpRequest.Arguments>info).data;
+         this.method = (<HttpRequest.Arguments>info).method || HttpRequest.Method.GET;
+         this.setContentType( (<HttpRequest.Arguments>info).type || HttpRequest.ContentType.Form );
+      }
 
       if(typeof XMLHttpRequest != "undefined")
       {
@@ -50,12 +68,17 @@ class HttpRequest
       }
    }
 
+   setContentType(type: HttpRequest.ContentType): void
+   {
+      this.headers["Content-Type"] = type.mimeTypes;
+   }
+
    cancel(): void
    {
       this.request.abort();
    }
 
-   send(completeCallback: (response: HttpResponse) => void): boolean
+   send(completeCallback: (response: HttpResponse) => void): void
    {
       if(this.method == HttpRequest.Method.GET)
       {
@@ -109,8 +132,12 @@ class HttpRequest
       }
 
       this.request.send( this.data );
+   }
 
-      return true;
+   static send(obj: HttpRequest.ArgumentsWithCallback): void
+   {
+      var request = new HttpRequest( obj );
+      return request.send( obj.complete );
    }
 }
 
@@ -124,5 +151,32 @@ module HttpRequest
       DELETE,
       HEAD,
       OPTIONS
+   }
+
+   export class ContentType
+   {
+      static Form = new ContentType( "application/x-www-form-urlencoded" );
+      static Json = new ContentType( "application/json, text/javascript" );
+      static Xml = new ContentType( "application/xml, text/xml" );
+      static Text = new ContentType( "text/plain" );
+      static Html = new ContentType( "text/html" );
+      static Binary = new ContentType( "application/octet-stream" );
+
+      constructor(public mimeTypes: string)
+      {
+      }
+   }
+
+   export interface Arguments
+   {
+      url: string;
+      method?: HttpRequest.Method;
+      data?: any;
+      type?: HttpRequest.ContentType
+   }
+
+   export interface ArgumentsWithCallback extends Arguments
+   {
+      complete: (response: HttpResponse) => void;
    }
 }
