@@ -15,14 +15,6 @@ import _map$ = require('./map$'); ///ts:import:generated
 
 export = enhancePrototype;
 
-interface Array<T>
-{
-   first(defaultValue?: any): T;
-   last(defaultValue?: any): T;
-   flatten(): Array<T>;
-   map$(mapFunc: (item: T, index: number, array: Array<T>) => any, scope: Array<T>): void;
-}
-
 function enhancePrototype()
 {
    (<any>Array.prototype).first = function(defaultValue: any)
@@ -44,4 +36,15 @@ function enhancePrototype()
    {
       return (<any>_map$)( this, mapFunc, scope );
    };
+}
+
+module enhancePrototype
+{
+   export interface Array<T>
+   {
+      first(defaultValue?: any): T;
+      last(defaultValue?: any): T;
+      flatten(): Array<T>;
+      map$(mapFunc: (item: T, index: number, array: Array<T>) => any, scope: Array<T>): void;
+   }
 }

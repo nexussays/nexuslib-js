@@ -1,4 +1,4 @@
-﻿// Copyright Malachi Griffie <malachi@nexussays.com>
+// Copyright Malachi Griffie <malachi@nexussays.com>
 //
 // This Source Code Form is subject to the terms of the Mozilla Public
 // License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -7,7 +7,7 @@
 ///ts:import=EnhancedHTMLElement
 import EnhancedHTMLElement = require('./EnhancedHTMLElement'); ///ts:import:generated
 ///ts:import=enhanceElement
-import enhanceElement = require('./enhanceElement'); ///ts:import:generated
+/// No file or directory matched name "enhanceElement" ///ts:import:generated
 
 export = enhanceHTMLElement;
 
@@ -16,7 +16,7 @@ declare var require;
 
 function enhanceHTMLElement(element: HTMLElement, force?: boolean): EnhancedHTMLElement
 {
-   enhanceElement(element, force);
+   //enhanceElement(element, force);
    if(enhanceHTMLElement.enabled && (element && (force || element.nodeType == Node.ELEMENT_NODE)))
    {
       var E: typeof EnhancedHTMLElement = require('./EnhancedHTMLElement');
