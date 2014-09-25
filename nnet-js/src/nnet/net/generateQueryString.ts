@@ -13,6 +13,5 @@ export = generateQueryString;
 
 function generateQueryString(hash: any): string
 {
-   var querystring = join( map( hash, encodeURIComponent, encodeURIComponent ), "=" ).join( "&" );
-   return (querystring === "" ? "" : "?" + querystring);
+   return join( map( hash, encodeURIComponent, encodeURIComponent ), "=" ).join( "&" );
 }

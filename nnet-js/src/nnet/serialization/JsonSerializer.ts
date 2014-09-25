@@ -4,8 +4,8 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-export = JsonParser;
-module JsonParser
+export = JsonSerializer;
+module JsonSerializer
 {
    export var deserialize: (text: string, reviver?: (key: any, value: any) => any) => any = JSON.parse;
 

@@ -4,8 +4,12 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-/// ts:import=IHttpResponse
-import IHttpResponse = require('./IHttpResponse'); ///ts:import:generated
+/// ts:import=HttpResponse
+import HttpResponse = require('./HttpResponse'); ///ts:import:generated
+///ts:import=generateQueryString
+import generateQueryString = require('./generateQueryString'); ///ts:import:generated
+///ts:import=JsonSerializer
+import JsonSerializer = require('../serialization/JsonSerializer'); ///ts:import:generated
 
 export = HttpRequest;
 
@@ -14,30 +18,22 @@ export = HttpRequest;
  */
 class HttpRequest
 {
-   params: any;
-   body: any = null;
-   headers: any = {};
-   url: string;
-   response: IHttpResponse;
-   onComplete: (response: IHttpResponse) => void = (...args) =>
-   {
-   };
+   // appended to URL if GET, send as body otherwise
+   data: any;
+   headers: any;
+   private request: XMLHttpRequest;
 
-   private request: XMLHttpRequest = null;
-
-   constructor(url?: string, params?: any)
+   constructor(public url?: string, public method?: HttpRequest.Method, data?: any)
    {
-      this.params = params || {};
       this.url = url || "";
-      this.response = {
-         text: null,
-         xml: null,
-         json: null,
-         time: 0,
-         status: 0,
-         isSuccess: false
+      this.method = method || HttpRequest.Method.GET;
+      this.headers = {
+         "Content-Type": "application/x-www-form-urlencoded",
+         //"Connection": "close",
+         //"Cache-Control": "no-cache",
+         //"Pragma": "no-cache"
       };
-      //create object
+
       if(typeof XMLHttpRequest != "undefined")
       {
          this.request = new XMLHttpRequest();
@@ -54,116 +50,67 @@ class HttpRequest
       }
    }
 
-   sendGet(async: boolean = true): boolean
+   cancel(): void
    {
-      return this.send( HttpRequest.Method.GET, async );
+      this.request.abort();
    }
 
-   sendPost(async: boolean = true): boolean
+   send(completeCallback: (response: HttpResponse) => void): boolean
    {
-      return this.send( HttpRequest.Method.POST, async );
-   }
-
-   sendPut(async: boolean = true): boolean
-   {
-      return this.send( HttpRequest.Method.PUT, async );
-   }
-
-   sendDelete(async: boolean = true): boolean
-   {
-      return this.send( HttpRequest.Method.DELETE, async );
-   }
-
-   send(method: HttpRequest.Method, asynchronous: boolean=true): boolean
-   {
-      var async = (asynchronous === false ? false : true);
-      var querystring: any = [];
-
-      //if we are sending an entity body, ignore the query string
-      if(this.body == null)
+      if(this.method == HttpRequest.Method.GET)
       {
-         for(var x in this.params)
-         {
-            querystring.push( encodeURIComponent( x ) + "=" + encodeURIComponent( this.params[x] ) );
-         }
-         querystring = querystring.join( "&" );
+         var querystring = generateQueryString( this.data );
+         this.url += (querystring.length > 0 ? "?" + querystring : "");
+         this.data = null;
       }
 
-      switch(method)
+      var requestStart = Date.now();
+
+      this.request.open( HttpRequest.Method[this.method], this.url, true );
+      this.request.onreadystatechange = () =>
       {
-         case HttpRequest.Method.GET:
-            this.url += (querystring.length > 0 ? "?" + querystring : "");
-            querystring = null;
-            break;
-         case HttpRequest.Method.POST:
-         case HttpRequest.Method.PUT:
-         case HttpRequest.Method.DELETE:
-            if(querystring.length > 0)
+         var req = this.request;
+         if(req.readyState == 4)
+         {
+            req.onreadystatechange = function()
             {
-               this.headers["Content-Type"] = "application/x-www-form-urlencoded";
+            };
+            var response = new HttpResponse();
+            response.url = this.url;
+            response.time = Date.now() - requestStart;
+            response.status = (req.status == 1223) ? 204 : req.status;
+            response.isSuccess = /^2/.test( response.status + "" );
+            req.getAllResponseHeaders().split( /\r?\n/ ).forEach( (line) =>
+            {
+               var colon = line.indexOf( ":" );
+               response.headers[line.substring( 0, colon )] = line.substring( colon + 1 );
+            } );
+            var content = response.headers["Content-Type"];
+            if(/\/xml$/.test( content ))
+            {
+               response.body = req.responseXML;
+            }
+            else if(/json|javascript/.test( content ))
+            {
+               response.body = JsonSerializer.deserialize( req.responseText );
             }
             else
             {
-               //TODO: Need to determine how we're getting content-type here
-               this.headers["Content-Type"] = "application/xml";
-               querystring = null;
+               response.body = req.responseText || null;
             }
-            break;
-         case HttpRequest.Method.HEAD:
-            throw new Error( "HttpRequest.Method.HEAD is not yet implemented" );
-         case HttpRequest.Method.OPTIONS:
-            throw new Error( "HttpRequest.Method.OPTIONS is not yet implemented" );
-         default:
-            throw new Error( "Improper value \"" + method + "\" passed to HttpRequest.send() method. Valid values are \"GET, POST, PUT, DELETE, HEAD\"" );
-      }
-
-      this.request.open( HttpRequest.Method[method], this.url, async );
-      this.request.onreadystatechange = () =>
-      {
-         this.stateChange();
+            //console.log(req);
+            completeCallback( response );
+         }
       };
-
-      this.headers["Connection"] = "close";
-      //Cache-Control: no-cache
-      //Pragma: no-cache
 
       for(var header in this.headers)
       {
-         this.request.setRequestHeader( encodeURIComponent( header ), encodeURIComponent( this.headers[header] ) );
+         this.request.setRequestHeader( header, encodeURIComponent( this.headers[header] ) );
       }
 
-      this.response.time = (new Date()).getTime();
-      this.request.send( this.body || querystring );
+      this.request.send( this.data );
 
       return true;
-   }
-
-   private stateChange()
-   {
-      switch(this.request.readyState)
-      {
-         case 0:
-            break;
-         case 1:
-            break;
-         case 2:
-            //try{this.response.status = this.request.status;}catch(e){}
-            break;
-         case 3:
-            //this.response = {"text":this.request.responseText,"xml":this.request.responseXML};
-            break;
-         case 4:
-            this.response.status = (this.request.status == 1223) ? 204 : this.request.status;
-            this.response.time = ((new Date()).getTime() - this.response.time);
-            this.response.text = this.request.responseText || null;
-            this.response.xml = this.request.responseXML || null;
-            this.response.isSuccess = /^2/.test( this.response.status + "" );
-            //console.log(this.request);
-            this.onComplete( this.response );
-            break;
-         default:
-            throw new Error( "INVALID readyState \"" + this.request.readyState + "\" in HTTPRequest" );
-      }
    }
 }
 

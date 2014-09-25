@@ -14,7 +14,10 @@ function join(obj: any, join: string=": "): Array<string>
    var result: string[] = [];
    for(var x in obj)
    {
-      result.push( x + join + obj[x] );
+      if(obj.hasOwnProperty( x ))
+      {
+         result.push( x + join + obj[x] );
+      }
    }
    return result;
 }

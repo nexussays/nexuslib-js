@@ -6,8 +6,8 @@
 
 /// ts:import=type
 import type = require('../type'); ///ts:import:generated
-///ts:import=JsonParser
-import JsonParser = require('../serialization/JsonParser'); ///ts:import:generated
+///ts:import=JsonSerializer
+import JsonSerializer = require('../serialization/JsonSerializer'); ///ts:import:generated
 ///ts:import=Milliseconds,ms
 import ms = require('../util/Milliseconds'); ///ts:import:generated
 
@@ -76,7 +76,7 @@ class Cookie
    toString(): string
    {
       var key = encodeURIComponent( this.key + "" );
-      var value = encodeURIComponent( JsonParser.serialize( this.data ) );
+      var value = encodeURIComponent( JsonSerializer.serialize( this.data ) );
       return key + "=" + value +
       (this.expiresOn ? ";expires=" + this.expiresOn.toUTCString() : "") +
       (this.path ? ";path=" + this.path : "") +
@@ -109,7 +109,7 @@ module Cookie
                var value: any;
                try
                {
-                  value = encodedValue && JsonParser.deserialize( encodedValue );
+                  value = encodedValue && JsonSerializer.deserialize( encodedValue );
                }
                catch(ex)
                {

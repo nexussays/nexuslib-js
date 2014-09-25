@@ -11,7 +11,10 @@ function map(obj: any, keyFunc?: (any) => any, valFunc?: (any) => any)
    var newObj = {};
    for(var x in obj)
    {
-      newObj[(keyFunc ? keyFunc( x ) : x)] = (valFunc ? valFunc( obj[x] ) : obj[x]);
+      if(obj.hasOwnProperty( x ))
+      {
+         newObj[(keyFunc ? keyFunc( x ) : x)] = (valFunc ? valFunc( obj[x] ) : obj[x]);
+      }
    }
    return newObj;
 }

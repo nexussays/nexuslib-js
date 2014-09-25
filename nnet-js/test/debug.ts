@@ -384,7 +384,7 @@ module Debug
                   if(itemType == type.object && item !== window)
                   {
                      // TODO: Just output JSON?
-                     //params += nnet.serialization.JsonParser.encode( item, null, 3 );
+                     //params += nnet.serialization.JsonSerializer.encode( item, null, 3 );
                      var k: string[] = [];
                      for(var subProp in item)
                      {

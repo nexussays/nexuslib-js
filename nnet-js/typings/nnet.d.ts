@@ -795,24 +795,16 @@ declare module "nnet"
       {
          class HttpRequest
          {
-            params: any;
-            body: any;
-            headers: any;
             url: string;
-            response: nnet.net.IHttpResponse;
-            onComplete: (response: nnet.net.IHttpResponse) => void;
+            method: HttpRequest.Method;
+            data: any;
+            headers: any;
 
-            constructor(url?: string, params?: any);
+            constructor(url?: string, method?: HttpRequest.Method, data?: any);
 
-            sendGet(async?: boolean): boolean;
+            cancel(): void;
 
-            sendPost(async?: boolean): boolean;
-
-            sendPut(async?: boolean): boolean;
-
-            sendDelete(async?: boolean): boolean;
-
-            send(method: HttpRequest.Method, asynchronous?: boolean): boolean;
+            send(completeCallback: (response: nnet.net.HttpResponse) => void): boolean;
          }
 
          module HttpRequest
@@ -828,14 +820,16 @@ declare module "nnet"
             }
          }
 
-         interface IHttpResponse
+         class HttpResponse
          {
-            text: string;
-            json: any;
-            xml: XMLDocument;
+            url: string;
+            body: any;
             time: number;
             status: number;
+            headers: any;
             isSuccess: boolean;
+
+            constructor();
          }
 
          function generateQueryString(hash: any): string;
@@ -856,7 +850,7 @@ declare module "nnet"
 
       module serialization
       {
-         module JsonParser
+         module JsonSerializer
          {
             var deserialize: (text: string, reviver?: (key: any, value: any) => any) => any;
 
