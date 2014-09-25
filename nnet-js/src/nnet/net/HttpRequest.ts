@@ -99,7 +99,7 @@ class HttpRequest
                response.body = req.responseText || null;
             }
             //console.log(req);
-            completeCallback( response );
+            completeCallback && completeCallback( response );
          }
       };
 

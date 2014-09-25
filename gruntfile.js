@@ -49,13 +49,13 @@ module.exports = function(grunt)
    // build
    //
    grunt.registerTask( "build", ["build:lib", "build:editor", "copy:declarations"] );
-   grunt.registerTask( "build:lib", ["gen-index:ts", "ts:imports", "ts:lib", "deleteempty", "gen-index:js-commonjs", "browserify:lib"] );
+   grunt.registerTask( "build:lib", ["gen-index:ts", "ts:imports", "ts:lib", "deleteempty", "dts", "gen-index:js-commonjs", "browserify:lib"] );
    grunt.registerTask( "build:editor", ["ts:editor", "browserify:editor"] );
 
    //
    // merge individual files and minify
    //
-   grunt.registerTask( "package", ["dts", "uglify:all"] );
+   grunt.registerTask( "package", ["uglify:all"] );
    // also include build tasks since we don't build amd by default anymore
    grunt.registerTask( "package:amd", ["ts:amd", "gen-index:js-amd", "build:amd", "requirejs"] );
 
