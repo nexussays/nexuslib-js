@@ -6,7 +6,7 @@
 
 export = map;
 
-function map(obj: any, keyFunc?: (any) => any, valFunc?: (any) => any)
+function map<T>(obj: T, keyFunc?: (any) => any, valFunc?: (any) => any): T
 {
    var newObj = {};
    for(var x in obj)
@@ -16,5 +16,5 @@ function map(obj: any, keyFunc?: (any) => any, valFunc?: (any) => any)
          newObj[(keyFunc ? keyFunc( x ) : x)] = (valFunc ? valFunc( obj[x] ) : obj[x]);
       }
    }
-   return newObj;
+   return <T>newObj;
 }

@@ -836,15 +836,17 @@ declare module "nexus"
 
       module object
       {
+         function clone<T>(obj: T): T;
+
          function extendPrototype(derived: any, parents: any[]): void;
 
-         function forEach(obj: Object, func: (key: any, value: any, o?: any) => void): void;
+         function forEach<T>(obj: T, func: (key: any, value: any, obj: T) => void): void;
 
          function join(obj: any, join?: string): string[];
 
          function keys(obj: any): string[];
 
-         function map(obj: any, keyFunc?: (any: any) => any, valFunc?: (any: any) => any): {};
+         function map<T>(obj: T, keyFunc?: (any: any) => any, valFunc?: (any: any) => any): T;
       }
 
       module serialization

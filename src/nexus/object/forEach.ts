@@ -6,10 +6,13 @@
 
 export = forEach;
 
-function forEach(obj: Object, func: (key: any, value: any, o?: any) => void): void
+function forEach<T>(obj: T, func: (key: any, value: any, obj: T) => void): void
 {
    for(var x in obj)
    {
-      func.call( obj, x, obj[x], obj );
+      if(obj.hasOwnProperty( x ))
+      {
+         func.call( obj, x, obj[x], obj );
+      }
    }
 }
