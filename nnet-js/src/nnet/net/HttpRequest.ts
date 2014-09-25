@@ -4,7 +4,7 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-///ts:import=IHttpResponse
+/// ts:import=IHttpResponse
 import IHttpResponse = require('./IHttpResponse'); ///ts:import:generated
 
 export = HttpRequest;
@@ -14,26 +14,29 @@ export = HttpRequest;
  */
 class HttpRequest
 {
-   request: XMLHttpRequest = null;
    params: any;
    body: any = null;
    headers: any = {};
    url: string;
-   response: IHttpResponse = {
-      text: null,
-      xml: null,
-      time: 0,
-      status: 0
-   };
-   onComplete = (...args) =>
+   response: IHttpResponse;
+   onComplete: (response: IHttpResponse) => void = (...args) =>
    {
    };
 
-   constructor(url, params)
+   private request: XMLHttpRequest = null;
+
+   constructor(url?: string, params?: any)
    {
       this.params = params || {};
       this.url = url || "";
-
+      this.response = {
+         text: null,
+         xml: null,
+         json: null,
+         time: 0,
+         status: 0,
+         isSuccess: false
+      };
       //create object
       if(typeof XMLHttpRequest != "undefined")
       {
@@ -51,32 +54,27 @@ class HttpRequest
       }
    }
 
-   sendGet(async: boolean): boolean
+   sendGet(async: boolean = true): boolean
    {
       return this.send( HttpRequest.Method.GET, async );
    }
 
-   sendPost(async: boolean): boolean
+   sendPost(async: boolean = true): boolean
    {
       return this.send( HttpRequest.Method.POST, async );
    }
 
-   sendPut(async: boolean): boolean
+   sendPut(async: boolean = true): boolean
    {
       return this.send( HttpRequest.Method.PUT, async );
    }
 
-   sendDelete(async: boolean): boolean
+   sendDelete(async: boolean = true): boolean
    {
       return this.send( HttpRequest.Method.DELETE, async );
    }
 
-   sendHead(async: boolean): boolean
-   {
-      return this.send( HttpRequest.Method.HEAD, async );
-   }
-
-   send(method: HttpRequest.Method, asynchronous: boolean): boolean
+   send(method: HttpRequest.Method, asynchronous: boolean=true): boolean
    {
       var async = (asynchronous === false ? false : true);
       var querystring: any = [];
@@ -112,8 +110,9 @@ class HttpRequest
             }
             break;
          case HttpRequest.Method.HEAD:
-            throw new Error( "HttpRequest.sendHead() is not yet implemented" );
-            break;
+            throw new Error( "HttpRequest.Method.HEAD is not yet implemented" );
+         case HttpRequest.Method.OPTIONS:
+            throw new Error( "HttpRequest.Method.OPTIONS is not yet implemented" );
          default:
             throw new Error( "Improper value \"" + method + "\" passed to HttpRequest.send() method. Valid values are \"GET, POST, PUT, DELETE, HEAD\"" );
       }
@@ -154,11 +153,12 @@ class HttpRequest
             //this.response = {"text":this.request.responseText,"xml":this.request.responseXML};
             break;
          case 4:
-            this.response.status = this.request.status;
+            this.response.status = (this.request.status == 1223) ? 204 : this.request.status;
             this.response.time = ((new Date()).getTime() - this.response.time);
             this.response.text = this.request.responseText || null;
             this.response.xml = this.request.responseXML || null;
-            //Debug.Object(this.request, true);
+            this.response.isSuccess = /^2/.test( this.response.status + "" );
+            //console.log(this.request);
             this.onComplete( this.response );
             break;
          default:
@@ -175,6 +175,7 @@ module HttpRequest
       POST,
       PUT,
       DELETE,
-      HEAD
+      HEAD,
+      OPTIONS
    }
 }

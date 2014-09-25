@@ -9,7 +9,9 @@ export = IHttpResponse;
 interface IHttpResponse
 {
    text: string;
+   json: any;
    xml: XMLDocument;
    time: number;
    status: number;
+   isSuccess: boolean;
 }

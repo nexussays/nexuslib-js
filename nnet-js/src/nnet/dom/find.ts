@@ -35,11 +35,12 @@ function find(query: any, root?: Element): ElementGroup
 
 module find
 {
-   export function id(id: Node): EnhancedHTMLElement
-   export function id(id: string): EnhancedHTMLElement
-   export function id(id: any): EnhancedHTMLElement
+   export function id(id: Node): EnhancedHTMLElement;
+   export function id(id: string): EnhancedHTMLElement;
+   export function id<T extends EnhancedHTMLElement>(id: string): T;
+   export function id<T extends EnhancedHTMLElement>(id: any): T
    {
-      return enhanceHTMLElement( native.id( id ) );
+      return <T>enhanceHTMLElement( native.id( id ) );
    }
 
    export function name(name: string, tag?: string, root?: Element): ElementGroup

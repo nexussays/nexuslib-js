@@ -581,8 +581,6 @@ declare module "nnet"
             function selectorQueryAll(getEl: find.Interface, query: any): any;
          }
 
-         function enhancePrototype(): void;
-
          function enhanceElement(element: Element, force?: boolean): nnet.dom.EnhancedElement;
 
          module enhanceElement
@@ -597,6 +595,8 @@ declare module "nnet"
             var enabled: boolean;
          }
 
+         function enhancePrototype(): void;
+
          function find(query: Node, root?: Element): nnet.dom.ElementGroup;
 
          function find(query: Element, root?: Element): nnet.dom.ElementGroup;
@@ -608,6 +608,8 @@ declare module "nnet"
             function id(id: Node): nnet.dom.EnhancedHTMLElement;
 
             function id(id: string): nnet.dom.EnhancedHTMLElement;
+
+            function id<T extends EnhancedHTMLElement>(id: string): T;
 
             function name(name: string, tag?: string, root?: Element): nnet.dom.ElementGroup;
 
@@ -793,27 +795,24 @@ declare module "nnet"
       {
          class HttpRequest
          {
-            request: XMLHttpRequest;
             params: any;
             body: any;
             headers: any;
             url: string;
             response: nnet.net.IHttpResponse;
-            onComplete: (...args: any[]) => void;
+            onComplete: (response: nnet.net.IHttpResponse) => void;
 
-            constructor(url: any, params: any);
+            constructor(url?: string, params?: any);
 
-            sendGet(async: boolean): boolean;
+            sendGet(async?: boolean): boolean;
 
-            sendPost(async: boolean): boolean;
+            sendPost(async?: boolean): boolean;
 
-            sendPut(async: boolean): boolean;
+            sendPut(async?: boolean): boolean;
 
-            sendDelete(async: boolean): boolean;
+            sendDelete(async?: boolean): boolean;
 
-            sendHead(async: boolean): boolean;
-
-            send(method: HttpRequest.Method, asynchronous: boolean): boolean;
+            send(method: HttpRequest.Method, asynchronous?: boolean): boolean;
          }
 
          module HttpRequest
@@ -825,15 +824,18 @@ declare module "nnet"
                PUT = 2,
                DELETE = 3,
                HEAD = 4,
+               OPTIONS = 5,
             }
          }
 
          interface IHttpResponse
          {
             text: string;
+            json: any;
             xml: XMLDocument;
             time: number;
             status: number;
+            isSuccess: boolean;
          }
 
          function generateQueryString(hash: any): string;
