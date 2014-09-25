@@ -138,6 +138,48 @@ declare module "nexus"
 
          module EnhancedHTMLElement
          {
+            class Impl
+            {
+               getOuterHTML(includeChildren?: boolean, escapeHtml?: boolean): string;
+
+               append(...params: any[][]): EnhancedHTMLElement;
+
+               append(...params: Node[]): EnhancedHTMLElement;
+
+               append(...params: any[]): EnhancedHTMLElement;
+
+               getBooleanAttribute(name: string): boolean;
+
+               setBooleanAttribute(name: string, value: boolean): void;
+
+               bind(eventName: string, func: nexus.event.EventHandler): void;
+
+               unbind(event: string, func: nexus.event.EventHandler): void;
+
+               trigger(eventName: string): void;
+
+               parent(): EnhancedHTMLElement;
+
+               isAncestor(ancestor: Node): boolean;
+
+               ancestors(query: string): nexus.dom.ElementGroup;
+
+               addClass(name: string, checkExistence?: boolean): boolean;
+
+               removeClass(name: string): boolean;
+
+               toggleClass(name: string): void;
+
+               hasClass(name: string): boolean;
+
+               css(value: any): string;
+
+               find(query: string): nexus.dom.ElementGroup;
+            }
+         }
+
+         module EnhancedHTMLElement
+         {
             interface Anchor extends HTMLAnchorElement, Impl
             {
             }
@@ -332,46 +374,6 @@ declare module "nexus"
 
             interface Video extends HTMLVideoElement, Impl
             {
-            }
-         }
-
-         module EnhancedHTMLElement
-         {
-            class Impl
-            {
-               isAncestor(ancestor: Node): boolean;
-
-               getOuterHTML(includeChildren?: boolean, escapeHtml?: boolean): string;
-
-               append(...params: any[][]): EnhancedHTMLElement;
-
-               append(...params: Node[]): EnhancedHTMLElement;
-
-               append(...params: any[]): EnhancedHTMLElement;
-
-               getBooleanAttribute(name: string): boolean;
-
-               setBooleanAttribute(name: string, value: boolean): void;
-
-               bind(eventName: string, func: nexus.event.EventHandler): void;
-
-               unbind(event: string, func: nexus.event.EventHandler): void;
-
-               trigger(eventName: string): void;
-
-               getAncestors(query: string): nexus.dom.ElementGroup;
-
-               addClass(name: string, checkExistence?: boolean): boolean;
-
-               removeClass(name: string): boolean;
-
-               toggleClass(name: string): void;
-
-               hasClass(name: string): boolean;
-
-               css(value: any): string;
-
-               find(query: string): nexus.dom.ElementGroup;
             }
          }
 
