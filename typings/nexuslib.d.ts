@@ -353,9 +353,9 @@ declare module "nexus"
 
                setBooleanAttribute(name: string, value: boolean): void;
 
-               bind(eventName: string, func: (e: nexus.event.EnhancedEvent, context: EnhancedHTMLElement) => void): void;
+               bind(eventName: string, func: nexus.event.EventHandler): void;
 
-               unbind(event: string, func: (e: nexus.event.EnhancedEvent) => void): void;
+               unbind(event: string, func: nexus.event.EventHandler): void;
 
                trigger(eventName: string): void;
 
@@ -688,6 +688,11 @@ declare module "nexus"
             preventDefault(): void;
             stopPropagation(): void;
             stopImmediatePropagation(): void;
+         }
+
+         interface EventHandler
+         {
+            (e: nexus.event.EnhancedEvent, context: nexus.dom.EnhancedHTMLElement): void;
          }
 
          function enhanceEvent(evt: Event, origin?: HTMLElement): nexus.event.EnhancedEvent;
