@@ -8,6 +8,17 @@ declare module "nnet"
       {
          function enhancePrototype(): void;
 
+         module enhancePrototype
+         {
+            interface Array<T>
+            {
+               first(defaultValue?: any): T;
+               last(defaultValue?: any): T;
+               flatten(): Array<T>;
+               map$(mapFunc: (item: T, index: number, array: Array<T>) => any, scope: Array<T>): void;
+            }
+         }
+
          function first<T>(source: T[], defaultValue?: any): T;
 
          function flatten(source: any[]): any[];
@@ -119,36 +130,6 @@ declare module "nnet"
             first(): nnet.dom.EnhancedHTMLElement;
 
             last(): nnet.dom.EnhancedHTMLElement;
-         }
-
-         interface EnhancedElement extends Element, EnhancedElement.Impl
-         {
-         }
-
-         module EnhancedElement
-         {
-            class Impl
-            {
-               isAncestor(ancestor: Node): boolean;
-
-               getOuterHTML(includeChildren?: boolean, escapeHtml?: boolean): string;
-
-               append(...params: any[][]): EnhancedElement;
-
-               append(...params: Node[]): EnhancedElement;
-
-               append(...params: Object[]): EnhancedElement;
-
-               getBooleanAttribute(name: string): boolean;
-
-               setBooleanAttribute(name: string, value: boolean): void;
-
-               bind(eventName: string, func: (e: nnet.event.EnhancedEvent) => void): void;
-
-               unbind(event: string, func: (e: nnet.event.EnhancedEvent) => void): void;
-
-               trigger(eventName: string): void;
-            }
          }
 
          interface EnhancedHTMLElement extends HTMLElement, EnhancedHTMLElement.Impl
@@ -356,8 +337,28 @@ declare module "nnet"
 
          module EnhancedHTMLElement
          {
-            class Impl extends EnhancedElement.Impl
+            class Impl
             {
+               isAncestor(ancestor: Node): boolean;
+
+               getOuterHTML(includeChildren?: boolean, escapeHtml?: boolean): string;
+
+               append(...params: any[][]): EnhancedHTMLElement;
+
+               append(...params: Node[]): EnhancedHTMLElement;
+
+               append(...params: any[]): EnhancedHTMLElement;
+
+               getBooleanAttribute(name: string): boolean;
+
+               setBooleanAttribute(name: string, value: boolean): void;
+
+               bind(eventName: string, func: (e: nnet.event.EnhancedEvent, context: EnhancedHTMLElement) => void): void;
+
+               unbind(event: string, func: (e: nnet.event.EnhancedEvent) => void): void;
+
+               trigger(eventName: string): void;
+
                getAncestors(query: string): nnet.dom.ElementGroup;
 
                addClass(name: string, checkExistence?: boolean): boolean;
@@ -579,13 +580,6 @@ declare module "nnet"
             function selectorQueryAll(getEl: find.Interface, el: HTMLElement): Element;
 
             function selectorQueryAll(getEl: find.Interface, query: any): any;
-         }
-
-         function enhanceElement(element: Element, force?: boolean): nnet.dom.EnhancedElement;
-
-         module enhanceElement
-         {
-            var enabled: boolean;
          }
 
          function enhanceHTMLElement(element: HTMLElement, force?: boolean): nnet.dom.EnhancedHTMLElement;
