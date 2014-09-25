@@ -199,7 +199,7 @@
     <PreBuildEvent>call grunt gen-index:ts ts:imports</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>call grunt copy:definitions
-call grunt gen-index:js-amd gen-index:js-commonjs</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>

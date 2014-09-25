@@ -229,10 +229,11 @@ module.exports = function(grunt)
    grunt.loadNpmTasks( 'grunt-contrib-uglify' );
    config.uglify = {
       options: {
-         banner: "/** Copyright Malachi Griffie <malachi@nexussays.com> " +
-            "This Source Code Form is subject to the terms of the Mozilla Public License, " +
-            "v. 2.0. If a copy of the MPL was not distributed with this file, " +
-            "You can obtain one at http://mozilla.org/MPL/2.0/. **/",
+         banner: "/**!\n" +
+               " * https://github.com/nexussays/nexuslib-js | Copyright Malachi Griffie\n" +
+               " * @version <%= grunt.file.readJSON( 'package.json' ).version %>\n" +
+               " * @license http://mozilla.org/MPL/2.0/\n" +
+               " */\n",
          mangle: true,
          compress: false,
          beautify: false,
@@ -242,7 +243,7 @@ module.exports = function(grunt)
                {
                   expand: true,
                   cwd: config.paths.main.dest.bundled,
-                  src: ["*.js", "!*.min.js"],
+                  src: ["**/*.js", "!**/*.min.js"],
                   dest: config.paths.main.dest.minified,
                   rename: function(path, name)
                   {
