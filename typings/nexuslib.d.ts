@@ -803,9 +803,11 @@ declare module "nexus"
 
             constructor(obj: HttpRequest.Arguments);
 
-            constructor(url?: string, method?: HttpRequest.Method, data?: any, contentType?: HttpRequest.ContentType);
+            constructor(url?: string, method?: HttpRequest.Method, data?: any);
 
-            setContentType(type: HttpRequest.ContentType): void;
+            setContentType(type: HttpRequest.MimeType): void;
+
+            setAcceptType(type: HttpRequest.MimeType): void;
 
             cancel(): void;
 
@@ -826,17 +828,19 @@ declare module "nexus"
                OPTIONS = 5,
             }
 
-            class ContentType
+            interface MimeType extends String
             {
-               mimeTypes: string;
-               static Form: ContentType;
-               static Json: ContentType;
-               static Xml: ContentType;
-               static Text: ContentType;
-               static Html: ContentType;
-               static Binary: ContentType;
+            }
 
-               constructor(mimeTypes: string);
+            module MimeType
+            {
+               var Form: MimeType;
+               var Json: MimeType;
+               var Xml: MimeType;
+               var Text: MimeType;
+               var Html: MimeType;
+               var Binary: MimeType;
+               var Any: MimeType;
             }
 
             interface Arguments
@@ -844,7 +848,8 @@ declare module "nexus"
                url: string;
                method?: Method;
                data?: any;
-               type?: ContentType;
+               dataType?: MimeType;
+               accept?: MimeType;
             }
 
             interface ArgumentsWithCallback extends Arguments
@@ -871,6 +876,8 @@ declare module "nexus"
       module object
       {
          function clone<T>(obj: T): T;
+
+         function clone<T>(obj: T, into?: any): void;
 
          function extendPrototype(derived: any, parents: any[]): void;
 

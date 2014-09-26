@@ -4,11 +4,25 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-///ts:import=map
+/// ts:import=map
 import map = require('./map'); ///ts:import:generated
 
 export = clone;
-function clone<T>(obj: T): T
+
+function clone<T>(obj: T): T;
+function clone<T>(obj: T, into?: any): void;
+function clone<T>(obj: T, into?: any): T
 {
-   return map(obj);
+   if(!into)
+   {
+      return map( obj );
+   }
+
+   for(var x in obj)
+   {
+      if(obj.hasOwnProperty( x ))
+      {
+         into[x] = obj[x];
+      }
+   }
 }

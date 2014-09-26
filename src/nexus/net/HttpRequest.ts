@@ -27,8 +27,8 @@ class HttpRequest
    private request: XMLHttpRequest;
 
    constructor(obj: HttpRequest.Arguments);
-   constructor(url?: string, method?: HttpRequest.Method, data?: any, contentType?: HttpRequest.ContentType);
-   constructor(info?: any, public method?: HttpRequest.Method, data?: any, contentType?: HttpRequest.ContentType)
+   constructor(url?: string, method?: HttpRequest.Method, data?: any);
+   constructor(info?: any, public method?: HttpRequest.Method, data?: any)
    {
       this.headers = {
          //"Connection": "close",
@@ -42,14 +42,20 @@ class HttpRequest
          this.url = <string>info;
          this.data = data;
          this.method = method || HttpRequest.Method.GET;
-         this.setContentType( contentType || HttpRequest.ContentType.Form );
       }
       else
       {
          this.url = (<HttpRequest.Arguments>info).url;
          this.data = (<HttpRequest.Arguments>info).data;
          this.method = (<HttpRequest.Arguments>info).method || HttpRequest.Method.GET;
-         this.setContentType( (<HttpRequest.Arguments>info).type || HttpRequest.ContentType.Form );
+         if((<HttpRequest.Arguments>info).dataType)
+         {
+            this.setContentType( (<HttpRequest.Arguments>info).dataType );
+         }
+         if((<HttpRequest.Arguments>info).accept)
+         {
+            this.setAcceptType( (<HttpRequest.Arguments>info).accept );
+         }
       }
 
       if(typeof XMLHttpRequest != "undefined")
@@ -68,9 +74,14 @@ class HttpRequest
       }
    }
 
-   setContentType(type: HttpRequest.ContentType): void
+   setContentType(type: HttpRequest.MimeType): void
    {
-      this.headers["Content-Type"] = type.mimeTypes;
+      this.headers["Content-Type"] = type;
+   }
+
+   setAcceptType(type: HttpRequest.MimeType): void
+   {
+      this.headers["Accept"] = type;
    }
 
    cancel(): void
@@ -85,6 +96,7 @@ class HttpRequest
          var querystring = generateQueryString( this.data );
          this.url += (querystring.length > 0 ? "?" + querystring : "");
          this.data = null;
+         delete this.headers["Content-Type"];
       }
 
       var requestStart = Date.now();
@@ -126,9 +138,14 @@ class HttpRequest
          }
       };
 
+      if(!this.headers["Accept"])
+      {
+         this.setAcceptType( HttpRequest.MimeType.Any );
+      }
+
       for(var header in this.headers)
       {
-         this.request.setRequestHeader( header, encodeURIComponent( this.headers[header] ) );
+         this.request.setRequestHeader( header, this.headers[header] );
       }
 
       this.request.send( this.data );
@@ -153,18 +170,19 @@ module HttpRequest
       OPTIONS
    }
 
-   export class ContentType
+   export interface MimeType extends String
    {
-      static Form = new ContentType( "application/x-www-form-urlencoded" );
-      static Json = new ContentType( "application/json, text/javascript" );
-      static Xml = new ContentType( "application/xml, text/xml" );
-      static Text = new ContentType( "text/plain" );
-      static Html = new ContentType( "text/html" );
-      static Binary = new ContentType( "application/octet-stream" );
+   }
 
-      constructor(public mimeTypes: string)
-      {
-      }
+   export module MimeType
+   {
+      export var Form: MimeType = "application/x-www-form-urlencoded";
+      export var Json: MimeType = "application/json, text/javascript";
+      export var Xml: MimeType = "application/xml, text/xml";
+      export var Text: MimeType = "text/plain";
+      export var Html: MimeType = "text/html";
+      export var Binary: MimeType = "application/octet-stream";
+      export var Any: MimeType = "*/*";
    }
 
    export interface Arguments
@@ -172,7 +190,8 @@ module HttpRequest
       url: string;
       method?: HttpRequest.Method;
       data?: any;
-      type?: HttpRequest.ContentType
+      dataType?: HttpRequest.MimeType;
+      accept?: HttpRequest.MimeType;
    }
 
    export interface ArgumentsWithCallback extends Arguments

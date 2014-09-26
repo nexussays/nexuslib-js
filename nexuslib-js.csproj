@@ -38,7 +38,9 @@
     <TypeScriptCompile Include="src\nexus\dom\_form.ts" />
     <TypeScriptCompile Include="src\nexus\dom\_selector.ts" />
     <TypeScriptCompile Include="src\nexus\event\EnhancedEvent.ts" />
+    <TypeScriptCompile Include="src\nexus\event\EventHandler.ts" />
     <TypeScriptCompile Include="src\nexus\net\generateQueryString.ts" />
+    <TypeScriptCompile Include="src\nexus\object\clone.ts" />
     <TypeScriptCompile Include="src\nexus\stringutil\camelCase.ts" />
     <TypeScriptCompile Include="src\nexus\stringutil\hyphenate.ts" />
     <TypeScriptCompile Include="src\nexus\stringutil\charTimes.ts" />
