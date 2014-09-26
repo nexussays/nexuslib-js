@@ -264,16 +264,20 @@ module EnhancedHTMLElement
          var style: string[] = [];
          for(var key in value)
          {
-            if(!value[key] && value[key] !== 0)
+            var val = value[key];
+            if(!val && val !== 0)
             {
                (<HTMLElement><any>this).style.removeProperty( stringutil.hyphenate( key ) );
             }
             else
             {
-               style.push( stringutil.hyphenate( key ) + ':' + value[key] );
+               if(type.of(val) == type.number && !/opacity|lineHeight|zIndex/.test(key))
+               {
+                  val += "px";
+               }
+               style.push( stringutil.hyphenate( key ) + ':' + val );
             }
          }
-
          (<HTMLElement><any>this).style.cssText += ";" + style.join( ";" );
          return (<HTMLElement><any>this).style.cssText;
       }
