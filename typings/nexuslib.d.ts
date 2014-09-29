@@ -75,6 +75,19 @@ declare module "nexus"
             function write(key: string, value: any, expiration?: Date, path?: string, domain?: string, secure?: boolean): Cookie;
          }
 
+         module Storage
+         {
+            function get(key: string): any;
+
+            function set(key: string, data: any): void;
+
+            function remove(key: string): void;
+
+            function clear(): void;
+
+            function forEach(func: (item: any, key: string, index: number) => void): void;
+         }
+
          module window
          {
             function getSize(): {
@@ -124,6 +137,8 @@ declare module "nexus"
             toggleClass(name: string): ElementGroup;
 
             hasClass(name: string): boolean;
+
+            css(value: any): ElementGroup;
 
             find(query: string): ElementGroup;
 
@@ -796,10 +811,10 @@ declare module "nexus"
       {
          class HttpRequest
          {
-            method: HttpRequest.Method;
-            data: any;
+            content: any;
             headers: any;
             url: string;
+            method: HttpRequest.Method;
 
             constructor(obj: HttpRequest.Arguments);
 
@@ -812,12 +827,26 @@ declare module "nexus"
             cancel(): void;
 
             send(completeCallback: (response: nexus.net.HttpResponse) => void): void;
-
-            static send(obj: HttpRequest.ArgumentsWithCallback): void;
          }
 
          module HttpRequest
          {
+            function get(obj: ImmediateArguments): void;
+
+            function get(url: string, callback: (response: nexus.net.HttpResponse) => void): void;
+
+            function put(obj: ImmediateArguments): void;
+
+            function put(url: string, callback: (response: nexus.net.HttpResponse) => void): void;
+
+            function post(obj: ImmediateArguments): void;
+
+            function post(url: string, callback: (response: nexus.net.HttpResponse) => void): void;
+
+            function del(obj: ImmediateArguments): void;
+
+            function del(url: string, callback: (response: nexus.net.HttpResponse) => void): void;
+
             enum Method
             {
                GET = 0,
@@ -847,14 +876,18 @@ declare module "nexus"
             {
                url: string;
                method?: Method;
-               data?: any;
-               dataType?: MimeType;
+               content?: any;
+               contentType?: MimeType;
                accept?: MimeType;
             }
 
-            interface ArgumentsWithCallback extends Arguments
+            interface ImmediateArguments
             {
+               url: string;
                complete: (response: nexus.net.HttpResponse) => void;
+               content?: any;
+               contentType?: MimeType;
+               accept?: MimeType;
             }
          }
 
@@ -1064,17 +1097,15 @@ declare module "nexus"
       enum type
       {
          "undefined" = 0,
-         "null" = 1,
-         "object" = 2,
-         "array" = 3,
-         "boolean" = 4,
-         "node" = 5,
-         "window" = 6,
-         "date" = 7,
-         "string" = 8,
-         "function" = 9,
-         "number" = 10,
-         "regexp" = 11,
+         "object" = 1,
+         "array" = 2,
+         "boolean" = 3,
+         "node" = 4,
+         "date" = 5,
+         "string" = 6,
+         "function" = 7,
+         "number" = 8,
+         "regexp" = 9,
       }
 
       module type
