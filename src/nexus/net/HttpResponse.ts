@@ -8,19 +8,14 @@ export = HttpResponse;
 
 class HttpResponse
 {
-   url: string;
    body: any;
-   time: number;
-   status: number;
    headers: any;
-   isSuccess: boolean;
    //bytesLoaded: number;
    //bytesTotal: number;
 
-   constructor()
+   constructor(public isSuccess?: boolean, public url?: string, public time?: number, public status: number = -1)
    {
       this.headers = {};
-      this.status = -1;
       //this.bytesLoaded = 0;
       //this.bytesTotal = 0;
    }

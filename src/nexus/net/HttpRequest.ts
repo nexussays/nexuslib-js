@@ -15,9 +15,6 @@ import type = require('../type'); ///ts:import:generated
 
 export = HttpRequest;
 
-/**
- * 
- */
 class HttpRequest
 {
    // appended to URL if GET, sent as body otherwise
@@ -26,8 +23,10 @@ class HttpRequest
    url: string;
    method: HttpRequest.Method;
    private request: XMLHttpRequest;
+   private response: HttpResponse;
+   private completionCallbacks: Array<(response: HttpResponse) => void>;
 
-   constructor(obj: HttpRequest.Arguments);
+   constructor(obj: HttpRequest.RequestArgsWithMethod);
    constructor(url?: string, method?: HttpRequest.Method, data?: any);
    constructor(info?: any, method?: HttpRequest.Method, data?: any)
    {
@@ -37,6 +36,7 @@ class HttpRequest
          //"Pragma": "no-cache"
 
       };
+      this.completionCallbacks = [];
 
       if(type.of( info ) == type.string)
       {
@@ -46,16 +46,16 @@ class HttpRequest
       }
       else
       {
-         this.url = (<HttpRequest.Arguments>info).url;
-         this.content = (<HttpRequest.Arguments>info).content;
-         this.method = (<HttpRequest.Arguments>info).method || HttpRequest.Method.GET;
-         if((<HttpRequest.Arguments>info).contentType)
+         this.url = (<HttpRequest.RequestArgsWithMethod>info).url;
+         this.content = (<HttpRequest.RequestArgsWithMethod>info).content;
+         this.method = (<HttpRequest.RequestArgsWithMethod>info).method || HttpRequest.Method.GET;
+         if((<HttpRequest.RequestArgsWithMethod>info).contentType)
          {
-            this.setContentType( (<HttpRequest.Arguments>info).contentType );
+            this.setContentType( (<HttpRequest.RequestArgsWithMethod>info).contentType );
          }
-         if((<HttpRequest.Arguments>info).accept)
+         if((<HttpRequest.RequestArgsWithMethod>info).accept)
          {
-            this.setAcceptType( (<HttpRequest.Arguments>info).accept );
+            this.setAcceptType( (<HttpRequest.RequestArgsWithMethod>info).accept );
          }
       }
 
@@ -90,8 +90,25 @@ class HttpRequest
       this.request.abort();
    }
 
-   send(completeCallback: (response: HttpResponse) => void): void
+   complete(callback: (response: HttpResponse) => void): HttpRequest.Promise
    {
+      this.completionCallbacks.push( callback );
+      if(this.response)
+      {
+         setTimeout( this.runCallbacks, 1 );
+      }
+      return this;
+   }
+
+   send(completeCallback?: (response: HttpResponse) => void): HttpRequest.Promise
+   {
+      if(this.response)
+      {
+         return this;
+      }
+
+      completeCallback && this.complete( completeCallback );
+
       if(this.method == HttpRequest.Method.GET)
       {
          var querystring = generateQueryString( this.content );
@@ -101,32 +118,36 @@ class HttpRequest
       }
 
       var requestStart = Date.now();
-
-      this.request.open( HttpRequest.Method[this.method], this.url, true );
-      this.request.onreadystatechange = () =>
+      var headers = this.headers;
+      var req = this.request;
+      req.open( HttpRequest.Method[this.method], this.url, true );
+      req.onreadystatechange = () =>
       {
-         var req = this.request;
          if(req.readyState == 4)
          {
+            // set this handler to be a no-op
             req.onreadystatechange = function()
             {
             };
-            var response = new HttpResponse();
-            response.url = this.url;
-            response.time = Date.now() - requestStart;
-            response.status = (req.status == 1223) ? 204 : req.status;
-            response.isSuccess = /^2/.test( response.status + "" );
+
+            var response = new HttpResponse( /^2/.test( req.status + "" ),
+               this.url,
+               Date.now() - requestStart,
+               // 1223 is a weird IE thing; but don't think it matters since we don't support < 9
+               (req.status == 1223) ? 204 : req.status );
+
             req.getAllResponseHeaders().split( /\r?\n/ ).forEach( (line) =>
             {
-               var colon = line.indexOf( ":" );
-               response.headers[line.substring( 0, colon )] = line.substring( colon + 1 );
+               var delim = line.indexOf( ":" );
+               response.headers[line.substring( 0, delim )] = line.substring( delim + 1 );
             } );
+
             var content = response.headers["Content-Type"];
             if(/\/xml$/.test( content ))
             {
                response.body = req.responseXML;
             }
-            else if(/json|javascript/.test( content ))
+            else if(/\/(?:json|javascript)$/.test( content ))
             {
                response.body = JsonSerializer.deserialize( req.responseText );
             }
@@ -134,72 +155,84 @@ class HttpRequest
             {
                response.body = req.responseText || null;
             }
-            //console.log(req);
-            completeCallback && completeCallback( response );
+
+            this.response = response;
+            this.runCallbacks();
          }
       };
 
-      if(!this.headers["Accept"])
+      if(!headers["Accept"])
       {
-         this.setAcceptType( HttpRequest.MimeType.Any );
+         this.setAcceptType( HttpRequest.MimeType.Json );
       }
 
-      for(var header in this.headers)
+      for(var header in headers)
       {
-         this.request.setRequestHeader( header, this.headers[header] );
+         req.setRequestHeader( header, headers[header] );
       }
 
-      this.request.send( this.content );
+      req.send( this.content );
+
+      return this;
+   }
+
+   private runCallbacks()
+   {
+      var all = this.completionCallbacks;
+      while(all.length)
+      {
+         all.pop()( this.response );
+      }
    }
 }
 
 module HttpRequest
 {
-   export function get(obj: HttpRequest.ImmediateArguments): void;
-   export function get(url: string, callback: (response: HttpResponse) => void): void;
-   export function get(obj: any, callback?: (response: HttpResponse) => void): void
+   export function get(obj: HttpRequest.RequestArgs): Promise;
+   export function get(url: string): Promise;
+   export function get(obj: any): Promise
    {
-      send( HttpRequest.Method.GET, obj, callback );
+      return send( HttpRequest.Method.GET, obj );
    }
 
-   export function put(obj: HttpRequest.ImmediateArguments): void;
-   export function put(url: string, callback: (response: HttpResponse) => void): void;
-   export function put(obj: any, callback?: (response: HttpResponse) => void): void
+   export function put(obj: HttpRequest.RequestArgs): Promise;
+   export function put(url: string): Promise;
+   export function put(obj: any): Promise
    {
-      send( HttpRequest.Method.PUT, obj, callback );
+      return send( HttpRequest.Method.PUT, obj );
    }
 
-   export function post(obj: HttpRequest.ImmediateArguments): void;
-   export function post(url: string, callback: (response: HttpResponse) => void): void;
-   export function post(obj: any, callback?: (response: HttpResponse) => void): void
+   export function post(obj: HttpRequest.RequestArgs): Promise;
+   export function post(url: string): Promise;
+   export function post(obj: any): Promise
    {
-      send( HttpRequest.Method.POST, obj, callback );
+      return send( HttpRequest.Method.POST, obj );
    }
 
-   export function del(obj: HttpRequest.ImmediateArguments): void;
-   export function del(url: string, callback: (response: HttpResponse) => void): void;
-   export function del(obj: any, callback?: (response: HttpResponse) => void): void
+   export function del(obj: HttpRequest.RequestArgs): Promise;
+   export function del(url: string): Promise;
+   export function del(obj: any): Promise
    {
-      send( HttpRequest.Method.DELETE, obj, callback );
+      return send( HttpRequest.Method.DELETE, obj );
    }
 
-   function send(method: HttpRequest.Method, obj: HttpRequest.ImmediateArguments): void;
-   function send(method: HttpRequest.Method, url: string, callback: (response: HttpResponse) => void): void;
-   function send(method: HttpRequest.Method, obj: any, callback?: (response: HttpResponse) => void): void
+   function send(method: HttpRequest.Method, obj: HttpRequest.RequestArgs): Promise;
+   function send(method: HttpRequest.Method, url: string): Promise;
+   function send(method: HttpRequest.Method, obj: any): Promise
    {
-      var args: HttpRequest.ImmediateArguments;
+      var args: HttpRequest.RequestArgs;
       if(type.of( obj ) == type.string)
       {
-         args = { url: obj, complete: callback };
+         args = { url: obj };
       }
       else
       {
-         args = <HttpRequest.ImmediateArguments>obj;
+         args = <HttpRequest.RequestArgs>obj;
       }
 
       var request = new HttpRequest( args );
       request.method = method;
-      return request.send( args.complete );
+      return request.send();
    }
 
    export enum Method
@@ -227,21 +260,22 @@ module HttpRequest
       export var Any: MimeType = "*/*";
    }
 
-   export interface Arguments
+   export interface Promise
+   {
+      cancel(): void;
+      complete(callback: (response: HttpResponse) => void): Promise;
+   }
+
+   export interface RequestArgs
    {
       url: string;
-      method?: HttpRequest.Method;
       content?: any;
       contentType?: HttpRequest.MimeType;
       accept?: HttpRequest.MimeType;
    }
 
-   export interface ImmediateArguments
+   export interface RequestArgsWithMethod extends RequestArgs
    {
-      url: string;
-      complete: (response: HttpResponse) => void;
-      content?: any;
-      contentType?: HttpRequest.MimeType;
-      accept?: HttpRequest.MimeType;
+      method?: HttpRequest.Method;
    }
 }

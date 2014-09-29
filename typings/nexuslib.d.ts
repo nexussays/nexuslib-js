@@ -813,7 +813,7 @@ declare module "nexus"
             url: string;
             method: HttpRequest.Method;
 
-            constructor(obj: HttpRequest.Arguments);
+            constructor(obj: HttpRequest.RequestArgsWithMethod);
 
             constructor(url?: string, method?: HttpRequest.Method, data?: any);
 
@@ -823,26 +823,28 @@ declare module "nexus"
 
             cancel(): void;
 
-            send(completeCallback: (response: nexus.net.HttpResponse) => void): void;
+            complete(callback: (response: nexus.net.HttpResponse) => void): HttpRequest.Promise;
+
+            send(completeCallback?: (response: nexus.net.HttpResponse) => void): HttpRequest.Promise;
          }
 
          module HttpRequest
          {
-            function get(obj: ImmediateArguments): void;
+            function get(obj: RequestArgs): Promise;
 
-            function get(url: string, callback: (response: nexus.net.HttpResponse) => void): void;
+            function get(url: string): Promise;
 
-            function put(obj: ImmediateArguments): void;
+            function put(obj: RequestArgs): Promise;
 
-            function put(url: string, callback: (response: nexus.net.HttpResponse) => void): void;
+            function put(url: string): Promise;
 
-            function post(obj: ImmediateArguments): void;
+            function post(obj: RequestArgs): Promise;
 
-            function post(url: string, callback: (response: nexus.net.HttpResponse) => void): void;
+            function post(url: string): Promise;
 
-            function del(obj: ImmediateArguments): void;
+            function del(obj: RequestArgs): Promise;
 
-            function del(url: string, callback: (response: nexus.net.HttpResponse) => void): void;
+            function del(url: string): Promise;
 
             enum Method
             {
@@ -869,35 +871,36 @@ declare module "nexus"
                var Any: MimeType;
             }
 
-            interface Arguments
+            interface Promise
+            {
+               cancel(): void;
+               complete(callback: (response: nexus.net.HttpResponse) => void): Promise;
+            }
+
+            interface RequestArgs
             {
                url: string;
-               method?: Method;
                content?: any;
                contentType?: MimeType;
                accept?: MimeType;
             }
 
-            interface ImmediateArguments
+            interface RequestArgsWithMethod extends RequestArgs
             {
-               url: string;
-               complete: (response: nexus.net.HttpResponse) => void;
-               content?: any;
-               contentType?: MimeType;
-               accept?: MimeType;
+               method?: Method;
             }
          }
 
          class HttpResponse
          {
+            isSuccess: boolean;
             url: string;
-            body: any;
             time: number;
             status: number;
+            body: any;
             headers: any;
-            isSuccess: boolean;
 
-            constructor();
+            constructor(isSuccess?: boolean, url?: string, time?: number, status?: number);
          }
 
          function generateQueryString(hash: any): string;
