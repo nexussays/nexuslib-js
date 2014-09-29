@@ -233,7 +233,7 @@ module.exports = function(grunt)
                " * https://github.com/nexussays/nexuslib-js | Copyright Malachi Griffie\n" +
                " * @version <%= grunt.file.readJSON( 'package.json' ).version %>\n" +
                " * @license http://mozilla.org/MPL/2.0/\n" +
-               " */\n",
+               " */\n'use strict';",
          mangle: true,
          compress: false,
          beautify: false,
