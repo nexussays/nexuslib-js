@@ -16,30 +16,43 @@ module Storage
 {
    var store = window.localStorage;
 
-   export function get(key: string): any
+   export function retrieve<T>(key: string, defaultValue?: T): T
    {
       var result = store.getItem( key );
-      try
+      if(result)
       {
-         result = result && JsonSerializer.deserialize( result );
+         try
+         {
+            result = JsonSerializer.deserialize( result );
+         }
+         catch(ex)
+         {
+            //console.warn(ex);
+            result = defaultValue;
+         }
       }
-      catch(ex)
+      else
       {
-         //console.warn(ex);
+         result = defaultValue;
       }
       return result;
    }
 
-   export function set(key: string, data: any): void
+   export function save(key: string, data: any): void
    {
       if(data === undefined)
       {
-         Storage.remove( key );
+         remove( key );
       }
       else
       {
          store.setItem( key, JsonSerializer.serialize( data ) );
       }
+   }
+
+   export function modify<T>(key: string, func: (T) => T): void
+   {
+      save( key, func( retrieve( key ) ) );
    }
 
    export function remove(key: string): void
@@ -57,7 +70,7 @@ module Storage
       for(var x = 0; x < store.length; ++x)
       {
          var key = store.key( x );
-         func( Storage.get( key ), key, x );
+         func( Storage.retrieve( key ), key, x );
       }
    }
 }

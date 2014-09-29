@@ -77,9 +77,11 @@ declare module "nexus"
 
          module Storage
          {
-            function get(key: string): any;
+            function retrieve<T>(key: string, defaultValue?: T): T;
 
-            function set(key: string, data: any): void;
+            function save(key: string, data: any): void;
+
+            function modify<T>(key: string, func: (T: any) => T): void;
 
             function remove(key: string): void;
 
