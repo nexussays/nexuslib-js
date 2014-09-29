@@ -75,21 +75,6 @@ declare module "nexus"
             function write(key: string, value: any, expiration?: Date, path?: string, domain?: string, secure?: boolean): Cookie;
          }
 
-         module Storage
-         {
-            function retrieve<T>(key: string, defaultValue?: T): T;
-
-            function save(key: string, data: any): void;
-
-            function modify<T>(key: string, func: (T: any) => T): void;
-
-            function remove(key: string): void;
-
-            function clear(): void;
-
-            function forEach(func: (item: any, key: string, index: number) => void): void;
-         }
-
          module window
          {
             function getSize(): {
@@ -108,6 +93,21 @@ declare module "nexus"
             function parseQueryString(): {};
 
             function replaceQueryString(hash: Object): void;
+         }
+
+         module storage
+         {
+            function retrieve<T>(key: string, defaultValue?: T): T;
+
+            function save(key: string, data: any): void;
+
+            function modify<T>(key: string, func: (T: any) => T): void;
+
+            function forEach(func: (item: any, key: string, index: number) => void): void;
+
+            function remove(key: string): void;
+
+            function clear(): void;
          }
       }
 
@@ -601,12 +601,7 @@ declare module "nexus"
             function selectorQueryAll(getEl: find.Interface, query: any): any;
          }
 
-         function enhanceElement(element: HTMLElement, force?: boolean): nexus.dom.EnhancedElement;
-
-         module enhanceElement
-         {
-            var isPrototypeEnhanced: boolean;
-         }
+         function enhanceElement(element: HTMLElement): nexus.dom.EnhancedElement;
 
          function enhancePrototype(): void;
 
@@ -1065,17 +1060,6 @@ declare module "nexus"
             Z = 90,
          }
 
-         module Milliseconds
-         {
-            function days(num: number): number;
-
-            function hours(num: number): number;
-
-            function minutes(num: number): number;
-
-            function seconds(num: number): number;
-         }
-
          module Sort
          {
             function defaultSort(a: any, b: any): number;
@@ -1092,6 +1076,17 @@ declare module "nexus"
          }
 
          function isLeapYear(year: number): boolean;
+
+         module ms
+         {
+            function days(num: number): number;
+
+            function hours(num: number): number;
+
+            function minutes(num: number): number;
+
+            function seconds(num: number): number;
+         }
       }
 
       function parseBool(value: any): boolean;

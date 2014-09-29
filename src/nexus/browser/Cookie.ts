@@ -8,8 +8,8 @@
 import type = require('../type'); ///ts:import:generated
 ///ts:import=JsonSerializer
 import JsonSerializer = require('../serialization/JsonSerializer'); ///ts:import:generated
-///ts:import=Milliseconds,ms
-import ms = require('../util/Milliseconds'); ///ts:import:generated
+///ts:import=ms
+import ms = require('../util/ms'); ///ts:import:generated
 
 export = Cookie;
 
