@@ -20,15 +20,16 @@ export = HttpRequest;
  */
 class HttpRequest
 {
-   // appended to URL if GET, send as body otherwise
-   data: any;
+   // appended to URL if GET, sent as body otherwise
+   content: any;
    headers: any;
    url: string;
+   method: HttpRequest.Method;
    private request: XMLHttpRequest;
 
    constructor(obj: HttpRequest.Arguments);
    constructor(url?: string, method?: HttpRequest.Method, data?: any);
-   constructor(info?: any, public method?: HttpRequest.Method, data?: any)
+   constructor(info?: any, method?: HttpRequest.Method, data?: any)
    {
       this.headers = {
          //"Connection": "close",
@@ -40,17 +41,17 @@ class HttpRequest
       if(type.of( info ) == type.string)
       {
          this.url = <string>info;
-         this.data = data;
+         this.content = data;
          this.method = method || HttpRequest.Method.GET;
       }
       else
       {
          this.url = (<HttpRequest.Arguments>info).url;
-         this.data = (<HttpRequest.Arguments>info).data;
+         this.content = (<HttpRequest.Arguments>info).content;
          this.method = (<HttpRequest.Arguments>info).method || HttpRequest.Method.GET;
-         if((<HttpRequest.Arguments>info).dataType)
+         if((<HttpRequest.Arguments>info).contentType)
          {
-            this.setContentType( (<HttpRequest.Arguments>info).dataType );
+            this.setContentType( (<HttpRequest.Arguments>info).contentType );
          }
          if((<HttpRequest.Arguments>info).accept)
          {
@@ -93,9 +94,9 @@ class HttpRequest
    {
       if(this.method == HttpRequest.Method.GET)
       {
-         var querystring = generateQueryString( this.data );
+         var querystring = generateQueryString( this.content );
          this.url += (querystring.length > 0 ? "?" + querystring : "");
-         this.data = null;
+         this.content = null;
          delete this.headers["Content-Type"];
       }
 
@@ -148,18 +149,59 @@ class HttpRequest
          this.request.setRequestHeader( header, this.headers[header] );
       }
 
-      this.request.send( this.data );
-   }
-
-   static send(obj: HttpRequest.ArgumentsWithCallback): void
-   {
-      var request = new HttpRequest( obj );
-      return request.send( obj.complete );
+      this.request.send( this.content );
    }
 }
 
 module HttpRequest
 {
+   export function get(obj: HttpRequest.ImmediateArguments): void;
+   export function get(url: string, callback: (response: HttpResponse) => void): void;
+   export function get(obj: any, callback?: (response: HttpResponse) => void): void
+   {
+      send( HttpRequest.Method.GET, obj, callback );
+   }
+
+   export function put(obj: HttpRequest.ImmediateArguments): void;
+   export function put(url: string, callback: (response: HttpResponse) => void): void;
+   export function put(obj: any, callback?: (response: HttpResponse) => void): void
+   {
+      send( HttpRequest.Method.PUT, obj, callback );
+   }
+
+   export function post(obj: HttpRequest.ImmediateArguments): void;
+   export function post(url: string, callback: (response: HttpResponse) => void): void;
+   export function post(obj: any, callback?: (response: HttpResponse) => void): void
+   {
+      send( HttpRequest.Method.POST, obj, callback );
+   }
+
+   export function del(obj: HttpRequest.ImmediateArguments): void;
+   export function del(url: string, callback: (response: HttpResponse) => void): void;
+   export function del(obj: any, callback?: (response: HttpResponse) => void): void
+   {
+      send( HttpRequest.Method.DELETE, obj, callback );
+   }
+
+   function send(method: HttpRequest.Method, obj: HttpRequest.ImmediateArguments): void;
+   function send(method: HttpRequest.Method, url: string, callback: (response: HttpResponse) => void): void;
+   function send(method: HttpRequest.Method, obj: any, callback?: (response: HttpResponse) => void): void
+   {
+      var args: HttpRequest.ImmediateArguments;
+      if(type.of( obj ) == type.string)
+      {
+         args = { url: obj, complete: callback };
+      }
+      else
+      {
+         args = <HttpRequest.ImmediateArguments>obj;
+      }
+
+      var request = new HttpRequest( args );
+      request.method = method;
+      return request.send( args.complete );
+   }
+
    export enum Method
    {
       GET,
@@ -189,13 +231,17 @@ module HttpRequest
    {
       url: string;
       method?: HttpRequest.Method;
-      data?: any;
-      dataType?: HttpRequest.MimeType;
+      content?: any;
+      contentType?: HttpRequest.MimeType;
       accept?: HttpRequest.MimeType;
    }
 
-   export interface ArgumentsWithCallback extends Arguments
+   export interface ImmediateArguments
    {
+      url: string;
       complete: (response: HttpResponse) => void;
+      content?: any;
+      contentType?: HttpRequest.MimeType;
+      accept?: HttpRequest.MimeType;
    }
 }
