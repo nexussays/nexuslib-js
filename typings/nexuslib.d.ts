@@ -115,18 +115,18 @@ declare module "nexus"
       {
          class ElementGroup
          {
-            constructor(sourceArray: nexus.dom.EnhancedHTMLElement[]);
+            constructor(sourceArray: nexus.dom.EnhancedElement[]);
 
-            items: nexus.dom.EnhancedHTMLElement[];
+            items: nexus.dom.EnhancedElement[];
             length: number;
 
-            forEach(callbackfn: (value: nexus.dom.EnhancedHTMLElement, index: number, array: nexus.dom.EnhancedHTMLElement[]) => void): ElementGroup;
+            forEach(callbackfn: (value: nexus.dom.EnhancedElement, index: number, array: nexus.dom.EnhancedElement[]) => void): ElementGroup;
 
-            some(callbackfn: (value: nexus.dom.EnhancedHTMLElement, index: number, array: nexus.dom.EnhancedHTMLElement[]) => boolean): boolean;
+            some(callbackfn: (value: nexus.dom.EnhancedElement, index: number, array: nexus.dom.EnhancedElement[]) => boolean): boolean;
 
-            every(callbackfn: (value: nexus.dom.EnhancedHTMLElement, index: number, array: nexus.dom.EnhancedHTMLElement[]) => boolean): boolean;
+            every(callbackfn: (value: nexus.dom.EnhancedElement, index: number, array: nexus.dom.EnhancedElement[]) => boolean): boolean;
 
-            filter$(callbackfn: (value: nexus.dom.EnhancedHTMLElement, index: number, array: nexus.dom.EnhancedHTMLElement[]) => boolean): ElementGroup;
+            filter$(callbackfn: (value: nexus.dom.EnhancedElement, index: number, array: nexus.dom.EnhancedElement[]) => boolean): ElementGroup;
 
             bind(eventName: string, func: nexus.event.EventHandler): ElementGroup;
 
@@ -144,26 +144,26 @@ declare module "nexus"
 
             find(query: string): ElementGroup;
 
-            first(): nexus.dom.EnhancedHTMLElement;
+            first(): nexus.dom.EnhancedElement;
 
-            last(): nexus.dom.EnhancedHTMLElement;
+            last(): nexus.dom.EnhancedElement;
          }
 
-         interface EnhancedHTMLElement extends HTMLElement, EnhancedHTMLElement.Impl
+         interface EnhancedElement extends HTMLElement, EnhancedElement.Impl
          {
          }
 
-         module EnhancedHTMLElement
+         module EnhancedElement
          {
             class Impl
             {
                getOuterHTML(includeChildren?: boolean, escapeHtml?: boolean): string;
 
-               append(...params: any[][]): EnhancedHTMLElement;
+               append(...params: any[][]): EnhancedElement;
 
-               append(...params: Node[]): EnhancedHTMLElement;
+               append(...params: Node[]): EnhancedElement;
 
-               append(...params: any[]): EnhancedHTMLElement;
+               append(...params: any[]): EnhancedElement;
 
                getBooleanAttribute(name: string): boolean;
 
@@ -175,7 +175,7 @@ declare module "nexus"
 
                trigger(eventName: string): void;
 
-               parent(): EnhancedHTMLElement;
+               parent(): EnhancedElement;
 
                isAncestor(ancestor: Node): boolean;
 
@@ -195,7 +195,7 @@ declare module "nexus"
             }
          }
 
-         module EnhancedHTMLElement
+         module EnhancedElement
          {
             interface Anchor extends HTMLAnchorElement, Impl
             {
@@ -398,163 +398,163 @@ declare module "nexus"
          {
             function text(...params: any[]): Node;
 
-            function a(...params: any[]): EnhancedHTMLElement.Anchor;
+            function a(...params: any[]): EnhancedElement.Anchor;
 
-            function abbr(...params: any[]): nexus.dom.EnhancedHTMLElement;
+            function abbr(...params: any[]): nexus.dom.EnhancedElement;
 
-            function acronym(...params: any[]): nexus.dom.EnhancedHTMLElement;
+            function acronym(...params: any[]): nexus.dom.EnhancedElement;
 
-            function address(...params: any[]): nexus.dom.EnhancedHTMLElement;
+            function address(...params: any[]): nexus.dom.EnhancedElement;
 
-            function audio(...params: any[]): EnhancedHTMLElement.Audio;
+            function audio(...params: any[]): EnhancedElement.Audio;
 
-            function base(...params: any[]): EnhancedHTMLElement.Base;
+            function base(...params: any[]): EnhancedElement.Base;
 
-            function blockquote(...params: any[]): EnhancedHTMLElement.Block;
+            function blockquote(...params: any[]): EnhancedElement.Block;
 
-            function br(...params: any[]): EnhancedHTMLElement.BR;
+            function br(...params: any[]): EnhancedElement.BR;
 
-            function button(...params: any[]): EnhancedHTMLElement.Button;
+            function button(...params: any[]): EnhancedElement.Button;
 
-            function canvas(...params: any[]): EnhancedHTMLElement.Canvas;
+            function canvas(...params: any[]): EnhancedElement.Canvas;
 
-            function caption(...params: any[]): EnhancedHTMLElement.TableCaption;
+            function caption(...params: any[]): EnhancedElement.TableCaption;
 
-            function cite(...params: any[]): nexus.dom.EnhancedHTMLElement;
+            function cite(...params: any[]): nexus.dom.EnhancedElement;
 
-            function code(...params: any[]): nexus.dom.EnhancedHTMLElement;
+            function code(...params: any[]): nexus.dom.EnhancedElement;
 
-            function col(...params: any[]): EnhancedHTMLElement.TableCol;
+            function col(...params: any[]): EnhancedElement.TableCol;
 
-            function colgroup(...params: any[]): nexus.dom.EnhancedHTMLElement;
+            function colgroup(...params: any[]): nexus.dom.EnhancedElement;
 
-            function dd(...params: any[]): EnhancedHTMLElement.DD;
+            function dd(...params: any[]): EnhancedElement.DD;
 
-            function del(...params: any[]): nexus.dom.EnhancedHTMLElement;
+            function del(...params: any[]): nexus.dom.EnhancedElement;
 
-            function details(...params: any[]): nexus.dom.EnhancedHTMLElement;
+            function details(...params: any[]): nexus.dom.EnhancedElement;
 
-            function dfn(...params: any[]): nexus.dom.EnhancedHTMLElement;
+            function dfn(...params: any[]): nexus.dom.EnhancedElement;
 
-            function div(...params: any[]): EnhancedHTMLElement.Div;
+            function div(...params: any[]): EnhancedElement.Div;
 
-            function dl(...params: any[]): EnhancedHTMLElement.DList;
+            function dl(...params: any[]): EnhancedElement.DList;
 
-            function dt(...params: any[]): EnhancedHTMLElement.DT;
+            function dt(...params: any[]): EnhancedElement.DT;
 
-            function em(...params: any[]): nexus.dom.EnhancedHTMLElement;
+            function em(...params: any[]): nexus.dom.EnhancedElement;
 
-            function embed(...params: any[]): EnhancedHTMLElement.Embed;
+            function embed(...params: any[]): EnhancedElement.Embed;
 
-            function fieldset(...params: any[]): EnhancedHTMLElement.FieldSet;
+            function fieldset(...params: any[]): EnhancedElement.FieldSet;
 
-            function figure(...params: any[]): nexus.dom.EnhancedHTMLElement;
+            function figure(...params: any[]): nexus.dom.EnhancedElement;
 
-            function form(...params: any[]): EnhancedHTMLElement.Form;
+            function form(...params: any[]): EnhancedElement.Form;
 
-            function h1(...params: any[]): EnhancedHTMLElement.Heading;
+            function h1(...params: any[]): EnhancedElement.Heading;
 
-            function h2(...params: any[]): EnhancedHTMLElement.Heading;
+            function h2(...params: any[]): EnhancedElement.Heading;
 
-            function h3(...params: any[]): EnhancedHTMLElement.Heading;
+            function h3(...params: any[]): EnhancedElement.Heading;
 
-            function h4(...params: any[]): EnhancedHTMLElement.Heading;
+            function h4(...params: any[]): EnhancedElement.Heading;
 
-            function h5(...params: any[]): EnhancedHTMLElement.Heading;
+            function h5(...params: any[]): EnhancedElement.Heading;
 
-            function h6(...params: any[]): EnhancedHTMLElement.Heading;
+            function h6(...params: any[]): EnhancedElement.Heading;
 
-            function hr(...params: any[]): EnhancedHTMLElement.HR;
+            function hr(...params: any[]): EnhancedElement.HR;
 
-            function iframe(...params: any[]): EnhancedHTMLElement.IFrame;
+            function iframe(...params: any[]): EnhancedElement.IFrame;
 
-            function img(...params: any[]): EnhancedHTMLElement.Image;
+            function img(...params: any[]): EnhancedElement.Image;
 
-            function input(...params: any[]): EnhancedHTMLElement.Input;
+            function input(...params: any[]): EnhancedElement.Input;
 
-            function ins(...params: any[]): nexus.dom.EnhancedHTMLElement;
+            function ins(...params: any[]): nexus.dom.EnhancedElement;
 
-            function kbd(...params: any[]): nexus.dom.EnhancedHTMLElement;
+            function kbd(...params: any[]): nexus.dom.EnhancedElement;
 
-            function label(...params: any[]): EnhancedHTMLElement.Label;
+            function label(...params: any[]): EnhancedElement.Label;
 
-            function legend(...params: any[]): EnhancedHTMLElement.Legend;
+            function legend(...params: any[]): EnhancedElement.Legend;
 
-            function li(...params: any[]): EnhancedHTMLElement.LI;
+            function li(...params: any[]): EnhancedElement.LI;
 
-            function link(...params: any[]): EnhancedHTMLElement.Link;
+            function link(...params: any[]): EnhancedElement.Link;
 
-            function math(...params: any[]): nexus.dom.EnhancedHTMLElement;
+            function math(...params: any[]): nexus.dom.EnhancedElement;
 
-            function object(...params: any[]): EnhancedHTMLElement.Object;
+            function object(...params: any[]): EnhancedElement.Object;
 
-            function ol(...params: any[]): EnhancedHTMLElement.OList;
+            function ol(...params: any[]): EnhancedElement.OList;
 
-            function optgroup(...params: any[]): EnhancedHTMLElement.OptGroup;
+            function optgroup(...params: any[]): EnhancedElement.OptGroup;
 
-            function option(...params: any[]): EnhancedHTMLElement.Option;
+            function option(...params: any[]): EnhancedElement.Option;
 
-            function p(...params: any[]): EnhancedHTMLElement.Paragraph;
+            function p(...params: any[]): EnhancedElement.Paragraph;
 
-            function param(...params: any[]): EnhancedHTMLElement.Param;
+            function param(...params: any[]): EnhancedElement.Param;
 
-            function pre(...params: any[]): EnhancedHTMLElement.Pre;
+            function pre(...params: any[]): EnhancedElement.Pre;
 
-            function progress(...params: any[]): EnhancedHTMLElement.Progress;
+            function progress(...params: any[]): EnhancedElement.Progress;
 
-            function q(...params: any[]): EnhancedHTMLElement.Quote;
+            function q(...params: any[]): EnhancedElement.Quote;
 
-            function s(...params: any[]): nexus.dom.EnhancedHTMLElement;
+            function s(...params: any[]): nexus.dom.EnhancedElement;
 
-            function samp(...params: any[]): nexus.dom.EnhancedHTMLElement;
+            function samp(...params: any[]): nexus.dom.EnhancedElement;
 
-            function script(...params: any[]): EnhancedHTMLElement.Script;
+            function script(...params: any[]): EnhancedElement.Script;
 
-            function select(...params: any[]): EnhancedHTMLElement.Select;
+            function select(...params: any[]): EnhancedElement.Select;
 
-            function source(...params: any[]): EnhancedHTMLElement.Source;
+            function source(...params: any[]): EnhancedElement.Source;
 
-            function span(...params: any[]): EnhancedHTMLElement.Span;
+            function span(...params: any[]): EnhancedElement.Span;
 
-            function strong(...params: any[]): nexus.dom.EnhancedHTMLElement;
+            function strong(...params: any[]): nexus.dom.EnhancedElement;
 
-            function sub(...params: any[]): nexus.dom.EnhancedHTMLElement;
+            function sub(...params: any[]): nexus.dom.EnhancedElement;
 
-            function summary(...params: any[]): nexus.dom.EnhancedHTMLElement;
+            function summary(...params: any[]): nexus.dom.EnhancedElement;
 
-            function sup(...params: any[]): nexus.dom.EnhancedHTMLElement;
+            function sup(...params: any[]): nexus.dom.EnhancedElement;
 
-            function svg(...params: any[]): nexus.dom.EnhancedHTMLElement;
+            function svg(...params: any[]): nexus.dom.EnhancedElement;
 
-            function table(...params: any[]): EnhancedHTMLElement.Table;
+            function table(...params: any[]): EnhancedElement.Table;
 
-            function tbody(...params: any[]): EnhancedHTMLElement.TableSection;
+            function tbody(...params: any[]): EnhancedElement.TableSection;
 
-            function td(...params: any[]): EnhancedHTMLElement.TableDataCell;
+            function td(...params: any[]): EnhancedElement.TableDataCell;
 
-            function textarea(...params: any[]): EnhancedHTMLElement.TextArea;
+            function textarea(...params: any[]): EnhancedElement.TextArea;
 
-            function tfoot(...params: any[]): EnhancedHTMLElement.TableSection;
+            function tfoot(...params: any[]): EnhancedElement.TableSection;
 
-            function th(...params: any[]): EnhancedHTMLElement.TableHeaderCell;
+            function th(...params: any[]): EnhancedElement.TableHeaderCell;
 
-            function thead(...params: any[]): EnhancedHTMLElement.TableSection;
+            function thead(...params: any[]): EnhancedElement.TableSection;
 
-            function time(...params: any[]): nexus.dom.EnhancedHTMLElement;
+            function time(...params: any[]): nexus.dom.EnhancedElement;
 
-            function title(...params: any[]): EnhancedHTMLElement.Title;
+            function title(...params: any[]): EnhancedElement.Title;
 
-            function tr(...params: any[]): EnhancedHTMLElement.TableRow;
+            function tr(...params: any[]): EnhancedElement.TableRow;
 
-            function track(...params: any[]): EnhancedHTMLElement.Track;
+            function track(...params: any[]): EnhancedElement.Track;
 
-            function u(...params: any[]): nexus.dom.EnhancedHTMLElement;
+            function u(...params: any[]): nexus.dom.EnhancedElement;
 
-            function ul(...params: any[]): EnhancedHTMLElement.UList;
+            function ul(...params: any[]): EnhancedElement.UList;
 
-            function var$(...params: any[]): nexus.dom.EnhancedHTMLElement;
+            function var$(...params: any[]): nexus.dom.EnhancedElement;
 
-            function video(...params: any[]): EnhancedHTMLElement.Video;
+            function video(...params: any[]): EnhancedElement.Video;
          }
 
          module form
@@ -601,11 +601,11 @@ declare module "nexus"
             function selectorQueryAll(getEl: find.Interface, query: any): any;
          }
 
-         function enhanceHTMLElement(element: HTMLElement, force?: boolean): nexus.dom.EnhancedHTMLElement;
+         function enhanceElement(element: HTMLElement, force?: boolean): nexus.dom.EnhancedElement;
 
-         module enhanceHTMLElement
+         module enhanceElement
          {
-            var enabled: boolean;
+            var isPrototypeEnhanced: boolean;
          }
 
          function enhancePrototype(): void;
@@ -618,11 +618,11 @@ declare module "nexus"
 
          module find
          {
-            function id(id: Node): nexus.dom.EnhancedHTMLElement;
+            function id(id: Node): nexus.dom.EnhancedElement;
 
-            function id(id: string): nexus.dom.EnhancedHTMLElement;
+            function id(id: string): nexus.dom.EnhancedElement;
 
-            function id<T extends EnhancedHTMLElement>(id: string): T;
+            function id<T extends EnhancedElement>(id: string): T;
 
             function name(name: string, tag?: string, root?: Element): nexus.dom.ElementGroup;
 
@@ -711,7 +711,7 @@ declare module "nexus"
 
          interface EventHandler
          {
-            (e: nexus.event.EnhancedEvent, context: nexus.dom.EnhancedHTMLElement): void;
+            (e: nexus.event.EnhancedEvent, context: nexus.dom.EnhancedElement): void;
          }
 
          function enhanceEvent(evt: Event, origin?: HTMLElement): nexus.event.EnhancedEvent;

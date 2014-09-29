@@ -5,13 +5,11 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 export = extendPrototype;
+
 function extendPrototype(derived: any, parents: any[])
 {
-   parents.forEach(parent =>
+   parents.forEach( parent =>
    {
-      Object.getOwnPropertyNames( parent.prototype ).forEach( name =>
-      {
-         derived.prototype[name] = parent.prototype[name];
-      } );
-   });
+      Object.getOwnPropertyNames( parent.prototype ).forEach( name => derived.prototype[name] = parent.prototype[name] );
+   } );
 }

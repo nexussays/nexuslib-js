@@ -17,12 +17,5 @@ function clone<T>(obj: T, into?: any): T
    {
       return map( obj );
    }
-
-   for(var x in obj)
-   {
-      if(obj.hasOwnProperty( x ))
-      {
-         into[x] = obj[x];
-      }
-   }
+   Object.getOwnPropertyNames( obj ).forEach( name => into[name] = obj[name] );
 }

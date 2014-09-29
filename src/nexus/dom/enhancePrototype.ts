@@ -5,20 +5,11 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 /// ts:import=enhanceElement
-/// No file or directory matched name "enhanceElement" ///ts:import:generated
-/// ts:import=enhanceHTMLElement
-import enhanceHTMLElement = require('./enhanceHTMLElement'); ///ts:import:generated
+import enhanceElement = require('./enhanceElement'); ///ts:import:generated
 
 export = enhancePrototype;
 
 function enhancePrototype()
 {
-   if(enhanceHTMLElement.enabled)
-   {
-      //enhanceElement( Element.prototype, true );
-      //enhanceElement.enabled = false;
-
-      enhanceHTMLElement( HTMLElement.prototype, true );
-      enhanceHTMLElement.enabled = false;
-   }
+   enhanceElement(HTMLElement.prototype);
 }

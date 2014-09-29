@@ -1,6 +1,6 @@
 /// <reference path="../typings/nexuslib.d.ts"/>
 import nexus = require("nexus");
-import EnhancedHTMLElement = nexus.dom.EnhancedHTMLElement;
+import EnhancedElement = nexus.dom.EnhancedElement;
 import Cookie = nexus.browser.Cookie;
 import find = nexus.dom.find;
 import EnhancedEvent = nexus.event.EnhancedEvent;
@@ -25,7 +25,7 @@ var editorTextarea,
     showAllMembers,
     showReturnValue,
     catchTabs,
-    executionOutputTextarea: EnhancedHTMLElement;
+    executionOutputTextarea: EnhancedElement;
 var editorCookie: Cookie;
 nexus.dom.onInteractive( function()
 {

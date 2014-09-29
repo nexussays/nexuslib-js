@@ -1,4 +1,4 @@
-﻿// Copyright Malachi Griffie <malachi@nexussays.com>
+// Copyright Malachi Griffie <malachi@nexussays.com>
 //
 // This Source Code Form is subject to the terms of the Mozilla Public
 // License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,10 +16,10 @@ import isArrayLike = require('../array/isArrayLike'); ///ts:import:generated
 import filterByNodeName = require('./selector/filterByNodeName'); ///ts:import:generated
 ///ts:import=isAncestor
 import isAncestor = require('./isAncestor'); ///ts:import:generated
-///ts:import=enhanceHTMLElement
-import enhanceHTMLElement = require('./enhanceHTMLElement'); ///ts:import:generated
-///ts:import=EnhancedHTMLElement
-import EnhancedHTMLElement = require('./EnhancedHTMLElement'); ///ts:import:generated
+///ts:import=enhanceElement
+import enhanceElement = require('./enhanceElement'); ///ts:import:generated
+///ts:import=EnhancedElement
+import EnhancedElement = require('./EnhancedElement'); ///ts:import:generated
 ///ts:import=ElementGroup
 import ElementGroup = require('./ElementGroup'); ///ts:import:generated
 
@@ -30,32 +30,32 @@ function find(query: Element, root?: Element): ElementGroup;
 function find(query: string, root?: Element): ElementGroup;
 function find(query: any, root?: Element): ElementGroup
 {
-   return new ElementGroup( find.native( query, root ).map( el => enhanceHTMLElement( el ) ) );
+   return new ElementGroup( find.native( query, root ).map( el => enhanceElement( el ) ) );
 }
 
 module find
 {
-   export function id(id: Node): EnhancedHTMLElement;
-   export function id(id: string): EnhancedHTMLElement;
-   export function id<T extends EnhancedHTMLElement>(id: string): T;
-   export function id<T extends EnhancedHTMLElement>(id: any): T
+   export function id(id: Node): EnhancedElement;
+   export function id(id: string): EnhancedElement;
+   export function id<T extends EnhancedElement>(id: string): T;
+   export function id<T extends EnhancedElement>(id: any): T
    {
-      return <T>enhanceHTMLElement( native.id( id ) );
+      return <T>enhanceElement( native.id( id ) );
    }
 
    export function name(name: string, tag?: string, root?: Element): ElementGroup
    {
-      return new ElementGroup( native.name( name, tag, root ).map( el => enhanceHTMLElement( el ) ) );
+      return new ElementGroup( native.name( name, tag, root ).map( el => enhanceElement( el ) ) );
    }
 
    export function className(name: string, tag?: string, root?: Element): ElementGroup
    {
-      return new ElementGroup( native.className( name, tag, root ).map( el => enhanceHTMLElement( el ) ) );
+      return new ElementGroup( native.className( name, tag, root ).map( el => enhanceElement( el ) ) );
    }
 
    export function tagName(name: string, root?: Element): ElementGroup
    {
-      return new ElementGroup( native.tagName( name, root ).map( el => enhanceHTMLElement( el ) ) );
+      return new ElementGroup( native.tagName( name, root ).map( el => enhanceElement( el ) ) );
    }
 
    export interface Interface

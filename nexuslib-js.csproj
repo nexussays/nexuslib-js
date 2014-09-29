@@ -20,10 +20,11 @@
   </PropertyGroup>
   <ItemGroup>
     <TypeScriptCompile Include="src\nexus\array\enhancePrototype.ts" />
+    <TypeScriptCompile Include="src\nexus\browser\Storage.ts" />
     <TypeScriptCompile Include="src\nexus\browser\_window.ts" />
     <TypeScriptCompile Include="src\nexus\dom\enhancePrototype.ts" />
     <TypeScriptCompile Include="src\nexus\dom\ElementGroup.ts" />
-    <TypeScriptCompile Include="src\nexus\dom\enhanceHTMLElement.ts" />
+    <TypeScriptCompile Include="src\nexus\dom\enhanceElement.ts" />
     <TypeScriptCompile Include="src\nexus\dom\find.ts" />
     <TypeScriptCompile Include="src\nexus\dom\EnhancedHTMLElement.ts" />
     <TypeScriptCompile Include="src\nexus\dom\getOuterHTML.ts" />

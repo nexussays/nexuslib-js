@@ -1,11 +1,11 @@
-﻿// Copyright Malachi Griffie <malachi@nexussays.com>
+// Copyright Malachi Griffie <malachi@nexussays.com>
 //
 // This Source Code Form is subject to the terms of the Mozilla Public
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-/// ts:import=EnhancedHTMLElement
-import EnhancedHTMLElement = require('./EnhancedHTMLElement'); ///ts:import:generated
+/// ts:import=EnhancedElement
+import EnhancedElement = require('./EnhancedElement'); ///ts:import:generated
 ///ts:import=EventHandler
 import EventHandler = require('../event/EventHandler'); ///ts:import:generated
 ///ts:import=first
@@ -14,8 +14,8 @@ import first = require('../array/first'); ///ts:import:generated
 import last = require('../array/last'); ///ts:import:generated
 ///ts:import=find,_find
 import _find = require('./find'); ///ts:import:generated
-///ts:import=enhanceHTMLElement
-import enhanceHTMLElement = require('./enhanceHTMLElement'); ///ts:import:generated
+///ts:import=enhanceElement
+import enhanceElement = require('./enhanceElement'); ///ts:import:generated
 
 export = ElementGroup;
 
@@ -24,14 +24,14 @@ declare var require;
 
 class ElementGroup
 {
-   private m_array: Array<EnhancedHTMLElement>;
+   private m_array: Array<EnhancedElement>;
 
-   constructor(sourceArray: Array<EnhancedHTMLElement>)
+   constructor(sourceArray: Array<EnhancedElement>)
    {
       this.m_array = sourceArray;
    }
 
-   get items(): Array<EnhancedHTMLElement>
+   get items(): Array<EnhancedElement>
    {
       return this.m_array;
    }
@@ -41,23 +41,23 @@ class ElementGroup
       return this.m_array.length;
    }
 
-   forEach(callbackfn: (value: EnhancedHTMLElement, index: number, array: EnhancedHTMLElement[]) => void): ElementGroup
+   forEach(callbackfn: (value: EnhancedElement, index: number, array: EnhancedElement[]) => void): ElementGroup
    {
       this.m_array.forEach( callbackfn );
       return this;
    }
 
-   some(callbackfn: (value: EnhancedHTMLElement, index: number, array: EnhancedHTMLElement[]) => boolean): boolean
+   some(callbackfn: (value: EnhancedElement, index: number, array: EnhancedElement[]) => boolean): boolean
    {
       return this.m_array.some( callbackfn );
    }
 
-   every(callbackfn: (value: EnhancedHTMLElement, index: number, array: EnhancedHTMLElement[]) => boolean): boolean
+   every(callbackfn: (value: EnhancedElement, index: number, array: EnhancedElement[]) => boolean): boolean
    {
       return this.m_array.every( callbackfn );
    }
 
-   filter$(callbackfn: (value: EnhancedHTMLElement, index: number, array: EnhancedHTMLElement[]) => boolean): ElementGroup
+   filter$(callbackfn: (value: EnhancedElement, index: number, array: EnhancedElement[]) => boolean): ElementGroup
    {
       this.m_array = this.m_array.filter( callbackfn );
       return this;
@@ -107,20 +107,20 @@ class ElementGroup
    find(query: string): ElementGroup
    {
       var f: typeof _find = require( './find' );
-      var results: Array<EnhancedHTMLElement> = [];
+      var results: Array<EnhancedElement> = [];
       for(var x = 0; x < this.m_array.length; ++x)
       {
-         results.push.apply( results, f.native( query, this.m_array[x] ).map( el => enhanceHTMLElement( el ) ) );
+         results.push.apply( results, f.native( query, this.m_array[x] ).map( el => enhanceElement( el ) ) );
       }
       return new ElementGroup( results );
    }
 
-   first(): EnhancedHTMLElement
+   first(): EnhancedElement
    {
       return first( this.m_array );
    }
 
-   last(): EnhancedHTMLElement
+   last(): EnhancedElement
    {
       return last( this.m_array );
    }

@@ -22,18 +22,18 @@ import type = require('../type'); ///ts:import:generated
 import enhanceEvent = require('../event/enhanceEvent'); ///ts:import:generated
 ///ts:import=EventHandler
 import EventHandler = require('../event/EventHandler'); ///ts:import:generated
-///ts:import=enhanceHTMLElement
-import enhanceHTMLElement = require('./enhanceHTMLElement'); ///ts:import:generated
+///ts:import=enhanceElement
+import enhanceElement = require('./enhanceElement'); ///ts:import:generated
 
-export = EnhancedHTMLElement;
+export = EnhancedElement;
 
-// combines EnhancedHTMLElement.IHTMLElementEnhancements which has our enhanced methods with HTMLElement so we 
+// combines EnhancedElement.IHTMLElementEnhancements which has our enhanced methods with HTMLElement so we 
 // can still access all the native element properties
-interface EnhancedHTMLElement extends HTMLElement, EnhancedHTMLElement.Impl
+interface EnhancedElement extends HTMLElement, EnhancedElement.Impl
 {
 }
 
-module EnhancedHTMLElement
+module EnhancedElement
 {
    export class Impl
    {
@@ -45,10 +45,10 @@ module EnhancedHTMLElement
          return _getOuterHTML( (<Element><any>this), includeChildren, escapeHtml );
       }
 
-      append(...params: Array<Array<any>>): EnhancedHTMLElement;
-      append(...params: Array<Node>): EnhancedHTMLElement;
-      append(...params: Array<any>): EnhancedHTMLElement;
-      append(...params: Array<any>): EnhancedHTMLElement
+      append(...params: Array<Array<any>>): EnhancedElement;
+      append(...params: Array<Node>): EnhancedElement;
+      append(...params: Array<any>): EnhancedElement;
+      append(...params: Array<any>): EnhancedElement
       {
          if(params != null)
          {
@@ -89,7 +89,7 @@ module EnhancedHTMLElement
                }
             }
          }
-         return <EnhancedHTMLElement>(<Element><any>this);
+         return <EnhancedElement>(<Element><any>this);
       }
 
       getBooleanAttribute(name: string): boolean
@@ -207,10 +207,10 @@ module EnhancedHTMLElement
          }
       }
 
-      parent(): EnhancedHTMLElement
+      parent(): EnhancedElement
       {
          var parent = (<Element><any>this).parentNode;
-         return parent == document ? enhanceHTMLElement(document.documentElement) : enhanceHTMLElement(<HTMLElement>parent);
+         return parent == document ? enhanceElement(document.documentElement) : enhanceElement(<HTMLElement>parent);
       }
 
       isAncestor(ancestor: Node): boolean
@@ -290,10 +290,10 @@ module EnhancedHTMLElement
 }
 
 /**
- * Provide interfaces for all the HTMLElement subclasses and extend them off the base EnhancedHTMLElement so as to
+ * Provide interfaces for all the HTMLElement subclasses and extend them off the base EnhancedElement so as to
  * not clutter up the entire nnet.dom module with type-only files and cause implementors to make a lot of imports
  */
-module EnhancedHTMLElement
+module EnhancedElement
 {
    export interface Anchor extends HTMLAnchorElement, Impl
    {

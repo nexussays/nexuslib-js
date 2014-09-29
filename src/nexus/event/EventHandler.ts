@@ -1,4 +1,4 @@
-﻿// Copyright Malachi Griffie <malachi@nexussays.com>
+// Copyright Malachi Griffie <malachi@nexussays.com>
 //
 // This Source Code Form is subject to the terms of the Mozilla Public
 // License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -6,12 +6,12 @@
 
 /// ts:import=EnhancedEvent
 import EnhancedEvent = require('./EnhancedEvent'); ///ts:import:generated
-///ts:import=EnhancedHTMLElement
-import EnhancedHTMLElement = require('../dom/EnhancedHTMLElement'); ///ts:import:generated
+///ts:import=EnhancedElement
+import EnhancedElement = require('../dom/EnhancedElement'); ///ts:import:generated
 
 export = EventHandler;
 
 interface EventHandler
 {
-   (e: EnhancedEvent, context: EnhancedHTMLElement): void;
+   (e: EnhancedEvent, context: EnhancedElement): void;
 }
