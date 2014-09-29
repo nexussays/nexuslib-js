@@ -98,6 +98,12 @@ class ElementGroup
       return this.m_array.some( item => item.hasClass( name ) );
    }
 
+   css(value: any): ElementGroup
+   {
+      this.m_array.forEach( item => item.css( value ) );
+      return this;
+   }
+
    find(query: string): ElementGroup
    {
       var f: typeof _find = require( './find' );
