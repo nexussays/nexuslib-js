@@ -20,13 +20,13 @@
   </PropertyGroup>
   <ItemGroup>
     <TypeScriptCompile Include="src\nexus\array\enhancePrototype.ts" />
-    <TypeScriptCompile Include="src\nexus\browser\Storage.ts" />
+    <TypeScriptCompile Include="src\nexus\browser\storage.ts" />
     <TypeScriptCompile Include="src\nexus\browser\_window.ts" />
     <TypeScriptCompile Include="src\nexus\dom\enhancePrototype.ts" />
     <TypeScriptCompile Include="src\nexus\dom\ElementGroup.ts" />
     <TypeScriptCompile Include="src\nexus\dom\enhanceElement.ts" />
     <TypeScriptCompile Include="src\nexus\dom\find.ts" />
-    <TypeScriptCompile Include="src\nexus\dom\EnhancedHTMLElement.ts" />
+    <TypeScriptCompile Include="src\nexus\dom\EnhancedElement.ts" />
     <TypeScriptCompile Include="src\nexus\dom\getOuterHTML.ts" />
     <TypeScriptCompile Include="src\nexus\dom\isAncestor.ts" />
     <TypeScriptCompile Include="src\nexus\dom\nodeTypeToString.ts" />
@@ -84,7 +84,7 @@
     <TypeScriptCompile Include="src\nexus\object\map.ts" />
     <TypeScriptCompile Include="src\nexus\parseBool.ts" />
     <TypeScriptCompile Include="src\nexus\type.ts" />
-    <TypeScriptCompile Include="src\nexus\util\Milliseconds.ts" />
+    <TypeScriptCompile Include="src\nexus\util\ms.ts" />
     <TypeScriptCompile Include="src\nexus\stringutil\contains.ts" />
     <TypeScriptCompile Include="src\nexus\stringutil\escapeHTML.ts" />
     <TypeScriptCompile Include="src\nexus\stringutil\escapeRegExp.ts" />

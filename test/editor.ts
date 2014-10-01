@@ -92,7 +92,7 @@ function __updateTestingHTMLAndCookie()
    editorCookie.data.showReturnValue = showReturnValue.checked;
    editorCookie.data.catchTabs = catchTabs.checked;
    editorCookie.data.editorTextarea = escape( editorTextarea.value );
-   editorCookie.expireIn( nexus.util.Milliseconds.days( 90 ) );
+   editorCookie.expireIn( nexus.util.ms.days( 90 ) );
    editorCookie.save();
 }
 

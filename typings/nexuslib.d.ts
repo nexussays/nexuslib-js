@@ -113,6 +113,38 @@ declare module "nexus"
 
       module dom
       {
+         class BoundingBox
+         {
+            top: number;
+            right: number;
+            bottom: number;
+            left: number;
+
+            constructor(top: number, right: number, bottom: number, left: number);
+
+            vertical: number;
+            horizontal: number;
+         }
+
+         class ElementBox
+         {
+            margin: nexus.dom.BoundingBox;
+            border: nexus.dom.BoundingBox;
+            padding: nexus.dom.BoundingBox;
+            width: number;
+            height: number;
+            contentWidth: number;
+            contentHeight: number;
+            scrollbarWidth: number;
+            scrollbarHeight: number;
+            hitAreaWidth: number;
+            hitAreaHeight: number;
+
+            constructor(margin: nexus.dom.BoundingBox, border: nexus.dom.BoundingBox, padding: nexus.dom.BoundingBox, width: number, height: number, contentWidth: number, contentHeight: number, scrollbarWidth: number, scrollbarHeight: number, hitAreaWidth: number, hitAreaHeight: number);
+
+            static calculate(element: Element): ElementBox;
+         }
+
          class ElementGroup
          {
             constructor(sourceArray: nexus.dom.EnhancedElement[]);
@@ -149,247 +181,231 @@ declare module "nexus"
             last(): nexus.dom.EnhancedElement;
          }
 
-         interface EnhancedElement extends HTMLElement, EnhancedElement.Impl
+         interface EnhancedElement extends HTMLElement, EnhancedElement.Enhancements
          {
          }
 
          module EnhancedElement
          {
-            class Impl
+            function enhance(element: HTMLElement): EnhancedElement;
+
+            interface Enhancements
             {
                getOuterHTML(includeChildren?: boolean, escapeHtml?: boolean): string;
-
                append(...params: any[][]): EnhancedElement;
-
                append(...params: Node[]): EnhancedElement;
-
                append(...params: any[]): EnhancedElement;
-
                getBooleanAttribute(name: string): boolean;
-
                setBooleanAttribute(name: string, value: boolean): void;
-
                bind(eventName: string, func: nexus.event.EventHandler): void;
-
                unbind(event: string, func: nexus.event.EventHandler): void;
-
                trigger(eventName: string): void;
-
                parent(): EnhancedElement;
-
                isAncestor(ancestor: Node): boolean;
-
                ancestors(query: string): nexus.dom.ElementGroup;
-
                addClass(name: string, checkExistence?: boolean): boolean;
-
                removeClass(name: string): boolean;
-
                toggleClass(name: string): void;
-
                hasClass(name: string): boolean;
-
-               css(value: any): string;
-
+               css(): CSSStyleDeclaration;
+               css(value: any): CSSStyleDeclaration;
+               bounds(): nexus.dom.ElementBox;
                find(query: string): nexus.dom.ElementGroup;
             }
-         }
 
-         module EnhancedElement
-         {
-            interface Anchor extends HTMLAnchorElement, Impl
+            interface Anchor extends HTMLAnchorElement, Enhancements
             {
             }
 
-            interface Audio extends HTMLAudioElement, Impl
+            interface Audio extends HTMLAudioElement, Enhancements
             {
             }
 
-            interface Base extends HTMLBaseElement, Impl
+            interface Base extends HTMLBaseElement, Enhancements
             {
             }
 
-            interface BR extends HTMLBRElement, Impl
+            interface BR extends HTMLBRElement, Enhancements
             {
             }
 
-            interface Block extends HTMLBlockElement, Impl
+            interface Block extends HTMLBlockElement, Enhancements
             {
             }
 
-            interface Button extends HTMLButtonElement, Impl
+            interface Button extends HTMLButtonElement, Enhancements
             {
             }
 
-            interface Canvas extends HTMLCanvasElement, Impl
+            interface Canvas extends HTMLCanvasElement, Enhancements
             {
             }
 
-            interface TableCaption extends HTMLTableCaptionElement, Impl
+            interface TableCaption extends HTMLTableCaptionElement, Enhancements
             {
             }
 
-            interface TableCol extends HTMLTableColElement, Impl
+            interface TableCol extends HTMLTableColElement, Enhancements
             {
             }
 
-            interface DD extends HTMLDDElement, Impl
+            interface DD extends HTMLDDElement, Enhancements
             {
             }
 
-            interface Div extends HTMLDivElement, Impl
+            interface Div extends HTMLDivElement, Enhancements
             {
             }
 
-            interface DList extends HTMLDListElement, Impl
+            interface DList extends HTMLDListElement, Enhancements
             {
             }
 
-            interface DT extends HTMLDTElement, Impl
+            interface DT extends HTMLDTElement, Enhancements
             {
             }
 
-            interface Embed extends HTMLEmbedElement, Impl
+            interface Embed extends HTMLEmbedElement, Enhancements
             {
             }
 
-            interface FieldSet extends HTMLFieldSetElement, Impl
+            interface FieldSet extends HTMLFieldSetElement, Enhancements
             {
             }
 
-            interface Form extends HTMLFormElement, Impl
+            interface Form extends HTMLFormElement, Enhancements
             {
             }
 
-            interface Heading extends HTMLHeadingElement, Impl
+            interface Heading extends HTMLHeadingElement, Enhancements
             {
             }
 
-            interface HR extends HTMLHRElement, Impl
+            interface HR extends HTMLHRElement, Enhancements
             {
             }
 
-            interface IFrame extends HTMLIFrameElement, Impl
+            interface IFrame extends HTMLIFrameElement, Enhancements
             {
             }
 
-            interface Image extends HTMLImageElement, Impl
+            interface Image extends HTMLImageElement, Enhancements
             {
             }
 
-            interface Input extends HTMLInputElement, Impl
+            interface Input extends HTMLInputElement, Enhancements
             {
             }
 
-            interface Label extends HTMLLabelElement, Impl
+            interface Label extends HTMLLabelElement, Enhancements
             {
             }
 
-            interface Legend extends HTMLLegendElement, Impl
+            interface Legend extends HTMLLegendElement, Enhancements
             {
             }
 
-            interface LI extends HTMLLIElement, Impl
+            interface LI extends HTMLLIElement, Enhancements
             {
             }
 
-            interface Link extends HTMLLinkElement, Impl
+            interface Link extends HTMLLinkElement, Enhancements
             {
             }
 
-            interface Object extends HTMLObjectElement, Impl
+            interface Object extends HTMLObjectElement, Enhancements
             {
             }
 
-            interface OList extends HTMLOListElement, Impl
+            interface OList extends HTMLOListElement, Enhancements
             {
             }
 
-            interface OptGroup extends HTMLOptGroupElement, Impl
+            interface OptGroup extends HTMLOptGroupElement, Enhancements
             {
             }
 
-            interface Paragraph extends HTMLParagraphElement, Impl
+            interface Paragraph extends HTMLParagraphElement, Enhancements
             {
             }
 
-            interface Param extends HTMLParamElement, Impl
+            interface Param extends HTMLParamElement, Enhancements
             {
             }
 
-            interface Option extends HTMLOptionElement, Impl
+            interface Option extends HTMLOptionElement, Enhancements
             {
             }
 
-            interface Pre extends HTMLPreElement, Impl
+            interface Pre extends HTMLPreElement, Enhancements
             {
             }
 
-            interface Progress extends HTMLProgressElement, Impl
+            interface Progress extends HTMLProgressElement, Enhancements
             {
             }
 
-            interface Quote extends HTMLQuoteElement, Impl
+            interface Quote extends HTMLQuoteElement, Enhancements
             {
             }
 
-            interface Script extends HTMLScriptElement, Impl
+            interface Script extends HTMLScriptElement, Enhancements
             {
             }
 
-            interface Select extends HTMLSelectElement, Impl
+            interface Select extends HTMLSelectElement, Enhancements
             {
             }
 
-            interface Source extends HTMLSourceElement, Impl
+            interface Source extends HTMLSourceElement, Enhancements
             {
             }
 
-            interface Span extends HTMLSpanElement, Impl
+            interface Span extends HTMLSpanElement, Enhancements
             {
             }
 
-            interface Table extends HTMLTableElement, Impl
+            interface Table extends HTMLTableElement, Enhancements
             {
             }
 
-            interface TableSection extends HTMLTableSectionElement, Impl
+            interface TableSection extends HTMLTableSectionElement, Enhancements
             {
             }
 
-            interface TableDataCell extends HTMLTableDataCellElement, Impl
+            interface TableDataCell extends HTMLTableDataCellElement, Enhancements
             {
             }
 
-            interface TextArea extends HTMLTextAreaElement, Impl
+            interface TextArea extends HTMLTextAreaElement, Enhancements
             {
             }
 
-            interface TableHeaderCell extends HTMLTableHeaderCellElement, Impl
+            interface TableHeaderCell extends HTMLTableHeaderCellElement, Enhancements
             {
             }
 
-            interface TableSection extends HTMLTableSectionElement, Impl
+            interface TableSection extends HTMLTableSectionElement, Enhancements
             {
             }
 
-            interface Title extends HTMLTitleElement, Impl
+            interface Title extends HTMLTitleElement, Enhancements
             {
             }
 
-            interface TableRow extends HTMLTableRowElement, Impl
+            interface TableRow extends HTMLTableRowElement, Enhancements
             {
             }
 
-            interface Track extends HTMLTrackElement, Impl
+            interface Track extends HTMLTrackElement, Enhancements
             {
             }
 
-            interface UList extends HTMLUListElement, Impl
+            interface UList extends HTMLUListElement, Enhancements
             {
             }
 
-            interface Video extends HTMLVideoElement, Impl
+            interface Video extends HTMLVideoElement, Enhancements
             {
             }
          }
@@ -600,8 +616,6 @@ declare module "nexus"
 
             function selectorQueryAll(getEl: find.Interface, query: any): any;
          }
-
-         function enhanceElement(element: HTMLElement): nexus.dom.EnhancedElement;
 
          function enhancePrototype(): void;
 
@@ -817,9 +831,9 @@ declare module "nexus"
 
             constructor(url?: string, method?: HttpRequest.Method, data?: any);
 
-            setContentType(type: HttpRequest.MimeType): void;
+            setContentType(type: HttpRequest.ContentType): void;
 
-            setAcceptType(type: HttpRequest.MimeType): void;
+            setAcceptType(type: HttpRequest.Accept): void;
 
             cancel(): void;
 
@@ -836,11 +850,11 @@ declare module "nexus"
 
             function put(obj: RequestArgs): Promise;
 
-            function put(url: string): Promise;
+            function put(url: string, data?: any): Promise;
 
             function post(obj: RequestArgs): Promise;
 
-            function post(url: string): Promise;
+            function post(url: string, data?: any): Promise;
 
             function del(obj: RequestArgs): Promise;
 
@@ -856,19 +870,23 @@ declare module "nexus"
                OPTIONS = 5,
             }
 
-            interface MimeType extends String
+            enum Accept
             {
+               Text = 0,
+               Json = 1,
+               Html = 2,
+               Xml = 3,
+               Any = 4,
             }
 
-            module MimeType
+            enum ContentType
             {
-               var Form: MimeType;
-               var Json: MimeType;
-               var Xml: MimeType;
-               var Text: MimeType;
-               var Html: MimeType;
-               var Binary: MimeType;
-               var Any: MimeType;
+               Form = 0,
+               Text = 1,
+               Json = 2,
+               Html = 3,
+               Xml = 4,
+               Binary = 5,
             }
 
             interface Promise
@@ -881,8 +899,8 @@ declare module "nexus"
             {
                url: string;
                content?: any;
-               contentType?: MimeType;
-               accept?: MimeType;
+               contentType?: ContentType;
+               accept?: Accept;
             }
 
             interface RequestArgsWithMethod extends RequestArgs

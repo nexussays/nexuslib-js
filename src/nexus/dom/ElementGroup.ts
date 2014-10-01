@@ -14,8 +14,6 @@ import first = require('../array/first'); ///ts:import:generated
 import last = require('../array/last'); ///ts:import:generated
 ///ts:import=find,_find
 import _find = require('./find'); ///ts:import:generated
-///ts:import=enhanceElement
-import enhanceElement = require('./enhanceElement'); ///ts:import:generated
 
 export = ElementGroup;
 
@@ -110,7 +108,7 @@ class ElementGroup
       var results: Array<EnhancedElement> = [];
       for(var x = 0; x < this.m_array.length; ++x)
       {
-         results.push.apply( results, f.native( query, this.m_array[x] ).map( el => enhanceElement( el ) ) );
+         results.push.apply( results, f.native( query, this.m_array[x] ).map( el => EnhancedElement.enhance( el ) ) );
       }
       return new ElementGroup( results );
    }

@@ -4,12 +4,12 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-/// ts:import=enhanceElement
-import enhanceElement = require('./enhanceElement'); ///ts:import:generated
+/// ts:import=EnhancedElement
+import EnhancedElement = require('./EnhancedElement'); ///ts:import:generated
 
 export = enhancePrototype;
 
 function enhancePrototype()
 {
-   enhanceElement(HTMLElement.prototype);
+   EnhancedElement.enhance( HTMLElement.prototype );
 }

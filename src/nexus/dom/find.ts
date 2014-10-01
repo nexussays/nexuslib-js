@@ -16,8 +16,6 @@ import isArrayLike = require('../array/isArrayLike'); ///ts:import:generated
 import filterByNodeName = require('./selector/filterByNodeName'); ///ts:import:generated
 ///ts:import=isAncestor
 import isAncestor = require('./isAncestor'); ///ts:import:generated
-///ts:import=enhanceElement
-import enhanceElement = require('./enhanceElement'); ///ts:import:generated
 ///ts:import=EnhancedElement
 import EnhancedElement = require('./EnhancedElement'); ///ts:import:generated
 ///ts:import=ElementGroup
@@ -30,7 +28,7 @@ function find(query: Element, root?: Element): ElementGroup;
 function find(query: string, root?: Element): ElementGroup;
 function find(query: any, root?: Element): ElementGroup
 {
-   return new ElementGroup( find.native( query, root ).map( el => enhanceElement( el ) ) );
+   return new ElementGroup( find.native( query, root ).map( el => EnhancedElement.enhance( el ) ) );
 }
 
 module find
@@ -40,22 +38,22 @@ module find
    export function id<T extends EnhancedElement>(id: string): T;
    export function id<T extends EnhancedElement>(id: any): T
    {
-      return <T>enhanceElement( native.id( id ) );
+      return <T>EnhancedElement.enhance( native.id( id ) );
    }
 
    export function name(name: string, tag?: string, root?: Element): ElementGroup
    {
-      return new ElementGroup( native.name( name, tag, root ).map( el => enhanceElement( el ) ) );
+      return new ElementGroup( native.name( name, tag, root ).map( el => EnhancedElement.enhance( el ) ) );
    }
 
    export function className(name: string, tag?: string, root?: Element): ElementGroup
    {
-      return new ElementGroup( native.className( name, tag, root ).map( el => enhanceElement( el ) ) );
+      return new ElementGroup( native.className( name, tag, root ).map( el => EnhancedElement.enhance( el ) ) );
    }
 
    export function tagName(name: string, root?: Element): ElementGroup
    {
-      return new ElementGroup( native.tagName( name, root ).map( el => enhanceElement( el ) ) );
+      return new ElementGroup( native.tagName( name, root ).map( el => EnhancedElement.enhance( el ) ) );
    }
 
    export interface Interface
