@@ -8,6 +8,8 @@
 import BoundingBox = require('./BoundingBox'); ///ts:import:generated
 ///ts:import=EnhancedElement
 import EnhancedElement = require('./EnhancedElement'); ///ts:import:generated
+/// ts:import=parseNumber
+import parseNumber = require('../util/parseNumber'); ///ts:import:generated
 
 export = ElementBox;
 
@@ -21,50 +23,74 @@ class ElementBox
       public margin: BoundingBox,
       public border: BoundingBox,
       public padding: BoundingBox,
-      public width: number,
-      public height: number,
-      public contentWidth: number,
-      public contentHeight: number,
+      public innerWidth: number,
+      public innerHeight: number,
+      //private contentWidth: number,
+      //private contentHeight: number,
       public scrollbarWidth: number,
-      public scrollbarHeight: number,
-      public hitAreaWidth: number,
-      public hitAreaHeight: number
+      public scrollbarHeight: number
+      //private offsetWidth: number,
+      //private offsetHeight: number
    )
    {
+   }
+
+   completeHeight(): number
+   {
+      return this.border.vertical + this.margin.vertical + this.padding.vertical + this.innerHeight;
+   }
+
+   completeWidth(): number
+   {
+      return this.border.horizontal + this.margin.horizontal + this.padding.horizontal + this.innerWidth;
    }
 
    static calculate(element: Element): ElementBox
    {
       var style = getComputedStyle( element );
+
       var padding = new BoundingBox(
-         parseFloat( style.paddingTop ),
-         parseFloat( style.paddingRight ),
-         parseFloat( style.paddingBottom ),
-         parseFloat( style.paddingLeft )
+         style.paddingTop,
+         style.paddingRight,
+         style.paddingBottom,
+         style.paddingLeft
       );
       var margin = new BoundingBox(
-         parseFloat( style.marginTop ),
-         parseFloat( style.marginRight ),
-         parseFloat( style.marginBottom ),
-         parseFloat( style.marginLeft )
+         style.marginTop,
+         style.marginRight,
+         style.marginBottom,
+         style.marginLeft
       );
       var border = new BoundingBox(
-         parseFloat( style.borderTopWidth ),
-         parseFloat( style.borderRightWidth ),
-         parseFloat( style.borderBottomWidth ),
-         parseFloat( style.borderLeftWidth )
+         style.borderTopWidth,
+         style.borderRightWidth,
+         style.borderBottomWidth,
+         style.borderLeftWidth
       );
+
+      // compute height and width of actual content and account for box model
+      var height = parseNumber( style.height );
+      var width = parseNumber( style.width );
+      if(style.boxSizing == "border-box")
+      {
+         height -= border.vertical + padding.vertical;
+         width -= border.horizontal + padding.horizontal;
+      }
+      else if(style.boxSizing == "padding-box")
+      {
+         height -= border.vertical;
+         width -= border.horizontal;
+      }
+
       var boundingRect = element.getBoundingClientRect();
-      var height = parseFloat( style.height );
-      var width = parseFloat( style.width );
-      var scrollHeight = element.scrollHeight;
-      var scrollWidth = element.scrollWidth;
       var offsetHeight = boundingRect.height;
       var offsetWidth = boundingRect.width;
       var clientWidth = element.clientWidth;
       var clientHeight = element.clientHeight;
-      var barWidth = offsetWidth - clientWidth - border.horizontal;
-      var barHeight = offsetHeight - clientHeight - border.vertical;
-      return new ElementBox( margin, border, padding, width, height, scrollWidth, scrollHeight, barWidth, barHeight, offsetWidth, offsetHeight );
+      // scroll bars don't have subpixel precision, so round
+      var barWidth = Math.abs( Math.round( offsetWidth - clientWidth - border.horizontal ) );
+      var barHeight = Math.abs( Math.round( offsetHeight - clientHeight - border.vertical ) );
+
+      return new ElementBox( margin, border, padding, width, height /*, element.scrollWidth, element.scrollHeight*/, barWidth, barHeight /*, offsetWidth, offsetHeight*/ );
    }
 }

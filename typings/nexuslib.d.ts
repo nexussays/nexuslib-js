@@ -120,6 +120,8 @@ declare module "nexus"
             bottom: number;
             left: number;
 
+            constructor(top: string, right: string, bottom: string, left: string);
+
             constructor(top: number, right: number, bottom: number, left: number);
 
             vertical: number;
@@ -131,16 +133,16 @@ declare module "nexus"
             margin: nexus.dom.BoundingBox;
             border: nexus.dom.BoundingBox;
             padding: nexus.dom.BoundingBox;
-            width: number;
-            height: number;
-            contentWidth: number;
-            contentHeight: number;
+            innerWidth: number;
+            innerHeight: number;
             scrollbarWidth: number;
             scrollbarHeight: number;
-            hitAreaWidth: number;
-            hitAreaHeight: number;
 
-            constructor(margin: nexus.dom.BoundingBox, border: nexus.dom.BoundingBox, padding: nexus.dom.BoundingBox, width: number, height: number, contentWidth: number, contentHeight: number, scrollbarWidth: number, scrollbarHeight: number, hitAreaWidth: number, hitAreaHeight: number);
+            constructor(margin: nexus.dom.BoundingBox, border: nexus.dom.BoundingBox, padding: nexus.dom.BoundingBox, innerWidth: number, innerHeight: number, scrollbarWidth: number, scrollbarHeight: number);
+
+            completeHeight(): number;
+
+            completeWidth(): number;
 
             static calculate(element: Element): ElementBox;
          }
@@ -582,7 +584,7 @@ declare module "nexus"
                length: number;
                selectedIndex: any;
 
-               constructor(name: any);
+               constructor(elements: nexus.dom.ElementGroup);
 
                uncheckAll(): void;
 
@@ -591,9 +593,9 @@ declare module "nexus"
                refresh(): void;
             }
 
-            function fieldChanged(elem: any): boolean;
+            function fieldChanged(el: HTMLElement): boolean;
 
-            function getDefaultValue(elem: HTMLElement): string;
+            function getDefaultValue(el: HTMLElement): string;
          }
 
          module selector
@@ -806,6 +808,10 @@ declare module "nexus"
          function matchSign(source: number, compareTo: number): number;
 
          function mean(...args: number[]): number;
+
+         function scaleToFill(width: number, height: number, toWidth: number, toHeight?: number, scaleUp?: boolean): number;
+
+         function scaleToFit(width: number, height: number, toWidth: number, toHeight?: number, scaleUp?: boolean): number;
 
          function sign(value: number): number;
 
@@ -1107,6 +1113,13 @@ declare module "nexus"
             function minutes(num: number): number;
 
             function seconds(num: number): number;
+         }
+
+         function parseNumber(source: string, defaultValue?: number): number;
+
+         module parseNumber
+         {
+            function finite(source: string, defaultValue?: number): number;
          }
       }
 

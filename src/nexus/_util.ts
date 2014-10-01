@@ -11,3 +11,4 @@ export import Key = require('./util/Key');
 export import Sort = require('./util/Sort');
 export import isLeapYear = require('./util/isLeapYear');
 export import ms = require('./util/ms');
+export import parseNumber = require('./util/parseNumber');
