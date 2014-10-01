@@ -12,6 +12,8 @@ import generateQueryString = require('./generateQueryString'); ///ts:import:gene
 import JsonSerializer = require('../serialization/JsonSerializer'); ///ts:import:generated
 ///ts:import=type
 import type = require('../type'); ///ts:import:generated
+///ts:import=forEach
+import forEach = require('../object/forEach'); ///ts:import:generated
 
 export = HttpRequest;
 
@@ -22,8 +24,11 @@ class HttpRequest
    headers: any;
    url: string;
    method: HttpRequest.Method;
+
    private request: XMLHttpRequest;
    private response: HttpResponse;
+   private contentType: HttpRequest.ContentType;
+   private accept: HttpRequest.Accept;
    private completionCallbacks: Array<(response: HttpResponse) => void>;
 
    constructor(obj: HttpRequest.RequestArgsWithMethod);
@@ -42,22 +47,29 @@ class HttpRequest
       {
          this.url = <string>info;
          this.content = data;
-         this.method = method || HttpRequest.Method.GET;
+         this.method = method;
       }
       else
       {
-         this.url = (<HttpRequest.RequestArgsWithMethod>info).url;
-         this.content = (<HttpRequest.RequestArgsWithMethod>info).content;
-         this.method = (<HttpRequest.RequestArgsWithMethod>info).method || HttpRequest.Method.GET;
-         if((<HttpRequest.RequestArgsWithMethod>info).contentType)
+         var args = (<HttpRequest.RequestArgsWithMethod>info);
+         this.url = args.url;
+         this.content = args.content;
+         this.method = args.method;
+         if(args.contentType)
          {
-            this.setContentType( (<HttpRequest.RequestArgsWithMethod>info).contentType );
+            this.setContentType( args.contentType );
          }
-         if((<HttpRequest.RequestArgsWithMethod>info).accept)
+         if(args.accept)
          {
-            this.setAcceptType( (<HttpRequest.RequestArgsWithMethod>info).accept );
+            this.setAcceptType( args.accept );
          }
       }
+      // default to GET if method is not provided
+      this.method = this.method || HttpRequest.Method.GET;
+      // default to requesting JSON
+      this.setAcceptType( HttpRequest.Accept.Json );
+      // default to sending key/value pairs as form data
+      this.setContentType( HttpRequest.ContentType.Form );
 
       if(typeof XMLHttpRequest != "undefined")
       {
@@ -75,14 +87,63 @@ class HttpRequest
       }
    }
 
-   setContentType(type: HttpRequest.MimeType): void
+   setContentType(type: HttpRequest.ContentType): void
    {
-      this.headers["Content-Type"] = type;
+      var result: string;
+      switch(type)
+      {
+         case HttpRequest.ContentType.Binary:
+            result = "application/octet-stream";
+            break;
+         case HttpRequest.ContentType.Html:
+            result = "text/html";
+            break;
+         case HttpRequest.ContentType.Json:
+            result = "application/json; charset=utf-8";
+            break;
+         case HttpRequest.ContentType.Text:
+            result = "text/plain";
+            break;
+         case HttpRequest.ContentType.Xml:
+            result = "text/xml";
+            break;
+         case HttpRequest.ContentType.Form:
+         default:
+            // set it in case an invalid value was passed
+            type = HttpRequest.ContentType.Form;
+            result = "application/x-www-form-urlencoded";
+            break;
+      }
+      this.contentType = type;
+      this.headers["Content-Type"] = result;
    }
 
-   setAcceptType(type: HttpRequest.MimeType): void
+   setAcceptType(type: HttpRequest.Accept): void
    {
-      this.headers["Accept"] = type;
+      var result: string;
+      switch(type)
+      {
+         case HttpRequest.Accept.Html:
+            result = "text/html";
+            break;
+         case HttpRequest.Accept.Json:
+            result = "application/json, text/javascript";
+            break;
+         case HttpRequest.Accept.Xml:
+            result = "application/xml, text/xml";
+            break;
+         case HttpRequest.Accept.Text:
+            result = "text/plain";
+            break;
+         case HttpRequest.Accept.Any:
+         default:
+            // set it in case an invalid value was passed
+            type = HttpRequest.Accept.Any;
+            result = "*/*";
+            break;
+      }
+      this.accept = type;
+      this.headers["Accept"] = result;
    }
 
    cancel(): void
@@ -108,23 +169,16 @@ class HttpRequest
       }
 
       completeCallback && this.complete( completeCallback );
-
-      if(this.method == HttpRequest.Method.GET)
-      {
-         var querystring = generateQueryString( this.content );
-         this.url += (querystring.length > 0 ? "?" + querystring : "");
-         this.content = null;
-         delete this.headers["Content-Type"];
-      }
-
-      var requestStart = Date.now();
       var headers = this.headers;
       var req = this.request;
+
       req.open( HttpRequest.Method[this.method], this.url, true );
       req.onreadystatechange = () =>
       {
          if(req.readyState == 4)
          {
+            var time = Date.now() - requestStart;
+
             // set this handler to be a no-op
             req.onreadystatechange = function()
             {
@@ -132,22 +186,22 @@ class HttpRequest
 
             var response = new HttpResponse( /^2/.test( req.status + "" ),
                this.url,
-               Date.now() - requestStart,
+               time,
                // 1223 is a weird IE thing; but don't think it matters since we don't support < 9
                (req.status == 1223) ? 204 : req.status );
 
             req.getAllResponseHeaders().split( /\r?\n/ ).forEach( (line) =>
             {
                var delim = line.indexOf( ":" );
-               response.headers[line.substring( 0, delim )] = line.substring( delim + 1 );
+               response.headers[line.substring( 0, delim ).trim()] = line.substring( delim + 1 ).trim();
             } );
 
-            var content = response.headers["Content-Type"];
-            if(/\/xml$/.test( content ))
+            var responseType = response.headers["Content-Type"];
+            if(/\/xml/.test(responseType ))
             {
                response.body = req.responseXML;
             }
-            else if(/\/(?:json|javascript)$/.test( content ))
+            else if(/\/(?:json|javascript)/.test(responseType ))
             {
                response.body = JsonSerializer.deserialize( req.responseText );
             }
@@ -161,17 +215,34 @@ class HttpRequest
          }
       };
 
-      if(!headers["Accept"])
-      {
-         this.setAcceptType( HttpRequest.MimeType.Json );
-      }
-
+      // set all headers
       for(var header in headers)
       {
          req.setRequestHeader( header, headers[header] );
       }
 
-      req.send( this.content );
+      // serialize content
+      var content = this.content;
+      if(content !== undefined)
+      {
+         if(this.contentType === HttpRequest.ContentType.Json)
+         {
+            content = JsonSerializer.serialize( content );
+         }
+         else
+         {
+            content = generateQueryString(content);
+            if(this.method == HttpRequest.Method.GET || this.method == HttpRequest.Method.HEAD)
+            {
+               this.url += (content.length > 0 ? "?" + content : "");
+               content = null;
+               //delete this.headers["Content-Type"];
+            }
+         }
+      }
+
+      var requestStart = Date.now();
+      req.send( content );
 
       return this;
    }
@@ -196,17 +267,17 @@ module HttpRequest
    }
 
    export function put(obj: HttpRequest.RequestArgs): Promise;
-   export function put(url: string): Promise;
-   export function put(obj: any): Promise
+   export function put(url: string, data?: any): Promise;
+   export function put(obj: any, data?: any): Promise
    {
-      return send( HttpRequest.Method.PUT, obj );
+      return send( HttpRequest.Method.PUT, obj, data );
    }
 
    export function post(obj: HttpRequest.RequestArgs): Promise;
-   export function post(url: string): Promise;
-   export function post(obj: any): Promise
+   export function post(url: string, data?: any): Promise;
+   export function post(obj: any, data?: any): Promise
    {
-      return send( HttpRequest.Method.POST, obj );
+      return send( HttpRequest.Method.POST, obj, data );
    }
 
    export function del(obj: HttpRequest.RequestArgs): Promise;
@@ -217,13 +288,13 @@ module HttpRequest
    }
 
    function send(method: HttpRequest.Method, obj: HttpRequest.RequestArgs): Promise;
-   function send(method: HttpRequest.Method, url: string): Promise;
-   function send(method: HttpRequest.Method, obj: any): Promise
+   function send(method: HttpRequest.Method, url: string, data?: any): Promise;
+   function send(method: HttpRequest.Method, obj: any, data?: any): Promise
    {
       var args: HttpRequest.RequestArgs;
       if(type.of( obj ) == type.string)
       {
-         args = { url: obj };
+         args = { url: obj, content: (data !== undefined ? data : undefined) };
       }
       else
       {
@@ -245,19 +316,23 @@ module HttpRequest
       OPTIONS
    }
 
-   export interface MimeType extends String
+   export enum Accept
    {
+      Text,
+      Json,
+      Html,
+      Xml,
+      Any
    }
 
-   export module MimeType
+   export enum ContentType
    {
-      export var Form: MimeType = "application/x-www-form-urlencoded";
-      export var Json: MimeType = "application/json, text/javascript";
-      export var Xml: MimeType = "application/xml, text/xml";
-      export var Text: MimeType = "text/plain";
-      export var Html: MimeType = "text/html";
-      export var Binary: MimeType = "application/octet-stream";
-      export var Any: MimeType = "*/*";
+      Form,
+      Text,
+      Json,
+      Html,
+      Xml,
+      Binary
    }
 
    export interface Promise
@@ -270,8 +345,8 @@ module HttpRequest
    {
       url: string;
       content?: any;
-      contentType?: HttpRequest.MimeType;
-      accept?: HttpRequest.MimeType;
+      contentType?: HttpRequest.ContentType;
+      accept?: HttpRequest.Accept;
    }
 
    export interface RequestArgsWithMethod extends RequestArgs
