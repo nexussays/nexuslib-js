@@ -9,7 +9,7 @@ import EnhancedElement = require('./EnhancedElement'); ///ts:import:generated
 
 declare var exports;
 
-export declare function text(...params: any[]): Node;
+export declare function text(...params: any[]): Text;
 
 export declare function a(...params: any[]): EnhancedElement.Anchor;
 
@@ -184,7 +184,6 @@ function create(): any
    // special case for text nodes
    if(this == "text")
    {
-      // this is actually an invalid cast, Text is 
       return document.createTextNode( Array.prototype.join.call( arguments, "" ) || "" );
    }
    else

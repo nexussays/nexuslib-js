@@ -4,35 +4,28 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-///ts:import=find
-import find = require('../find'); ///ts:import:generated
-
 export = getDefaultValue;
 
-function getDefaultValue(elem: HTMLElement): string
+function getDefaultValue(el: HTMLElement): string
 {
-   var el = find( elem ).first();
-   if(el && "nodeName" in el)
+   var name = el.nodeName.toLowerCase();
+   if(name == "input" || name == "textarea")
    {
-      var type = el.nodeName.toLowerCase();
-      if(type == "input" || type == "textarea")
+      return (<HTMLInputElement><any>el).defaultValue;
+   }
+   else if(name == "select")
+   {
+      var defaults = [],
+            options = (<HTMLSelectElement><any>el).options;
+      for(var x = 0; x < options.length; ++x)
       {
-         return (<HTMLInputElement>(<any>el)).defaultValue;
-      }
-      else if(type == "select")
-      {
-         var defaults = [],
-             options = (<HTMLSelectElement>(<any>el)).options;
-         for(var x = 0; x < options.length; ++x)
+         var option = options[x];
+         if(option.defaultSelected)
          {
-            var option = options[x];
-            if(option.defaultSelected)
-            {
-               defaults.push( option.value );
-            }
+            defaults.push( option.value );
          }
-         return defaults.join( "," );
       }
+      return defaults.join( "," );
    }
    return null;
 }

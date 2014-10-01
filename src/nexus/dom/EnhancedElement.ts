@@ -6,8 +6,6 @@
 
 /// ts:import=_stringutil,stringutil
 import stringutil = require('../_stringutil'); ///ts:import:generated
-///ts:import=find
-import find = require('./find'); ///ts:import:generated
 ///ts:import=ElementGroup
 import ElementGroup = require('./ElementGroup'); ///ts:import:generated
 ///ts:import=isAncestor,_isAncestor
@@ -28,6 +26,10 @@ import clone = require('../object/clone'); ///ts:import:generated
 import ElementBox = require('./ElementBox'); ///ts:import:generated
 ///ts:import=BoundingBox
 import BoundingBox = require('./BoundingBox'); ///ts:import:generated
+///ts:import=find,_find
+import _find = require('./find'); ///ts:import:generated
+// so we can break the circular dependency on the find method
+declare var require;
 
 export = EnhancedElement;
 
@@ -38,8 +40,8 @@ interface EnhancedElement extends HTMLElement, EnhancedElement.Enhancements
 // private internal implementation which is used to extend other elements or prototypes in EnhancedElement.enhance() method below
 class Implementation implements EnhancedElement.Enhancements
 {
-   private s_booleanAttribute: RegExp = /^(?:async|autofocus|checked|compact|declare|default|defer|disabled|hidden|irrelevant|ismap|multiple|noresize|noshade|nowrap|readonly|required|selected)$/;
-   private s_enumBooleanAttribute: RegExp = /^(?:contenteditable|spellcheck)$/;
+   private static s_booleanAttribute: RegExp = /^(?:async|autofocus|checked|compact|declare|default|defer|disabled|hidden|irrelevant|ismap|multiple|noresize|noshade|nowrap|readonly|required|selected)$/;
+   private static s_enumBooleanAttribute: RegExp = /^(?:contenteditable|spellcheck)$/;
 
    getOuterHTML(includeChildren?: boolean, escapeHtml?: boolean): string
    {
@@ -97,13 +99,13 @@ class Implementation implements EnhancedElement.Enhancements
    {
       name = name.toLowerCase();
       var val = (<Element><any>this).getAttribute( name );
-      return val === "" || val === name || (this.s_enumBooleanAttribute.test( name ) && val === "true");
+      return val === "" || val === name || (Implementation.s_enumBooleanAttribute.test( name ) && val === "true");
    }
 
    setBooleanAttribute(name: string, value: boolean): void
    {
       name = name.toLowerCase();
-      if(this.s_booleanAttribute.test( name ))
+      if(Implementation.s_booleanAttribute.test( name ))
       {
          if(value)
          {
@@ -115,7 +117,7 @@ class Implementation implements EnhancedElement.Enhancements
          }
       }
       // contenteditable and spellcheck have true,false,inherit states
-      else if(this.s_enumBooleanAttribute.test( name ))
+      else if(Implementation.s_enumBooleanAttribute.test( name ))
       {
          (<Element><any>this).setAttribute( name, value ? "true" : "false" );
       }
@@ -174,7 +176,7 @@ class Implementation implements EnhancedElement.Enhancements
       else if(document.createEvent)
       {
          //console.log("document.createEvent");
-         event = document.createEvent( 'HTMLEvents' );
+         event = document.createEvent( "HTMLEvents" );
          event.initEvent( eventName, true, true );
       }
       else if(document.createEventObject)
@@ -196,15 +198,15 @@ class Implementation implements EnhancedElement.Enhancements
       }
       else if(el.fireEvent)
       {
-         el.fireEvent( 'on' + eventName, event );
+         el.fireEvent( "on" + eventName, event );
       }
-      else if(el[eventName])
+      else if(type.of( el[eventName] ) == type.function)
       {
-         el[eventName]();
+         el[eventName]( event );
       }
-      else if(el['on' + eventName])
+      else if(type.of( el["on" + eventName] ) == type.function)
       {
-         el['on' + eventName]();
+         el["on" + eventName]( event );
       }
    }
 
@@ -221,7 +223,8 @@ class Implementation implements EnhancedElement.Enhancements
 
    ancestors(query: string): ElementGroup
    {
-      return find( query ).filter$( item => _isAncestor( (<HTMLElement><any>this), item ) );
+      var f: typeof _find = require( './find' );
+      return f( query ).filter$( item => _isAncestor( (<HTMLElement><any>this), item ) );
    }
 
    addClass(name: string, checkExistence: boolean= false): boolean
@@ -295,7 +298,8 @@ class Implementation implements EnhancedElement.Enhancements
 
    find(query: string): ElementGroup
    {
-      return find( query, (<HTMLElement><any>this) );
+      var f: typeof _find = require( './find' );
+      return f( query, (<HTMLElement><any>this) );
    }
 }
 

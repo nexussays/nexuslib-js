@@ -4,91 +4,90 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-///ts:import=find
-import find = require('../find'); ///ts:import:generated
+/// ts:import=ElementGroup
+import ElementGroup = require('../ElementGroup'); ///ts:import:generated
+///ts:import=EnhancedElement
+import EnhancedElement = require('../EnhancedElement'); ///ts:import:generated
 
 export = RadioCollection;
+
 class RadioCollection
 {
-   value = null;
-   items = [];
-   length = 0;
-   selectedIndex = null;
+   private items: EnhancedElement.Input[];
+   private selectedIndex: number;
+   private m_name: string;
 
-   constructor(name)
+   constructor(elements: ElementGroup)
    {
-      var elements = find.name( name );
-      if(elements)
+      this.selectedIndex = null;
+      this.items = [];
+      elements.forEach( (el: EnhancedElement.Input, index) =>
       {
-         for(var x = 0; x < elements.length; ++x)
+         if(el.type.toLowerCase() === "radio" && (this.m_name === null || this.m_name == el.name))
          {
-            if(elements[x].type == "radio")
+            this.m_name = el.name;
+            this.items.push( el );
+            if(el.checked)
             {
-               this.items.push( elements[x] );
-               if(elements[x].checked)
-               {
-                  //index is not set to x since x is all items with this name and we are only counting about radios
-                  this.__set( elements[x].value, this.items.length - 1 );
-               }
+               this.selectedIndex = this.items.length - 1;
             }
          }
-         this.length = this.items.length;
-      }
+      } );
    }
 
-   private __set(val?, index?)
+   public get value(): string
    {
-      this.value = (typeof val !== "undefined") ? val : null;
-      this.selectedIndex = (typeof index !== "undefined") ? index : null;
+      return this.selectedIndex !== null ? this.items[this.selectedIndex].value : null;
    }
 
-   uncheckAll()
+   public get name(): string
    {
-      /*for(var x = 0; x < self.items.length; ++x)
-      {
-         self.items[x].checked = false;
-      }*/
-      //should be able to just uncheck the currently selected item since the browser should not allow more than
-      //one item to be checked. The loop can be re-implemented if this turns out to not work as expected
+      return this.m_name;
+   }
+
+   public uncheckAll()
+   {
       if(this.selectedIndex != null)
       {
          this.items[this.selectedIndex].checked = false;
       }
-      this.__set();
+      this.selectedIndex = null;
    }
 
-   checkValue(value, executeOnclickFunc)
+   public check(index: number, triggerClick: boolean): boolean;
+   public check(value: string, triggerClick: boolean): boolean;
+   public check(value: any, triggerClick: boolean): boolean
    {
       for(var x = 0; x < this.items.length; ++x)
       {
          var item = this.items[x];
-         if(item.value == value)
+         // any reason to do a type check here?
+         if(item.value === value || x === value)
          {
             item.checked = true;
-            this.__set( value, x );
-            if(executeOnclickFunc === true && typeof item.onclick == "function")
+            this.selectedIndex = x;
+            if(triggerClick)
             {
-               item.onclick();
+               setTimeout( () => item.trigger( "click" ), 1 );
             }
             //only one valid selection in a radio collection, so return
-            return;
+            return true;
          }
       }
+      return false;
    }
 
-   refresh()
+   public refresh()
    {
+      this.selectedIndex = null;
       for(var x = 0; x < this.items.length; ++x)
       {
          var item = this.items[x];
          if(item.checked)
          {
-            //if the item is checked set the values accordingly
-            this.__set( item.value, x );
-            //there can be only one valid selection in a radio collection, so return
+            this.selectedIndex = x;
             return;
          }
       }
-      this.__set();
    }
 }

@@ -55,6 +55,11 @@ class ElementGroup
       return this.m_array.every( callbackfn );
    }
 
+   filter(callbackfn: (value: EnhancedElement, index: number, array: EnhancedElement[]) => boolean): EnhancedElement[]
+   {
+      return this.m_array.filter(callbackfn);
+   }
+
    filter$(callbackfn: (value: EnhancedElement, index: number, array: EnhancedElement[]) => boolean): ElementGroup
    {
       this.m_array = this.m_array.filter( callbackfn );
