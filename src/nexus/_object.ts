@@ -9,6 +9,7 @@
 
 export import clone = require('./object/clone');
 export import extendPrototype = require('./object/extendPrototype');
+export import filter = require('./object/filter');
 export import forEach = require('./object/forEach');
 export import join = require('./object/join');
 export import keys = require('./object/keys');

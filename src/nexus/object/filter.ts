@@ -7,13 +7,17 @@
 /// ts:import=forEach
 import forEach = require('./forEach'); ///ts:import:generated
 
-export = clone;
+export = filter;
 
-function clone<T>(obj: T): T;
-function clone<T>(obj: T, into?: any): void;
-function clone<T>(obj: T, into?: any): T
+function filter<T>(obj: T, callback: (value: any, key: any, obj: T) => boolean, thisArg?: any): T
 {
-   into = into || {};
-   forEach( obj, (val, key) => into[key] = val );
-   return into;
+   var newObj = {};
+   forEach( obj, (val, key) =>
+   {
+      if(callback.call( thisArg, val, key, obj ))
+      {
+         newObj[key] = val;
+      }
+   } );
+   return <T>newObj;
 }

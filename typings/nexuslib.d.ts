@@ -160,6 +160,8 @@ declare module "nexus"
 
             every(callbackfn: (value: nexus.dom.EnhancedElement, index: number, array: nexus.dom.EnhancedElement[]) => boolean): boolean;
 
+            filter(callbackfn: (value: nexus.dom.EnhancedElement, index: number, array: nexus.dom.EnhancedElement[]) => boolean): nexus.dom.EnhancedElement[];
+
             filter$(callbackfn: (value: nexus.dom.EnhancedElement, index: number, array: nexus.dom.EnhancedElement[]) => boolean): ElementGroup;
 
             bind(eventName: string, func: nexus.event.EventHandler): ElementGroup;
@@ -414,7 +416,7 @@ declare module "nexus"
 
          module HTML
          {
-            function text(...params: any[]): Node;
+            function text(...params: any[]): Text;
 
             function a(...params: any[]): EnhancedElement.Anchor;
 
@@ -579,16 +581,16 @@ declare module "nexus"
          {
             class RadioCollection
             {
-               value: any;
-               items: any[];
-               length: number;
-               selectedIndex: any;
-
                constructor(elements: nexus.dom.ElementGroup);
+
+               value: string;
+               name: string;
 
                uncheckAll(): void;
 
-               checkValue(value: any, executeOnclickFunc: any): void;
+               check(index: number, triggerClick: boolean): boolean;
+
+               check(value: string, triggerClick: boolean): boolean;
 
                refresh(): void;
             }
@@ -938,13 +940,15 @@ declare module "nexus"
 
          function extendPrototype(derived: any, parents: any[]): void;
 
-         function forEach<T>(obj: T, func: (key: any, value: any, obj: T) => void): void;
+         function filter<T>(obj: T, callback: (value: any, key: any, obj: T) => boolean, thisArg?: any): T;
 
-         function join(obj: any, join?: string): string[];
+         function forEach<T>(obj: T, func: (value: any, key: any, obj: T) => void, thisArg?: any): void;
+
+         function join<T>(obj: T, join?: string): string[];
 
          function keys(obj: any): string[];
 
-         function map<T>(obj: T, keyFunc?: (any: any) => any, valFunc?: (any: any) => any): T;
+         function map<T>(obj: T, keyFunc?: (any: any) => any, valFunc?: (any: any) => any, thisArg?: any): any;
       }
 
       module serialization

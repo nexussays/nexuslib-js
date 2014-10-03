@@ -8,10 +8,18 @@
 import join = require('../object/join'); ///ts:import:generated
 ///ts:import=map
 import map = require('../object/map'); ///ts:import:generated
+///ts:import=filter
+import filter = require('../object/filter'); ///ts:import:generated
 
 export = generateQueryString;
 
 function generateQueryString(hash: any): string
 {
-   return join( map( hash, encodeURIComponent, encodeURIComponent ), "=" ).join( "&" );
+   var enc = encodeURIComponent;
+   return join(map(filter(hash, invalid ), enc, enc ), "=" ).join( "&" );
+}
+
+function invalid(value: any, key: any, obj: any): boolean
+{
+   return value !== undefined && value !== null;
 }

@@ -22,9 +22,10 @@
     <TypeScriptCompile Include="src\nexus\array\enhancePrototype.ts" />
     <TypeScriptCompile Include="src\nexus\browser\storage.ts" />
     <TypeScriptCompile Include="src\nexus\browser\_window.ts" />
+    <TypeScriptCompile Include="src\nexus\dom\BoundingBox.ts" />
+    <TypeScriptCompile Include="src\nexus\dom\ElementBox.ts" />
     <TypeScriptCompile Include="src\nexus\dom\enhancePrototype.ts" />
     <TypeScriptCompile Include="src\nexus\dom\ElementGroup.ts" />
-    <TypeScriptCompile Include="src\nexus\dom\enhanceElement.ts" />
     <TypeScriptCompile Include="src\nexus\dom\find.ts" />
     <TypeScriptCompile Include="src\nexus\dom\EnhancedElement.ts" />
     <TypeScriptCompile Include="src\nexus\dom\getOuterHTML.ts" />
@@ -40,6 +41,8 @@
     <TypeScriptCompile Include="src\nexus\dom\_selector.ts" />
     <TypeScriptCompile Include="src\nexus\event\EnhancedEvent.ts" />
     <TypeScriptCompile Include="src\nexus\event\EventHandler.ts" />
+    <TypeScriptCompile Include="src\nexus\math\scaleToFill.ts" />
+    <TypeScriptCompile Include="src\nexus\math\scaleToFit.ts" />
     <TypeScriptCompile Include="src\nexus\net\generateQueryString.ts" />
     <TypeScriptCompile Include="src\nexus\object\clone.ts" />
     <TypeScriptCompile Include="src\nexus\stringutil\camelCase.ts" />
@@ -73,6 +76,7 @@
     <TypeScriptCompile Include="src\nexus\array\last.ts" />
     <TypeScriptCompile Include="src\nexus\util\isLeapYear.ts" />
     <TypeScriptCompile Include="src\nexus\object\extendPrototype.ts" />
+    <TypeScriptCompile Include="src\nexus\util\parseNumber.ts" />
     <TypeScriptCompile Include="src\nexus\util\Sort.ts" />
     <TypeScriptCompile Include="src\nexus\array\shuffle.ts" />
     <TypeScriptCompile Include="src\nexus\array\map%24.ts" />
