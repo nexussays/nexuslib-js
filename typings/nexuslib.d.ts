@@ -845,7 +845,7 @@ declare module "nexus"
 
             cancel(): void;
 
-            complete(callback: (response: nexus.net.HttpResponse) => void): HttpRequest.Promise;
+            complete(callback: (response: nexus.net.HttpResponse, request: HttpRequest.RequestData) => void): HttpRequest.Promise;
 
             send(completeCallback?: (response: nexus.net.HttpResponse) => void): HttpRequest.Promise;
          }
@@ -892,15 +892,23 @@ declare module "nexus"
                Form = 0,
                Text = 1,
                Json = 2,
-               Html = 3,
-               Xml = 4,
-               Binary = 5,
+               Xml = 3,
+               Binary = 4,
             }
 
             interface Promise
             {
                cancel(): void;
-               complete(callback: (response: nexus.net.HttpResponse) => void): Promise;
+               complete(callback: (response: nexus.net.HttpResponse, request: RequestData) => void): Promise;
+            }
+
+            interface RequestData
+            {
+               content: any;
+               contentSent?: string;
+               headers: any;
+               url: string;
+               method: string;
             }
 
             interface RequestArgs
@@ -919,14 +927,15 @@ declare module "nexus"
 
          class HttpResponse
          {
-            isSuccess: boolean;
             url: string;
             time: number;
             status: number;
             body: any;
             headers: any;
 
-            constructor(isSuccess?: boolean, url?: string, time?: number, status?: number);
+            constructor(url?: string, time?: number, status?: number);
+
+            isSuccess(): boolean;
          }
 
          function generateQueryString(hash: any): string;
@@ -934,15 +943,17 @@ declare module "nexus"
 
       module object
       {
-         function clone<T>(obj: T): T;
+         function clone(obj: any): any;
 
-         function clone<T>(obj: T, into?: any): void;
+         function clone(obj: any, into?: any): void;
 
          function extendPrototype(derived: any, parents: any[]): void;
 
          function filter<T>(obj: T, callback: (value: any, key: any, obj: T) => boolean, thisArg?: any): T;
 
          function forEach<T>(obj: T, func: (value: any, key: any, obj: T) => void, thisArg?: any): void;
+
+         function forEach(obj: any[], func: (value: any, key: any, obj: any[]) => void, thisArg?: any): void;
 
          function join<T>(obj: T, join?: string): string[];
 

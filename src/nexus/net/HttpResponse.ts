@@ -13,10 +13,15 @@ class HttpResponse
    //bytesLoaded: number;
    //bytesTotal: number;
 
-   constructor(public isSuccess?: boolean, public url?: string, public time?: number, public status: number = -1)
+   constructor(public url?: string, public time?: number, public status: number = -1)
    {
       this.headers = {};
       //this.bytesLoaded = 0;
       //this.bytesTotal = 0;
+   }
+
+   isSuccess(): boolean
+   {
+      return (this.status + "")[0] == "2";
    }
 }

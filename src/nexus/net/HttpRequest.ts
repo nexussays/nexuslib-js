@@ -14,6 +14,8 @@ import JsonSerializer = require('../serialization/JsonSerializer'); ///ts:import
 import type = require('../type'); ///ts:import:generated
 ///ts:import=forEach
 import forEach = require('../object/forEach'); ///ts:import:generated
+///ts:import=clone
+import clone = require('../object/clone'); ///ts:import:generated
 
 export = HttpRequest;
 
@@ -29,25 +31,31 @@ class HttpRequest
    private response: HttpResponse;
    private contentType: HttpRequest.ContentType;
    private accept: HttpRequest.Accept;
-   private completionCallbacks: Array<(response: HttpResponse) => void>;
+   private contentSent: string;
+   private completionCallbacks: Array<(response: HttpResponse, request: HttpRequest.RequestData) => void>;
 
    constructor(obj: HttpRequest.RequestArgsWithMethod);
    constructor(url?: string, method?: HttpRequest.Method, data?: any);
    constructor(info?: any, method?: HttpRequest.Method, data?: any)
    {
       this.headers = {
-         //"Connection": "close",
+         "Connection": "close",
          //"Cache-Control": "no-cache",
          //"Pragma": "no-cache"
-
       };
       this.completionCallbacks = [];
+      // default to GET if method is not provided
+      this.method = HttpRequest.Method.GET;
+      // default to requesting JSON
+      this.setAcceptType( HttpRequest.Accept.Json );
+      // default to sending key/value pairs as form data
+      this.setContentType( HttpRequest.ContentType.Form );
 
       if(type.of( info ) == type.string)
       {
          this.url = <string>info;
+         this.method = +method;
          this.content = data;
-         this.method = method;
       }
       else
       {
@@ -55,21 +63,10 @@ class HttpRequest
          this.url = args.url;
          this.content = args.content;
          this.method = args.method;
-         if(args.contentType)
-         {
-            this.setContentType( args.contentType );
-         }
-         if(args.accept)
-         {
-            this.setAcceptType( args.accept );
-         }
+         // if value is invalid, the default values will be set;
+         this.setContentType( args.contentType );
+         this.setAcceptType( args.accept );
       }
-      // default to GET if method is not provided
-      this.method = this.method || HttpRequest.Method.GET;
-      // default to requesting JSON
-      this.setAcceptType( HttpRequest.Accept.Json );
-      // default to sending key/value pairs as form data
-      this.setContentType( HttpRequest.ContentType.Form );
 
       if(typeof XMLHttpRequest != "undefined")
       {
@@ -94,9 +91,6 @@ class HttpRequest
       {
          case HttpRequest.ContentType.Binary:
             result = "application/octet-stream";
-            break;
-         case HttpRequest.ContentType.Html:
-            result = "text/html";
             break;
          case HttpRequest.ContentType.Json:
             result = "application/json; charset=utf-8";
@@ -126,9 +120,6 @@ class HttpRequest
          case HttpRequest.Accept.Html:
             result = "text/html";
             break;
-         case HttpRequest.Accept.Json:
-            result = "application/json, text/javascript";
-            break;
          case HttpRequest.Accept.Xml:
             result = "application/xml, text/xml";
             break;
@@ -136,10 +127,13 @@ class HttpRequest
             result = "text/plain";
             break;
          case HttpRequest.Accept.Any:
+            result = "*/*";
+            break;
+         case HttpRequest.Accept.Json:
          default:
             // set it in case an invalid value was passed
             type = HttpRequest.Accept.Any;
-            result = "*/*";
+            result = "application/json, text/javascript";
             break;
       }
       this.accept = type;
@@ -151,7 +145,7 @@ class HttpRequest
       this.request.abort();
    }
 
-   complete(callback: (response: HttpResponse) => void): HttpRequest.Promise
+   complete(callback: (response: HttpResponse, request: HttpRequest.RequestData) => void): HttpRequest.Promise
    {
       this.completionCallbacks.push( callback );
       if(this.response)
@@ -184,9 +178,7 @@ class HttpRequest
             {
             };
 
-            var response = new HttpResponse( /^2/.test( req.status + "" ),
-               this.url,
-               time,
+            var response = new HttpResponse( this.url, time,
                // 1223 is a weird IE thing; but don't think it matters since we don't support < 9
                (req.status == 1223) ? 204 : req.status );
 
@@ -197,11 +189,11 @@ class HttpRequest
             } );
 
             var responseType = response.headers["Content-Type"];
-            if(/\/xml/.test(responseType ))
+            if(/\/xml/.test( responseType ))
             {
                response.body = req.responseXML;
             }
-            else if(/\/(?:json|javascript)/.test(responseType ))
+            else if(/\/(?:json|javascript)/.test( responseType ))
             {
                response.body = JsonSerializer.deserialize( req.responseText );
             }
@@ -231,7 +223,7 @@ class HttpRequest
          }
          else
          {
-            content = generateQueryString(content);
+            content = generateQueryString( content );
             if(this.method == HttpRequest.Method.GET || this.method == HttpRequest.Method.HEAD)
             {
                this.url += (content.length > 0 ? "?" + content : "");
@@ -239,6 +231,7 @@ class HttpRequest
                //delete this.headers["Content-Type"];
             }
          }
+         this.contentSent = content;
       }
 
       var requestStart = Date.now();
@@ -250,9 +243,23 @@ class HttpRequest
    private runCallbacks()
    {
       var all = this.completionCallbacks;
-      while(all.length)
+      if(all.length)
       {
-         all.pop()( this.response );
+         var data: HttpRequest.RequestData = {
+            content: clone( this.content ),
+            headers: clone( this.headers ),
+            method: HttpRequest.Method[this.method],
+            url: this.url
+         };
+         var sent = this.contentSent;
+         if(sent !== null && sent !== undefined)
+         {
+            data.contentSent = sent;
+         }
+         while(all.length)
+         {
+            all.pop()( this.response, data );
+         }
       }
    }
 }
@@ -330,7 +337,6 @@ module HttpRequest
       Form,
       Text,
       Json,
-      Html,
       Xml,
       Binary
    }
@@ -338,19 +344,28 @@ module HttpRequest
    export interface Promise
    {
       cancel(): void;
-      complete(callback: (response: HttpResponse) => void): Promise;
+      complete(callback: (response: HttpResponse, request: RequestData) => void): Promise;
+   }
+
+   export interface RequestData
+   {
+      content: any;
+      contentSent?: string;
+      headers: any;
+      url: string;
+      method: string;
    }
 
    export interface RequestArgs
    {
       url: string;
       content?: any;
-      contentType?: HttpRequest.ContentType;
-      accept?: HttpRequest.Accept;
+      contentType?: ContentType;
+      accept?: Accept;
    }
 
    export interface RequestArgsWithMethod extends RequestArgs
    {
-      method?: HttpRequest.Method;
+      method?: Method;
    }
 }
