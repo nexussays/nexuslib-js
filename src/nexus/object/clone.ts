@@ -6,14 +6,34 @@
 
 /// ts:import=forEach
 import forEach = require('./forEach'); ///ts:import:generated
+///ts:import=type
+import type = require('../type'); ///ts:import:generated
 
 export = clone;
 
-function clone<T>(obj: T): T;
-function clone<T>(obj: T, into?: any): void;
-function clone<T>(obj: T, into?: any): T
+function clone(obj: any): any;
+function clone(obj: any, into?: any): void;
+function clone(obj: any, into?: any): any
 {
-   into = into || {};
-   forEach( obj, (val, key) => into[key] = val );
+   switch(type.of( obj ))
+   {
+      case type.array:
+         into = into || []; // fallthrough
+      case type.object:
+         into = into || {};
+         forEach( obj, (val, key) => into[key] = val );
+         break;
+      case type.date:
+         var ms = (<Date>obj).getTime();
+         into = into || new Date();
+         (<Date>into).setTime( ms );
+         break;
+      case type.node:
+         into = (<Node>obj).cloneNode( true );
+         break;
+      default:
+         into = obj;
+         break;
+   }
    return into;
 }

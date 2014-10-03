@@ -6,8 +6,16 @@
 
 export = forEach;
 
-function forEach<T>(obj: T, func: (value: any, key: any, obj: T) => void, thisArg?: any): void
+function forEach<T>(obj: T, func: (value: any, key: any, obj: T) => void, thisArg?: any): void;
+function forEach(obj: any[], func: (value: any, key: any, obj: any[]) => void, thisArg?: any): void;
+function forEach(obj: any, func: (value: any, key: any, obj: any) => void, thisArg?: any): void
 {
+   if(obj instanceof Array)
+   {
+      (<any[]>obj).forEach( func, thisArg );
+      return;
+   }
+
    for(var x in obj)
    {
       if(obj.hasOwnProperty( x ))

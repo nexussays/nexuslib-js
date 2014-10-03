@@ -45,6 +45,7 @@
     <TypeScriptCompile Include="src\nexus\math\scaleToFit.ts" />
     <TypeScriptCompile Include="src\nexus\net\generateQueryString.ts" />
     <TypeScriptCompile Include="src\nexus\object\clone.ts" />
+    <TypeScriptCompile Include="src\nexus\object\filter.ts" />
     <TypeScriptCompile Include="src\nexus\stringutil\camelCase.ts" />
     <TypeScriptCompile Include="src\nexus\stringutil\hyphenate.ts" />
     <TypeScriptCompile Include="src\nexus\stringutil\charTimes.ts" />
