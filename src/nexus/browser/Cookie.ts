@@ -43,14 +43,15 @@ class Cookie
       // TODO: determine support for Date.now()
       //expires = new Date();
       //expires.setTime(expires.getTime() + expiration);
-      this.expiresOn = new Date( Date.now() + milliseconds );
+      this.expiresOn = new Date(Date.now() + milliseconds);
+      Cookie.save(this);
       return this;
    }
 
    expire(): Cookie
    {
       // set expiration to the past
-      return this.expireIn( -(ms.days( 365 )) );
+      return this.expireIn( -(ms.days( 127 )) );
    }
 
    save(): void
@@ -89,12 +90,12 @@ module Cookie
 {
    var cookieCache: { [s: string]: Cookie; } = {};
 
-   export function retrieveOrCreate(key, reload: boolean = false): Cookie
+   export function retrieveOrCreate(key:string, reload: boolean = false): Cookie
    {
       return Cookie.retrieve( key, reload ) || new Cookie( key, {} );
    }
 
-   export function retrieve(key, reload: boolean = false): Cookie
+   export function retrieve(key:string, reload: boolean = false): Cookie
    {
       if(reload || !(key in cookieCache))
       {
@@ -134,6 +135,15 @@ module Cookie
       }
 
       document.cookie = cookieVal;
+   }
+
+   export function expire(key:string):void
+   {
+      var cookie = retrieve(key);
+      if(cookie != null)
+      {
+         cookie.expire();
+      }
    }
 
    export function write(key: string, value: any, expiration?: number, path?: string, domain?: string, secure?: boolean): Cookie;
