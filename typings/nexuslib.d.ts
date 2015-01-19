@@ -12,20 +12,20 @@ declare module "nexus"
          {
             interface Array<T>
             {
-               first(defaultValue?: any): T;
+               first(searchFunc?: (item: T, index: number, array: Array<T>) => boolean, defaultValue?: T): T;
                last(defaultValue?: any): T;
                flatten(): Array<T>;
-               map$(mapFunc: (item: T, index: number, array: Array<T>) => any, scope: Array<T>): void;
+               map$(mapFunc?: (item: T, index: number, array: Array<T>) => T, scope?: Array<T>): void;
             }
          }
 
-         function first<T>(source: T[], defaultValue?: any): T;
+         function first<T>(source: T[], searchFunc?: (item: T, index: number, array: T[]) => boolean, defaultValue?: T): T;
 
          function flatten(source: any[]): any[];
 
          function isArrayLike(source: any): boolean;
 
-         function last<T>(source: T[], defaultValue?: any): T;
+         function last<T>(source: T[], searchFunc?: (item: T, index: number, array: T[]) => boolean, defaultValue?: T): T;
 
          function makeRange(from: any, to: any, step: any): any[];
 
@@ -97,11 +97,13 @@ declare module "nexus"
 
          module storage
          {
-            function retrieve<T>(key: string, defaultValue?: T): T;
+            function retrieve(key: string, defaultValue?: any): any;
+
+            function retrieveInto<T>(key: string, object: T): T;
 
             function save(key: string, data: any): void;
 
-            function modify<T>(key: string, func: (T: any) => T): void;
+            function modify(key: string, func: (value: any) => any): void;
 
             function forEach(func: (item: any, key: string, index: number) => void): void;
 
@@ -930,12 +932,19 @@ declare module "nexus"
             url: string;
             time: number;
             status: number;
+            statusText: string;
             body: any;
             headers: any;
 
-            constructor(url?: string, time?: number, status?: number);
+            constructor(url: string, headers: string, responseText: string, responseXml: XMLDocument, time: number, status: number, statusText: string);
 
             isSuccess(): boolean;
+
+            bodyAsJson(): any;
+
+            bodyAsXml(): XMLDocument;
+
+            bodyAsText(): string;
          }
 
          function generateQueryString(hash: any): string;

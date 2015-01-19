@@ -178,29 +178,14 @@ class HttpRequest
             {
             };
 
-            var response = new HttpResponse( this.url, time,
+            var response = new HttpResponse(this.url,
+               req.getAllResponseHeaders(),
+               req.responseText,
+               req.responseXML,
+               time,
                // 1223 is a weird IE thing; but don't think it matters since we don't support < 9
-               (req.status == 1223) ? 204 : req.status );
-
-            req.getAllResponseHeaders().split( /\r?\n/ ).forEach( (line) =>
-            {
-               var delim = line.indexOf( ":" );
-               response.headers[line.substring( 0, delim ).trim()] = line.substring( delim + 1 ).trim();
-            } );
-
-            var responseType = response.headers["Content-Type"];
-            if(/\/xml/.test( responseType ))
-            {
-               response.body = req.responseXML;
-            }
-            else if(/\/(?:json|javascript)/.test( responseType ))
-            {
-               response.body = JsonSerializer.deserialize( req.responseText );
-            }
-            else
-            {
-               response.body = req.responseText || null;
-            }
+               (req.status == 1223) ? 204 : req.status,
+               req.statusText );
 
             this.response = response;
             this.runCallbacks();

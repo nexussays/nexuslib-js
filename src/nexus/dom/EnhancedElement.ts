@@ -143,7 +143,7 @@ class Implementation implements EnhancedElement.Enhancements
       var anyEl = (<any>(<Element><any>this));
       anyEl.events = anyEl.events || {};
       var events = (anyEl.events[eventName] = anyEl.events[eventName] || {});
-      events[func] = eventHandler;
+      events[<any>func] = eventHandler;
    }
 
    unbind(event: string, func: EventHandler): void
@@ -154,15 +154,15 @@ class Implementation implements EnhancedElement.Enhancements
 
       if(type.of( (<Element><any>this).removeEventListener ) == type.function)
       {
-         (<Element><any>this).removeEventListener( event, events[func], false );
+         (<Element><any>this).removeEventListener( event, events[<any>func], false );
       }
       else
       {
-         (<HTMLElement>(<Element><any>this)).detachEvent( "on" + event, events[func] );
+         (<HTMLElement>(<Element><any>this)).detachEvent( "on" + event, events[<any>func] );
       }
 
       // remove the function from the dict on the element
-      delete events[func];
+      delete events[<any>func];
    }
 
    trigger(eventName: string): void
@@ -324,6 +324,7 @@ module EnhancedElement
       return <EnhancedElement>element;
    }
 
+   // we need these methods to be declared in their own interface so we can extend it in several places
    export interface Enhancements
    {
       getOuterHTML(includeChildren?: boolean, escapeHtml?: boolean): string;
