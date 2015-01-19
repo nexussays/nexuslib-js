@@ -6,10 +6,12 @@
 
 /// ts:import=JsonSerializer
 import JsonSerializer = require('../serialization/JsonSerializer'); ///ts:import:generated
+///ts:import=clone
+import clone = require('../object/clone'); ///ts:import:generated
 
 var store = window.localStorage;
 
-export function retrieve<T>(key: string, defaultValue?: T): T
+export function retrieve(key: string, defaultValue?: any): any
 {
    var result = store.getItem( key );
    if(result)
@@ -31,6 +33,16 @@ export function retrieve<T>(key: string, defaultValue?: T): T
    return result;
 }
 
+export function retrieveInto<T>(key: string, object:T): T
+{
+   var result = retrieve(key);
+   if(result != null)
+   {
+      clone( result, object );
+   }
+   return object;
+}
+
 export function save(key: string, data: any): void
 {
    if(data === undefined)
@@ -43,18 +55,20 @@ export function save(key: string, data: any): void
    }
 }
 
-export function modify<T>(key: string, func: (T) => T): void
+export function modify(key: string, func: (value: any) => any): void
 {
    save( key, func( retrieve( key ) ) );
 }
 
 export function forEach(func: (item: any, key: string, index: number) => void): void
 {
+   var tuples = [];
    for(var x = 0; x < store.length; ++x)
    {
-      var key = store.key( x );
-      func( retrieve( key ), key, x );
+      var key = store.key(x);
+      tuples.push([retrieve(key), key, x]);
    }
+   tuples.forEach( tuple => func( tuple[0], tuple[1], tuple[2] ) );
 }
 
 export function remove(key: string): void

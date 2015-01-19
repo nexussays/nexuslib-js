@@ -1,4 +1,4 @@
-﻿// Copyright Malachi Griffie <malachi@nexussays.com>
+// Copyright Malachi Griffie <malachi@nexussays.com>
 //
 // This Source Code Form is subject to the terms of the Mozilla Public
 // License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -17,12 +17,12 @@ export = enhancePrototype;
 
 function enhancePrototype()
 {
-   (<any>Array.prototype).first = function(defaultValue: any)
+   (<any>Array.prototype).first = function<T>(searchFunc?: (item: T, index: number, array: Array<T>) => boolean, defaultValue?: T)
    {
-      return _first( this, defaultValue );
+      return _first( this, searchFunc, defaultValue );
    };
 
-   (<any>Array.prototype).last = function(defaultValue: any)
+   (<any>Array.prototype).last = function(defaultValue?: any)
    {
       return _last( this, defaultValue );
    };
@@ -32,7 +32,7 @@ function enhancePrototype()
       return _flatten( this );
    };
 
-   (<any>Array.prototype).map$ = function<T>(mapFunc: (item: T, index: number, array: Array<T>) => any, scope: Array<T>): void
+   (<any>Array.prototype).map$ = function<T>(mapFunc?: (item: T, index: number, array: Array<T>) => any, scope?: Array<T>): void
    {
       return (<any>_map$)( this, mapFunc, scope );
    };
@@ -42,9 +42,9 @@ module enhancePrototype
 {
    export interface Array<T>
    {
-      first(defaultValue?: any): T;
+      first(searchFunc?: (item: T, index: number, array: Array<T>) => boolean, defaultValue?: T): T;
       last(defaultValue?: any): T;
       flatten(): Array<T>;
-      map$(mapFunc: (item: T, index: number, array: Array<T>) => any, scope: Array<T>): void;
+      map$(mapFunc?: (item: T, index: number, array: Array<T>) => T, scope?: Array<T>): void;
    }
 }
