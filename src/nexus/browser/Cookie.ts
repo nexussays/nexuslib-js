@@ -114,7 +114,7 @@ module Cookie
                }
                catch(ex)
                {
-                  console.warn( ex );
+                  console.warn( "Error parsing cookie \"" + key + "\"" + ex.message );
                   value = encodedValue;
                }
                cookieCache[key] = new Cookie( key, value );

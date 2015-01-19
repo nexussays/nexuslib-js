@@ -28,7 +28,7 @@ class HttpResponse
          this.headers[line.substring( 0, delim ).trim()] = line.substring( delim + 1 ).trim();
       } );
 
-      // set actula return values for alternate body type methods
+      // set actual return values for alternate body type methods
       this.bodyAsXml = () => responseXml;
       this.bodyAsText = () => responseText;
 
@@ -73,11 +73,13 @@ class HttpResponse
 
    bodyAsXml(): XMLDocument
    {
+      // set in ctor
       return undefined;
    }
 
    bodyAsText(): string
    {
+      // set in ctor
       return undefined;
    }
 }
