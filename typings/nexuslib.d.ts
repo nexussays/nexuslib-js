@@ -64,11 +64,13 @@ declare module "nexus"
 
          module Cookie
          {
-            function retrieveOrCreate(key: any, reload?: boolean): Cookie;
+            function retrieveOrCreate(key: string, reload?: boolean): Cookie;
 
-            function retrieve(key: any, reload?: boolean): Cookie;
+            function retrieve(key: string, reload?: boolean): Cookie;
 
             function save(cookie: Cookie): void;
+
+            function expire(key: string): void;
 
             function write(key: string, value: any, expiration?: number, path?: string, domain?: string, secure?: boolean): Cookie;
 
