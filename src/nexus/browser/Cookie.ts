@@ -10,6 +10,8 @@ import type = require('../type'); ///ts:import:generated
 import JsonSerializer = require('../serialization/JsonSerializer'); ///ts:import:generated
 ///ts:import=ms
 import ms = require('../util/ms'); ///ts:import:generated
+///ts:import=escapeRegExp
+import escapeRegExp = require('../stringutil/escapeRegExp'); ///ts:import:generated
 
 export = Cookie;
 
@@ -90,11 +92,13 @@ module Cookie
 {
    var cookieCache: { [name: string]: Cookie } = {};
    var allLoaded: boolean = false;
+
    export function all(reload: boolean = false): { [name: string]: Cookie }
    {
       if(reload || !allLoaded)
       {
          allLoaded = true;
+         cookieCache = {};
          var allCookies = document.cookie.split( ";" );
          for(var x = 0; x < allCookies.length; ++x)
          {
@@ -127,7 +131,9 @@ module Cookie
    {
       if(reload || !(key in cookieCache))
       {
-         var value = decodeURIComponent(document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*" + encodeURIComponent(key)/*.replace(/[\-\.\+\*]/g, "\\$&")*/ + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1")) || null;
+         var value = decodeURIComponent(
+            document.cookie
+               .replace(new RegExp("(?:(?:^|.*;)\\s*" + escapeRegExp(encodeURIComponent(key)) + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1")) || null;
          if(value != null)
          {
             try
@@ -136,10 +142,10 @@ module Cookie
             }
             catch(ex)
             {
-               console.warn( "Error parsing cookie \"" + key + "\"" + ex.message );
+               //console.warn( "Error parsing cookie \"" + key + "\"" + ex.message );
             }
+            cookieCache[key] = new Cookie(key, value);
          }
-         cookieCache[key] = new Cookie(key, value);
       }
       return (key in cookieCache ? cookieCache[key] : null);
    }
