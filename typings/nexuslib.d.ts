@@ -19,21 +19,21 @@ declare module "nexus"
             }
          }
 
-         function first<T>(source: T[], searchFunc?: (item: T, index: number, array: T[]) => boolean, defaultValue?: T): T;
+         function first<T>(source: Array<T>, searchFunc?: (item: T, index: number, array: Array<T>) => boolean, defaultValue?: T): T;
 
-         function flatten(source: any[]): any[];
+         function flatten(source: Array<any>): Array<any>;
 
          function isArrayLike(source: any): boolean;
 
-         function last<T>(source: T[], searchFunc?: (item: T, index: number, array: T[]) => boolean, defaultValue?: T): T;
+         function last<T>(source: Array<T>, searchFunc?: (item: T, index: number, array: Array<T>) => boolean, defaultValue?: T): T;
 
          function makeRange(from: any, to: any, step: any): any[];
 
-         function map$<T>(source: T[], mapFunc: (item: T, index: number, array: T[]) => any, scope?: T[]): void;
+         function map$<T>(source: Array<T>, mapFunc: (item: T, index: number, array: Array<T>) => any, scope?: Array<T>): void;
 
          function shuffle(source: any): any;
 
-         function toArray<T>(collection: any): T[];
+         function toArray<T>(collection: any): Array<T>;
       }
 
       module browser
@@ -53,28 +53,28 @@ declare module "nexus"
 
             expireIn(milliseconds: number): Cookie;
 
-            expire(): Cookie;
+            remove(): Cookie;
 
             save(): void;
 
-            refreshData(): Cookie;
+            reloadData(): Cookie;
 
             toString(): string;
          }
 
          module Cookie
          {
+            function all(reload?: boolean): {
+               [name: string]: Cookie;
+            };
+
             function retrieveOrCreate(key: string, reload?: boolean): Cookie;
 
             function retrieve(key: string, reload?: boolean): Cookie;
 
             function save(cookie: Cookie): void;
 
-            function expire(key: string): void;
-
-            function write(key: string, value: any, expiration?: number, path?: string, domain?: string, secure?: boolean): Cookie;
-
-            function write(key: string, value: any, expiration?: Date, path?: string, domain?: string, secure?: boolean): Cookie;
+            function remove(key: string): void;
          }
 
          module window
@@ -153,9 +153,9 @@ declare module "nexus"
 
          class ElementGroup
          {
-            constructor(sourceArray: nexus.dom.EnhancedElement[]);
+            constructor(sourceArray: Array<EnhancedElement>);
 
-            items: nexus.dom.EnhancedElement[];
+            items: Array<EnhancedElement>;
             length: number;
 
             forEach(callbackfn: (value: nexus.dom.EnhancedElement, index: number, array: nexus.dom.EnhancedElement[]) => void): ElementGroup;
@@ -610,15 +610,15 @@ declare module "nexus"
 
             function filterByNodeName(elements: any, name: any): any[];
 
-            function selectorClassName(name: string, tag?: string): Node[];
+            function selectorClassName(name: string, tag?: string): Array<Node>;
 
-            function selectorQueryAll(getEl: find.Interface): Element[];
+            function selectorQueryAll(getEl: find.Interface): Array<Element>;
 
-            function selectorQueryAll(getEl: find.Interface, query: string): Element[];
+            function selectorQueryAll(getEl: find.Interface, query: string): Array<Element>;
 
-            function selectorQueryAll(getEl: find.Interface, query: string[]): Element[];
+            function selectorQueryAll(getEl: find.Interface, query: string[]): Array<Element>;
 
-            function selectorQueryAll(getEl: find.Interface, ...query: string[]): Element[];
+            function selectorQueryAll(getEl: find.Interface, ...query: string[]): Array<Element>;
 
             function selectorQueryAll(getEl: find.Interface, el: HTMLElement): Element;
 
@@ -649,21 +649,21 @@ declare module "nexus"
 
             interface Interface
             {
-               (query: Node, root?: Element): HTMLElement[];
-               (query: Element, root?: Element): HTMLElement[];
-               (query: string, root?: Element): HTMLElement[];
+               (query: Node, root?: Element): Array<HTMLElement>;
+               (query: Element, root?: Element): Array<HTMLElement>;
+               (query: string, root?: Element): Array<HTMLElement>;
                id(id: Node): HTMLElement;
                id(id: string): HTMLElement;
-               name(name: string, tag?: string, root?: Element): HTMLElement[];
-               className(name: string, tag?: string, root?: Element): HTMLElement[];
-               tagName(name: string, root?: Element): HTMLElement[];
+               name(name: string, tag?: string, root?: Element): Array<HTMLElement>;
+               className(name: string, tag?: string, root?: Element): Array<HTMLElement>;
+               tagName(name: string, root?: Element): Array<HTMLElement>;
             }
 
-            function native(query: Node, root?: Element): HTMLElement[];
+            function native(query: Node, root?: Element): Array<HTMLElement>;
 
-            function native(query: Element, root?: Element): HTMLElement[];
+            function native(query: Element, root?: Element): Array<HTMLElement>;
 
-            function native(query: string, root?: Element): HTMLElement[];
+            function native(query: string, root?: Element): Array<HTMLElement>;
 
             module native
             {
@@ -671,11 +671,11 @@ declare module "nexus"
 
                function id(id: string): HTMLElement;
 
-               function name(name: string, tag?: string, root?: Element): HTMLElement[];
+               function name(name: string, tag?: string, root?: Element): Array<HTMLElement>;
 
-               function className(name: string, tag?: string, root?: Element): HTMLElement[];
+               function className(name: string, tag?: string, root?: Element): Array<HTMLElement>;
 
-               function tagName(name: string, root?: Element): HTMLElement[];
+               function tagName(name: string, root?: Element): Array<HTMLElement>;
             }
          }
 
@@ -856,19 +856,19 @@ declare module "nexus"
 
          module HttpRequest
          {
-            function get(obj: RequestArgs): Promise;
+            function get(obj: HttpRequest.RequestArgs): Promise;
 
             function get(url: string): Promise;
 
-            function put(obj: RequestArgs): Promise;
+            function put(obj: HttpRequest.RequestArgs): Promise;
 
             function put(url: string, data?: any): Promise;
 
-            function post(obj: RequestArgs): Promise;
+            function post(obj: HttpRequest.RequestArgs): Promise;
 
             function post(url: string, data?: any): Promise;
 
-            function del(obj: RequestArgs): Promise;
+            function del(obj: HttpRequest.RequestArgs): Promise;
 
             function del(url: string): Promise;
 
@@ -966,11 +966,11 @@ declare module "nexus"
 
          function forEach(obj: any[], func: (value: any, key: any, obj: any[]) => void, thisArg?: any): void;
 
-         function join<T>(obj: T, join?: string): string[];
+         function join<T>(obj: T, join?: string): Array<string>;
 
-         function keys(obj: any): string[];
+         function keys(obj: any): Array<string>;
 
-         function map<T>(obj: T, keyFunc?: (any: any) => any, valFunc?: (any: any) => any, thisArg?: any): any;
+         function map<T>(obj: T, keyFunc?: (any) => any, valFunc?: (any) => any, thisArg?: any): any;
       }
 
       module serialization

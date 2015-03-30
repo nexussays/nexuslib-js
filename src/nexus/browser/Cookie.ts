@@ -33,7 +33,7 @@ class Cookie
          }
          else
          {
-            this.expireIn( expiration );
+            this.expiresOn = new Date( Date.now() + expiration );
          }
       }
    }
@@ -48,7 +48,7 @@ class Cookie
       return this;
    }
 
-   expire(): Cookie
+   remove(): Cookie
    {
       // set expiration to the past
       return this.expireIn( -(ms.days( 127 )) );
@@ -64,7 +64,7 @@ class Cookie
     * in this instance's data. If this cookie has not yet been saved, it will not
     * be modified.
     */
-   refreshData(): Cookie
+   reloadData(): Cookie
    {
       var update = Cookie.retrieve( this.key, true );
       if(update != null)
@@ -88,39 +88,58 @@ class Cookie
 
 module Cookie
 {
-   var cookieCache: { [s: string]: Cookie; } = {};
-
-   export function retrieveOrCreate(key:string, reload: boolean = false): Cookie
+   var cookieCache: { [name: string]: Cookie } = {};
+   var allLoaded: boolean = false;
+   export function all(reload: boolean = false): { [name: string]: Cookie }
    {
-      return Cookie.retrieve( key, reload ) || new Cookie( key, {} );
-   }
-
-   export function retrieve(key:string, reload: boolean = false): Cookie
-   {
-      if(reload || !(key in cookieCache))
+      if(reload || !allLoaded)
       {
+         allLoaded = true;
          var allCookies = document.cookie.split( ";" );
          for(var x = 0; x < allCookies.length; ++x)
          {
             var cookie = allCookies[x].trim();
             var delimeter = cookie.indexOf( "=" );
-            if(decodeURIComponent( cookie.substring( 0, delimeter ) ) === key)
+            var key = decodeURIComponent( cookie.substring( 0, delimeter ) );
+            var encodedValue = decodeURIComponent( cookie.substring( delimeter + 1 ) );
+            var value: any;
+            try
             {
-               var encodedValue = decodeURIComponent( cookie.substring( delimeter + 1 ) );
-               var value: any;
-               try
-               {
-                  value = encodedValue && JsonSerializer.deserialize( encodedValue );
-               }
-               catch(ex)
-               {
-                  console.warn( "Error parsing cookie \"" + key + "\"" + ex.message );
-                  value = encodedValue;
-               }
-               cookieCache[key] = new Cookie( key, value );
-               break;
+               value = encodedValue && JsonSerializer.deserialize( encodedValue );
+            }
+            catch(ex)
+            {
+               //console.warn( "Error parsing cookie \"" + key + "\"" + ex.message );
+               value = encodedValue;
+            }
+            cookieCache[key] = new Cookie( key, value );
+         }
+      }
+      return cookieCache;
+   }
+
+   export function retrieveOrCreate(key: string, reload: boolean = false): Cookie
+   {
+      return Cookie.retrieve(key, reload) || new Cookie(key, {});
+   }
+
+   export function retrieve(key: string, reload: boolean = false): Cookie
+   {
+      if(reload || !(key in cookieCache))
+      {
+         var value = decodeURIComponent(document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*" + encodeURIComponent(key)/*.replace(/[\-\.\+\*]/g, "\\$&")*/ + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1")) || null;
+         if(value != null)
+         {
+            try
+            {
+               value = JsonSerializer.deserialize( value );
+            }
+            catch(ex)
+            {
+               console.warn( "Error parsing cookie \"" + key + "\"" + ex.message );
             }
          }
+         cookieCache[key] = new Cookie(key, value);
       }
       return (key in cookieCache ? cookieCache[key] : null);
    }
@@ -137,21 +156,12 @@ module Cookie
       document.cookie = cookieVal;
    }
 
-   export function expire(key:string):void
+   export function remove(key: string): void
    {
       var cookie = retrieve(key);
       if(cookie != null)
       {
-         cookie.expire();
+         cookie.remove();
       }
    }
-
-   export function write(key: string, value: any, expiration?: number, path?: string, domain?: string, secure?: boolean): Cookie;
-   export function write(key: string, value: any, expiration?: Date, path?: string, domain?: string, secure?: boolean): Cookie;
-   export function write(key: string, value: any, expiration?: any, path?: string, domain?: string, secure?: boolean): Cookie
-   {
-      var cookie = new Cookie( key, value, expiration, path, domain, secure );
-      cookie.save();
-      return cookie;
-   }
-}
+} 
