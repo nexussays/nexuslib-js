@@ -50,10 +50,11 @@ class Cookie
       return this;
    }
 
-   remove(): Cookie
+   remove(): void
    {
       // set expiration to the past
-      return this.expireIn( -(ms.days( 127 )) );
+      this.expireIn(-(ms.days(127)));
+      this.save();
    }
 
    save(): void
