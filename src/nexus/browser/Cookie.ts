@@ -52,9 +52,7 @@ class Cookie
 
    remove(): void
    {
-      // set expiration to the past
-      this.expireIn(-(ms.days(127)));
-      this.save();
+      Cookie.remove( this.key );
    }
 
    save(): void
@@ -82,10 +80,10 @@ class Cookie
       var key = encodeURIComponent( this.key + "" );
       var value = encodeURIComponent( JsonSerializer.serialize( this.data ) );
       return key + "=" + value +
-      (this.expiresOn ? ";expires=" + this.expiresOn.toUTCString() : "") +
-      (this.path ? ";path=" + this.path : "") +
-      (this.domain ? ";domain=" + this.domain : "") +
-      (this.isSecure === true ? ";secure" : "");
+      (this.expiresOn ? "; expires=" + this.expiresOn.toUTCString() : "") +
+      (this.path ? "; path=" + this.path : "") +
+      (this.domain ? "; domain=" + this.domain : "") +
+      (this.isSecure === true ? "; secure" : "");
    }
 }
 
@@ -132,18 +130,20 @@ module Cookie
    {
       if(reload || !(key in cookieCache))
       {
-         var value = decodeURIComponent(
+         var encodedValue = decodeURIComponent(
             document.cookie
                .replace(new RegExp("(?:(?:^|.*;)\\s*" + escapeRegExp(encodeURIComponent(key)) + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1")) || null;
-         if(value != null)
+         if(encodedValue != null)
          {
+            var value: any;
             try
             {
-               value = JsonSerializer.deserialize( value );
+               value = encodedValue && JsonSerializer.deserialize(encodedValue);
             }
             catch(ex)
             {
                //console.warn( "Error parsing cookie \"" + key + "\"" + ex.message );
+               value = encodedValue;
             }
             cookieCache[key] = new Cookie(key, value);
          }
@@ -168,7 +168,10 @@ module Cookie
       var cookie = retrieve(key);
       if(cookie != null)
       {
-         cookie.remove();
+         // set expiration to the past
+         cookie.expireIn(-(ms.days(127)));
+         cookie.save();
+         delete cookieCache[cookie.key];
       }
    }
 } 

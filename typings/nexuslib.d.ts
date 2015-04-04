@@ -53,7 +53,7 @@ declare module "nexus"
 
             expireIn(milliseconds: number): Cookie;
 
-            remove(): Cookie;
+            remove(): void;
 
             save(): void;
 
