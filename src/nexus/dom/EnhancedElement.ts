@@ -307,7 +307,7 @@ class Implementation implements EnhancedElement.Enhancements
  * Provide interfaces for all the HTMLElement subclasses and extend them off the base EnhancedElement so as to
  * not clutter up the entire nnet.dom module with type-only files and cause implementors to make a lot of imports
  */
-module EnhancedElement
+namespace EnhancedElement
 {
    var isPrototypeEnhanced: boolean;
 

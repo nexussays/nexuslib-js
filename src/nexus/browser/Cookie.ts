@@ -87,7 +87,7 @@ class Cookie
    }
 }
 
-module Cookie
+namespace Cookie
 {
    var cookieCache: { [name: string]: Cookie } = {};
    var allLoaded: boolean = false;
@@ -174,4 +174,4 @@ module Cookie
          delete cookieCache[cookie.key];
       }
    }
-} 
+}

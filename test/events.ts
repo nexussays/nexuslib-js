@@ -98,7 +98,7 @@ function detectevent_click()
    el[this.checked ? "bind" : "unbind"]( this.id, logEvent );
 }
 
-module log
+namespace log
 {
    export var el: HTMLInputElement;
 

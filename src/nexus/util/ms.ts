@@ -4,23 +4,27 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-
-export function days(num: number): number
+export function seconds( num: number ): number
 {
-   return num * hours( 24 );
+   return num * 1000;
 }
 
-export function hours(num: number): number
-{
-   return num * minutes( 60 );
-}
-
-export function minutes(num: number): number
+export function minutes( num: number ): number
 {
    return num * seconds( 60 );
 }
 
-export function seconds(num: number): number
+export function hours( num: number ): number
 {
-   return num * 1000;
+   return num * minutes( 60 );
+}
+
+export function days( num: number ): number
+{
+   return num * hours( 24 );
+}
+
+export function weeks( num: number ): number
+{
+   return num * days( 7 );
 }

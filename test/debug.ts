@@ -8,7 +8,7 @@ import getOuterHTML = nexus.dom.getOuterHTML;
 
 export = Debug;
 
-module Debug
+namespace Debug
 {
    // the element to output the debug information to
    var m_outputSource: any = null;
@@ -132,7 +132,7 @@ module Debug
    }
 
    // create seperate write methods so we can type outputSource and take advantage of the type checker
-   module writeToOutputSource
+   namespace writeToOutputSource
    {
       export function array(source: Array<string>, text: string, clearExisting: boolean): void
       {

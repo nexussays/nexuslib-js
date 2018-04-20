@@ -5,15 +5,13 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 /// ts:import=join
-import join = require('../object/join'); ///ts:import:generated
+//import join = require('../object/join'); ///ts:import:generated
 ///ts:import=map
-import map = require('../object/map'); ///ts:import:generated
+//import map = require('../object/map'); ///ts:import:generated
 ///ts:import=filter
-import filter = require('../object/filter'); ///ts:import:generated
+//import filter = require('../object/filter'); ///ts:import:generated
 
-export = generateQueryString;
-
-function generateQueryString(hash: any): string
+export function generateQueryString(hash: any): string
 {
    var enc = encodeURIComponent;
    return join(map(filter(hash, invalid ), enc, enc ), "=" ).join( "&" );

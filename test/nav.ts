@@ -54,7 +54,7 @@ export function createMenu(id, buildFrom)
    } );
 }
 
-export module createMenu
+export namespace createMenu
 {
    export function show()
    {

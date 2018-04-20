@@ -5,21 +5,19 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 /// ts:import=HttpResponse
-import HttpResponse = require('./HttpResponse'); ///ts:import:generated
+//import HttpResponse = require('./HttpResponse'); ///ts:import:generated
 ///ts:import=generateQueryString
-import generateQueryString = require('./generateQueryString'); ///ts:import:generated
+//import generateQueryString = require('./generateQueryString'); ///ts:import:generated
 ///ts:import=JsonSerializer
-import JsonSerializer = require('../serialization/JsonSerializer'); ///ts:import:generated
+//import JsonSerializer = require('../serialization/JsonSerializer'); ///ts:import:generated
 ///ts:import=type
-import type = require('../type'); ///ts:import:generated
+//import type = require('../type'); ///ts:import:generated
 ///ts:import=forEach
-import forEach = require('../object/forEach'); ///ts:import:generated
+//import forEach = require('../object/forEach'); ///ts:import:generated
 ///ts:import=clone
-import clone = require('../object/clone'); ///ts:import:generated
+//import clone = require('../object/clone'); ///ts:import:generated
 
-export = HttpRequest;
-
-class HttpRequest
+export class HttpRequest
 {
    // appended to URL if GET, sent as body otherwise
    content: any;
@@ -249,7 +247,7 @@ class HttpRequest
    }
 }
 
-module HttpRequest
+namespace HttpRequest
 {
    export function get(obj: HttpRequest.RequestArgs): Promise;
    export function get(url: string): Promise;

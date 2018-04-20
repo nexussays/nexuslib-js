@@ -5,7 +5,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 export = JsonSerializer;
-module JsonSerializer
+namespace JsonSerializer
 {
    export var deserialize: (text: string, reviver?: (key: any, value: any) => any) => any = JSON.parse;
 

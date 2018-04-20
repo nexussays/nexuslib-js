@@ -1,0 +1,30 @@
+{
+   "compilerOptions": {
+      "strict": true,
+      "alwaysStrict": true,
+      "target": "es2015",
+      "module": "system",
+      "moduleResolution": "node",
+      "sourceMap": true,
+      "outDir": "./artifacts/bin",
+      "declaration": true,
+      "declarationDir": "./artifacts/obj/ts.d",
+      "sourceRoot": "./src",
+      "lib": [
+         "es2015"
+      ],
+      "jsx": "react",
+      "jsxFactory": "h"
+   },
+   "compileOnSave": true,
+   "include": [
+      "src/**/*"
+   ],
+   "exclude": [
+      "node_modules",
+      "artifacts",
+      "**/*.spec.ts",
+      "bin",
+      "obj"
+   ]
+}

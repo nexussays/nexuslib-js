@@ -4,9 +4,7 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-export = type;
-
-enum type
+export enum type
 {
    "undefined",
    "object",
@@ -20,27 +18,27 @@ enum type
    "regexp"
 }
 
-module type
+export namespace type
 {
-   export function of(obj: any): type
+   export function of( obj: any ): type
    {
-      if(obj === null || obj === undefined)
+      if( obj === null || obj === undefined )
       {
          return type.undefined;
       }
       var objtype = typeof obj;
       var result: type = type[objtype];
-      if(objtype === "object")
+      if( objtype === "object" )
       {
          result = obj instanceof Array ? type.array :
-                     obj instanceof RegExp ? type.regexp :
-                        "nodeType" in obj ? type.node :
-                           obj instanceof Date ? type.date :
-                              //highly unlikely that a string was created from the constructor, but just in case
-                              obj instanceof String ? type.string :
-                                 result;
+            obj instanceof RegExp ? type.regexp :
+               "nodeType" in obj ? type.node :
+                  obj instanceof Date ? type.date :
+                     //highly unlikely that a string was created from the constructor, but just in case
+                     obj instanceof String ? type.string :
+                        result;
       }
-      else if(objtype === "function" && obj instanceof RegExp)
+      else if( objtype === "function" && obj instanceof RegExp )
       {
          result = type.regexp;
       }

@@ -4,9 +4,10 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-export = isLeapYear;
-
-function isLeapYear(year: number): boolean
+/**
+ * If the given `year` is divisible by 4 but not by 100 (unless it is also divisible by 400)
+ */
+export function isLeapYear( year: number ): boolean
 {
-   return (((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0));
+   return ( ( ( year % 4 == 0 ) && ( year % 100 != 0 ) ) || ( year % 400 == 0 ) );
 }

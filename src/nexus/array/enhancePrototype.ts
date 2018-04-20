@@ -38,7 +38,7 @@ function enhancePrototype()
    };
 }
 
-module enhancePrototype
+namespace enhancePrototype
 {
    export interface Array<T>
    {

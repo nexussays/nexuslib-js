@@ -31,7 +31,7 @@ function find(query: any, root?: Element): ElementGroup
    return new ElementGroup( find.native( query, root ).map( el => EnhancedElement.enhance( el ) ) );
 }
 
-module find
+namespace find
 {
    export function id(id: Node): EnhancedElement;
    export function id(id: string): EnhancedElement;
@@ -102,7 +102,7 @@ module find
       return toArray<HTMLElement>( root.querySelectorAll( query ) );
    }
 
-   export module native
+   export namespace native
    {
       export function id(id: Node): HTMLElement
       export function id(id: string): HTMLElement
