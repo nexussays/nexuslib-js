@@ -101,7 +101,7 @@
     <TypeScriptCompile Include="src\nexus\browser\window\getSize.ts" />
     <TypeScriptCompile Include="src\nexus\browser\window\replaceQueryString.ts" />
     <TypeScriptCompile Include="src\nexus\browser\window\origin.ts" />
-    <TypeScriptCompile Include="src\nexus\math\IPRNG.ts" />
+    <TypeScriptCompile Include="src\nexus\math\PseudorandomNumberGenerator.ts" />
     <TypeScriptCompile Include="src\nexus\math\NativeRandomGenerator.ts" />
     <TypeScriptCompile Include="src\nexus\serialization\JsonSerializer.ts" />
     <TypeScriptCompile Include="src\nexus\_array.ts" />
